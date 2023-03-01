@@ -40,6 +40,11 @@ Knarley `brew install` and `defaults` 🏂
 
 ## SEE ALSO
 
+  This project complements a collection of Karabiner-Elements
+  modifications that add bindings beyond the reach of `defaults`
+
+  https://github.com/DepoXy/Karabiner-Elephants#🐘
+
   DepoXy Development Environment Orchestrator
 
   https://github.com/DepoXy/depoxy#🍯
@@ -53,5 +58,4 @@ This software is released under the MIT license (see `LICENSE` file for more)
 ## REPORTING BUGS
 
 &lt;https://github.com/DepoXy/macOS-onboarder/issues&gt;
-
 
