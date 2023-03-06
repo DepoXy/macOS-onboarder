@@ -1670,7 +1670,6 @@ iterm2_customize_keys_key_bindings_add__ctrl_shift_down__scroll_one_line_down ()
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Line Down / Shortcut: Ctrl-Shift-Down
    - Ditto delete the profile key mapping first from the Default profile:
      - 🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: - (Del): Keyboard Shortcut: Ctrl-Shift-Down / Action: Send Escape Sequence / Esc+: [1;6B")
-  print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Line Down / Shortcut: Ctrl-Shift-Down")
 }
 
 iterm2_customize_keys_key_bindings_add__ctrl_shift_pageup__scroll_one_page_up () {
