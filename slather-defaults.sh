@@ -237,20 +237,22 @@ dock_and_menu_bar_customize_dock_show_recent_application_in_dock_false () {
 }
 
 dock_and_menu_bar_customize_dock_pin_and_rearrange_apps_to_taste () {
-  print_at_end+=("🔳 Dock: Pin and rearrange apps to taste")
-  print_at_end+=("   - Possible order: Finder / Chrome / Slack / Vim / iTerm2 / Activity Monitor)")
-  print_at_end+=("   - See also Cmd-space > Launchpad for apps you could add and “Keep in Dock”)")
+  print_at_end+=("\
+🔳 Dock: Pin and rearrange apps to taste
+   - Possible order: Finder / Chrome / Slack / Vim / iTerm2 / Activity Monitor
+   - See also Cmd-space > Launchpad for apps you could add and “Keep in Dock”")
 }
 
 dock_and_menu_bar_customize_dock_remove_superfluous_dock_icons () {
-  print_at_end+=("🔳 Dock: Remove superfluous Dock icons: Control-click (or right-click) and *Remove from Dock*:")
-  print_at_end+=("   - Remove from Dock: Launchpad")
-  print_at_end+=("   - Remove from Dock: Microsoft Outlook [maybe, if you don't have a license]")
-  print_at_end+=("   - Remove from Dock: Maps [I always use my @home machine or mobile]")
-  print_at_end+=("   - Remove from Dock: Photos [not on an @work machine]")
-  print_at_end+=("   - Remove from Dock: Notes [I use Vim!]")
-  print_at_end+=("   - Remove from Dock: Downloads [Use Cmd-Ctrl-Space or Cmd-F]")
-  print_at_end+=("   - Remove from Dock: [Anything else you might not use or would access from the terminal: In the past I've seen and removed: Siri, Mail, iTunes, News, App Store, Contacts, Calendar, System Preferences, Reminders, Xcode, Self Service, Safari, Firefox, MacVim]")
+  print_at_end+=("\
+🔳 Dock: Remove superfluous Dock icons: Control-click (or right-click) and *Remove from Dock*:
+   - Remove from Dock: Launchpad
+   - Remove from Dock: Microsoft Outlook [maybe, if you don't have a license]
+   - Remove from Dock: Maps [I always use my @home machine or mobile]
+   - Remove from Dock: Photos [not on an @work machine]
+   - Remove from Dock: Notes [I use Vim!]
+   - Remove from Dock: Downloads [Use Cmd-Ctrl-Space or Cmd-F]
+   - Remove from Dock: [Anything else you might not use or would access from the terminal: In the past I've seen and removed: Siri, Mail, iTunes, News, App Store, Contacts, Calendar, System Preferences, Reminders, Xcode, Self Service, Safari, Firefox, MacVim]")
 }
 
 dock_and_menu_bar_customize_menu_bar_automatically_hide_and_show_the_menu_bar_on_desktop () {
@@ -775,12 +777,13 @@ finder_customize_general_show_these_items_on_desktop_connected_servers_false () 
 # These names are user- and machine-dependent, and I didn't see anything
 # change under com.apple.finder, so add manually reminder.
 finder_customize_sidebar_show_these_items_in_the_sidebar () {
-  print_at_end+=("🔳 Finder: Preferences... (⌘ ,): Sidebar > Show these items in the sidebar:")
-  # Add your user home so you can access directories you've created in your home directory.
   # SAVVY: $(id -un) aka ${LOGNAME}
-  print_at_end+=("   - Favorites: ✓ 🏡 $(id -un)")
-  # Add your host machine so you can access the root of the file system.
-  print_at_end+=("   - Locations: ✓ 💻 $(hostname)")
+  # - Add your user home so you can access directories you've created in your home directory.
+  # - Add your host machine so you can access the root of the file system.
+  print_at_end+=("\
+🔳 Finder: Preferences... (⌘ ,): Sidebar > Show these items in the sidebar:
+   - Favorites: ✓ 🏡 $(id -un)
+   - Locations: ✓ 💻 $(hostname)")
 }
 
 finder_customize_advanced_show_all_filename_extensions () {
@@ -875,8 +878,9 @@ finder_customize_show_status_bar () {
   if false; then
     defaults write com.apple.finder ShowStatusBar -bool true
   else
-    print_at_end+=("🔳 Finder: Demo: Show status bar:")
-    print_at_end+=("     defaults write com.apple.finder ShowStatusBar -bool true")
+    print_at_end+=("\
+🔳 Finder: Demo: Show status bar:
+     defaults write com.apple.finder ShowStatusBar -bool true")
   fi
 }
 
@@ -885,8 +889,9 @@ finder_customize_hide_tags_in_sidebar () {
   if false; then
     defaults write com.apple.finder ShowRecentTags -bool false
   else
-    print_at_end+=("🔳 Finder: Demo: Hide tags in sidebar:")
-    print_at_end+=("     defaults write com.apple.finder ShowRecentTags -bool false")
+    print_at_end+=("\
+🔳 Finder: Demo: Hide tags in sidebar:
+     defaults write com.apple.finder ShowRecentTags -bool false")
   fi
 }
 
@@ -895,8 +900,9 @@ finder_customize_greater_sidebar_width () {
   if false; then
     defaults write com.apple.finder SidebarWidth -int 175
   else
-    print_at_end+=("🔳 Finder: Demo: Increase sidebar width:")
-    print_at_end+=("     defaults write com.apple.finder SidebarWidth -int 175")
+    print_at_end+=("\
+🔳 Finder: Demo: Increase sidebar width:
+     defaults write com.apple.finder SidebarWidth -int 175")
   fi
 }
 
@@ -905,8 +911,9 @@ finder_customize_empty_trash_sans_confirmation () {
   if false; then
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
   else
-    print_at_end+=("🔳 Finder: Demo: Skip confirmation prompt when emptying trash:")
-    print_at_end+=("     defaults write com.apple.finder WarnOnEmptyTrash -bool false")
+    print_at_end+=("\
+🔳 Finder: Demo: Skip confirmation prompt when emptying trash:
+     defaults write com.apple.finder WarnOnEmptyTrash -bool false")
   fi
 }
 
@@ -919,8 +926,9 @@ finder_customize_search_scope () {
   if false; then
     defaults write com.apple.finder FXDefaultSearchScope SCcf
   else
-    print_at_end+=("🔳 Finder: Demo: Set search scope: *See source for options*:")
-    print_at_end+=("     defaults write com.apple.finder FXDefaultSearchScope [SCev|SCcf|SCsp]")
+    print_at_end+=("\
+🔳 Finder: Demo: Set search scope: *See source for options*:
+     defaults write com.apple.finder FXDefaultSearchScope [SCev|SCcf|SCsp]")
   fi
 }
 
@@ -934,9 +942,10 @@ finder_customize_set_preferred_view_style () {
     defaults write com.apple.finder FXPreferredViewStyle clmv
     /bin/rm -f "${HOME}/.DS_Store"
   else
-    print_at_end+=("🔳 Finder: Demo: Set preferred view style: *See source for options*:")
-    print_at_end+=("     defaults write com.apple.finder FXPreferredViewStyle [icnv|Nlsv|clmv|Flwv]")
-    print_at_end+=("     /bin/rm -f ~/.DS_Store")
+    print_at_end+=("\
+🔳 Finder: Demo: Set preferred view style: *See source for options*:
+     defaults write com.apple.finder FXPreferredViewStyle [icnv|Nlsv|clmv|Flwv]
+     /bin/rm -f ~/.DS_Store")
   fi
 }
 
@@ -952,8 +961,9 @@ finder_customize_set_default_path_for_new_windows () {
   if false; then
     defaults write com.apple.finder NewWindowTarget PfHm
   else
-    print_at_end+=("🔳 Finder: Demo: Set default path for new windows: *See source for options*:")
-    print_at_end+=("     defaults write com.apple.finder NewWindowTarget [PfCm|PfVo|PfHm|PfDe|PfDo|PfAF|PfLo]")
+    print_at_end+=("\
+🔳 Finder: Demo: Set default path for new windows: *See source for options*:
+     defaults write com.apple.finder NewWindowTarget [PfCm|PfVo|PfHm|PfDe|PfDo|PfAF|PfLo]")
   fi
 }
 
@@ -1047,7 +1057,8 @@ google_chrome_customize_make_default_browser () {
 }
 
 google_chrome_customize_suggest_setup () {
-  print_at_end+=("🔳 Google Chrome: Initial setup:
+  print_at_end+=("\
+🔳 Google Chrome: Initial setup:
   - Deselect all recommended bookmarks (e.g., Gmail, YouTube, and something)
     - Press *Skip*
   - Choose White background (FIXME/2023-01-30: Still valid? If you go to Settings later, there is no backgroud setting, and the browser appears in Dark Mode, probably inherited from macOS)
@@ -1072,37 +1083,41 @@ google_chrome_customize_devtools_show_user_agent_shadow_dom () {
 # ***
 
 google_chrome_customize_add_extension_react_developer_tools () {
-  print_at_end+=("🔳 Google Chrome: Add extenstion: React Developer Tool")
-  print_at_end+=("     sensible-open https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en")
-  print_at_end+=("     sensible-open https://github.com/facebook/react/tree/master/packages/react-devtools-extensions")
+  print_at_end+=("\
+🔳 Google Chrome: Add extenstion: React Developer Tool
+     sensible-open https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
+     sensible-open https://github.com/facebook/react/tree/master/packages/react-devtools-extensions")
 }
 
 google_chrome_customize_add_extension_redux_devtools () {
-  print_at_end+=("🔳 Google Chrome: Add extenstion: Redux DevTools")
-  print_at_end+=("     sensible-open https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related?hl=en")
-  print_at_end+=("- 🔳 Configure Redux DevTools: [Icon right of location] > Options: ✓ Allow in incognito")
-  print_at_end+=("- 🔳 Configure Redux DevTools: Keyboard shortcut: Shift-Cmd-E → Alt-Shift-R")
-  print_at_end+=("       sensible-open chrome://extensions/shortcuts")
+  print_at_end+=("\
+🔳 Google Chrome: Add extenstion: Redux DevTools
+     sensible-open https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related?hl=en
+- 🔳 Configure Redux DevTools: [Icon right of location] > Options: ✓ Allow in incognito
+- 🔳 Configure Redux DevTools: Keyboard shortcut: Shift-Cmd-E → Alt-Shift-R
+       sensible-open chrome://extensions/shortcuts")
 }
 
 # Clear Cache is helpful where Shift-F5 not clearing what you need cleared
 # (e.g., temporary access tokens).
 google_chrome_customize_add_extension_clear_cache () {
-  print_at_end+=("🔳 Google Chrome: Add extenstion: Clear Cache")
-  print_at_end+=("     sensible-open https://chrome.google.com/webstore/detail/clear-cache/cppjkneekbjaeellbfkmgnhonkkjfpdn/RK%3D2/RS%3DzwqaryCReNAACSfd_oYYPpX0_tw-")
-  print_at_end+=("- 🔳 Configure Clear Cache: Reload: ✔ Automatically reload active tab after clearing data")
-  print_at_end+=("- 🔳 Configure Clear Cache: Date to Remove: ☑ Local Storage")
-  print_at_end+=("- 🔳 Configure Clear Cache: Time Period: 🔘 Last Day")
-  print_at_end+=("- 🔳 Configure Redux DevTools: Keyboard shortcut: (none) → Alt-Shift-E [rEload]")
-  print_at_end+=("       sensible-open chrome://extensions/shortcuts")
+  print_at_end+=("\
+🔳 Google Chrome: Add extenstion: Clear Cache
+     sensible-open https://chrome.google.com/webstore/detail/clear-cache/cppjkneekbjaeellbfkmgnhonkkjfpdn/RK%3D2/RS%3DzwqaryCReNAACSfd_oYYPpX0_tw-
+- 🔳 Configure Clear Cache: Reload: ✔ Automatically reload active tab after clearing data
+- 🔳 Configure Clear Cache: Date to Remove: ☑ Local Storage
+- 🔳 Configure Clear Cache: Time Period: 🔘 Last Day
+- 🔳 Configure Redux DevTools: Keyboard shortcut: (none) → Alt-Shift-E [rEload]
+       sensible-open chrome://extensions/shortcuts")
 }
 
 # What I said 2021-02-02: I'm just tossing this in the mix, as recommended
 # by co-workers, but not something I've used or for which I can vouch.
 # - Looks like mostly for developing/debugging UI components, CSS and related.
 google_chrome_customize_add_extension_visbug () {
-  print_at_end+=("🔳 Google Chrome: Add extenstion: VisBug")
-  print_at_end+=("     sensible-open https://chrome.google.com/webstore/detail/visbug/cdockenadnadldjbbgcallicgledbeoc?hl=en")
+  print_at_end+=("\
+🔳 Google Chrome: Add extenstion: VisBug
+     sensible-open https://chrome.google.com/webstore/detail/visbug/cdockenadnadldjbbgcallicgledbeoc?hl=en")
 }
 
 # ***
@@ -1125,13 +1140,15 @@ mozilla_firefox_customize() {
 
 # REFER: https://css-tricks.com/sliding-nightmare-understanding-range-input/
 mozilla_firefox_customize_devtools_show_user_agent_shadow_dom () {
-  print_at_end+=("🔳 Mozilla Firefox: DevTools: Verify `devtools.inspector.showAllAnonymousContent` is true")
-  print_at_end+=("    firefox about:config")
+  print_at_end+=("\
+🔳 Mozilla Firefox: DevTools: Verify `devtools.inspector.showAllAnonymousContent` is true
+    firefox about:config")
 }
 
 mozilla_firefox_customize_customize_add_extension_redux_devtools () {
-  print_at_end+=("🔳 Mozilla Firefox: Add extenstion: Redux DevTools")
-  print_at_end+=("     sensible-open https://github.com/zalmoxisus/redux-devtools-extension")
+  print_at_end+=("\
+🔳 Mozilla Firefox: Add extenstion: Redux DevTools
+     sensible-open https://github.com/zalmoxisus/redux-devtools-extension")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1235,42 +1252,6 @@ alttab_customize_appearance_theme_windows_10 () {
 #     ground Webex Meetings using another method: Apple's Cmd-tab or Mission
 #     Control, or our Karabiner-Elementes Shift-Ctrl-Cmd-W mapping.
 alttab_customize_blocklist_hide_in_alttab () {
-  #
-  # FIXME/2022-12-25: Refactor file to use one print_at_end per reminder.
-  # - See depoxy_configure_task_create_depoxy_client for alt. multi-line format.
-  #
-  # - E.g., not this:
-  #     print_at_end+=("🔳 AltTab: Preferences...: Blacklists: +: [Select app] / Hide in AltTab: Always")
-  #     print_at_end+=("   - Hide apps that appear in AltTab even when not open, e.g.,:")
-  #     print_at_end+=("     - /System/Applications/Utilities/Activity Monitor.app")
-  #     print_at_end+=("     - /Applications/Pulse Secure.app")
-  #     print_at_end+=("     - /Applications/Webex.app")
-  #
-  # - LATER: Then you could quantify the onboarding process: Each print_at_end
-  #   call is a single reminder, which you could report as a total count. You
-  #   could report other values, too: No. Brew apps, no. Brew casks, no. `defaults`
-  #   calls, and no. reminders. E.g., quantify DepoXy onboarding tasks.
-  #   - FIXME: Make defaults_write pass-through that counts.
-  #   - FIXME: Print reminder count: echo ${#print_at_end[@]}
-  #   - FIXME: Print Brew install count from BREW_APPS.
-  #
-  # SAVVY/2022-12-25: Note this format creates multiple entries
-  # in print_at_end, one for each separate string:
-  #     print_at_end+=( \
-  #       "🔳 AltTab: Preferences...: Blacklists: +: [Select app] / Hide in AltTab: Always" \
-  #       "   - Hide apps that appear in AltTab even when not open, e.g.,:" \
-  #       "     - /System/Applications/Utilities/Activity Monitor.app" \
-  #       "     - /Applications/Pulse Secure.app" \
-  #       "     - /Applications/Webex.app" \
-  #       )
-  # - One sol'n is to use function call (add_reminder "" "" "" ...)
-  #   which could update counter and add lines to print_at_end.
-  # - Alt. sol'n is to use single string with "\n"-newlines
-  #   embedded; or to use heredoc, like so (then we can count
-  #   thusly:
-  #     echo ${#print_at_end[@]}
-  #   ):
-  # FIXME_2022_12_25_REMINDER_ARRAY_MULTILINE_STRINGS
   print_at_end+=("$(cat << 'EOF'
 🔳 AltTab: Preferences...: Blacklists: +: [Select app] / Hide in AltTab: Always
    - Hide apps that appear in AltTab even when not open, e.g.,:
@@ -1744,31 +1725,36 @@ iterm2_customize_permission_full_disk_access () {
 # Homefries with loading dots, which might be nice because Homebrew is so slow to load Homefries!
 #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash -c 'HOMEFRIES_LOADINGDOTS=true /bin/bash")
 iterm2_customize_profiles_general_command () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: General: Command: Command: Enter the following:")
   # WRONG: This mostly works, but you'll see $BASH_VERSION="3.2.57(1)-release" (or whatever)
   #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash")
-  print_at_end+=("   /opt/homebrew/bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash")
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: Command: Command: Enter the following:
+   /opt/homebrew/bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash")
 }
 
 iterm2_customize_profiles_add_profile_norc_5x () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x / Command:")
-  print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash --noprofile --norc")
-  print_at_end+=("   HINT: If you make changes to Default profile, default the other profiles and recreate them from the default")
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x / Command:
+   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash --noprofile --norc
+   HINT: If you make changes to Default profile, default the other profiles and recreate them from the default")
 }
 
 iterm2_customize_profiles_add_profile_norc_5x_lite () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x-lite / Command:")
-  print_at_end+=("   /opt/homebrew/bin/bash --noprofile --norc")
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x-lite / Command:
+   /opt/homebrew/bin/bash --noprofile --norc")
 }
 
 iterm2_customize_profiles_add_profile_bash_5x () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: Bash 5.x / Command:")
-  print_at_end+=("   /opt/homebrew/bin/bash")
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: Bash 5.x / Command:
+   /opt/homebrew/bin/bash")
 }
 
 iterm2_customize_profiles_add_profile_norc_3x () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-3.x / Command:")
-  print_at_end+=("   /bin/bash --noprofile --norc")
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-3.x / Command:
+   /bin/bash --noprofile --norc")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -2187,13 +2173,14 @@ shortcuts_services_remap_pbs_unmap_all () {
   # 2022-10-16: Whatever. This `defaults write` seems to have the opposite effect:
   # When I run this script, it seems like all these options are enabled again...
   # - So we'll just tell user to do this manually.
-  print_at_end+=("🔳 System Preferences: Keyboard: Shortcuts > Service: Disable all active items that are mapped:")
-  print_at_end+=("   - Searching: Search With Google: ⇧⌘ L → (✗ Off) [Does nothing for me anyway]")
-  print_at_end+=("   - Text: Convert Text from Traditional to Simplified Chinese: ^⌥ ⇧⌘ C → (✗ Off)")
-  print_at_end+=("   - Text: Convert Text from Simplified to Traditional Chinese: ^⌥ ⇧⌘ C → (✗ Off)")
-  print_at_end+=("   - Text: Make New Sticky Note: ⇧⌘ Y → (✗ Off)")
-  print_at_end+=("   - Text: Open man Page in terminal: ⇧⌘ M → (✗ Off)")
-  print_at_end+=("   - Text: Search map Page...ndex in Terminal: ⇧⌘ A → ✗ Off)")
+  print_at_end+=("\
+🔳 System Preferences: Keyboard: Shortcuts > Service: Disable all active items that are mapped:
+   - Searching: Search With Google: ⇧⌘ L → (✗ Off) [Does nothing for me anyway]
+   - Text: Convert Text from Traditional to Simplified Chinese: ^⌥ ⇧⌘ C → (✗ Off)
+   - Text: Convert Text from Simplified to Traditional Chinese: ^⌥ ⇧⌘ C → (✗ Off)
+   - Text: Make New Sticky Note: ⇧⌘ Y → (✗ Off)
+   - Text: Open man Page in terminal: ⇧⌘ M → (✗ Off)
+   - Text: Search map Page...ndex in Terminal: ⇧⌘ A → ✗ Off)")
 
   # The following mapping apparently re-enables all those settings.
   # Or at least they show up re-enabled in
@@ -3364,21 +3351,14 @@ app_shortcuts_customize_macdown_all () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 locatedb_configure () {
-  print_at_end+=("🔳 CLI: Create \`locate\` database:")
-  print_at_end+=("   \`sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist\`")
+  print_at_end+=("\
+🔳 CLI: Create \`locate\` database:
+   \`sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist\`")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 pass_configure () {
-  # SAVVY: Using quoted 'EOF' to avoid Bash interpolation/expansion.
-  # - See alternative multi-line reminder format in function with
-  #   first usage:
-  #     alttab_customize_blocklist_hide_in_alttab
-  #   Which uses string continuation instead of <<heredoc.
-  # - Another alternative:
-  #     depoxy_configure_task_create_depoxy_client
-  # FIXME_2022_12_25_REMINDER_ARRAY_MULTILINE_STRINGS
   print_at_end+=("$(cat << 'EOF'
 🔳 Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`:
 
