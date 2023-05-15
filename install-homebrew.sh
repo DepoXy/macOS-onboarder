@@ -649,7 +649,7 @@ BREW_PATH=""
 install_homebrew () {
   print_hr
 
-  BREW_PATH="$(_dxy_print_homebrew_path)"
+  BREW_PATH="$(print_homebrew_path)"
 
   if [ -n "${BREW_PATH}" ] && [ -e "${BREW_PATH}" ]; then
     echo "Install: Homebrew is already installed"
@@ -667,7 +667,7 @@ install_homebrew () {
 
   "$(dirname "$0")/deps/homebrew-install.sh"
 
-  BREW_PATH="$(_dxy_print_homebrew_path)"
+  BREW_PATH="$(print_homebrew_path)"
 
   echo "Installed Homebrew to: ${BREW_PATH}"
   echo
@@ -678,7 +678,7 @@ install_homebrew () {
 # COPIED: From ~/.depoxy/ambers/core/brewskies.sh
 # - Not sure I want to source that file as a dep,
 #   or let this DRY violation continue to violate.
-_dxy_print_homebrew_path () {
+print_homebrew_path () {
   # Apple Silicon (arm64) brew path is /opt/homebrew.
   local brew_bin="/opt/homebrew/bin"
 
@@ -694,7 +694,7 @@ _dxy_print_homebrew_path () {
 
 init_homebrew_or_exit () {
   # Aka: "${HOMEBREW_PREFIX}/bin/brew"
-  BREW_PATH="$(_dxy_print_homebrew_path)"
+  BREW_PATH="$(print_homebrew_path)"
 
   if [ ! -e "${BREW_PATH}" ]; then
     >&2 echo "ERROR: Missing Homebrew."
