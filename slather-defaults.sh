@@ -3494,7 +3494,12 @@ slather_macos_defaults () {
 
   [ "$1" = "--tame" ] && non_disruptive=true
 
-  insist_is_macos_ventura
+  os_is_macos () {
+    [ "$(uname)" = 'Darwin' ]
+  }
+
+  ! os_is_macos ||
+    insist_is_macos_ventura
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
