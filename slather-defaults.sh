@@ -1797,7 +1797,7 @@ slack_customize () {
 
 slack_customize_notifications_sound_and_appearance () {
   print_at_end+=("🔳 Slack: Preferences: Notifications: Sound & appearance: Notification sound (messages): *Hummus*")
-  print_at_end+=("🔳 Slack: Preferences: Notifications: Sound & appearance: Notification sound (huddles): *Here you go")
+  print_at_end+=("🔳 Slack: Preferences: Notifications: Sound & appearance: Notification sound (huddles): *Here you go*")
 }
 
 slack_customize_find_and_group_channels () {
