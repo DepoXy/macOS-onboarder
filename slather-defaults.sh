@@ -3711,7 +3711,7 @@ slather_macos_defaults () {
 
   [ -z "${print_at_end}" ] || (
     echo
-    echo "ALERT: Please perform the following tasks manually:"
+    echo "CPYST: Please perform the following tasks manually:"
     echo
 
     for print_ln in "${print_at_end[@]}"; do
