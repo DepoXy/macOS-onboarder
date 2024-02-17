@@ -3499,8 +3499,9 @@ slather_macos_defaults () {
     [ "$(uname)" = 'Darwin' ]
   }
 
-  ! os_is_macos ||
-    insist_is_macos_ventura
+  os_is_macos || return 0
+
+  insist_is_macos_ventura
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
