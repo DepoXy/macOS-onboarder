@@ -76,7 +76,7 @@ defaults-domains-dump () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 meld-last-two-dumps () {
-  meld "$(/bin/ls -1 | tail -2 | head -1)" "$(/bin/ls -1 | tail -1)" &
+  meld "$(command ls -1 | tail -2 | head -1)" "$(command ls -1 | tail -1)" &
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
