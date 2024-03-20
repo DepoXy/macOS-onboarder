@@ -3405,11 +3405,11 @@ macos_remove_bloatware_app () {
   local appdir="$1"
 
   if [ -d "${appdir}" ]; then
-    echo "Removing bloatware: $(basename "${appdir}")"
+    echo "Removing bloatware: $(basename -- "${appdir}")"
 
     sudo_bin_rm_rf "${appdir}"
   else
-    echo "✓ Bloatware absent: $(basename "${appdir}")"
+    echo "✓ Bloatware absent: $(basename -- "${appdir}")"
   fi
 }
 

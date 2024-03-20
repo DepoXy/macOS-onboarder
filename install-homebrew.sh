@@ -665,7 +665,7 @@ install_homebrew () {
   echo "Install: Homebrew"
   echo
 
-  "$(dirname "$0")/deps/homebrew-install.sh"
+  "$(dirname -- "$0")/deps/homebrew-install.sh"
 
   BREW_PATH="$(print_homebrew_path)"
 
@@ -709,8 +709,8 @@ brew_install_taps () {
   init_homebrew_or_exit
 
   for brew_tap in "${BREW_TAPS[@]}"; do
-    local tap_user="$(dirname "${brew_tap}")"
-    local tap_repo="$(basename "${brew_tap}")"
+    local tap_user="$(dirname -- "${brew_tap}")"
+    local tap_repo="$(basename -- "${brew_tap}")"
     local brew_taps="$(brew --repository)/Library/Taps/"
     local local_tap="${brew_taps}/${tap_user}/homebrew-${tap_repo}"
 

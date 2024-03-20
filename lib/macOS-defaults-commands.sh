@@ -133,7 +133,7 @@ EOF
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
 main () {
-  DEFAULTS_SH_ROOT="$(realpath $(dirname ${BASH_SOURCE[0]}))"
+  DEFAULTS_SH_ROOT="$(realpath -- "$(dirname -- "${BASH_SOURCE[0]}")")"
 
   [ -z "${DEFAULTS_SH_ROOT}" ] &&
     >&2 echo "Please source me from Bash!" &&
