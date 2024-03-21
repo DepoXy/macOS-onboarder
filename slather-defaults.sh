@@ -105,7 +105,7 @@ fake_it () {
   defaults () { echo "  defaults $@"; }
   killall () { echo "  killall $@"; }
   osascript () { echo "  osascript $@"; }
-  sudo_bin_rm_rf () { echo "  sudo /bin/rm -rf $@"; }
+  sudo_bin_rm_rf () { echo "  sudo /usr/bin/env rm -rf $@"; }
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -941,12 +941,12 @@ finder_customize_set_preferred_view_style () {
   echo "Finder: Set preferred view style — ???"
   if false; then
     defaults write com.apple.finder FXPreferredViewStyle clmv
-    /bin/rm -f "${HOME}/.DS_Store"
+    command rm -f -- "${HOME}/.DS_Store"
   else
     print_at_end+=("\
 🔳 Finder: Demo: Set preferred view style: *See source for options*:
      defaults write com.apple.finder FXPreferredViewStyle [icnv|Nlsv|clmv|Flwv]
-     /bin/rm -f ~/.DS_Store")
+     command rm -f -- ~/.DS_Store")
   fi
 }
 
@@ -3418,7 +3418,7 @@ sudo_bin_rm_rf () {
 
   [ -n "${target}" ] || return 1
 
-  sudo /bin/rm -rf "${target}"
+  command rm -rf -- "${target}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
