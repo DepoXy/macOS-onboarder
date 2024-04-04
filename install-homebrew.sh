@@ -424,6 +424,7 @@ BREW_APPS+=("--cask tikzit")
 # - SPIKE: What does this do to Chrome if it was installed some other way?
 #  BREW_APPS+=("google-chrome")
 
+# "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
 BREW_APPS+=("--cask finicky")
 
