@@ -883,9 +883,11 @@ if ! $(printf %s "$0" | grep -q -E '(^-?|\/)(ba|da|fi|z)?sh$' -); then
   main "$@"
 fi
 
-# DEV: Uncomment and source file to see BREW_APPS count.
-#      $ . install-homebrew.sh
+# DEV: Uncomment 'echo' below and source file to see BREW_APPS count.
 #
-#  # 2023-02-27: Today's count: 74.
+#   # 2023-02-27: Today's count: 74.
+#   $ . install-homebrew.sh
+#   No. BREW_APPS: 74
+#
 #  echo "No. BREW_APPS: ${#BREW_APPS[@]}"
 
