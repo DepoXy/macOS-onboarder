@@ -3727,12 +3727,8 @@ main () {
   slather_macos_defaults "$@"
 }
 
-if ! $(printf %s "$0" | grep -q -E '(^-?|\/)(ba|da|fi|z)?sh$' -); then
+if [ "$0" = "${BASH_SOURCE[0]}" ]; then
   # Being executed.
   main "$@"
-else
-  echo "Run me, don't source me, you heard me"
-
-  return 1
 fi
 

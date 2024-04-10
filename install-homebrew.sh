@@ -879,7 +879,7 @@ main () {
 }
 
 # Run the installer iff being executed.
-if ! $(printf %s "$0" | grep -q -E '(^-?|\/)(ba|da|fi|z)?sh$' -); then
+if [ "$0" = "${BASH_SOURCE[0]}" ]; then
   main "$@"
 fi
 
