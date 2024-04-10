@@ -45,13 +45,18 @@ Knarley `brew install` and `defaults` 🏂
 
   https://github.com/DepoXy/Karabiner-Elephants#🐘
 
-  DepoXy Development Environment Orchestrator
+  This project is one part of a larger dev stack bound together
+  by the DepoXy Development Environment Orchestrator
 
   https://github.com/DepoXy/depoxy#🍯
 
+  which extends the `slather-defaults` behavior:
+
+  https://github.com/DepoXy/depoxy/blob/release/bin/macOS/onboarder/slather-defaults.sh
+
 ## AUTHOR
 
-Copyright (c) 2021-2023 Landon Bouma &lt;depoxy@tallybark.com&gt;
+Copyright (c) 2021-2024 Landon Bouma &lt;depoxy@tallybark.com&gt;
 
 This software is released under the MIT license (see `LICENSE` file for more)
 
