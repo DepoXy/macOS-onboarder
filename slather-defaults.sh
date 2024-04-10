@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # vim:tw=0:ts=2:sw=2:et:norl:ft=bash
 # Author: Landon Bouma <https://tallybark.com/>
 # Project: https://github.com/DepoXy/macOS-onboarder#🏂
