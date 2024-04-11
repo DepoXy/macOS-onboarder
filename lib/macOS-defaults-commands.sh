@@ -8,6 +8,11 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 defaults-domains-list () {
+  if ! insist_os_is_macos; then
+
+    return 1
+  fi
+
   defaults domains | sed "s/, \?/\n/g" | sort
 }
 
@@ -33,6 +38,11 @@ DEFAULTS_SH_BLOCKLIST="lib/defaults-domains-block.list"
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 defaults-domains-dump () {
+  if ! insist_os_is_macos; then
+
+    return 1
+  fi
+
   # Be nice to user and don't surprise them with a ton of new files in
   # their working directory. Also to help `meld-last-two-dumps` work.
   local unique_dir="domains_dump__$(date +%Y%m%d%H%M%S)"
@@ -130,11 +140,24 @@ EOF
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
-main () {
-  default-print-help
+insist_os_is_macos () {
+  if os_is_macos; then
+
+    return
+  fi
+
+  >&2 echo "ERROR: Please run from macOS (not meant for $(uname))"
+
+  return 1
 }
+
+os_is_macos () {
+  [ "$(uname)" = 'Darwin' ]
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
 alert_if_executed () {
   local print_usage=false
