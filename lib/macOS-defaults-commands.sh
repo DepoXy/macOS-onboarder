@@ -13,7 +13,7 @@ defaults-domains-list () {
     return 1
   fi
 
-  defaults domains | sed "s/, \?/\n/g" | sort
+  defaults domains | sed -E "s/, ?/\n/g" | sort
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
