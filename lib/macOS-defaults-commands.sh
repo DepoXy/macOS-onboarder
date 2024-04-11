@@ -133,21 +133,64 @@ EOF
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
 main () {
+  default-print-help
+}
+
+alert_if_executed () {
+  local print_usage=false
+
+  unset -f alert_if_executed
+
+  if [ "$0" = "${BASH_SOURCE[0]}" ]; then
+    # Being executed.
+    >&2 echo "Running this file does nothing"
+    >&2 echo
+
+    print_usage=true
+  elif ! $(printf %s "$0" | grep -q -E '(^-?|\/)bash$' -); then
+    # Not Bash.
+    print_usage=true
+  elif [ -z "${BASH_SOURCE[0]}" ]; then
+    # Unreachable path?
+    >&2 echo "Unexpected: BASH_SOURCE[0] is unset?"
+
+    print_usage=true
+  # else, ${BASH_SOURCE[0]} is the path to this file,
+  #       which is being sourced in a Bash shell.
+  fi
+
+  if ${print_usage}; then
+    >&2  echo "USAGE: Source this file from a Bash shell"
+
+    false
+  fi
+}
+
+# ***
+
+main () {
+  # SAVVY: Don't use errexit, because running from user's shell.
+
+  unset -f main
+
+  if ! alert_if_executed; then
+
+    return 1
+  fi
+
   DEFAULTS_SH_ROOT="$(realpath -- "$(dirname -- "${BASH_SOURCE[0]}")")"
 
-  [ -z "${DEFAULTS_SH_ROOT}" ] &&
-    >&2 echo "Please source me from Bash!" &&
-    exit 1
+  if [ -z "${DEFAULTS_SH_ROOT}" ]; then
+    # Unreachable path (${BASH_SOURCE[0]} already vetted)
+    >&2 echo "Unexpected: BASH_SOURCE[0] not a path?"
+
+    return 1
+  fi
 
   default-print-help
 }
 
-if ! $(printf %s "$0" | grep -q -E '(^-?|\/)(ba|da|fi|z)?sh$' -); then
-  # Being executed.
-  echo "Does nothing. Try to source this file instead. “Gedgie out!”"
-  exit 1
-else
-  main "$@"
-  unset -f main
-fi
+# ***
+
+main "$@"
 
