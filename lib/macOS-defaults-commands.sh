@@ -201,7 +201,8 @@ main () {
     return 1
   fi
 
-  DEFAULTS_SH_ROOT="$(realpath -- "$(dirname -- "${BASH_SOURCE[0]}")")"
+  # Path to parent directory of this file's directory.
+  DEFAULTS_SH_ROOT="$(realpath -- "$(dirname -- "${BASH_SOURCE[0]}")/..")"
 
   if [ -z "${DEFAULTS_SH_ROOT}" ]; then
     # Unreachable path (${BASH_SOURCE[0]} already vetted)
