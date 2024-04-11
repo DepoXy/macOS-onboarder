@@ -115,7 +115,7 @@ You can now try the following commands:
 
   defaults-domains-list         List all the defaults domains, sorted
 
-  defaults-domains-dump         Write each domain\'s key-values to a file, all saved to a new directory
+  defaults-domains-dump         Write each domain's key-values to a file, all saved to a new directory
 
   defaults-domains-dump --all   Ignore the defaults-domains-block.list filter
 
