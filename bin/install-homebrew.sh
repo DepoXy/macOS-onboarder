@@ -881,6 +881,8 @@ main () {
 # Run the installer iff being executed.
 if [ "$0" = "${BASH_SOURCE[0]}" ]; then
   main "$@"
+else
+  >&2 echo "Try running this script instead"
 fi
 
 # DEV: Uncomment 'echo' below and source file to see BREW_APPS count.
