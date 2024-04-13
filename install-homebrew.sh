@@ -823,9 +823,9 @@ create_user_local_bin_symlinks () {
 }
 
 # Not all Homebrew apps we link start with a 'g', so code specifies
-# USER_LINK as either one work or two.
-# - One word: E.g., "gdate". Symlinks ~/.local/bin/gdate → homebrew/bin/date.
-# - Two words: E.g., "diff diff". Symlinks ~/.local/bin/diff → homebrew/bin/diff.
+# USER_LINK as either one word or two.
+# - One word:  E.g., "gdate"     — Symlinks ~/.local/bin/gdate → homebrew/bin/date
+# - Two words: E.g., "diff diff" — Symlinks ~/.local/bin/diff  → homebrew/bin/diff
 gbrew_symlink () {
   # If two words were specified, split them.
   set -- $1
