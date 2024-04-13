@@ -16,6 +16,9 @@
 #
 #   # To see list of reminders, and to test script runs, dry-run it:
 #   ./bin/slather-defaults.sh --dry-run
+#
+#   # ALTLY: If you've got DepoXy installed:
+#   cd ~/.depoxy/ambers
 #   ./bin/macOS/onboarder/slather-defaults.sh --dry-run
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
