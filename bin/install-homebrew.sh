@@ -829,7 +829,7 @@ create_user_local_bin_symlinks () {
 # - One word:  E.g., "gdate"     — Symlinks ~/.local/bin/gdate → homebrew/bin/date
 # - Two words: E.g., "diff diff" — Symlinks ~/.local/bin/diff  → homebrew/bin/diff
 gbrew_symlink () {
-  # If two words were specified, split them.
+  # If two words were specified (as one string), use `set` to split them.
   set -- $1
   local brew_app="$1"
   local bin_name="$2"
