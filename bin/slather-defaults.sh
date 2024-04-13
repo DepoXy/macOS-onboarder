@@ -59,6 +59,11 @@ DXY_SCREENCAPS_LOCATION="${DXY_SCREENCAPS_LOCATION:-${HOME}/screencaps}"
 # YOU: Set this false if you want to keep GarageBand and iMovie.
 DXY_REMOVE_BLOATWARE=true
 
+# DXY_ONB_EXPECTED_MAJOR_VERS=13
+# DXY_ONB_EXPECTED_MAJOR_VERS_NAME="Ventura"
+DXY_ONB_EXPECTED_MAJOR_VERS=14
+DXY_ONB_EXPECTED_MAJOR_VERS_NAME="Sonoma"
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # This script only supports the latest macOS (that the author's used).
@@ -72,8 +77,8 @@ insist_is_macos_ventura () {
   # `sw_vers -productVersion` prints, e.g., '13.0.1'.
   major_vers="$(sw_vers -productVersion | awk -F '.' '{print $1}')"
 
-  if [ ${major_vers} -ne 13 ]; then
-    >&2 echo "FAILD: This script is designed for macOS Ventura."
+  if [ ${major_vers} -ne ${DXY_ONB_EXPECTED_MAJOR_VERS} ]; then
+    >&2 echo "FAILD: This script is designed for macOS ${DXY_ONB_EXPECTED_MAJOR_VERS_NAME}."
     >&2 echo
     >&2 echo "- Please uncomment this guard clause and run the"
     >&2 echo "  script knowing you will have some chores to do."
