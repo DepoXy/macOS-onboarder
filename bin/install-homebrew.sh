@@ -667,7 +667,7 @@ install_homebrew () {
   echo "Install: Homebrew"
   echo
 
-  "$(dirname -- "$0")/../deps/homebrew-install.sh"
+  "$(dirname -- "$0")/../deps/Homebrew/install/install.sh"
 
   BREW_PATH="$(print_homebrew_path)"
 
