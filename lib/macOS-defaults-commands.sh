@@ -92,7 +92,7 @@ meld-last-two-dumps () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 apply-macos-defaults () {
-  ${DEFAULTS_SH_ROOT}/slather-defaults.sh
+  ${DEFAULTS_SH_ROOT}/bin/slather-defaults.sh
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #

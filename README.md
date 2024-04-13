@@ -11,7 +11,7 @@ Knarley `brew install` and `defaults` 🏂
   brew-installs 74 [Homebrew](https://brew.sh/) apps
   and counting
 
-  [`slather-defaults.sh`](slather-defaults.sh)
+  [`bin/slather-defaults.sh`](bin/slather-defaults.sh)
   updates 127 macOS `defaults`
   and counting
 

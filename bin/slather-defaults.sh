@@ -12,11 +12,10 @@
 #
 #   # On fresh macOS, run it:
 #   cd path/to/macOS-onboarder
-#   ./slather-defaults.sh
+#   ./bin/slather-defaults.sh
 #
 #   # To see list of reminders, and to test script runs, dry-run it:
-#   ./slather-defaults.sh --dry-run
-#   # Or:
+#   ./bin/slather-defaults.sh --dry-run
 #   ./bin/macOS/onboarder/slather-defaults.sh --dry-run
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
