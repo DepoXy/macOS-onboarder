@@ -461,7 +461,9 @@ BREW_APPS+=("pyenv")
 # https://github.com/pyenv/pyenv-virtualenv
 BREW_APPS+=("pyenv-virtualenv")
 
-BREW_APPS+=("postgresql")
+# USYNC/2024-04-13: Must specify Postgres version.
+#  https://formulae.brew.sh/formula/postgresql@16
+BREW_APPS+=("postgresql@16")
 # MAYBE/2022-11-15:
 #   brew services stop postgresql
 BREW_APPS+=("libpq")
