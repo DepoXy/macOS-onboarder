@@ -7,7 +7,7 @@ Knarley `brew install` and `defaults` 🏂
 
 ## COMMANDS
 
-  [`install-homebrew.sh`](install-homebrew.sh)
+  [`bin/install-homebrew.sh`](bin/install-homebrew.sh)
   brew-installs 74 [Homebrew](https://brew.sh/) apps
   and counting
 

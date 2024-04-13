@@ -667,7 +667,7 @@ install_homebrew () {
   echo "Install: Homebrew"
   echo
 
-  "$(dirname -- "$0")/deps/homebrew-install.sh"
+  "$(dirname -- "$0")/../deps/homebrew-install.sh"
 
   BREW_PATH="$(print_homebrew_path)"
 
@@ -886,7 +886,7 @@ fi
 # DEV: Uncomment 'echo' below and source file to see BREW_APPS count.
 #
 #   # 2023-02-27: Today's count: 74.
-#   $ . install-homebrew.sh
+#   $ . bin/install-homebrew.sh
 #   No. BREW_APPS: 74
 #
 #  echo "No. BREW_APPS: ${#BREW_APPS[@]}"
