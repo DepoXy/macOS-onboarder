@@ -98,7 +98,7 @@ USER_LINK+=("gmktemp")
 USER_LINK+=("gsort")
 USER_LINK+=("gtouch")
 USER_LINK+=("gwc")
-USER_LINK+=("realpath")
+USER_LINK+=("grealpath")
 
 # --------------------------
 
