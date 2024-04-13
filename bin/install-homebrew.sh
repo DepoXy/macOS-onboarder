@@ -244,7 +244,9 @@ BREW_APPS+=("fzf")
 # --------------------------
 
 # "Modern replacement for 'ls'".
-BREW_APPS+=("exa")
+# - ISOFF/2024-04-13: Brew install fails:
+#   "Error: exa has been disbled because it is not maintained upstream!"
+#  BREW_APPS+=("exa")
 
 # "list contents of directories in a tree-like format."
 BREW_APPS+=("tree")
