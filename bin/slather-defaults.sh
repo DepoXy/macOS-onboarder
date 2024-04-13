@@ -19,7 +19,7 @@
 #
 #   # ALTLY: If you've got DepoXy installed:
 #   cd ~/.depoxy/ambers
-#   ./bin/macOS/onboarder/slather-defaults.sh --dry-run
+#   ./bin/onboarder/slather-defaults.sh --dry-run
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 

@@ -52,7 +52,7 @@ Knarley `brew install` and `defaults` 🏂
 
   which extends the `slather-defaults` behavior:
 
-  https://github.com/DepoXy/depoxy/blob/release/bin/macOS/onboarder/slather-defaults.sh
+  https://github.com/DepoXy/depoxy/blob/release/bin/onboarder/slather-defaults.sh
 
 ## AUTHOR
 
