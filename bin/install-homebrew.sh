@@ -194,6 +194,8 @@ BREW_APPS+=("--cask homebrew/cask-fonts/font-hack-nerd-font")
 BREW_APPS+=("htop")
 BREW_APPS+=("pstree")
 
+BREW_APPS+=("pidof")
+
 # --------------------------
 
 BREW_APPS+=("grep")
