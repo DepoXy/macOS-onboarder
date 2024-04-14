@@ -693,7 +693,7 @@ print_homebrew_path () {
 
   local brew_path="${brew_bin}/brew"
 
-  printf "${brew_path}"
+  printf "%s" "${brew_path}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
