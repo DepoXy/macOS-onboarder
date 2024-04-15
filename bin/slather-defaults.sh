@@ -71,7 +71,7 @@ DXY_ONB_EXPECTED_MAJOR_VERS_NAME="Sonoma"
 #   commit history instead, and checkout an old revision.
 #   - MAYBE: Ideally I'll version this project after each macOS update.
 #            I could even version this project to track macOS versions.
-insist_is_macos_ventura () {
+insist_is_latest_macos_version () {
   local major_vers=""
 
   # `sw_vers -productVersion` prints, e.g., '13.0.1'.
@@ -3555,7 +3555,7 @@ slather_macos_defaults () {
 
   os_is_macos || return 0
 
-  insist_is_macos_ventura
+  insist_is_latest_macos_version
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
