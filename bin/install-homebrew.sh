@@ -336,7 +336,20 @@ BREW_APPS+=("colordiff")
 
 # NOTE: App is not signed. See our `quarantine-release-apps`, or try:
 #   xattr -dr com.apple.quarantine "/Applications/Meld.app"
-BREW_APPS+=("--cask meld")
+#
+# ISOFF/2024-04-15: Meld not yet released for Apple Silicon on Homebrew.
+# - See slather-defauls for the OMR 'install' reminder.
+add_meld_unless_apple_silicon () {
+  # ALTLY: test "$(uname -p)" = "arm"  # vs. "i386"
+  if [ "$(uname -m)" = "arm64" ]; then
+    # Apple Silicon (not "x86_64" Intel).
+
+    return 0
+  fi
+
+  BREW_APPS+=("--cask meld")
+}
+add_meld_unless_apple_silicon
 
 # --------------------------
 
