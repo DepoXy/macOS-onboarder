@@ -440,9 +440,15 @@ BREW_APPS+=("--cask tikzit")
 
 # --------------------------
 
-# INERT/2022-10-11: Would we ever want Chrome from Homebrew?
-# - SPIKE: What does this do to Chrome if it was installed some other way?
-#  BREW_APPS+=("google-chrome")
+# SAVVY/2024-04-14: Don't install Homebrew Chrome over corporate
+# version, if your laptop already came with Chrome installed.
+add_google_chrome_unless_installed () {
+  ! [ -e "/Applications/Google Chrome.app" ] \
+    || return 0
+
+  BREW_APPS+=("google-chrome")
+}
+add_google_chrome_unless_installed
 
 # "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
