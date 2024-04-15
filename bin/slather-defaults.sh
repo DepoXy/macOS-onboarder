@@ -3500,8 +3500,6 @@ slather_macos_defaults () {
   local restart_finder=false
   local restart_systemuiserver=false
 
-  [ "$1" = "--tame" ] && non_disruptive=true
-
   os_is_macos () {
     [ "$(uname)" = 'Darwin' ]
   }
