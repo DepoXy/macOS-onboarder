@@ -3823,12 +3823,78 @@ print_cnt_run_report () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
+# UCASE/2024-04-14: Requires Bash v4 because of --cnt-run `declare -A`
+# usage (though we could convert associative array to flattened array;
+# but no reason not to require that which should already be installed,
+# assuming user previously ran install-homebrew.sh).
+# - SAVVY: While script *requires* v4, it supports running from v3.
+#   - UCASE: The author's shell remains built-in macOS bash v3 (/bin/bash),
+#     because years ago, Homebrew bash v5 seemed to run slowly (at least as
+#     my terminal shell, in my experience).
+#     - So Homebrew bash is available, but it's not #!/bin/bash nor
+#       #!/usr/bin/env bash. Rather, it's findable at a known location.
+
+promote_homebrew_bash () {
+  # SAVVY: SHELL remains /bin/bash, even when running Homebrew bash,
+  #   so use ps lookup.
+  # SAVVY: Alt. `ps -o cmd` works on @linux LM, but not @macOS.
+  if $(ps -o command $$ | tail -n 1 | cut -d ' ' -f1) --version \
+      | grep -q -e "^GNU bash, version \([4-9]\.\|[0-9][0-9]\+\.\)" \
+  ; then
+    # Bash v4 or better.
+
+    return 1
+  fi
+
+  # Bash v3.
+
+  local brew_prefix="$(print_homebrew_prefix)"
+
+  if [ -n "${brew_prefix}" ]; then
+    if ${SLATHER_DEJA_VU:-false}; then
+      >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash <= v3?!)"
+
+      exit 1
+    fi
+
+    # Run via Homebrew bash.
+    SLATHER_DEJA_VU=true "${brew_prefix}/bin/bash" "$0" "$@"
+  else
+    >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash not found)"
+
+    exit 1
+  fi
+
+  return 0
+}
+
+print_homebrew_prefix () {
+  local brew_prefix="${HOMEBREW_PREFIX}"
+
+  # Apple Silicon (arm64) brew path is /opt/homebrew
+  [ -d "${brew_prefix}" ] || brew_prefix="/opt/homebrew"
+
+  # Otherwise on Intel Macs it's under /usr/local
+  [ -d "${brew_prefix}" ] || brew_prefix="/usr/local/Homebrew"
+
+  if [ ! -d "${brew_prefix}" ]; then
+
+    return 0
+  fi
+
+  printf "%s" "${brew_prefix}"
+}
+
+# ***
+
 main () {
   slather_macos_defaults "$@"
 }
 
 if [ "$0" = "${BASH_SOURCE[0]}" ]; then
   # Being executed.
-  main "$@"
+  if ! promote_homebrew_bash "$@"; then
+    main "$@"
+  fi
 fi
 
