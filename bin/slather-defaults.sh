@@ -3492,14 +3492,6 @@ slather_macos_defaults () {
 
   check_deps
 
-  # ***
-
-  local print_at_end=()  # 🔳 ◻
-  # Killallers
-  local restart_dock=false
-  local restart_finder=false
-  local restart_systemuiserver=false
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
   os_is_macos () {
@@ -3515,6 +3507,12 @@ slather_macos_defaults () {
   system_settings_close
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+  local print_at_end=()  # 🔳 ◻
+  # Killallers
+  local restart_dock=false
+  local restart_finder=false
+  local restart_systemuiserver=false
 
   domains_customize
 
