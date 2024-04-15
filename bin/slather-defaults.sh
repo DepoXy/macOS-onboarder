@@ -3807,12 +3807,12 @@ print_cnt_run_report () {
 
   echo "Counts report:"
   echo "- \`defaults\` calls   : ${cnt_defaults}"
-  echo "  - 'write'            : ${cnt_defaults_write}"
-  echo "  - 'delete'           : ${cnt_defaults_delete}"
-  echo "  -  other             : ${cnt_defaults_other}"
+  echo "  - 'write'   $(printf "%4d" "${cnt_defaults_write}")"
+  echo "  - 'delete'  $(printf "%4d" "${cnt_defaults_delete}")"
+  echo "  -  other    $(printf "%4d" "${cnt_defaults_other}")"
   echo "- no. domains        : ${#cnt_defaults_domain[@]}"
   for domain in "${!cnt_defaults_domain[@]}"; do
-    printf "  -                %3d : %s\n" "${cnt_defaults_domain[$domain]}" "${domain}"
+    printf "  - %3d : %s\n" "${cnt_defaults_domain[$domain]}" "${domain}"
   done
   echo "- \`killall\`   calls  : ${cnt_killalls}"
   echo "- \`osascript\` calls  : ${cnt_ascripts}"
