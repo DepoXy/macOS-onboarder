@@ -3811,6 +3811,7 @@ print_cnt_run_report () {
   echo "  - 'delete'  $(printf "%4d" "${cnt_defaults_delete}")"
   echo "  -  other    $(printf "%4d" "${cnt_defaults_other}")"
   echo "- no. domains        : ${#cnt_defaults_domain[@]}"
+  # USAGE: Use this list to audit lib/defaults-domains-block.list
   for domain in "${!cnt_defaults_domain[@]}"; do
     printf "  - %3d : %s\n" "${cnt_defaults_domain[$domain]}" "${domain}"
   done
