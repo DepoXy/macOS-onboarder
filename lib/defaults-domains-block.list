@@ -1,4 +1,5 @@
-# https://github.com/DepoXy/macOS-onboarder#🏂
+# Author: Landon Bouma <https://tallybark.com/>
+# Project: https://github.com/DepoXy/macOS-onboarder#🏂
 # License: MIT
 # USAGE: Populate this list using `defaults-domains-list` output, and then
 #        comment those domains you want `defaults-domains-dump` to report.
