@@ -57,7 +57,7 @@
 DXY_SCREENCAPS_LOCATION="${DXY_SCREENCAPS_LOCATION:-${HOME}/screencaps}"
 
 # YOU: Set this false if you want to keep GarageBand and iMovie.
-DXY_REMOVE_BLOATWARE=true
+DXY_REMOVE_BLOATWARE=false
 
 # DXY_ONB_EXPECTED_MAJOR_VERS=13
 # DXY_ONB_EXPECTED_MAJOR_VERS_NAME="Ventura"
@@ -200,11 +200,13 @@ general_appearance_customize_dark_mode () {
   false && (
     echo "Appearance: Dark. Use dark menu bar and dock"
     echo '- BWARE: `killall Dock` does not bake this value.'
-    echo "  You may need to open System Preferences and set this one manually."
+    echo "  You may need to open System Settings and set this one manually."
+
     defaults write NSGlobalDomain AppleInterfaceStyle 'Dark'
+
     restart_dock=true  # Albeit doesn't change Appearance for me.
   )
-  print_at_end+=("🔳 System Preferences...: General > Appearance > ✓ Dark")
+  print_at_end+=("🔳 System Settings: Appearance: Appearance: ✓ Dark")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -215,7 +217,7 @@ desktop_and_screen_saver_customize () {
 
 # I changed the desktop to black, but I didn't see any plist change.
 desktop_and_screen_saver_customize_desktop_black () {
-  print_at_end+=("🔳 System Preferences: Desktop & Screen Saver > Desktop > Apple > Colors > Black")
+  print_at_end+=("🔳 System Settings: Wallpaper: *Configure to taste* (Generally I choose Black)")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -238,6 +240,7 @@ dock_and_menu_bar_customize () {
   dock_and_menu_bar_customize_control_center_now_playing_show_in_menu_bar_disable
 
   dock_and_menu_bar_customize_menu_bar_only_clock_use_a_24_hour_clock_enable
+  dock_and_menu_bar_customize_menu_bar_clock_customize_day_date_time_format
 
   dock_and_menu_bar_customize_menu_bar_only_spotlight_show_in_menu_bar_disable
 
@@ -248,7 +251,7 @@ dock_and_menu_bar_customize () {
 # https://github.com/herrbischoff/awesome-macos-command-line#reset-dock
 dock_reset_dock () {
   false && (
-    defaults delete com.apple.dock
+    defaults delete com.apple.dock 2> /dev/null || true
   )
 }
 
@@ -261,28 +264,35 @@ dock_and_menu_bar_customize_dock_position_on_screen_left () {
   defaults write com.apple.dock orientation -string "left"
 }
 
+# SAVVY/2024-04-14: `killall Dock` to see window behavior change,
+# then reopen System Settings to see GUI widget updated (or, toggle
+# one of the widgets, then the other widgets should update).
+
+# ISOFF/2024-04-14: Yes, no, the author still thinks the Genie animation
+# is distracting.
 dock_and_menu_bar_customize_dock_minimize_windows_using_scale_effect () {
-  echo "Dock & Menu Bar: Dock: Minimize windows using: Scale effect"
+  echo "Desktop & Dock: Dock: Minimize windows using: Scale Effect"
   defaults write com.apple.dock mineffect -string "scale"
 }
 
+# When you open an app, the dock icon bounces a few times. Whee!
 dock_and_menu_bar_customize_dock_animate_opening_applications_disable () {
-  echo "Dock & Menu Bar: Dock: ✗ Animate opening applications"
+  echo "Desktop & Dock: Dock: ✗ Animate opening applications"
   defaults write com.apple.dock launchanim -bool false
 }
 
 dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_docl () {
-  echo "Dock & Menu Bar: Dock: ✓ Automatically hide and show the Dock"
+  echo "Desktop & Dock: Dock: ✓ Automatically hide and show the Dock"
   defaults write com.apple.dock autohide -bool true
 }
 
 dock_and_menu_bar_customize_dock_show_indicators_for_open_applications_disable () {
-  echo "Dock & Menu Bar: Dock: ✗ Show indicators for open applications"
+  echo "Desktop & Dock: Dock: ✗ Show indicators for open applications"
   defaults write com.apple.dock show-process-indicators -bool false
 }
 
 dock_and_menu_bar_customize_dock_show_recent_application_in_dock_false () {
-  echo "Dock & Menu Bar: Dock: ✗ Show recent applications in Dock"
+  echo "Desktop & Dock: Dock: ✗ Show suggested and recent apps in Dock"
   defaults write com.apple.dock show-recents -bool false
 }
 
@@ -290,23 +300,34 @@ dock_and_menu_bar_customize_dock_pin_and_rearrange_apps_to_taste () {
   print_at_end+=("\
 🔳 Dock: Pin and rearrange apps to taste
    - Possible order: Finder / Chrome / Slack / Vim / iTerm2 / Activity Monitor
-   - See also Cmd-space > Launchpad for apps you could add and “Keep in Dock”")
+   - See also Spotlight search (Cmd-space) for apps you could add and “Keep in Dock”")
 }
 
 dock_and_menu_bar_customize_dock_remove_superfluous_dock_icons () {
   print_at_end+=("\
-🔳 Dock: Remove superfluous Dock icons: Control-click (or right-click) and *Remove from Dock*:
-   - Remove from Dock: Launchpad
-   - Remove from Dock: Microsoft Outlook [maybe, if you don't have a license]
-   - Remove from Dock: Maps [I always use my @home machine or mobile]
-   - Remove from Dock: Photos [not on an @work machine]
-   - Remove from Dock: Notes [I use Vim!]
+🔳 Dock: Remove superfluous Dock icons: Control-click (or right-click) and *Options > Remove from Dock*:
+   - Remove from Dock: Launchpad [don't use; can run via Spotlight]
+   - Remove from Dock: Photos [wouldn't use on a @work machine]
+   - Remove from Dock: FaceTime, Messages, Mail, Music, TV [require accounts/subscriptions]
+   - Remove from Dock: Calendar, Maps (GTK they're there, but I use browser apps)
+   - Remove from Dock: Contacts, Reminders, Notes
+   - Remove from Dock: Safari [prefer Chrome], News [prefer browser]
+   - Remove from Dock: Freeform, Keynote, Numbers, Pages (Office apps)
    - Remove from Dock: Downloads [Use Cmd-Ctrl-Space or Cmd-F]
-   - Remove from Dock: [Anything else you might not use or would access from the terminal: In the past I've seen and removed: Siri, Mail, iTunes, News, App Store, Contacts, Calendar, System Preferences, Reminders, Xcode, Self Service, Safari, Firefox, MacVim]")
+   - Remove from Dock: MacVim [because clicking Dock icon won't run correct --servername]
+   - Remove from Dock: System Settings, App Store [both available under Apple menu]
+   - Remove from Dock: Microsoft Outlook [maybe, if installed and you don't need or have a license]
+   - Remove from Dock: [Anything else you might not use or would access from the terminal: E.g.,: Siri, iTunes [now Music], Xcode, Self Service, Firefox]")
 }
 
 dock_and_menu_bar_customize_menu_bar_automatically_hide_and_show_the_menu_bar_on_desktop () {
-  echo "Dock & Menu Bar: Menu Bar: ✓ Automatically hide and show the menu bar on desktop"
+  echo "Control Center: Menu Bar Only: ✓ Automatically hide and show the menu bar"
+  echo "  [*Always* | On Desktop Only | In Full Screen Only | Never]"
+  # These four options are controlled by two booleans:
+  #                                     Always   Desktop   Full Screen   Never
+  #   AppleMenuBarVisibleInFullscreen      0        1           0          1
+  #   _HIHideMenuBar                       1        1           0          0
+  defaults write NSGlobalDomain AppleMenuBarVisibleInFullscreen -bool false
   defaults write NSGlobalDomain _HIHideMenuBar -bool true
 }
 
@@ -314,43 +335,74 @@ dock_and_menu_bar_customize_menu_bar_automatically_hide_and_show_the_menu_bar_on
 # in the Control Center, but it's still there.
 # - Also, I see no change in the `defaults read` plist.
 # Not sure what-if-anything this setting does, so skip't.
+# - DUNNO/2024-04-15: Was new option added? Sonoma 14.4.1 default
+#   is "Show When Active". Other 2 options: Always Show in Menu Bar,
+#   and Don't Show in Menu Bar.
 dock_and_menu_bar_customize_control_center_now_playing_show_in_menu_bar_disable () {
   # echo "Dock & Menu Bar: Control Center: Now Playing: ✗ Show in Menu Bar"
-  # defaults write XXX XXX -bool false
+  #  defaults write ??? ??? -bool false
   :
 }
 
 dock_and_menu_bar_customize_menu_bar_only_clock_use_a_24_hour_clock_enable () {
-  echo "Dock & Menu Bar: Menu Bar Only: Clock: ✓ Use a 24-hour clock"
+  echo "General: Date & Time: ✓ 24-hour time"
+  defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
+
+  restart_systemuiserver=true
+}
+
+dock_and_menu_bar_customize_menu_bar_clock_customize_day_date_time_format () {
   # Circa 2020-21 I used the DateFormat "EEE HH:mm:ss", which I probably found
   # online. The format here, "EEE MMM d  H:mm", is what I saw on defaults-read.
   # - 2022-10-17: Though now that I look at the menu bar again, those two spaces
   #   between the date and time might bother me, especially now that I see them.
   #   - TRYME: Demo the DateFormat with a single space between date and time.
-  defaults write com.apple.menuextra.clock DateFormat -string "EEE MMM d  H:mm"
-  defaults write com.apple.menuextra.clock Show24Hour -bool true
-
-  restart_systemuiserver=true
+  # SAVVY: Sonoma 14.4.1 Clock default: Mon Apr 15 0:15
+  # - ISOFF/2024-04-15: I don't see a System Settings option for this,
+  #   nor can I find an existing default for it, and if we're just setting
+  #   the default value, anyway, don't bother.
+   
+  #  echo "General: Language & Region: (Hidden option): DateFormat"
+  #  defaults write com.apple.menuextra.clock DateFormat -string "EEE MMM d  H:mm"
+  #
+  #  restart_systemuiserver=true
+  :
 }
 
 dock_and_menu_bar_customize_menu_bar_only_spotlight_show_in_menu_bar_disable () {
-  # IGDI: `defaults read com.apple.Spotlight` works find, but not this delete:
-  #   echo "Dock & Menu Bar: Menu Bar Only: Spotlight: ✗ Show in Menu Bar"
-  #   defaults delete com.apple.Spotlight "NSStatusItem Visible Item-0"
-  # Which responds:
-  #   2022-10-16 23:51:29.409 defaults[57101:1403399]
-  #   Domain (com.apple.Spotlight) not found.
-  #   Defaults have not been changed.
-  # Whatever, that's the item I see removed when I disable the Show in Menu Bar
-  # item, but looks like user must do so manually.
-  print_at_end+=("🔳 System Preferences: Dock & Menu Bar: Menu Bar Only: Spotlight: ✗ Show in Menu Bar")
+  # SAVVY: This settings exists in `defaults`, but it's just a mirror value.
+  # - When *Show in Menu Bar* is set (the default), e.g.,
+  #     Control Center: Menu Bar Only: Spotlight: ✓ Show in Menu Bar
+  #   you'll see in defaults:
+  #     $ defaults read com.apple.Spotlight "NSStatusItem Visible Item-0"
+  #     1
+  #   which you can delete:
+  #     defaults delete com.apple.Spotlight "NSStatusItem Visible Item-0"
+  #   (though note if it's already deleted, you'll see a warning instead, e.g.,
+  #     2022-10-16 23:51:29.409 defaults[57101:1403399]
+  #     Domain (com.apple.Spotlight) not found.
+  #     Defaults have not been changed.
+  #   ) but the real problem is the value is not canon.
+  # - SAVVY: If you `killall SystemUIServer`, nothing changes.
+  #   - SAVVY: If you delete the key, then logout and logon again,
+  #     the previous key value is restored.
+
+  print_at_end+=("🔳 System Settings: Control Center: Menu Bar Only: Spotlight: ✓ Don't Show in Menu Bar")
+  # AVOID: Per note above, this does no good:
+  #
+  #  echo "Control Center: Menu Bar Only: Spotlight: ✓ Don't Show in Menu Bar"
+  #  # Default setting:
+  #  #   defaults write com.apple.Spotlight "NSStatusItem Visible Item-0" -bool true
+  #  defaults delete com.apple.Spotlight "NSStatusItem Visible Item-0"
+  #
+  #  restart_systemuiserver=true
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 mission_control_customize () {
-  # System Preferences > Mission Control shows three of the Keyboard shortcuts
-  # we set via System Preferences > Keyboard > Shortcuts: Mission Control (^⌥ ↑),
+  # System Settings > Mission Control shows three of the Keyboard shortcuts
+  # we set via System Settings > Keyboard > Shortcuts: Mission Control (^⌥ ↑),
   # Application windows (^⌥ ↓), and Show Desktop (^⌥ D).
 
   mission_control_customize_automatically_rearrange_spaces_based_on_most_recent_use_false
@@ -359,21 +411,19 @@ mission_control_customize () {
 }
 
 mission_control_customize_automatically_rearrange_spaces_based_on_most_recent_use_false () {
-  echo "Mission Control: ✗ Automatically rearrange Spaces based on most recent use"
+  echo "Desktop & Dock: Mission Control: ✗ Automatically rearrange Spaces based on most recent use"
   defaults write com.apple.dock mru-spaces -bool false
   restart_dock=true
 }
 
 mission_control_customize_hot_corners_lower_corners_mission_control () {
-  echo "Mission Control: Hot Corners... > Mission Control (Lower-left, and Lower-right)"
-  # Default was lower-right corner to Quick Note: "wvous-br-corner" = 14
+  echo "Desktop & Dock: Mission Control: Hot Corners... > Mission Control (Lower-left, and Lower-right)"
+  # Factory defaults: All off except Quick Note lower-right: "wvous-br-corner" = 14
   defaults write com.apple.dock wvous-bl-corner -int 2
   defaults write com.apple.dock wvous-bl-modifier -int 0
   defaults write com.apple.dock wvous-br-corner -int 2
   defaults write com.apple.dock wvous-br-modifier -int 0
-  # FIXME: Read settings before changing, only change if needed,
-  #        and then only set restart_docl if necessary.
-  # INERT: You could even take that further and not quit Sys Prefs unless necessary.
+
   restart_dock=true
 }
 
@@ -396,14 +446,14 @@ mission_control_customize_hot_corners_lower_corners_mission_control () {
 # - TRACK: I wonder if the macOS update/reboot on Friday disabled Notifications?
 # - So make this a general Notifications & Focus reminder.
 notifications_ampersand_focus_customize () {
-  print_at_end+=("🔳 Notifications: System Preferences...: Notifications & Focus: Google Chrome: ✓✓ Allow Notifications (you may see two Google Chrome entries")
-  print_at_end+=("🔳 Notifications: System Preferences...: Notifications & Focus: Google Chrome: Style: ✓✓ Alerts [Banners timeout; Alerts persist]")
+  print_at_end+=("🔳 System Settings: Notifications: Google Chrome: ✓✓ Allow Notifications (you may see two Google Chrome entries")
+  print_at_end+=("🔳 System Settings: Notifications: Google Chrome: Style: ✓✓ Alerts [Banners timeout; Alerts persist]")
 
   appendPAE () {
     local app_name="$1"
 
-    print_at_end+=("🔳 Notifications: System Preferences...: Notifications & Focus: ${app_name}: ✓ Allow Notifications")
-    print_at_end+=("🔳 Notifications: System Preferences...: Notifications & Focus: ${app_name}: Style: ✓ Alerts [Banners timeout; Alerts persist]")
+    print_at_end+=("🔳 System Settings: Notifications: ${app_name}: ✓ Allow Notifications")
+    print_at_end+=("🔳 System Settings: Notifications: ${app_name}: Style: ✓ Alerts [Banners timeout; Alerts persist]")
   }
 
   # DUNNO/2022-10-31: I called `terminal-notifier -message foo` and a popup
@@ -496,8 +546,8 @@ launchpad_customize () {
     defaults write com.apple.dock ResetLaunchPad -bool true
 
     # Reset the rows and columns settings:
-    defaults delete com.apple.dock springboard-rows
-    defaults delete com.apple.dock springboard-columns
+    defaults delete com.apple.dock springboard-rows 2> /dev/null || true
+    defaults delete com.apple.dock springboard-columns 2> /dev/null || true
 
     # Customize Launchpad rows and columns:
     defaults write com.apple.dock springboard-rows -int {num_rows}
@@ -564,8 +614,11 @@ keyboard_customize () {
 #   REFER: https://github.com/herrbischoff/awesome-macos-command-line#key-repeat-rate
 # REFER: https://apple.stackexchange.com/a/83923/388088
 keyboard_customize_key_repeat_fastest () {
-  echo "Keyboard: Keyboard > Key Repeat: 1 [9th of 8 tick stops]"
-  # GUI minimum (fastest) is -int 2 (30 ms).
+  echo "Keyboard: Keyboard: Key repeat rate: 1 [Faster than Fast]"
+  # Sonoma widget (8 ticks): Off | Slow | XX | XX | XX | XX | XX | Fast
+  # - Values:                120    120   90   60   30   12    5     2
+  # - GUI fastest is -int 2 (30 ms).                           |
+  # - GUI default (not written to defaults):                   5
   defaults write NSGlobalDomain KeyRepeat -int 1
 }
 
@@ -586,7 +639,10 @@ keyboard_customize_key_repeat_fastest () {
 #     #  defaults write -g InitialKeyRepeat -int 10
 # REFER: https://apple.stackexchange.com/questions/10467/how-to-increase-keyboard-key-repeat-rate-on-os-x#comment380315_83923
 keyboard_customize_delay_until_repeat__disabled () {
-  echo "Keyboard: Keyboard > Delay Until Repeat: 25 [5th of 6 tick stops]"
+  echo "Keyboard: Keyboard: Delay until repeat: 25 [5th of 6 tick stops]"
+  # Sonoma widget (6 ticks): Long | XX | XX | XX | XX | Short
+  # - Values:                 120   94   68   30   25     15
+  # - GUI default (written to defaults):      30
   defaults write NSGlobalDomain InitialKeyRepeat -int 25
 }
 
@@ -604,18 +660,25 @@ keyboard_customize_press_and_hold_enabled_false__disabled () {
 }
 
 keyboard_customize_reclaim_fkeys () {
-  echo "Keyboard: Keyboard > Use F1, F2, etc. keys as standard function keys"
+  # SAVVY/2024-04-15: I think this affects MacBook keyboards, and doesn't
+  # have any effect on external keyboards, e.g., such as one attached to a
+  # Mac mini.
+  if ! is_probably_a_laptop; then
+    echo "The following *Function Keys* setting is likely unnecessary..."
+  fi
+
+  echo "Keyboard: Keyboard Shortcuts...: Function Keys: Use F1, F2, etc. keys as standard function keys"
   defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
 }
 
 keyboard_reminder_discourage_bluetooth_peripherals () {
-  print_at_end+=("🔳 Keyboard: BEWARE: Auther had keyboard connectivity issues over Bluetooth
+  print_at_end+=("🔳 Keyboard: BWARE: Author had keyboard connectivity issues over Bluetooth
    - Circa 2022-2023, author's Logitech Ergo K860 began disconnecting after 1 second idle,
      but works fine on Linux. I fiddled with macOS System Settings but eventually gave up
      and substituted the 2.4 Ghz USB dongle for Bluetooth, problem solved (then got a
      *NovelKeys NK87*, wicked lovely)")
 
-  print_at_end+=("🔳 Keyboard: BEWARE: Auther had mouse connectivity issues over Bluetooth
+  print_at_end+=("🔳 Keyboard: BWARE: Author had mouse connectivity issues over Bluetooth
    - Circa 2022-2023, author's Bluetooth-only Logitech M535 would stop responding briefly,
      e.g., you'd be moving the mouse and all of a sudden it would just stop moving. Swapping
      for 2.4G cordless mouse fixed the issue")
@@ -635,12 +698,16 @@ sound_preferences_customize_sound_effects_play_user_interface_sound_effects_fals
   )
   # 2022-11-02: Why was this disabled? It silences Slack notifications, which
   # I like to hear when I'm not paying attention to my MacBook screen.
-  echo "Sound: Sound Effects: ✓ Play user interface sound effects"
-  defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool true
+  # ISOFF/2024-04-15 02:15: Enabled by default, so leave alone (then if user
+  # manually disables, running this script again won't reactivate).
+  false && (
+    echo "Sound: Sound Effects: ✓ Play user interface sound effects"
+    defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool true
+  )
 }
 
 sound_preferences_customize_sound_effects_select_an_alert_sound_jump () {
-  echo "Sound: Sound Effects: Select an alert sound: Jump [aka Frog]"
+  echo "Sound: Sound Effects: Alert sound: Jump [aka Frog]"
   defaults write NSGlobalDomain com.apple.sound.beep.sound "/System/Library/Sounds/Frog.aiff"
 }
 
@@ -653,7 +720,7 @@ mouse_customize () {
 
 # There's nothing natural about it! Feels backwards to me.
 mouse_customize_scroll_direction_unnatural () {
-  echo "Mouse: ✗ Scroll direction: Natural"
+  echo "Mouse: ✗ Natural scrolling [Content tracks finger movement]"
   defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 }
 
@@ -663,13 +730,18 @@ mouse_customize_scroll_direction_unnatural () {
 # - 3rd of 8 ticks: 0.215
 # - 4th of 8 ticks: 0.3125
 mouse_customize_scrolling_speed () {
-  echo "Mouse: Scrolling speed: 3rd of 8 ticks (4th is default)"
+  # Sonoma widget (8 ticks): Slow | XXXXX | XXXXX | XXXXXX | XXXX | XXXX | XX | Fast
+  # - Values:                   0   0.125   0.215   0.3125    0.5   0.75    1    1.7
+  # - GUI default (written to defaults):            0.3125
+  echo "Mouse: Scrolling Speed: 3rd of 8 ticks (4th is default)"
   defaults write NSGlobalDomain com.apple.scrollwheel.scaling -float 0.215
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 display_customize () {
+  # Each of these reminders is applicable to a laptop.
+  # - Each fcn. is guarded by is_probably_a_laptop
   display_customize_external_monitor_mirror_displays
   display_customize_battery_power_adapter_turn_display_off_after_never
   display_customize_battery_power_adapter_no_sleep_when_display_is_off
@@ -677,35 +749,83 @@ display_customize () {
   display_customize_external_enable_notifications
 }
 
+# SAVVY: Get the Mac model ID, e.g.,
+#   $ sysctl hw.model
+#   hw.model: Mac14,3
+# Or:
+#   $ system_profiler SPHardwareDataType
+#   Hardware:
+#
+#       Hardware Overview:
+#
+#         Model Name: Mac mini
+#         Model Identifier: Mac14,3
+#         ...
+# - BWARE/2024-04-15: Apparently `sysctl hw.model` has been wrong,
+#   at least on some person's 2019 MacBook Pro:
+#     https://apple.stackexchange.com/a/364808
+#   Not sure if still an issue, but can just as easily use
+#   system_profiler instead.
+# - REFER: Long discussion on determining if laptop:
+#     https://apple.stackexchange.com/questions/98080/can-a-macs-model-year-be-determined-with-a-terminal-command
+# - REFER: Database of Machine Identifiers:
+#     https://everymac.com/systems/by_capability/mac-specs-by-machine-model-machine-id.html
+#   From the Ultimate Mac Lookup by Order No., Model No., Serial No., etc.
+#     https://everymac.com/ultimate-mac-lookup/
+#   - SAVVY: Checking for 'Book' in the ID is mostly accurate, but
+#     it's a fragile Kludge, and doesn't always work, e.g., there
+#     are at least 2 laptops without 'Book' in their IDs:
+#       Description                         Model Identifier
+#       MacBook Air "M2" 8 CPU/8 GPU 13     Mac14,2
+#       MacBook Air "M2" 8 CPU/10 GPU 13    Mac14,2
+
+is_probably_a_laptop () {
+  system_profiler SPHardwareDataType \
+    | grep -q -e "^ *Model Identifier: " \
+    | grep -q -e "Book"
+}
+
 display_customize_external_monitor_mirror_displays () {
-  print_at_end+=('🔳 System Preferences... > Display > Display Settings...:
-  - Mirror both monitors:
-    - 1920x1080
-    - "Color LCD" color profile.
-  - Note that the *Display Settings...* button appears when an external
-    monitor connected (in my case, HDMI to USB-C).
-  - Note circa 2022 on M1 Mac I needed to change resolution to 1280 x 720
-    first, then to 1920 x 1080.
-  - Unsure whether HDMI ghost dongle necessary.
-    - On 2020 Intel MacBook, I needed the bi-directional EDID ghost to
-      keep macOS from disconnecting the display when I changed HDMI inputs.
-    - On 2020 M1 MacBook, I do not use the EDID ghost, because when it is
-      used, the external monitor receives no signal.')
+  is_probably_a_laptop || return 0
+
+  print_at_end+=('🔳 System Settings: Displays:
+  - If using a laptop connected to an external monitor,
+    and the laptop lid is always closed, set up mirroring;
+    otherwise skip this step.
+
+    - Mirror both monitors:
+      - 1920x1080
+      - "Color LCD" color profile.
+    - Note that the *Display Settings...* button appears when an external
+      monitor connected (in my case, HDMI to USB-C).
+    - Note circa 2022 on M1 Mac I needed to change resolution to 1280 x 720
+      first, then to 1920 x 1080.
+    - Unsure whether HDMI ghost dongle necessary.
+      - On 2020 Intel MacBook, I needed the bi-directional EDID ghost to
+        keep macOS from disconnecting the display when I changed HDMI inputs.
+      - On 2020 M1 MacBook, I did not use the EDID ghost, because when it is
+        used, the external monitor received no signal.')
 }
 
 display_customize_battery_power_adapter_turn_display_off_after_never () {
-  print_at_end+=("🔳 System Preferences... > Battery > Power Adapter:
+  is_probably_a_laptop || return 0
+
+  print_at_end+=("🔳 System Settings: Battery: Power Adapter:
   - Turn display off after: Change from '10m' to 'Never'.")
 }
 
 display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
-  print_at_end+=("🔳 System Preferences... > Battery > Power Adapter:
+  is_probably_a_laptop || return 0
+
+  print_at_end+=("🔳 System Settings: Battery: Power Adapter:
   - ✓ Prevent your Mac from automatically sleeping when the display is off.
     - This prompts you about affecting battery life.")
 }
 
 display_customize_gripe_cannot_not_sleep_nor_lock_when_latched () {
-  print_at_end+=("🤷 System Preferences: Display Preferences: Do not Lock when Lid Closed
+  is_probably_a_laptop || return 0
+
+  print_at_end+=("🤷 System Settings: Display Preferences: Do not Lock when Lid Closed
   - Throw a coaster on the laptop keyboard to keep lid from closing all the way.")
 }
 
@@ -714,8 +834,11 @@ display_customize_gripe_cannot_not_sleep_nor_lock_when_latched () {
 # so you don't unintentionally broadcast your notifs while screen
 # casting, which is another form of external display).
 display_customize_external_enable_notifications () {
-  print_at_end+=("🔳 System Preferences... > Notifications & Focus > Notifications:
-  - Allow notifications: ✓ When mirroring or sharing the display")
+  # ITSOK: This setting meant for laptop, but doesn't hurt regardless:
+  #  is_probably_a_laptop || return 0
+
+  print_at_end+=("🔳 System Settings: Notifications:
+    ✓ Allow notifications when mirroring or sharing the display")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -728,13 +851,19 @@ accessibility_customize () {
 # When I use the built-in keyboard, especially the modifier keys with my
 # left hand, I often brush up against the trackpad.
 accessibility_customize_pointer_control_ignore_built_in_trackpad_when_mouse_is_present () {
-  echo "Accessibility: Pointer Control > ✓ Ignore built-in trackpad when mouse ... is present"
+  is_probably_a_laptop || return 0
+
+  echo "Accessibility: Motor: Pointer Control: ✓ Ignore built-in trackpad when mouse ... is present"
   defaults write com.apple.AppleMultitouchTrackpad USBMouseStopsTrackpad -bool true
 }
 
+# SAVVY: Sonoma includes a lot of *Enhanced* and *Premium* voices
+# that sounds a lot less robotic.
+# - I like: Fiona (Enhanced), Scottish-English; also Matilda (Enhanced,
+#   not Premium, latter has weird inflections).
 accessibility_customize_spoken_content_download_voices () {
-  print_at_end+=("🔳 System Preferences... > Accessibility > Spoken Content > Drop-down > Customize...:
-  - Select and download voices (e.g., all \"English (*)\" voices except Siri Voices).")
+  print_at_end+=("🔳 System Settings: Accessibility: Spoken Content: System Voice: Drop-down: Manage Voices...:
+  - Select and download voices (e.g., pick a few \"Enhanced\" or \"Premium\" voices you like).")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -769,9 +898,9 @@ screenshots_customize_basename () {
   defaults write com.apple.screencapture name "${screencap_basename}"
 }
 
-# I'm find with the default, PNG, but here's how you'd change it.
+# I'm fine with the default, PNG, but here's how you'd change it.
 screenshots_customize_type__disabled () {
-  defaults delete com.apple.screencapture type
+  defaults delete com.apple.screencapture type 2> /dev/null || true
   false && (
     # Options: png, jpg, gif, pdf, bmp, jpeg, tiff.
     echo "Screencapture: Change image format: JPG"
@@ -796,7 +925,7 @@ finder_customize () {
 
   # https://gist.github.com/naotone/d2cbb30cd8d54d34869f
   finder_customize_disable_file_extension_change_warning
-  finder_customize_use_column_view_always
+  finder_customize_set_preferred_view_style
   finder_customize_avoid_ds_store_file_creation_on_network_volumes
 
   # https://github.com/rusty1s/dotfiles/blob/master/macos/defaults.sh
@@ -805,7 +934,6 @@ finder_customize () {
   finder_customize_greater_sidebar_width
   finder_customize_empty_trash_sans_confirmation
   finder_customize_search_scope
-  finder_customize_set_preferred_view_style
   finder_customize_set_default_path_for_new_windows
 }
 
@@ -813,13 +941,13 @@ finder_customize () {
 # two items deselected -- Hard disks and Connected servers -- but my previous
 # machine did not, so might as well include 'em.
 finder_customize_general_show_these_items_on_desktop_hard_disks_false () {
-  echo "Finder: Preferences...: General > Show these items on the desktop: ✗ Hard disks"
+  echo "Finder: Settings...: General > Show these items on the desktop: ✗ Hard disks"
   defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
   restart_finder=true
 }
 
 finder_customize_general_show_these_items_on_desktop_connected_servers_false () {
-  echo "Finder: Preferences...: General > Show these items on the desktop: ✗ Connected servers"
+  echo "Finder: Settings...: General > Show these items on the desktop: ✗ Connected servers"
   defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
   restart_finder=true
 }
@@ -831,13 +959,13 @@ finder_customize_sidebar_show_these_items_in_the_sidebar () {
   # - Add your user home so you can access directories you've created in your home directory.
   # - Add your host machine so you can access the root of the file system.
   print_at_end+=("\
-🔳 Finder: Preferences... (⌘ ,): Sidebar > Show these items in the sidebar:
+🔳 Finder: Settings... (⌘ ,): Sidebar > Show these items in the sidebar:
    - Favorites: ✓ 🏡 $(id -un)
    - Locations: ✓ 💻 $(hostname)")
 }
 
 finder_customize_advanced_show_all_filename_extensions () {
-  echo "Finder: Preferences...: Advanced > ✓ Show all filename extensions"
+  echo "Finder: Settings...: Advanced > ✓ Show all filename extensions"
   defaults write NSGlobalDomain AppleShowAllExtensions -bool true
   restart_finder=true
 }
@@ -900,10 +1028,28 @@ finder_customize_disable_file_extension_change_warning () {
   restart_finder=true
 }
 
-finder_customize_use_column_view_always () {
-  echo "Finder: (Hidden?) Also uses column view"
-  defaults write com.apple.finder FXPreferredViewStyle Clmv
-  restart_finder=true
+# DUNNO: Not sure where I found this list, nor if this ever worked for me,
+# and doesn't seem to do anything.
+# - Behavior seems to be if set view (e.g., View > List (Cmd-2)), then
+#   directories you have not ever opened will use that view; otherwise
+#   for directories you've previously viewed, they each use the last
+#   used view used on them.
+#
+# Icon View   : `icnv`
+# List View   : `Nlsv`
+# Column View : `clmv`
+# Cover Flow  : `Flwv`
+finder_customize_set_preferred_view_style () {
+  if false; then
+    echo "Finder: Set preferred view style — Column View"
+    defaults write com.apple.finder FXPreferredViewStyle clmv
+    restart_finder=true
+  else
+    # 
+    print_at_end+=("\
+🔳 Finder: Choose List view early so it applies to directories you haven't viewed yet:
+     Finder > View > List (Cmd-2)")
+  fi
 }
 
 finder_customize_avoid_ds_store_file_creation_on_network_volumes () {
@@ -923,47 +1069,42 @@ finder_customize_avoid_ds_store_file_creation_on_network_volumes () {
 # I have not tried, not because I'm lazy, but I don't have access
 # to a MacBook currently.
 
+# Shows '<> items, <> GB available' in footer below Path Bar, not
+# very interesting.
 finder_customize_show_status_bar () {
-  echo "Finder: Show status bar"
   if false; then
+    echo "Finder: View > Show Status Bar (Cmd-/)"
     defaults write com.apple.finder ShowStatusBar -bool true
-  else
-    print_at_end+=("\
-🔳 Finder: Demo: Show status bar:
-     defaults write com.apple.finder ShowStatusBar -bool true")
   fi
 }
 
+# Tags are last sidebar group (Favorites, iCloud, Locations, Tags).
+# - Tags are colorful circles with colors namesa:
+#     Red, Orange, Yellow, Green, Blue, Purple, Gray, All Tags...
+#   - All Tags: also incl. Home, Important, Work
+# - I've never used tags, and rarely use finder (or any file system
+#   GUI). And I enjoy declutter. So hide the Tags group.
 finder_customize_hide_tags_in_sidebar () {
+  # CALSO: Finder: Settings...: Tags: Show these tags inthe sidebar:
+  # - And then click '-' for each tag.
   echo "Finder: Hide tags in sidebar"
-  if false; then
-    defaults write com.apple.finder ShowRecentTags -bool false
-  else
-    print_at_end+=("\
-🔳 Finder: Demo: Hide tags in sidebar:
-     defaults write com.apple.finder ShowRecentTags -bool false")
-  fi
+  defaults write com.apple.finder ShowRecentTags -bool false
 }
 
+# SAVVY: Should you need to increase the sidebar width:
 finder_customize_greater_sidebar_width () {
-  echo "Finder: Increase sidebar width"
   if false; then
+    echo "Finder: Increase sidebar width"
+    # - macOS Sonoma 14.4.1 default SidebarWidth -int 155
     defaults write com.apple.finder SidebarWidth -int 175
-  else
-    print_at_end+=("\
-🔳 Finder: Demo: Increase sidebar width:
-     defaults write com.apple.finder SidebarWidth -int 175")
   fi
 }
 
+# WHTVR: Author uses sh-rm_safe ~/.trash, not macOS Trash.
 finder_customize_empty_trash_sans_confirmation () {
-  echo "Finder: Skip confirmation prompt when emptying trash"
   if false; then
+    echo "Finder: Skip confirmation prompt when emptying trash"
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
-  else
-    print_at_end+=("\
-🔳 Finder: Demo: Skip confirmation prompt when emptying trash:
-     defaults write com.apple.finder WarnOnEmptyTrash -bool false")
   fi
 }
 
@@ -971,34 +1112,31 @@ finder_customize_empty_trash_sans_confirmation () {
 # This Mac       : `SCev`
 # Current Folder : `SCcf`
 # Previous Scope : `SCsp`
+# WHTVR: Author is sure they don't care. Uses `locate`, `fd`, and
+# other tools to search.
 finder_customize_search_scope () {
-  echo "Finder: Set search scope — Current Folder — ???"
   if false; then
+    echo "Finder: Set search scope — Current Folder"
+    # - macOS Sonoma 14.4.1 default FXDefaultSearchScope <delete>
     defaults write com.apple.finder FXDefaultSearchScope SCcf
-  else
-    print_at_end+=("\
-🔳 Finder: Demo: Set search scope: *See source for options*:
-     defaults write com.apple.finder FXDefaultSearchScope [SCev|SCcf|SCsp]")
   fi
 }
 
-# Icon View   : `icnv`
-# List View   : `Nlsv`
-# Column View : `clmv`
-# Cover Flow  : `Flwv`
-finder_customize_set_preferred_view_style () {
-  echo "Finder: Set preferred view style — ???"
-  if false; then
-    defaults write com.apple.finder FXPreferredViewStyle clmv
-    command rm -f -- "${HOME}/.DS_Store"
-  else
-    print_at_end+=("\
-🔳 Finder: Demo: Set preferred view style: *See source for options*:
-     defaults write com.apple.finder FXPreferredViewStyle [icnv|Nlsv|clmv|Flwv]
-     command rm -f -- ~/.DS_Store")
-  fi
-}
-
+# Finder Settings choices (Sonoma):
+#   💻 @host
+#   💽 Macintosh HD
+#   ───────────────
+#   📁 ~
+#   📁 Desktop
+#   📁 Documents
+#   🌥 iCloud Drive
+#   ───────────────
+#   ✓ 🕘 Recents
+#   ───────────────
+#   Other...
+#
+# - Author is fond of user home
+#
 # Computer     : `PfCm`
 # Volume       : `PfVo`
 # $HOME        : `PfHm`
@@ -1007,7 +1145,7 @@ finder_customize_set_preferred_view_style () {
 # All My Files : `PfAF`
 # Other…       : `PfLo`
 finder_customize_set_default_path_for_new_windows () {
-  echo "Finder: Set default path for new windows — ???"
+  echo "Finder Settings: General: New Finder windows show: ${LOGNAME}"
   if false; then
     defaults write com.apple.finder NewWindowTarget PfHm
   else
@@ -1109,9 +1247,9 @@ google_chrome_customize_make_default_browser () {
 google_chrome_customize_suggest_setup () {
   print_at_end+=("\
 🔳 Google Chrome: Initial setup:
-  - Deselect all recommended bookmarks (e.g., Gmail, YouTube, and something)
-    - Press *Skip*
-  - Choose White background (FIXME/2023-01-30: Still valid? If you go to Settings later, there is no backgroud setting, and the browser appears in Dark Mode, probably inherited from macOS)
+  - Remove New Tab shortcut(s) (e.g., Web Store)
+  - Click *Customize Chrome* (lower-right)
+    - Decide *My shortcuts* vs. *Most visited sites*
   - Skip setting Chrome as default browser (We use *Finicky*)
   - Decline Chrome Sync
 ")
@@ -1122,12 +1260,12 @@ google_chrome_customize_continue_where_you_left_off () {
 }
 
 google_chrome_customize_devtools_show_timestamps () {
-  print_at_end+=("🔳 Google Chrome: DevTools: [Gear icon]: Console > ✓ Show timestamps")
+  print_at_end+=("🔳 Google Chrome: DevTools: [Gear icon]: Preferences > Console > ✓ Timestamps")
 }
 
 # REFER: https://css-tricks.com/sliding-nightmare-understanding-range-input/
 google_chrome_customize_devtools_show_user_agent_shadow_dom () {
-  print_at_end+=("🔳 Google Chrome: DevTools: [Gear icon]: Elements > ✓ Show user agent shadow DOM")
+  print_at_end+=("🔳 Google Chrome: DevTools: [Gear icon]: Preferences > Elements > ✓ Show user agent shadow DOM")
 }
 
 # ***
@@ -1212,17 +1350,21 @@ alttab_customize () {
   alttab_customize_controls_also_select_windows_using_mouse_hover_off
   alttab_customize_appearance_theme_windows_10
   alttab_customize_blocklist_hide_in_alttab
+
+  killall "AltTab"
 }
 
 # ***
 
 alttab_customize_controls_minimized_windows__hide () {
-  echo "AltTab: Minimized Windows: Hide"
+  echo "AltTab: Preferences... > Controls > Shortcut 1
+    > Minimized windows: Hide"
   defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 1
 
   # Alternatively:
   false && (
-    echo "AltTab: Minimized Windows: Show at end"
+    echo "AltTab: Preferences... > Controls > Shortcut 1
+      > Minimized windows: Show at the end"
     defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 2
   )
 }
@@ -1232,7 +1374,8 @@ alttab_customize_controls_minimized_windows__hide () {
 # a thing for me. But I can hide them using the blocklist. Though
 # we'll still set this option to show our intent, to hide hiddens.
 alttab_customize_controls_hidden_windows__hide () {
-  echo "AltTab: Hidden Windows: Hide"
+  echo "AltTab: Preferences... > Controls > Shortcut 1
+    > Hidden windows: Hide"
   defaults write com.lwouis.alt-tab-macos showHiddenWindows -int 1
 }
 
@@ -1240,18 +1383,21 @@ alttab_customize_controls_hidden_windows__hide () {
 # in the list, but that keeps closing the app!
 # Default: *Removed*.
 alttab_customize_controls_while_open_quit_app_noop () {
-  echo "AltTab: While open, press: ✗ Quit app"
+  echo "AltTab: Preferences... > Controls > Shortcut 1
+    > While open, press: ✗ — Quit app (default: 'Q')"
   defaults write com.lwouis.alt-tab-macos quitAppShortcut ''
 }
 
 alttab_customize_controls_while_open_select_previous_window_q () {
-  echo "AltTab: While open, press: q Select previous window (default: ⇧ Shift)"
+  echo "AltTab: Preferences... > Controls > Shortcut 1
+    > While open, press: 'q' — Select previous window (default: ⇧ Shift)"
   defaults write com.lwouis.alt-tab-macos previousWindowShortcut "Q"
 }
 
 # Might as well nix the Close window action, too.
 alttab_customize_controls_while_open_close_window_noop () {
-  echo "AltTab: While open, press: ✗ Close window"
+  echo "AltTab: Preferences... > Controls > Shortcut 1
+    > While open, press: ✗ — Close window (default: 'W')"
   defaults write com.lwouis.alt-tab-macos closeWindowShortcut ''
 }
 
@@ -1265,17 +1411,24 @@ alttab_customize_controls_while_open_close_window_noop () {
 #     to remember to use Mission Control if I'm looking for an app
 #     window to click.
 alttab_customize_controls_also_select_windows_using_mouse_hover_off () {
-  echo "AltTab: Also select windows using: ✗ Mouse hover"
+  echo "AltTab: Preferences... > Controls > Shortcut 1
+    > Also select windows using: ✗ Mouse hover"
   defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -string "false"
 }
 
-# AltTab defaults to "macOS" theme but also ahas a "Windows 10" theme.
-# - I prefer the Windows 10 theme before AltTab draws a white border
+# AltTab defaults to "macOS" theme but also has a "Windows 10" theme.
+# - I prefer the Windows 10 theme because AltTab draws a white border
 #   around the currently selected window. The macOS theme uses a darkish
 #   background, but the whole AltTab popup is somewhat dark, so it's
 #   difficult to see which window is selected with the macOS theme.
+# - ALSOY/2024-04-24: Also yes: I thought the "macOS" theme appearance on
+#   Sonoma was initially pretty good, and the Windows 10 theme a little
+#   too bright, too contrasty. But within days I found it a struggle to
+#   find what I'm looking for with the default "macOS" theme. So another
+#   vote to keep the "Windows 10" theme (and the noticeable white border).
 alttab_customize_appearance_theme_windows_10 () {
-  echo "AltTab: Select “Windows 10” theme (easier to see selected window)."
+  echo "AltTab: Preferences... > Appearance
+    > Theme: “Windows 10” (easier to see selected window; default: macOS)"
   defaults write com.lwouis.alt-tab-macos theme -string "1";
 }
 
@@ -1301,11 +1454,13 @@ alttab_customize_appearance_theme_windows_10 () {
 #     app, as you'll see the Webex Meetings menu bar). So you'll want to fore-
 #     ground Webex Meetings using another method: Apple's Cmd-tab or Mission
 #     Control, or our Karabiner-Elementes Shift-Ctrl-Cmd-W mapping.
+#
+# ISOFF/2024-04-16: I don't see Activity Monitor in Alt-tab list unless it's open.
+#   - /System/Applications/Utilities/Activity Monitor.app
 alttab_customize_blocklist_hide_in_alttab () {
   print_at_end+=("$(cat << 'EOF'
 🔳 AltTab: Preferences...: Blacklists: +: [Select app] / Hide in AltTab: Always
    - Hide apps that appear in AltTab even when not open, e.g.,:
-     - /System/Applications/Utilities/Activity Monitor.app
      - /Applications/Pulse Secure.app
      - /Applications/Webex.app
 EOF
@@ -1319,8 +1474,14 @@ EOF
 # Someone should open a pull request to fix this... aka "someone not me".
 # - Aka easy-move-plus-resize
 easy_move_plus_resize_customize () {
+  easy_move_plus_resize_customize_drag_modifier
+
+  killall "Easy Move+Resize"
+}
+
+easy_move_plus_resize_customize_drag_modifier () {
   echo "Easy Move+Resize: Click window and drag modifiers: CTRL,CMD → ALT"
-  defaults write userPrefs ModifierFlags -string "ALT";
+  defaults write userPrefs ModifierFlags -string "ALT"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1331,12 +1492,16 @@ karabiner_elements_customize () {
 }
 
 karabiner_elements_customize_devices_devices_modify_events () {
-  print_at_end+=("🔳 Karabiner Elements: Preferences...: Devices: Verify *Modify events* enabled on all keyboards")
-  print_at_end+=("🔳 Karabiner Elements: Preferences...: Devices: Verify *Modify events* enabled on all mouse")
+  print_at_end+=("🔳 Karabiner Elements: Settings...: Devices:
+   - Verify *Modify events* enabled on all keyboards")
+  print_at_end+=("🔳 Karabiner Elements: Settings...: Devices:
+   - Verify *Modify events* enabled on all mouse")
 }
 
 karabiner_elements_customize_complex_modifications_add_rule_all () {
-  print_at_end+=("🔳 Karabiner Elements: Preferences...: Complext Modications: (Click (+) Add rule and *Enable All* for every set of rules)")
+  print_at_end+=("🔳 Karabiner Elements: Settings...: Complex Modications:
+   - Click (+) “Add predefined rule” and *Enable All* for each set of rules you want)")
+  print_at_end+=("🔳 Karabiner Elements: Restart some apps for changes to take effect, e.g., MacVim")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1386,25 +1551,32 @@ rectangle_customize () {
   # used, Rectangle performs the shortcut action, rather than recording
   # the keys-stroke. So, at least via the dialog, you need to clear a
   # shortcut if in use before recording it for another action.
+
   echo "Rectangle: Miscellany: Maximize: ^⌥ ⏎  → ^⇧⌘ * aka Ctrl-Shift-Cmd-*"
   defaults write com.knollsoft.Rectangle maximize "{ keyCode = 67; modifierFlags = 917504; }"
   echo "Rectangle: Miscellany: Almost Maximize: (Unset) → ^⇧⌘ ? aka Ctrl-Shift-Cmd-?"
   defaults write com.knollsoft.Rectangle almostMaximize "{ keyCode = 44; modifierFlags = 917504; }"
-  echo "Rectangle: Miscellany: Maximize Height: ^⌥ ⇧H → ^⇧⌘ H aka Ctrl-Shift-Cmd-H"
+  echo "Rectangle: Miscellany: Maximize Height: ^⌥ ⇧↑ → ^⇧⌘ H aka Ctrl-Shift-Cmd-H"
   defaults write com.knollsoft.Rectangle maximizeHeight "{ keyCode = 4; modifierFlags = 917504; }"
+
   echo "Rectangle: Miscellany: Make Smaller: ^⌥ - → ^⇧⌘ - aka Ctrl-Shift-Cmd--"
   defaults write com.knollsoft.Rectangle smaller "{ keyCode = 78; modifierFlags = 917504; }"
   echo "Rectangle: Miscellany: Make Larger: ^⌥ = → ^⇧⌘ + aka Ctrl-Shift-Cmd-+"
   defaults write com.knollsoft.Rectangle larger "{ keyCode = 69; modifierFlags = 917504; }"
+
   echo "Rectangle: Miscellany: Center: ^⌥ C → ^⇧⌘ 5 aka Ctrl-Shift-Cmd-Numpad5"
   defaults write com.knollsoft.Rectangle center "{ keyCode = 87; modifierFlags = 917504; }"
   echo "Rectangle: Miscellany: Restore: ^⌥ ⌫  → ^⇧⌘ 0 aka Ctrl-Shift-Cmd-Numpad0"
   defaults write com.knollsoft.Rectangle restore "{ keyCode = 82; modifierFlags = 917504; }"
-  # Neither of these motions appears to do anything on my laptop anyway.
-  echo "Rectangle: Miscellany: Next Display: ^⌥ ⌘ → → (Unset)"
-  defaults write com.knollsoft.Rectangle nextDisplay "{ }"
-  echo "Rectangle: Miscellany: Previous Display: ^⌥ ⌘ ← → (Unset)"
-  defaults write com.knollsoft.Rectangle previousDisplay "{ }"
+
+  # The Display motions are no-ops unless you have a second display attached.
+  # - One option to disable them (to release the keybindings):
+  if false; then
+    echo "Rectangle: Miscellany: Next Display: ^⌥ ⌘ → → (Unset)"
+    defaults write com.knollsoft.Rectangle nextDisplay "{ }"
+    echo "Rectangle: Miscellany: Previous Display: ^⌥ ⌘ ← → (Unset)"
+    defaults write com.knollsoft.Rectangle previousDisplay "{ }"
+  fi
 
   # ***
 
@@ -1579,13 +1751,23 @@ iterm2_customize_general_selection_copy_to_pasteboard_on_selection_off () {
 
 # ***
 
+# SAVVY: iTerm2 > Settings... brings up "Preferences" dialog.
+# - I bet macOS automatically changes all the apps' "Preferences..."
+#   menu labels to "Settings...", because I've seen this disconnect
+#   with other apps, too.
+
 iterm2_customize_profiles_color_scheme_pastel () {
   # I see too many settings changed, so tell user to do this manually.
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Color Presets...: ✓ Pastel (Dark Background)")
+  # - Sonoma 14.4.1 default: Color Presets...: Dark Background
+  # ISOFF/2024-04-16: Did iTerm2 make a better preset? Because default
+  #   colors in Sonoma 14.4.1 look... great?
+  false && (
+    print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Color Presets...: ✓ Pastel (Dark Background)")
+  )
 }
 
 iterm2_customize_profiles_color_foreground_color () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Basic Colors: Foreground: c7c7c7 → e3e3e3")
+  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Basic Colors: Foreground: c7c7c7 → e3e3e3 (a brighter white)")
   # This appears to be a setting under "New Bookmarks", and I'm not sure if I'd
   # have to set the whole value or not (and the whole values is one hundred or
   # more lines, lots of entries. E.g.,
@@ -1648,8 +1830,8 @@ iterm2_customize_profiles_keys_left_option_key_escape_plus () {
 # ***
 
 iterm2_customize_keys_key_bindings_register_inputrc_bindings () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: Key Bindings: Edit: Shortcut: Alt-Left / Action: Send Escape Sequence / Esc+: [1;3D")
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: Key Bindings: Edit: Shortcut: Alt-Right / Action: Send Escape Sequence / Esc+: [1;3C")
+  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: +: Action: Send Escape Sequence / Keyboard Shortcut: Alt-Left / Esc+: [1;3D")
+  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: +: Action: Send Escape Sequence / Keyboard Shortcut: Alt-Right / Esc+: [1;3C")
 }
 
 # ***
@@ -1693,14 +1875,18 @@ iterm2_customize_keys_key_bindings_add__ctrl_shift_up__scroll_one_line_up () {
    - Note this conflicts with a profile key binding, and the profile
      shortcut overrides the global keyboard shortcut.
    - Delete the profile key mapping first from the Default profile:
-     - 🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: - (Del): Keyboard Shortcut: Ctrl-Shift-Up / Action: Send Escape Sequence / Esc+: [1;6A
-     - You'll still have to \"OK\" a Warning popup about conflicts with the other profiles' mappings, but nothing to worry about if you mostly use the Default profile.")
+     - 🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: - (Del): “Send ^[[1;6A”
+          ^⇧↑ (Ctrl-Shift-Up) / Action: Send Escape Sequence / Esc+: [1;6A")
+  # ISOFF/2024-04-16: Didn't happen in Sonoma 14.4.1:
+  #  - You'll still have to \"OK\" a Warning popup about conflicts with the other profiles' mappings,
+  #    but nothing to worry about if you mostly use the Default profile.
 }
 
 iterm2_customize_keys_key_bindings_add__ctrl_shift_down__scroll_one_line_down () {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Line Down / Shortcut: Ctrl-Shift-Down
    - Ditto delete the profile key mapping first from the Default profile:
-     - 🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: - (Del): Keyboard Shortcut: Ctrl-Shift-Down / Action: Send Escape Sequence / Esc+: [1;6B")
+     - 🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: - (Del): “Send ^[[1;6B”
+          ^⇧↓ (Ctrl-Shift-Down) / Action: Send Escape Sequence / Esc+: [1;6B")
 }
 
 iterm2_customize_keys_key_bindings_add__ctrl_shift_pageup__scroll_one_page_up () {
@@ -1741,6 +1927,15 @@ iterm2_customize_advanced_pasteboard_trim_whitespace_when_copying_to_pasteboard_
 # REFER:
 #   https://apple.stackexchange.com/questions/226096/increase-amount-of-text-copied-in-iterm2
 #   https://iterm2.com/documentation-hidden-settings.html
+#   - From the doc:
+#
+#     Pastes (both regular and slow) are done by splitting the text to paste into chunks.
+#     There is a delay between the transmission of each chunk.
+#     To change the speed that "paste" pastes at:
+#
+#       defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 1024
+#       defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.01
+#
 iterm2_customize_increase_paste_buffer_size () {
   # None of these exist by default:
   #  $ defaults read com.googlecode.iterm2 QuickPasteBytesPerCall
@@ -1748,24 +1943,32 @@ iterm2_customize_increase_paste_buffer_size () {
   #  $ defaults read com.googlecode.iterm2 SlowPasteBytesPerCall
   #  $ defaults read com.googlecode.iterm2 SlowPasteDelayBetweenCalls
 
-  # FIXME: Given this doesn't exist at first, what's the default BytesPerCall?
-  echo "iTerm2: Increase paste buffer size"
-  defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 32
+  # ISOFF/2024-04-16: Wait until you sense an issue with default
+  # paste "speed", then fiddle with these values (and maybe see
+  # if you can determine roughly what the defaults are (or search
+  # the iTerm2 source for the answer)).
+  if true; then
+    print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll to Top / Shortcut: Ctrl-Shift-Home")
+  else
+    # FIXME: Given this doesn't exist at first, what's the default BytesPerCall?
+    echo "iTerm2: Increase paste buffer size"
+    defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 32
 
-  # FIXME: Given this doesn't exist at first, what's the default DelayBetweenCalls?
-  echo "iTerm2: Increase paste buffer size"
-  defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.05
+    # FIXME: Given this doesn't exist at first, what's the default DelayBetweenCalls?
+    echo "iTerm2: Increase paste buffer size"
+    defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.05
 
-  # FIXME: killall iTerm(2)... well, tell user, don't want to zap their terms
+    # FIXME: killall iTerm(2)... well, tell user, don't want to zap their terms
+  fi
 }
 
 # ***
 
 # Give iTerm2 permissions to access the trash, e.g., `ls ~/.Trash`.
 iterm2_customize_permission_full_disk_access () {
-  print_at_end+=("🔳 iTerm2: System Preferences... > Security & Privacy: Privacy > Full Disk Access: ✓ iTerm2.app")
+  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ iTerm2.app")
   # Might as well, long as we're here...
-  print_at_end+=("🔳 iTerm2: System Preferences... > Security & Privacy: Privacy > Full Disk Access: ✓ Terminal.app")
+  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ Terminal.app")
 }
 
 # ***
@@ -1775,36 +1978,49 @@ iterm2_customize_permission_full_disk_access () {
 # Homefries with loading dots, which might be nice because Homebrew is so slow to load Homefries!
 #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash -c 'HOMEFRIES_LOADINGDOTS=true /bin/bash")
 iterm2_customize_profiles_general_command () {
-  # WRONG: This mostly works, but you'll see $BASH_VERSION="3.2.57(1)-release" (or whatever)
-  #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash")
-  print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: Command: Command: Enter the following:
-   /opt/homebrew/bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash")
-}
-
-iterm2_customize_profiles_add_profile_norc_5x () {
-  print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x / Command:
-   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash --noprofile --norc
-   HINT: If you make changes to Default profile, default the other profiles and recreate them from the default")
-}
-
-iterm2_customize_profiles_add_profile_norc_5x_lite () {
-  print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x-lite / Command:
-   /opt/homebrew/bin/bash --noprofile --norc")
+  # ISOFF/2024-04-16: Previously, iTerm2 profile would load Homebrew.
+  # But nowadays, the Bashrc script does it (specifically, DepoXy's
+  # brewskies.sh, which is wired into Homefries (2 separate projects)).
+  # - Also, DepoXy calls `chsh` to set `/bin/bash` as default shell
+  #   (still 3.2.57(1)), as running Homebrew bash as the login shell
+  #   can be or at least at one time was annoyingly sluggish at times.
+  false && (
+    # WRONG: This mostly works, but you'll see $BASH_VERSION="3.2.57(1)-release" (or whatever)
+    #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash")
+    # CPYST: /opt/homebrew/bin/bash -c 'eval "$(/opt/homebrew/bin/brew shellenv)" && /opt/homebrew/bin/bash
+    print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: Default Profile:
+   - Command: /opt/homebrew/bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash")
+ )
 }
 
 iterm2_customize_profiles_add_profile_bash_5x () {
   print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: Bash 5.x / Command:
-   /opt/homebrew/bin/bash")
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: Bash 5.x
+   - Command: /opt/homebrew/bin/bash")
 }
 
 iterm2_customize_profiles_add_profile_norc_3x () {
   print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-3.x / Command:
-   /bin/bash --noprofile --norc")
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-3.x
+   - Command: /bin/bash --noprofile --norc")
+}
+
+iterm2_customize_profiles_add_profile_norc_5x () {
+  # CPYST: eval "$(/opt/homebrew/bin/brew shellenv)"
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x
+   - Command: /opt/homebrew/bin/bash --noprofile --norc
+   - Send text at start: eval \"\$(/opt/homebrew/bin/brew shellenv)\"'
+
+   HINT: If you make changes to the Default profile, you should delete
+         the other profiles and recreate them fresh from the default")
+}
+
+iterm2_customize_profiles_add_profile_norc_5x_lite () {
+  print_at_end+=("\
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x--no-HB
+   - Command: /opt/homebrew/bin/bash --noprofile --norc")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1815,7 +2031,7 @@ macvim_customize () {
 
 # TRYME: How does this setting affect windows from another --servername?
 macvim_customize_general_after_last_window_closes_quit_macvim () {
-  echo "MacVim: Preferences...: General > After last window closes > Keep MacVim Running → ✓ Quit MacVim"
+  echo "MacVim: Settings...: General > After last window closes > Keep MacVim Running → ✓ Quit MacVim"
   defaults write org.vim.MacVim MMLastWindowClosedBehavior -int 2
 }
 
@@ -1865,8 +2081,6 @@ dbeaver_customize () {
 dbeaver_customize_text_editors_word_wrap () {
   print_at_end+=("🔳 DBeaver: Window > Preferences > Editors > Text Editors: ✓ *Enable word wrap when opening an editor* > Apply and Close")
 }
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # Keyboard Shortcuts config is a hot mess! Or at least somewhat opaque,
 # in that the entries are keyed and valued by integers, so it's not
@@ -2002,6 +2216,8 @@ shortcuts_mission_control_remap_mission_control () {
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>126</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 34 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>126</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 shortcuts_mission_control_remap_application_windows () {
@@ -2010,6 +2226,8 @@ shortcuts_mission_control_remap_application_windows () {
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>125</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 35 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>125</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 shortcuts_mission_control_remap_show_desktop () {
@@ -2037,6 +2255,8 @@ shortcuts_mission_control_remap_show_desktop () {
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 37 \
       "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>103</integer><integer>8519680</integer></array><key>type</key><string>standard</string></dict></dict>"
   )
+
+  rewire_shortcuts=true
 }
 
 shortcuts_mission_control_remap_move_left_a_space () {
@@ -2045,6 +2265,8 @@ shortcuts_mission_control_remap_move_left_a_space () {
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 80 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 shortcuts_mission_control_remap_move_right_a_space () {
@@ -2053,6 +2275,8 @@ shortcuts_mission_control_remap_move_right_a_space () {
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 82 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 # I rarely use multiple desktops.
@@ -2060,12 +2284,16 @@ shortcuts_mission_control_remap_switch_to_desktop () {
   echo "Keyboard Shortcuts: Mission Control: Switch to Desktop 1: ^1 → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 118 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>18</integer><integer>262144</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 shortcuts_mission_control_remap_quick_note () {
   echo "Keyboard Shortcuts: Mission Control: Quick Note: 🌐 q → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 190 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>113</integer><integer>12</integer><integer>8388608</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 # ***
@@ -2090,6 +2318,8 @@ shortcuts_keyboard_remap_move_focus_to_next_window () {
   echo "Keyboard Shortcuts: Keyboard: Move focus to next window: ⌘ \` → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
 }
 
 # ***
@@ -2224,13 +2454,13 @@ shortcuts_services_remap_pbs_unmap_all () {
   # When I run this script, it seems like all these options are enabled again...
   # - So we'll just tell user to do this manually.
   print_at_end+=("\
-🔳 System Preferences: Keyboard: Shortcuts > Service: Disable all active items that are mapped:
+🔳 System Settings: Keyboard: Keyboard Shortcuts...: Services: Disable all active items that are mapped:
    - Searching: Search With Google: ⇧⌘ L → (✗ Off) [Does nothing for me anyway]
-   - Text: Convert Text from Traditional to Simplified Chinese: ^⌥ ⇧⌘ C → (✗ Off)
-   - Text: Convert Text from Simplified to Traditional Chinese: ^⌥ ⇧⌘ C → (✗ Off)
+   - Text: Convert Text to Simplified Chinese: ^⌥ ⇧⌘ C → (✗ Off)
+   - Text: Convert Text to Traditional Chinese: ^⇧⌘ C → (✗ Off)
    - Text: Make New Sticky Note: ⇧⌘ Y → (✗ Off)
    - Text: Open man Page in terminal: ⇧⌘ M → (✗ Off)
-   - Text: Search map Page...ndex in Terminal: ⇧⌘ A → ✗ Off)")
+   - Text: Search map Page Index in Terminal: ⇧⌘ A → ✗ Off)")
 
   # The following mapping apparently re-enables all those settings.
   # Or at least they show up re-enabled in
@@ -2411,7 +2641,10 @@ app_shortcuts_update_universalaccess () {
   }'
 }
 
-# ***
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+# ================================================================= #
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+# +++ Application NSUserKeyEquivalents settings
 
 app_shortcuts_customize_finder () {
   app_shortcuts_customize_finder_new_finder_window
@@ -3375,7 +3608,7 @@ app_shortcuts_customize_dbeaver_quit_dbeaver () {
 }
 
 app_shortcuts_customize_dbeaver_all () {
-  defaults write com.microsoft.teams NSUserKeyEquivalents '{
+  defaults write org.jkiss.dbeaver.core.product NSUserKeyEquivalents '{
     "Quit DBeaver" = "^q";
   }'
 }
@@ -3389,21 +3622,30 @@ app_shortcuts_customize_macdown () {
 }
 
 app_shortcuts_customize_macdown_quit_macdown () {
-  echo "${CRUMB_APP_SHORTCUTS}: MacDown.app: Quit MacDown: Cmd-Q → Ctrl-q"
+  echo "${CRUMB_APP_SHORTCUTS}: MacDown.app: “Quit MacDown”: Cmd-Q → Ctrl-q"
 }
 
 app_shortcuts_customize_macdown_all () {
-  defaults write com.microsoft.teams NSUserKeyEquivalents '{
+  defaults write com.uranusjr.macdown NSUserKeyEquivalents '{
     "Quit MacDown" = "^q";
   }'
 }
 
+# +++ END: Application NSUserKeyEquivalents settings
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+# ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 locatedb_configure () {
   print_at_end+=("\
 🔳 CLI: Create \`locate\` database:
-   \`sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist\`")
+   \`sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist\`
+
+   - AWAIT: This command takes a moment
+
+     - TRACK: \`ps aux | grep locate.updatedb\`
+
+     - NTHEN: Test: \`locate something\`")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -3434,10 +3676,13 @@ EOF
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# The author doesn't use GarageBand or iMovie for development, and I
-# don't like seeing these popup in Spotlight, or seeing them elsewhere,
-# so I like them gone. I also don't run macOS personally (Linux here)
-# so don't see myself wanting to try either app (never opened either).
+# ISOFF/2024-04-16: Whatever, I finally bought my own Mac, so keeping
+# these (DXY_REMOVE_BLOATWARE=false now), who doesn't like to compose
+# their own music, or to edit their own blarghbusters.
+#   The author doesn't use GarageBand or iMovie for development, and I
+#   don't like seeing these popup in Spotlight, or seeing them elsewhere,
+#   so I like them gone. I also don't run macOS personally (Linux here)
+#   so don't see myself wanting to try either app (never opened either).
 macos_remove_bloatware () {
   if ! ${DXY_REMOVE_BLOATWARE:-false}; then
     echo "✗ Skipping bloatware removal"
@@ -3501,13 +3746,15 @@ macos_uncustomizable_gripes () {
 #   - Forehead: https://goodsnooze.gumroad.com/l/nASbe
 #   - TopNotch: https://topnotch.app/
 gripe_macos_cannot_customize_disable_notch_aka_camera_housing () {
+  is_probably_a_laptop || return 0
+
   print_at_end+=("🤷 MacBook Camera Housing aka Notch Preferences: AFAIK you’re stuck with it")
 }
 
 # GRIPE/2022-11-04: macOS Command-Tab not customizable, and I haven't
 # found any apps to tweak it. Fortunately, you shouldn't need to use Cmd-Tab!
 gripe_macos_cannot_customize_command_tab_disable_q_quit () {
-  print_at_end+=("🤷 macOS Command-Tab: ? Disable Quit app on 'q' (which is backward nav in Alt-Tab")
+  print_at_end+=("🤷 macOS Command-Tab: Cannot disable Quit app on <Cmd-tab q> (whereas <Alt-tab q> selects backward")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
