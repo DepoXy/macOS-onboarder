@@ -13,6 +13,8 @@
 #        actually used with `defaults` calls, and ensure those exposed
 #        (commented) below.
 
+# Note that defaults-domains-dump always captures NSGlobalDomain, aka "Apple Global Domain".
+
 .GlobalPreferences_m
 Cisco-Systems.Spark
 ContextStoreAgent
