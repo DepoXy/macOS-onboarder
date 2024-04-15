@@ -115,6 +115,45 @@ fake_it () {
   sudo_bin_rm_rf () { echo "  command rm -rf -- $@"; }
 }
 
+# INPUT: ENV: Expects:
+#   local cnt_defaults=0
+#   local cnt_defaults_write=0
+#   local cnt_defaults_delete=0
+#   local cnt_defaults_other=0
+#   local cnt_killalls=0
+#   local cnt_ascripts=0
+#   local cnt_binrmrfs=0
+count_it () {
+  defaults () {
+    let 'cnt_defaults += 1'
+
+    if [ "$1" = "write" ]; then
+      let 'cnt_defaults_write += 1'
+    elif [ "$1" = "delete" ]; then
+      let 'cnt_defaults_delete += 1'
+    else
+      let 'cnt_defaults_other += 1'
+    fi
+
+    echo "  defaults $@";
+  }
+  killall () {
+    let 'cnt_killalls += 1'
+
+    echo "  killall $@";
+  }
+  osascript () {
+    let 'cnt_ascripts += 1'
+
+    echo "  osascript $@";
+  }
+  sudo_bin_rm_rf () {
+    let 'cnt_binrmrfs += 1'
+
+    echo "  sudo /usr/bin/env rm -rf $@";
+  }
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # LOPRI/2023-01-26: Rename "System Preferences" → "System Settings"
@@ -3472,6 +3511,7 @@ gripe_macos_cannot_customize_command_tab_disable_q_quit () {
 
 slather_macos_defaults () {
   local dry_run=false
+  local cnt_run=false
   local non_disruptive=false
 
   # ***
@@ -3479,6 +3519,7 @@ slather_macos_defaults () {
   while [ "$1" != '' ]; do
     case $1 in
       --dry-run) dry_run=true; shift; ;;
+      --cnt-run) cnt_run=true; shift; ;;
       --tame) non_disruptive=true; shift; ;;
       *) shift; ;;
     esac
@@ -3486,7 +3527,17 @@ slather_macos_defaults () {
 
   # ***
 
-  if ${dry_run}; then
+  if ${cnt_run}; then
+    local cnt_defaults=0
+    local cnt_defaults_write=0
+    local cnt_defaults_delete=0
+    local cnt_defaults_other=0
+    local cnt_killalls=0
+    local cnt_ascripts=0
+    local cnt_binrmrfs=0
+
+    count_it
+  elif ${dry_run}; then
     fake_it
   fi
 
@@ -3535,6 +3586,10 @@ slather_macos_defaults () {
       echo -e "${print_ln}"
     done
   )
+
+  # ***
+
+  print_cnt_run_report
 }
 
 # ***
@@ -3736,6 +3791,25 @@ domains_customize () {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
   # ***
+}
+
+# ***
+
+print_cnt_run_report () {
+  if ! ${cnt_run}; then
+
+    return 0
+  fi
+
+  echo "Counts report:"
+  echo "- \`defaults\` calls   : ${cnt_defaults}"
+  echo "  - 'write'            : ${cnt_defaults_write}"
+  echo "  - 'delete'           : ${cnt_defaults_delete}"
+  echo "  -  other             : ${cnt_defaults_other}"
+  echo "- \`killall\`   calls  : ${cnt_killalls}"
+  echo "- \`osascript\` calls  : ${cnt_ascripts}"
+  echo "- \`rm -rf --\` calls  : ${cnt_binrmrfs}"
+  echo "- No. reminders      : ${#print_at_end[@]}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
