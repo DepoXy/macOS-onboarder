@@ -112,7 +112,7 @@ fake_it () {
   defaults () { echo "  defaults $@"; }
   killall () { echo "  killall $@"; }
   osascript () { echo "  osascript $@"; }
-  sudo_bin_rm_rf () { echo "  sudo /usr/bin/env rm -rf $@"; }
+  sudo_bin_rm_rf () { echo "  command rm -rf -- $@"; }
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
