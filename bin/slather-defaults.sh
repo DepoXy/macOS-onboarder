@@ -3500,6 +3500,8 @@ slather_macos_defaults () {
   local restart_finder=false
   local restart_systemuiserver=false
 
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
   os_is_macos () {
     [ "$(uname)" = 'Darwin' ]
   }
@@ -3511,6 +3513,37 @@ slather_macos_defaults () {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
   system_settings_close
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+  domains_customize
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+  ${non_disruptive} || ( ${restart_dock} && killall Dock )
+
+  ${non_disruptive} || ( ${restart_finder} && killall Finder )
+
+  ${restart_systemuiserver} && killall SystemUIServer
+
+  # ***
+
+  [ -z "${print_at_end}" ] || (
+    echo
+    echo "CPYST: Please perform the following tasks manually:"
+    echo
+
+    for print_ln in "${print_at_end[@]}"; do
+      echo -e "${print_ln}"
+    done
+  )
+}
+
+# ***
+
+domains_customize () {
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
   # ***
   #
@@ -3705,24 +3738,6 @@ slather_macos_defaults () {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
   # ***
-
-  ${non_disruptive} || ( ${restart_dock} && killall Dock )
-
-  ${non_disruptive} || ( ${restart_finder} && killall Finder )
-
-  ${restart_systemuiserver} && killall SystemUIServer
-
-  # ***
-
-  [ -z "${print_at_end}" ] || (
-    echo
-    echo "CPYST: Please perform the following tasks manually:"
-    echo
-
-    for print_ln in "${print_at_end[@]}"; do
-      echo -e "${print_ln}"
-    done
-  )
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
