@@ -120,6 +120,7 @@ fake_it () {
 #   local cnt_defaults_write=0
 #   local cnt_defaults_delete=0
 #   local cnt_defaults_other=0
+#   declare -A cnt_defaults_domain
 #   local cnt_killalls=0
 #   local cnt_ascripts=0
 #   local cnt_binrmrfs=0
@@ -134,6 +135,8 @@ count_it () {
     else
       let 'cnt_defaults_other += 1'
     fi
+
+    let "cnt_defaults_domain[$2] += 1"
 
     echo "  defaults $@";
   }
@@ -3532,6 +3535,7 @@ slather_macos_defaults () {
     local cnt_defaults_write=0
     local cnt_defaults_delete=0
     local cnt_defaults_other=0
+    declare -A cnt_defaults_domain
     local cnt_killalls=0
     local cnt_ascripts=0
     local cnt_binrmrfs=0
@@ -3806,6 +3810,10 @@ print_cnt_run_report () {
   echo "  - 'write'            : ${cnt_defaults_write}"
   echo "  - 'delete'           : ${cnt_defaults_delete}"
   echo "  -  other             : ${cnt_defaults_other}"
+  echo "- no. domains        : ${#cnt_defaults_domain[@]}"
+  for domain in "${!cnt_defaults_domain[@]}"; do
+    printf "  -                %3d : %s\n" "${cnt_defaults_domain[$domain]}" "${domain}"
+  done
   echo "- \`killall\`   calls  : ${cnt_killalls}"
   echo "- \`osascript\` calls  : ${cnt_ascripts}"
   echo "- \`rm -rf --\` calls  : ${cnt_binrmrfs}"
