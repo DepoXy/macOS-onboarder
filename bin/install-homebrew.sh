@@ -450,6 +450,14 @@ add_google_chrome_unless_installed () {
 }
 add_google_chrome_unless_installed
 
+add_firefox_unless_installed () {
+  ! [ -e "/Applications/Firefox.app/" ] \
+    || return 0
+
+  BREW_APPS+=("--cask firefox")
+}
+add_firefox_unless_installed
+
 # "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
 BREW_APPS+=("--cask finicky")
