@@ -202,7 +202,7 @@ BREW_APPS+=("pidof")
 
 BREW_APPS+=("grep")
 # 2022-10-17: System `grep` is so much faster than Homebrew `ggrep`.
-# - Though I could swear that circa 2020-21, it `ggrep` was speedier!
+# - Though I could swear that, circa 2020-21, `ggrep` was speedier!
 # - CXREF: See note atop `defaults-domains-dump` that shows when that
 #   function uses /usr/bin/grep, it takes 1 sec., but when it uses
 #   /opt/homebrew/bin/ggrep, it takes 31 seconds!
