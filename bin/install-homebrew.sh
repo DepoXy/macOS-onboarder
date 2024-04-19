@@ -438,6 +438,9 @@ BREW_APPS+=("--cask tikzit")
 # Dia: "Draw structured diagrams"
 #  BREW_APPS+=("--cask dia")
 
+# "Free cross-platform office suite, fresh version"
+BREW_APPS+=("--cask libreoffice")
+
 # --------------------------
 
 # SAVVY/2024-04-14: Don't install Homebrew Chrome over corporate
