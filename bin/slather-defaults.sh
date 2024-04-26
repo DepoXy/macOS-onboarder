@@ -83,7 +83,7 @@ insist_is_latest_macos_version () {
     >&2 echo "- Please uncomment this guard clause and run the"
     >&2 echo "  script knowing you will have some chores to do."
 
-    exit 1
+    exit_1
   fi
 }
 
@@ -105,7 +105,7 @@ check_deps () {
   >&2 echo "ERROR: Missing \`defaults\` and/or \`osascript\`"
   >&2 echo "- Hint: On Linux? Try --dry-run"
 
-  exit 1
+  exit_1
 }
 
 fake_it () {
@@ -4218,7 +4218,7 @@ promote_homebrew_bash () {
     if ${SLATHER_DEJA_VU:-false}; then
       >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash <= v3?!)"
 
-      exit 1
+      exit_1
     fi
 
     # Run via Homebrew bash.
@@ -4226,9 +4226,10 @@ promote_homebrew_bash () {
   else
     >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash not found)"
 
-    exit 1
+    exit_1
   fi
 
+  # Unreachable.
   return 0
 }
 
@@ -4249,10 +4250,42 @@ print_homebrew_prefix () {
   printf "%s" "${brew_prefix}"
 }
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+_NORMAL_EXIT=false
+
+exit_1 () { _NORMAL_EXIT=true; exit 1; }
+exit_0 () { _NORMAL_EXIT=true; exit 0; }
+
+exit_cleanup () {
+  if ! ${_NORMAL_EXIT}; then
+    # USAGE: Alert on unexpected error path, so you can add happy path.
+    >&2 echo "ALERT: "$(basename -- "$0")" exited abnormally!"
+    >&2 echo "- Hint: Enable \`set -x\` and run again..."
+  fi
+
+  trap - EXIT INT
+
+  ${_NORMAL_EXIT} && exit 0 || exit 1
+}
+
+int_cleanup () {
+  _NORMAL_EXIT=true
+
+  exit_cleanup
+}
+
 # ***
 
 main () {
+  set -e
+
+  trap -- exit_cleanup EXIT
+  trap -- int_cleanup INT
+
   slather_macos_defaults "$@"
+
+  trap - EXIT INT
 }
 
 if [ "$0" = "${BASH_SOURCE[0]}" ]; then
