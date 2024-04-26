@@ -2037,6 +2037,118 @@ macvim_customize_general_after_last_window_closes_quit_macvim () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# Other options:
+# - Editor > Display > ✓ Show whitespace
+#   - ... "/org/gnome/meld/enable-space-drawer" -int 1
+#   - Specifically, shows non-diff whitespace (dots and CR icons).
+#   - Note that I see whitespace dots and CR icons in diff highlights,
+#     and I am unable to disable this (which I find distracting).
+# - Editor > Display > ✓ Prefer dark theme
+#   - Doesn't seem to change anything
+# - Editor > Display > ✓ Use syntax highlighting
+#   - ... "/org/gnome/meld/highlight-syntax" -int 1
+
+meld_customize () {
+  meld_customize_disable_use_the_system_fixed_width_font
+  meld_customize_editor_font
+  meld_customize_tab_width
+  meld_customize_insert_spaces_instead_of_tabs
+  meld_customize_highlight_current_line
+  meld_customize_show_line_numbers
+  meld_customize_syntax_highlighting_color_scheme
+
+  meld_customize_filename_filters
+}
+
+# On macOS Sonoma 14.4.1, this setting already disabled.
+meld_customize_disable_use_the_system_fixed_width_font () {
+  echo "Meld: Settings...: Editor > Font > ✗ Use the system fixed width font"
+  defaults write org.gnome.meld /org/gnome/meld/use-system-font -int 0
+}
+
+# On macOS Sonoma 14.4.1, this setting already Hack (but seems weird,
+# 'cause I don't remember changing anything manually; but maybe I did?).
+# - Note that DepoXy on @Linux uses Hack 10.
+meld_customize_editor_font () {
+  echo "Meld: Settings...: Editor > Font > Editor font: Hack Nerd Font Regular 14"
+  defaults write org.gnome.meld /org/gnome/meld/custom-font "Hack Nerd Font 14"
+}
+
+meld_customize_tab_width () {
+  echo "Meld: Settings...: Editor > Display > Tab width: 4"
+  defaults write org.gnome.meld /org/gnome/meld/indent-width -int 4
+}
+
+meld_customize_insert_spaces_instead_of_tabs () {
+  echo "Meld: Settings...: Editor > Display > ✓ Insert spaces instead of tabs"
+  defaults write org.gnome.meld /org/gnome/meld/insert-spaces-instead-of-tabs -int 1
+}
+
+meld_customize_highlight_current_line () {
+  echo "Meld: Settings...: Editor > Display > ✓ Highlight current line"
+  defaults write org.gnome.meld /org/gnome/meld/highlight-current-line -int 1
+}
+
+meld_customize_show_line_numbers () {
+  echo "Meld: Settings...: Editor > Display > ✓ Show line numbers"
+  defaults write org.gnome.meld /org/gnome/meld/show-line-numbers -int 1
+}
+
+# The dark themes don't use a bright enough foreground font, so I prefer one
+# of the 2 light themes, "Kate". The other light theme is Solarized Light,
+# which uses a yellowish background. See also Classic, Classic (Meld), and
+# Tango, which all look the same, blue diff highlights on dark gray bg with
+# a not-quite-white-enough foreground color. Cobalt, as its name indicates,
+# uses a dark blue bg, less dark blue highlight, and whiter foreground.
+# Meld dark scheme aka Solarized Dark is real hard to read, aqua bg and med.
+# gray fg. Finally, Oblivion is an all-around gray theme w/ blue highlights.
+meld_customize_syntax_highlighting_color_scheme () {
+  echo "Meld: Settings...: Editor > Display > Syntax highlighting color scheme: Kate"
+  defaults write org.gnome.meld /org/gnome/meld/style-scheme "kate"
+}
+
+# ***
+
+# DUNNO/2024-04-24: Not sure how Meld stores Filename filters, but from the
+# looks of what's in it's plist, it's not there (or at least what's there
+# is abbreviated):
+#
+#   "/org/gnome/meld/filename-filters" =     (
+#       {length = 51, bytes = 0x28274261 636b7570 73272c20 74727565 ... 6b2c7377 707d2729 },
+#       {length = 94, bytes = 0x28274f53 2d737065 63696669 63206d65 ... 6f702e69 6e692729 },
+#       {length = 102, bytes = 0x28275665 7273696f 6e20436f 6e74726f ... 6e202e6f 73632729 },
+#       {length = 55, bytes = 0x28274269 6e617269 6573272c 20747275 ... 6c2c6578 657d2729 },
+#       {length = 72, bytes = 0x28274d65 64696127 2c206661 6c73652c ... 662c7870 6d7d2729 },
+#       {length = 65, bytes = 0x28275079 74686f6e 20427569 6c64272c ... 746d6c63 6f762729 },
+#       {length = 66, bytes = 0x28275472 75737420 4d652120 4349272c ... 6d652e6c 6f672729 },
+#       {length = 65, bytes = 0x28275079 74686f6e 20627974 65636f64 ... 672d696e 666f2729 },
+#       {length = 22, bytes = 0x282774616773272c20747275652c2027746167732729},
+#       {length = 45, bytes = 0x28275079 74686f6e 20434927 2c207472 ... 67652e78 6d6c2729 },
+#       {length = 32, bytes = 0x28274e6f 64654a53 272c2074 7275652c ... 6f64756c 65732729 },
+#       {length = 47, bytes = 0x28275079 74686f6e 20766972 7475616c ... 2e76656e 762a2729 },
+#       {length = 33, bytes = 0x28274465 76656c6f 70657220 63727566 ... 20275442 442a2729 }
+#   );
+#
+# - PHAPS: Perhaps it's this binary file:
+#
+#   ~/Library/Preferences/org.gnome.meld.plist
+
+meld_customize_filename_filters () {
+  print_at_end+=("\
+🔳 Meld: Settings: File Filters: Filename filters: (Press +):
+   - Developer cruft: TBD*
+   - NodeJS: node_modules
+   - Python Build: .make.out *.mo .tox _build dist htmlcov
+   - Python bytecode: __pycache__ .pytest_cache *.egg-info
+   - Python CI: .coverage coverage.xml
+   - Python virtualenv: .editable .venv*
+   - tags: tags
+   - Trust Me! CI: .trustme.kill .trustme.lock .trustme.log
+  ")
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 outlook_customize () {
   outlook_customize_notifications
   outlook_customize_style
@@ -3964,6 +4076,10 @@ domains_customize () {
   # ***
 
   macvim_customize
+
+  # ***
+
+  meld_customize
 
   # ***
 
