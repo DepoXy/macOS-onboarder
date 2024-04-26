@@ -495,6 +495,10 @@ BREW_APPS+=("pyenv")
 # https://github.com/pyenv/pyenv-virtualenv
 BREW_APPS+=("pyenv-virtualenv")
 
+# --------------------------
+
+# - DB dev tools
+
 # USYNC/2024-04-13: Must specify Postgres version.
 #  https://formulae.brew.sh/formula/postgresql@16
 BREW_APPS+=("postgresql@16")
@@ -507,9 +511,17 @@ BREW_APPS+=("--cask pgadmin4")
 # https://github.com/dbeaver/dbeaver
 BREW_APPS+=("--cask dbeaver-community")
 
+# --------------------------
+
+# - API dev tools
+
 BREW_APPS+=("--cask insomnia")
 BREW_APPS+=("--cask postman")
 BREW_APPS+=("openapi-generator")
+
+# --------------------------
+
+# - Code editors
 
 # BREW_APPS+=("--cask visual-studio-code")
 
