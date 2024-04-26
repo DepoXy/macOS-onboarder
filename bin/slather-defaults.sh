@@ -236,7 +236,7 @@ dock_and_menu_bar_customize () {
   dock_and_menu_bar_customize_dock_position_on_screen_left
   dock_and_menu_bar_customize_dock_minimize_windows_using_scale_effect
   dock_and_menu_bar_customize_dock_animate_opening_applications_disable
-  dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_docl
+  dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock
   dock_and_menu_bar_customize_dock_show_indicators_for_open_applications_disable
   dock_and_menu_bar_customize_dock_show_recent_application_in_dock_false
 
@@ -289,7 +289,7 @@ dock_and_menu_bar_customize_dock_animate_opening_applications_disable () {
   defaults write com.apple.dock launchanim -bool false
 }
 
-dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_docl () {
+dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock () {
   echo "Desktop & Dock: Dock: ✓ Automatically hide and show the Dock"
   defaults write com.apple.dock autohide -bool true
 }
