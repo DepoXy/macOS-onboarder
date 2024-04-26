@@ -372,7 +372,8 @@ BREW_APPS+=("tldr")
 
 # --------------------------
 
-BREW_APPS+=("asciinema")
+# Just as easily managed from pipx:
+#  BREW_APPS+=("asciinema")
 
 # --------------------------
 
