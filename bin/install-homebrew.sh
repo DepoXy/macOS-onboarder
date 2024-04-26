@@ -664,6 +664,10 @@ BREW_APPS+=("pwgen")
 
 # - macOS Desktop Applications and Extensions:
 
+# SAVVY/2024-04-24: On @macOS Sonoma, Apple shows an icon in the menu bar
+# when AltTab is recording. Which is annoying. There is a work-around:
+#   https://github.com/lwouis/alt-tab-macos/issues/2606
+# - INERT: The author sets menu bar to auto-hide, so doesn't bother me.
 BREW_APPS+=("--cask alt-tab")
 
 # Alt-click-drag any desktop window to move it, like in Linux!
