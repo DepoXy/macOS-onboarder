@@ -496,6 +496,9 @@ BREW_APPS+=("pyenv")
 # https://github.com/pyenv/pyenv-virtualenv
 BREW_APPS+=("pyenv-virtualenv")
 
+# For `mandb` (used by at least fries-findup's `make install`).
+BREW_APPS+=("man-db")
+
 # --------------------------
 
 # - DB dev tools
