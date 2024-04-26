@@ -109,10 +109,18 @@ check_deps () {
 }
 
 fake_it () {
-  defaults () { echo "  defaults $@"; }
-  killall () { echo "  killall $@"; }
-  osascript () { echo "  osascript $@"; }
-  sudo_bin_rm_rf () { echo "  command rm -rf -- $@"; }
+  fg_skyblue () { printf "\033[38;2;135;175;255m"; }
+  attr_reset () { printf "\033[0m"; }
+  highlight () { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
+
+  defaults () {
+    echo "  $(highlight "defaults") $@"; }
+  killall () {
+    echo "  $(highlight "killall") $@"; }
+  osascript () {
+    echo "  $(highlight "osascript") $@"; }
+  sudo_bin_rm_rf () {
+    echo "  $(highlight "command rm -rf --") $@"; }
 }
 
 # INPUT: ENV: Expects:
