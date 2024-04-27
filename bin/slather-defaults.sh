@@ -117,6 +117,9 @@ fake_it () {
     echo "  $(highlight "defaults") $@"; }
   killall () {
     echo "  $(highlight "killall") $@"; }
+  # CRUMB: OPENERS
+  open () {
+    echo "  $(highlight "open") $@"; }
   osascript () {
     echo "  $(highlight "osascript") $@"; }
   sudo_bin_rm_rf () {
@@ -1276,6 +1279,7 @@ google_chrome_customize_make_default_browser () {
   # MAYBE: There's probably a way to make this work with needing to quit the app.
   osascript -e 'tell application "Google Chrome" to quit'
 
+  # CRUMB: OPENERS
   # Note: If Chrome is already open and windows minimized, this unminimizes one.
   open -a "Google Chrome" --args --make-default-browser
 }
@@ -1715,6 +1719,7 @@ rectangle_customize () {
 
   killall Rectangle
 
+  # CRUMB: OPENERS
   open /Applications/Rectangle.app/
 }
 
