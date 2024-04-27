@@ -3783,7 +3783,7 @@ app_shortcuts_customize_safari_all () {
 #
 # - ANIDA: You wanna be a hero to the Meld community? Make this work.
 #
-# NOTE: DepoXy use KE to bind Ctrl-q, but now *both* shortcuts work:
+# NOTE: DepoXy uses KE to bind Ctrl-q, but now *both* shortcuts work:
 #       - Pressing either Cmd-q or Ctrl-q will Quit Meld.
 #
 # NOTE: Meld has no *Minimize* menu item, which is another common
