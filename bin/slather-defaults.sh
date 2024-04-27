@@ -1527,6 +1527,9 @@ karabiner_elements_customize () {
   karabiner_elements_customize_complex_modifications_add_rule_all
 }
 
+# NOTED/2024-04-16: I see two listings each for my kb and mouse, one each
+# active, one each not; and the two inactive, when activated, offer diff-
+# erent checkbox options than the other two devices. But all 4 must be on.
 karabiner_elements_customize_devices_devices_modify_events () {
   print_at_end+=("🔳 Karabiner Elements: Settings...: Devices:
    - Verify *Modify events* enabled on all keyboards")
@@ -1573,11 +1576,29 @@ karabiner_elements_customize_complex_modifications_add_rule_all () {
 
 # So nice: Note that changes to Rectangle's plist take effect immediately.
 
+# SAVVY: Be sure to delete any existing keybinding before assigning a
+# keybinding manually via Rectangle GUI, otherwise you might just run
+# the existing keybinding.
+
 rectangle_customize () {
   echo "Rectangle: ✓ Check for updates automatically"
   defaults write com.knollsoft.Rectangle SUEnableAutomaticChecks -bool true
 
   # ***
+
+  echo "Rectangle: Settings: Repeated commands: ✓ cycle ½, ⅔, and ⅓ on half actions"
+  echo "- SAVVY: With this setting, you don't need separate *Thirds* keybindings"
+  defaults write com.knollsoft.Rectangle subsequentExecutionMode "0"
+
+  # ***
+
+  log () {
+    printf "Rectangle: %13s: %19s: %s → %s\n" "$1" "$2" "$3" "${4:-(Unset)}"
+    # This doesn't align because wide characters:
+    #  printf "Rectangle: %13s: %19s: %30s → %s\n" "$1" "$2" "$3" "${4:-(Unset)}"
+    # ALTLY: Unaligned:
+    #  printf "Rectangle: %s: %s: %s → %s\n" "$1" "$2" "$3" "$4"
+  }
 
   # We'll set those settings you see in the upper-right of the Rectangle
   # Preferences dialog first, because *Maximize Height* uses the same
@@ -1586,102 +1607,220 @@ rectangle_customize () {
   # but if you try to record a shortcut in Rectangle that's already being
   # used, Rectangle performs the shortcut action, rather than recording
   # the keys-stroke. So, at least via the dialog, you need to clear a
-  # shortcut if in use before recording it for another action.
+  # shortcut if in use before recording it for another action).
 
-  echo "Rectangle: Miscellany: Maximize: ^⌥ ⏎  → ^⇧⌘ * aka Ctrl-Shift-Cmd-*"
-  defaults write com.knollsoft.Rectangle maximize "{ keyCode = 67; modifierFlags = 917504; }"
-  echo "Rectangle: Miscellany: Almost Maximize: (Unset) → ^⇧⌘ ? aka Ctrl-Shift-Cmd-?"
-  defaults write com.knollsoft.Rectangle almostMaximize "{ keyCode = 44; modifierFlags = 917504; }"
-  echo "Rectangle: Miscellany: Maximize Height: ^⌥ ⇧↑ → ^⇧⌘ H aka Ctrl-Shift-Cmd-H"
-  defaults write com.knollsoft.Rectangle maximizeHeight "{ keyCode = 4; modifierFlags = 917504; }"
+  log "Miscellany" "Maximize" "(^⌥  ⏎)       Ctrl-Alt-Enter    " "(^⇧⌘ ,) Shift-Ctrl-Cmd-Comma"
+  defaults write com.knollsoft.Rectangle maximize "{ keyCode = 43; modifierFlags = 1441792; }"
+  log "Miscellany" "Almost Maximize" "(Unset)                         " "(^⇧⌘ .) Shift-Ctrl-Cmd-Period"
+  defaults write com.knollsoft.Rectangle almostMaximize "{ keyCode = 47; modifierFlags = 1441792; }"
+  log "Miscellany" "Maximize Height" "(^⌥ ⇧↑) Shift-Ctrl-Alt-Up       " "(^ ⌘ \\)       Ctrl-Cmd-Backslash"
+  defaults write com.knollsoft.Rectangle maximizeHeight "{ keyCode = 42; modifierFlags = 1310720; }"
 
-  echo "Rectangle: Miscellany: Make Smaller: ^⌥ - → ^⇧⌘ - aka Ctrl-Shift-Cmd--"
-  defaults write com.knollsoft.Rectangle smaller "{ keyCode = 78; modifierFlags = 917504; }"
-  echo "Rectangle: Miscellany: Make Larger: ^⌥ = → ^⇧⌘ + aka Ctrl-Shift-Cmd-+"
-  defaults write com.knollsoft.Rectangle larger "{ keyCode = 69; modifierFlags = 917504; }"
+  log "Miscellany" "Make Smaller" "(^⌥  -)       Ctrl-Alt-Minus    " "(^⇧⌘ -) Shift-Ctrl-Cmd-Minus"
+  defaults write com.knollsoft.Rectangle smaller "{ keyCode = 27; modifierFlags = 1441792; }"
+  log "Miscellany" "Make Larger" "(^⌥  =)       Ctrl-Alt-Equals   " "(^⇧⌘ =) Shift-Ctrl-Cmd-Equals"
+  defaults write com.knollsoft.Rectangle larger "{ keyCode = 24; modifierFlags = 1441792; }"
 
-  echo "Rectangle: Miscellany: Center: ^⌥ C → ^⇧⌘ 5 aka Ctrl-Shift-Cmd-Numpad5"
-  defaults write com.knollsoft.Rectangle center "{ keyCode = 87; modifierFlags = 917504; }"
-  echo "Rectangle: Miscellany: Restore: ^⌥ ⌫  → ^⇧⌘ 0 aka Ctrl-Shift-Cmd-Numpad0"
-  defaults write com.knollsoft.Rectangle restore "{ keyCode = 82; modifierFlags = 917504; }"
+  log "Miscellany" "Center" "(^⌥  C)       Ctrl-Alt-C        " "(^⇧⌘ /) Shift-Ctrl-Cmd-ForwardSlash"
+  defaults write com.knollsoft.Rectangle center "{ keyCode = 44; modifierFlags = 1441792; }"
+  log "Miscellany" "Restore" "(^⌥  ⌫)       Ctrl-Alt-Backspace" "(^⇧⌘ ⌫) Shift-Ctrl-Cmd-Backspace"
+  defaults write com.knollsoft.Rectangle restore "{ keyCode = 51; modifierFlags = 1441792; }"
 
   # The Display motions are no-ops unless you have a second display attached.
-  # - One option to disable them (to release the keybindings):
+  # - We could release these bindings unless needed, but we also wouldn't
+  #   want to use the same bindings for anything else, for when the user is
+  #   on a host with multiple monitors. Nor would we want to omit the bindings
+  #   if is_probably_a_laptop, because who knows when the user might connect a
+  #   second display.
   if false; then
-    echo "Rectangle: Miscellany: Next Display: ^⌥ ⌘ → → (Unset)"
+    log "Miscellany" "Next Display" "Ctrl-Cmd-Alt-Right (^⌥ ⌘ →)" "(Unset)"
     defaults write com.knollsoft.Rectangle nextDisplay "{ }"
-    echo "Rectangle: Miscellany: Previous Display: ^⌥ ⌘ ← → (Unset)"
+    log "Miscellany" "Previous Display" "Ctrl-Cmd-Alt-Left (^⌥ ⌘ ←)" "(Unset)"
     defaults write com.knollsoft.Rectangle previousDisplay "{ }"
   fi
 
   # ***
 
-  echo "Rectangle: Halfs: Left Half: ^⌥ ← → ^⇧⌘ ← aka Ctrl-Shift-Cmd-LeftArrow"
+  # BORKD/2024-04-22: On new Mac Mini, Shift+Ctrl+Alt+Up is not caught by Rectangle;
+  # and running `showkey -a` reveals correct code — ^[[1;14A — I'm not sure what's up.
+  # - Fortunately I found "better" mappings for the commands I want to bind.
+
+  log "Halfs" "Left Half" "(^⌥  ←)       Ctrl-Alt-Left     " "(^⇧⌘ [) Shift-Ctrl-Cmd-LeftBracket"
+  defaults write com.knollsoft.Rectangle leftHalf "{ keyCode = 33; modifierFlags = 1441792; }"
+  log "Halfs" "Right Half" "(^⌥  →)       Ctrl-Alt-Right    " "(^⇧⌘ ]) Shift-Ctrl-Cmd-RightBracket"
+  defaults write com.knollsoft.Rectangle rightHalf "{ keyCode = 30; modifierFlags = 1441792; }"
+  log "Halfs" "Center Half" "(Unset)                         " "(^⇧⌘ \\) Shift-Ctrl-Cmd-Backslash"
+  defaults write com.knollsoft.Rectangle centerHalf "{ keyCode = 42; modifierFlags = 1441792; }"
+  log "Halfs" "Top Half" "(^⌥  ↑)       Ctrl-Alt-Up       " "(^⇧⌘ ') Shift-Ctrl-Cmd-Apostrophe"
+  defaults write com.knollsoft.Rectangle topHalf "{ keyCode = 39; modifierFlags = 1441792; }"
+  log "Halfs" "Bottom Half" "(^⌥  ↓)       Ctrl-Alt-Down     " "(^ ⌘ ')       Ctrl-Cmd-Apostrophe"
+  defaults write com.knollsoft.Rectangle bottomHalf "{ keyCode = 39; modifierFlags = 1310720; }"
+
+  # ***
+
+  log "Corners" "Top Left" "(^⌥  U) Ctrl-Alt-U              " "(^⇧⌘ Home) Shift-Ctrl-Cmd-Home"
+  defaults write com.knollsoft.Rectangle topLeft "{ keyCode = 115; modifierFlags = 1441792; }"
+  log "Corners" "Top Right" "(^⌥  I) Ctrl-Alt-I              " "(^⇧⌘ PgUp) Shift-Ctrl-Cmd-PageUp"
+  defaults write com.knollsoft.Rectangle topRight "{ keyCode = 116; modifierFlags = 1441792; }"
+  log "Corners" "Bottom Left" "(^⌥  J) Ctrl-Alt-J              " "(^⇧⌘  End) Shift-Ctrl-Cmd-End"
+  defaults write com.knollsoft.Rectangle bottomLeft "{ keyCode = 119; modifierFlags = 1441792; }"
+  log "Corners" "Bottom Right" "(^⌥  K) Ctrl-Alt-K              " "(^⇧⌘ PgDn) Shift-Ctrl-Cmd-PageDown"
+  defaults write com.knollsoft.Rectangle bottomRight "{ keyCode = 121; modifierFlags = 1441792; }"
+
+  # ***
+
+  log "Thirds" "First Third" "(^⌥  D) Ctrl-Alt-D              " "(Unset) [SAVVY: Find via repeated Left Half]"
+  defaults write com.knollsoft.Rectangle firstThird "{ }"
+  log "Thirds" "Center Third" "(^⌥  F) Ctrl-Alt-F              " "(Unset) [SAVVY: Find via repeated Center Half]"
+  defaults write com.knollsoft.Rectangle centerThird "{ }"
+  log "Thirds" "Last Third" "(^⌥  G) Ctrl-Alt-G              " "(Unset) [SAVVY: Find via repeated Right Half]"
+  defaults write com.knollsoft.Rectangle lastThird "{ }"
+  log "Thirds" "First Two Thirds" "(^⌥  E) Ctrl-Alt-E              " "(Unset) [SAVVY: Find via repeated Left Half]"
+  defaults write com.knollsoft.Rectangle firstTwoThirds "{ }"
+  log "Thirds" "Last Two Thirds" "(^⌥  T) Ctrl-Alt-T              " "(Unset) [SAVVY: Find via repeated Right Half]"
+  defaults write com.knollsoft.Rectangle lastTwoThirds "{ }"
+
+
+  # ***
+
+  log "Fourths" "First Fourth" "(Unset)                         " "(Leave unset)"
+  log "Fourths" "Second Fourth" "(Unset)                         " "(Leave unset)"
+  log "Fourths" "Third Fourth" "(Unset)                         " "(Leave unset)"
+  log "Fourths" "Last Fourth" "(Unset)                         " "(Leave unset)"
+  log "Fourths" "First Three Fourths" "(Unset)                         " "(Leave unset)"
+  log "Fourths" "Last Three Fourths" "(Unset)                         " "(Leave unset)"
+
+
+  # ***
+
+  log "Edge-Centered" "Move Left" "(Unset)                         " "(^⇧⌘ ←) Shift-Ctrl-Cmd-LeftArrow"
+  defaults write com.knollsoft.Rectangle moveLeft "{ keyCode = 123; modifierFlags = 1441792; }"
+  log "Edge-Centered" "Move Right" "(Unset)                         " "(^⇧⌘ →) Shift-Ctrl-Cmd-RightArrow"
+  defaults write com.knollsoft.Rectangle moveRight "{ keyCode = 124; modifierFlags = 1441792; }"
+  log "Edge-Centered" "Move Up" "(Unset)                         " "(^⇧⌘ ↑) Shift-Ctrl-Cmd-UpArrow"
+  defaults write com.knollsoft.Rectangle moveUp "{ keyCode = 126; modifierFlags = 1441792; }"
+  log "Edge-Centered" "Move Down" "(Unset)                         " "(^⇧⌘ ↓) Shift-Ctrl-Cmd-DownArrow"
+  defaults write com.knollsoft.Rectangle moveDown "{ keyCode = 125; modifierFlags = 1441792; }"
+
+  # ***
+
+  log "Sixths" "Top Left Sixth" "(Unset)                         " "(Leave unset)"
+  log "Sixths" "Top Center Sixth" "(Unset)                         " "(Leave unset)"
+  log "Sixths" "Top Right Sixth" "(Unset)                         " "(Leave unset)"
+  log "Sixths" "Bottom Left Sixth" "(Unset)                         " "(Leave unset)"
+  log "Sixths" "Bottom Center Sixth" "(Unset)                         " "(Leave unset)"
+  log "Sixths" "Bottom Right Sixth" "(Unset)                         " "(Leave unset)"
+
+  # ***
+
+  killall Rectangle
+
+  open /Applications/Rectangle.app/
+}
+
+# ***
+
+_rectangle_customize_circa_2022_macbook () {
+  echo "Rectangle: Miscellany: Maximize: Ctrl-Alt-Enter (^⌥ ⏎ ) → Shift-Ctrl-Cmd-* (^⇧⌘ *)"
+  defaults write com.knollsoft.Rectangle maximize "{ keyCode = 67; modifierFlags = 917504; }"
+  echo "Rectangle: Miscellany: Almost Maximize: (Unset) → Shift-Ctrl-Cmd-? (^⇧⌘ ?)"
+  defaults write com.knollsoft.Rectangle almostMaximize "{ keyCode = 44; modifierFlags = 917504; }"
+  echo "Rectangle: Miscellany: Maximize Height: Shift-Ctrl-Alt-Up (^⌥ ⇧↑) → Shift-Ctrl-Cmd-H (^⇧⌘ H)"
+  defaults write com.knollsoft.Rectangle maximizeHeight "{ keyCode = 4; modifierFlags = 917504; }"
+
+  echo "Rectangle: Miscellany: Make Smaller: Ctrl-Alt-Minus (^⌥ -) → Shift-Ctrl-Cmd-Minus (^⇧⌘ -)"
+  defaults write com.knollsoft.Rectangle smaller "{ keyCode = 78; modifierFlags = 917504; }"
+  echo "Rectangle: Miscellany: Make Larger: Ctrl-Alt-Equals (^⌥ =) → Shift-Ctrl-Cmd-Plus (^⇧⌘ +)"
+  defaults write com.knollsoft.Rectangle larger "{ keyCode = 69; modifierFlags = 917504; }"
+
+  echo "Rectangle: Miscellany: Center: Ctrl-Alt-C (^⌥ C) → Shift-Ctrl-Cmd-Numpad5 (^⇧⌘ 5)"
+  defaults write com.knollsoft.Rectangle center "{ keyCode = 87; modifierFlags = 917504; }"
+  echo "Rectangle: Miscellany: Restore: Ctrl-Alt-Backspace (^⌥ ⌫ ) → Shift-Ctrl-Cmd-Numpad0 (^⇧⌘ 0)"
+  defaults write com.knollsoft.Rectangle restore "{ keyCode = 82; modifierFlags = 917504; }"
+
+  # The Display motions are no-ops unless you have a second display attached.
+  # - One option to disable them (to release the keybindings).
+  if false; then
+    echo "Rectangle: Miscellany: Next Display: Ctrl-Cmd-Alt-Right (^⌥ ⌘ →) → (Unset)"
+    defaults write com.knollsoft.Rectangle nextDisplay "{ }"
+    echo "Rectangle: Miscellany: Previous Display: Ctrl-Cmd-Alt-Left (^⌥ ⌘ ←) → (Unset)"
+    defaults write com.knollsoft.Rectangle previousDisplay "{ }"
+  fi
+
+  # ***
+
+  echo "Rectangle: Halfs: Left Half: Ctrl-Alt-Left (^⌥ ←) → Shift-Ctrl-Cmd-Left (^⇧⌘ ←)"
   defaults write com.knollsoft.Rectangle leftHalf "{ keyCode = 123; modifierFlags = 917504; }"
-  echo "Rectangle: Halfs: Right Half: ^⌥ → → ^⇧⌘ → aka Ctrl-Shift-Cmd-RightArrow"
+  echo "Rectangle: Halfs: Right Half: Ctrl-Alt-Right (^⌥ →) → Shift-Ctrl-Cmd-Right (^⇧⌘ →)"
   defaults write com.knollsoft.Rectangle rightHalf "{ keyCode = 124; modifierFlags = 917504; }"
   echo "Rectangle: Halfs: Center Half: (Leave unset)"
   # SAVVY: If you try to set ^⇧⌘ ↑ manually, it's already set to Maximize Height, so
   #        rather than recording the shortcut, Rectangle performs Maximize Height.
   #        - So you have to clear the Maximize Height Shortcut first.
-  echo "Rectangle: Halfs: Top Half: ^⌥ ↑ → ^⇧⌘ ↑ aka Ctrl-Shift-Cmd-UpArrow"
+  # BORKD/2024-04-22: On new Mac Mini, Shift+Ctrl+Alt+Up is not caught by Rectangle;
+  # and running `showkey -a` reveals correct code — ^[[1;14A — I'm not sure what's up.
+  echo "Rectangle: Halfs: Top Half: Ctrl-Alt-Up (^⌥ ↑) → Shift-Ctrl-Cmd-UpArrow (^⇧⌘ ↑)"
   defaults write com.knollsoft.Rectangle topHalf "{ keyCode = 126; modifierFlags = 917504; }"
-  echo "Rectangle: Halfs: Bottom Half: ^⌥ ↓ → ^⇧⌘ ↓ aka Ctrl-Shift-Cmd-DownArrow"
+  echo "Rectangle: Halfs: Bottom Half: Ctrl-Alt-Down (^⌥ ↓) → Shift-Ctrl-Cmd-DownArrow (^⇧⌘ ↓)"
   defaults write com.knollsoft.Rectangle bottomHalf "{ keyCode = 125; modifierFlags = 917504; }"
 
   # ***
 
-  echo "Rectangle: Corners: Top Left: ^⌥ U → ^⇧⌘ 7 aka Ctrl-Shift-Cmd-Numpad7"
+  echo "Rectangle: Corners: Top Left: Ctrl-Alt-U (^⌥ U) → Shift-Ctrl-Cmd-Numpad7 (^⇧⌘ 7)"
   defaults write com.knollsoft.Rectangle topLeft "{ keyCode = 89; modifierFlags = 917504; }"
-  echo "Rectangle: Corners: Top Right: ^⌥ I → ^⇧⌘ 9 aka Ctrl-Shift-Cmd-Numpad9"
+  echo "Rectangle: Corners: Top Right: Ctrl-Alt-I (^⌥ I) → Shift-Ctrl-Cmd-Numpad9 (^⇧⌘ 9)"
   defaults write com.knollsoft.Rectangle topRight "{ keyCode = 92; modifierFlags = 917504; }"
-  echo "Rectangle: Corners: Bottom Left: ^⌥ J → ^⇧⌘ 1 aka Ctrl-Shift-Cmd-Numpad1"
+  echo "Rectangle: Corners: Bottom Left: Ctrl-Alt-J (^⌥ J) → Shift-Ctrl-Cmd-Numpad1 (^⇧⌘ 1)"
   defaults write com.knollsoft.Rectangle bottomLeft "{ keyCode = 83; modifierFlags = 917504; }"
-  echo "Rectangle: Corners: Bottom Right: ^⌥ K → ^⇧⌘ 3 aka Ctrl-Shift-Cmd-Numpad3"
+  echo "Rectangle: Corners: Bottom Right: Ctrl-Alt-K (^⌥ K) → Shift-Ctrl-Cmd-Numpad3 (^⇧⌘ 3)"
   defaults write com.knollsoft.Rectangle bottomRight "{ keyCode = 85; modifierFlags = 917504; }"
 
   # ***
 
-  echo "Rectangle: Thirds: First Third: ^⌥ D → ^⇧⌘ { aka Ctrl-Shift-Cmd-{"
+  echo "Rectangle: Thirds: First Third: Ctrl-Alt-D (^⌥ D) → Shift-Ctrl-Cmd-{ (^⇧⌘ {)"
   defaults write com.knollsoft.Rectangle firstThird "{ keyCode = 33; modifierFlags = 917504; }"
-  echo "Rectangle: Thirds: Center Third: ^⌥ F → ^⇧⌘ | aka Ctrl-Shift-Cmd-|"
+  echo "Rectangle: Thirds: Center Third: Ctrl-Alt-F (^⌥ F) → Shift-Ctrl-Cmd-| (^⇧⌘ |)"
   defaults write com.knollsoft.Rectangle centerThird "{ keyCode = 42; modifierFlags = 917504; }"
-  echo "Rectangle: Thirds: Last Third: ^⌥ G → ^⇧⌘ } aka Ctrl-Shift-Cmd-}"
+  echo "Rectangle: Thirds: Last Third: Ctrl-Alt-G (^⌥ G) → Shift-Ctrl-Cmd-} (^⇧⌘ })"
   defaults write com.knollsoft.Rectangle lastThird "{ keyCode = 30; modifierFlags = 917504; }"
-  echo "Rectangle: Thirds: First Two Thirds: ^⌥ E → ^⇧⌘ < aka Ctrl-Shift-Cmd-<"
+  echo "Rectangle: Thirds: First Two Thirds: Ctrl-Alt-E (^⌥ E) → Shift-Ctrl-Cmd-< (^⇧⌘ <)"
   defaults write com.knollsoft.Rectangle firstTwoThirds "{ keyCode = 43; modifierFlags = 917504; }"
-  echo "Rectangle: Thirds: Last Two Thirds: ^⌥ T → ^⇧⌘ > aka Ctrl-Shift-Cmd->"
+  echo "Rectangle: Thirds: Last Two Thirds: Ctrl-Alt-T (^⌥ T) → Shift-Ctrl-Cmd-> (^⇧⌘ >)"
   defaults write com.knollsoft.Rectangle lastTwoThirds "{ keyCode = 47; modifierFlags = 917504; }"
 
+  # WRKLG/2024-04-22: What I briefly considered changing these to, before realizing
+  # I can disable these if we set the *Repeated commands* setting to cycle, then
+  # these geometries are available via the *Half* commands.
+  #
+  #   echo "Rectangle: Thirds: First Third: Ctrl-Alt-D (^⌥ D) → Shift-Ctrl-Alt-["
+  #   defaults write com.knollsoft.Rectangle firstThird "{ keyCode = 33; modifierFlags = 917504; }"
+  #   echo "Rectangle: Thirds: Center Third: Ctrl-Alt-F (^⌥ F) → Shift-Ctrl-Alt-\\"
+  #   defaults write com.knollsoft.Rectangle centerThird "{ keyCode = 42; modifierFlags = 917504; }"
+  #   echo "Rectangle: Thirds: Last Third: Ctrl-Alt-G (^⌥ G) → Shift-Ctrl-Alt-]"
+  #   defaults write com.knollsoft.Rectangle lastThird "{ keyCode = 30; modifierFlags = 917504; }"
+  #   echo "Rectangle: Thirds: First Two Thirds: Ctrl-Alt-E (^⌥ E) → Ctrl-Alt-["
+  #   defaults write com.knollsoft.Rectangle firstTwoThirds "{ keyCode = 33; modifierFlags = 786432; }"
+  #   echo "Rectangle: Thirds: Last Two Thirds: Ctrl-Alt-T (^⌥ T) → Ctrl-Alt-]"
+  #   defaults write com.knollsoft.Rectangle lastTwoThirds "{ keyCode = 30; modifierFlags = 786432; }"
+
   # ***
 
-  echo "Rectangle: Fourths: First Fourth: (Leave unset)"
-  echo "Rectangle: Fourths: Second Fourth: (Leave unset)"
-  echo "Rectangle: Fourths: Third Fourth: (Leave unset)"
-  echo "Rectangle: Fourths: Last Fourth: (Leave unset)"
-  echo "Rectangle: Fourths: First Three Fourths: (Leave unset)"
-  echo "Rectangle: Fourths: Last Three Fourths: (Leave unset)"
-
+  # REFER: Unchanged: "Rectangle: Fourths"
 
   # ***
 
-  echo "Rectangle: Edge-Centered: Move Left: (Unset) → ^⇧⌘ 4 aka Ctrl-Shift-Cmd-Numpad4"
+  echo "Rectangle: Edge-Centered: Move Left: (Unset) → aka Shift-Ctrl-Cmd-Numpad4 (^⇧⌘ 4)"
   defaults write com.knollsoft.Rectangle moveLeft "{ keyCode = 86; modifierFlags = 917504; }"
-  echo "Rectangle: Edge-Centered: Move Right: (Unset) → ^⇧⌘ 6 aka Ctrl-Shift-Cmd-Numpad6"
+  echo "Rectangle: Edge-Centered: Move Right: (Unset) → Shift-Ctrl-Cmd-Numpad6 (^⇧⌘ 60"
   defaults write com.knollsoft.Rectangle moveRight "{ keyCode = 88; modifierFlags = 917504; }"
-  echo "Rectangle: Edge-Centered: Move Up: (Unset) → ^⇧⌘ 8 aka Ctrl-Shift-Cmd-Numpad8"
+  echo "Rectangle: Edge-Centered: Move Up: (Unset) → Shift-Ctrl-Cmd-Numpad8 (^⇧⌘ 8)"
   defaults write com.knollsoft.Rectangle moveUp "{ keyCode = 91; modifierFlags = 917504; }"
-  echo "Rectangle: Edge-Centered: Move Down: (Unset) → ^⇧⌘ 2 aka Ctrl-Shift-Cmd-Numpad2"
+  echo "Rectangle: Edge-Centered: Move Down: (Unset) → Shift-Ctrl-Cmd-Numpad2 (^⇧⌘ 2)"
   defaults write com.knollsoft.Rectangle moveDown "{ keyCode = 84; modifierFlags = 917504; }"
 
   # ***
 
-  echo "Rectangle: Sixths: Top Left Sixth: (Leave unset)"
-  echo "Rectangle: Sixths: Top Center Sixth: (Leave unset)"
-  echo "Rectangle: Sixths: Top Right Sixth: (Leave unset)"
-  echo "Rectangle: Sixths: Bottom Left Sixth: (Leave unset)"
-  echo "Rectangle: Sixths: Bottom Center Sixth: (Leave unset)"
-  echo "Rectangle: Sixths: Bottom Right Sixth: (Leave unset)"
+  # REFER: Unchanged: "Rectangle: Sixths"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
