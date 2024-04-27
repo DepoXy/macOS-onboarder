@@ -2201,20 +2201,20 @@ iterm2_customize_profiles_general_command () {
 
 iterm2_customize_profiles_add_profile_bash_5x () {
   print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: Bash 5.x
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “Bash 5.x”
    - Command: /opt/homebrew/bin/bash")
 }
 
 iterm2_customize_profiles_add_profile_norc_3x () {
   print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-3.x
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “NORC-3.x”
    - Command: /bin/bash --noprofile --norc")
 }
 
 iterm2_customize_profiles_add_profile_norc_5x () {
   # CPYST: eval "$(/opt/homebrew/bin/brew shellenv)"
   print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “NORC-5.x”
    - Command: /opt/homebrew/bin/bash --noprofile --norc
    - Send text at start: eval \"\$(/opt/homebrew/bin/brew shellenv)\"'
 
@@ -2224,7 +2224,7 @@ iterm2_customize_profiles_add_profile_norc_5x () {
 
 iterm2_customize_profiles_add_profile_norc_5x_lite () {
   print_at_end+=("\
-🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: NORC-5.x--no-HB
+🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “NORC-5.x--no-HB”
    - Command: /opt/homebrew/bin/bash --noprofile --norc")
 }
 
