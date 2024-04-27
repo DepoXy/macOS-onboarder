@@ -1844,7 +1844,7 @@ activity_monitor_customize_dock_icon_show_cpu_history () {
 iterm2_customize () {
   iterm2_customize_general_selection_copy_to_pasteboard_on_selection_off
 
-  iterm2_customize_profiles_color_scheme_pastel
+  iterm2_customize_profiles_color_scheme
   iterm2_customize_profiles_color_foreground_color
   iterm2_customize_profiles_text_font_hack_nerd_font
   iterm2_customize_profiles_window_settings_for_new_windows_columns_rows
@@ -1931,18 +1931,48 @@ iterm2_customize_general_selection_copy_to_pasteboard_on_selection_off () {
 #   menu labels to "Settings...", because I've seen this disconnect
 #   with other apps, too.
 
-iterm2_customize_profiles_color_scheme_pastel () {
-  # I see too many settings changed, so tell user to do this manually.
-  # - Sonoma 14.4.1 default: Color Presets...: Dark Background
-  # ISOFF/2024-04-16: Did iTerm2 make a better preset? Because default
-  #   colors in Sonoma 14.4.1 look... great?
-  false && (
-    print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Color Presets...: ✓ Pastel (Dark Background)")
-  )
+# ***
+
+# The default color preset, "Dark Background", makes tig look noticeably bad:
+# - The blue date column is too dark to read easily;
+# - The white commit messages are a medium gray, not bright white;
+# - The object ID and committer name are a bright purple and bright green,
+#   respectively, a little too hard to read for the author.
+#
+# The "Pastel (Dark Background)" color preset uses, as the name implies,
+# pastel colors. Compared to "Dark Background":
+# - The blue date column is more of a light blue;
+# - The white commit messages are still gray...;
+# - The pink and green ID and committer name columns are easily readable
+#   without being distractingly bright.
+#
+# The "Tango Dark" preset uses more gentle colors than Dark Background, and:
+# - The blue date column is a darker blue, though still easy to read;
+# - The white commit messages are true white;
+# - The purple and green ID and name columns are easy to read, not too bright.
+#
+# While I like how Pastel looks in tig, terminal colors are washed out (e.g.,
+# PS1 prompt appears white). But Tango looks great.
+
+iterm2_customize_profiles_color_scheme () {
+  # Note this changes a log of different "Ansi <n> Color" dicts under
+  #   defaults read com.googlecode.iterm2 "New Bookmarks"
+  # And not something that seems worth anyone's time to try to automate.
+  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Color Presets...: ✓ Tango Dark")
 }
 
+# SAVVY/2024-04-23: Customize the default profile first, before creating the
+# other profiles, so that you'd don't need to repeat any Profile settings
+# (keybindings, colors, etc.).
+
+# Default Foreground: 0xc7c7c7 / Dark Background
+# Default Foreground: 0xc7c7c7 / Pastel (Dark Background)
+# Default Foreground: 0xfffeff / Tango Dark
+# ALTLY: c7c7c7 → e3e3e3, for something a titch more muted than fffeff 
 iterm2_customize_profiles_color_foreground_color () {
-  print_at_end+=("🔳 iTerm2: Preferences: Profiles: Colors: Basic Colors: Foreground: c7c7c7 → e3e3e3 (a brighter white)")
+  print_at_end+=(\
+    "🔳 iTerm2: Preferences: Profiles: Colors: Basic Colors: Foreground: c7c7c7 → fffeff"
+  )
   # This appears to be a setting under "New Bookmarks", and I'm not sure if I'd
   # have to set the whole value or not (and the whole values is one hundred or
   # more lines, lots of entries. E.g.,
