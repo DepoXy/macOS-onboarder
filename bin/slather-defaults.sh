@@ -1173,6 +1173,8 @@ macos_customize () {
   macos_customize_quit_printer_when_queue_empties
   macos_customize_disable_device_plug_opening_preview
   macos_customize_disable_itunes_listening_media_keys
+
+  macos_customize_inhibit_create_dot_ds_store
 }
 
 # ***
@@ -1208,6 +1210,28 @@ macos_customize_disable_itunes_listening_media_keys () {
   if false; then
     launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
   fi
+}
+
+# ***
+
+# Desktop Services Store — aka .DS_Store files culprit
+#
+# REFER:
+#   https://www.google.com/search?q=macos+don%27t+make+.ds_store
+#   https://www.askwoody.com/forums/topic/how-to-disable-the-creation-of-ds_store-files-on-mac/
+#   https://www.reddit.com/r/MacOS/comments/vvx5ib/stop_writing_of_ds_store/
+#   https://stackoverflow.com/questions/18015978/how-to-stop-creating-ds-store-on-mac
+#   https://asepsis.binaryage.com/
+#
+# The only setting I could find keeps .DS_Store files off network drives.
+# - I couldn't find a setting to just disable them altogether.
+# - Fortunately I don't use Finder very often, should problem avoided?
+
+macos_customize_inhibit_create_dot_ds_store () {
+  return 0
+
+  echo "Desktop Services Store: Inhibit .DS_Store from network stores"
+  defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
