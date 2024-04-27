@@ -1365,7 +1365,7 @@ mozilla_firefox_customize() {
 # REFER: https://css-tricks.com/sliding-nightmare-understanding-range-input/
 mozilla_firefox_customize_devtools_show_user_agent_shadow_dom () {
   print_at_end+=("\
-🔳 Mozilla Firefox: DevTools: Verify `devtools.inspector.showAllAnonymousContent` is true
+🔳 Mozilla Firefox: DevTools: Verify \`devtools.inspector.showAllAnonymousContent\` is true
     firefox about:config")
 }
 
