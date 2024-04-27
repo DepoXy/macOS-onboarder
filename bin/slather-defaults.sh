@@ -4109,13 +4109,13 @@ macos_uncustomizable_gripes () {
 gripe_macos_cannot_customize_disable_notch_aka_camera_housing () {
   is_probably_a_laptop || return 0
 
-  print_at_end+=("🤷 MacBook Camera Housing aka Notch Preferences: AFAIK you’re stuck with it")
+  print_at_end+=("🤷 GRIPE: MacBook Camera Housing aka Notch Preferences: AFAIK you’re stuck with it")
 }
 
 # GRIPE/2022-11-04: macOS Command-Tab not customizable, and I haven't
 # found any apps to tweak it. Fortunately, you shouldn't need to use Cmd-Tab!
 gripe_macos_cannot_customize_command_tab_disable_q_quit () {
-  print_at_end+=("🤷 macOS Command-Tab: Cannot disable Quit app on <Cmd-tab q> (whereas <Alt-tab q> selects backward")
+  print_at_end+=("🤷 GRIPE: macOS Command-Tab: Cannot disable Quit app on <Cmd-tab q> (whereas <Alt-tab q> selects backward; fortunately <Cmd-Tab> usage is rare)")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
