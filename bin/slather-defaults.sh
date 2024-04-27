@@ -4167,6 +4167,8 @@ slather_macos_defaults () {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
+  echo "Slathering defaults..."
+
   system_settings_close
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -4197,6 +4199,8 @@ slather_macos_defaults () {
     for print_ln in "${print_at_end[@]}"; do
       echo -e "${print_ln}"
     done
+
+    echo "Good luck!"
   )
 
   # ***
