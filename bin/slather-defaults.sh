@@ -2485,7 +2485,13 @@ shortcuts_customize_macos () {
   shortcuts_app_shortcuts_remap
 
   ${rewire_shortcuts} &&
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    rewire_symbolichotkeys
+}
+
+# ***
+
+rewire_symbolichotkeys () {
+  /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 }
 
 # ***
@@ -2536,7 +2542,9 @@ shortcuts_mission_control_remap () {
   # ✓ Quick Note: 🌐 q aka Fn+q → (Unset)
   shortcuts_mission_control_remap_quick_note
 
-  rewire_shortcuts=true
+  # Allow dev to source this file and run this fcn. explicitly.
+  rewire_symbolichotkeys
+  rewire_shortcuts=false
 }
 
 shortcuts_mission_control_remap_mission_control () {
