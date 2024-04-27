@@ -4476,8 +4476,10 @@ promote_homebrew_bash () {
       exit_1
     fi
 
+    >&2 echo "Shimming to Homebrew Bash..."
+
     # Run via Homebrew bash.
-    SLATHER_DEJA_VU=true "${brew_prefix}/bin/bash" "$0" "$@"
+    SLATHER_DEJA_VU=true exec "${brew_prefix}/bin/bash" "$0" "$@"
   else
     >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash not found)"
 
