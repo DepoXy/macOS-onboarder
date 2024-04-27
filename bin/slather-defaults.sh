@@ -3969,6 +3969,24 @@ app_shortcuts_customize_macdown_all () {
   }'
 }
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+app_shortcuts_customize_libreoffice () {
+  app_shortcuts_customize_libreoffice_quit_libreoffice
+
+  app_shortcuts_customize_libreoffice_all
+}
+
+app_shortcuts_customize_libreoffice_quit_libreoffice () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Quit LibreOffice”: Cmd-Q → Ctrl-q"
+}
+
+app_shortcuts_customize_libreoffice_all () {
+  defaults write org.libreoffice.script NSUserKeyEquivalents '{
+    "Quit LibreOffice" = "^q";
+  }'
+}
+
 # +++ END: Application NSUserKeyEquivalents settings
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # ================================================================= #
@@ -4362,6 +4380,8 @@ domains_customize () {
   app_shortcuts_customize_dbeaver
 
   app_shortcuts_customize_macdown
+
+  app_shortcuts_customize_libreoffice
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
