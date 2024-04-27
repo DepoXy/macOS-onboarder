@@ -230,6 +230,10 @@ desktop_and_screen_saver_customize_desktop_black () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# SAVVY/2024-04-14: `killall Dock` to see window behavior change,
+# then reopen System Settings to see GUI widget updated (or, toggle
+# one of the widgets, then the other widgets should update).
+
 dock_and_menu_bar_customize () {
   dock_reset_dock
 
@@ -271,10 +275,6 @@ dock_and_menu_bar_customize_dock_position_on_screen_left () {
   echo "Dock & Menu Bar: Dock: Position on screen: Left"
   defaults write com.apple.dock orientation -string "left"
 }
-
-# SAVVY/2024-04-14: `killall Dock` to see window behavior change,
-# then reopen System Settings to see GUI widget updated (or, toggle
-# one of the widgets, then the other widgets should update).
 
 # ISOFF/2024-04-14: Yes, no, the author still thinks the Genie animation
 # is distracting.
