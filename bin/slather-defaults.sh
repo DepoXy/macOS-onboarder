@@ -265,6 +265,7 @@ dock_reset_dock () {
   false && (
     defaults delete com.apple.dock 2> /dev/null || true
   )
+  true  # Lest errexit
 }
 
 # I like the Dock on the left, otherwise it interrupts my flow.
@@ -562,7 +563,7 @@ launchpad_customize () {
     defaults write com.apple.dock springboard-columns -int {num_columns}
 
     restart_dock=true
-  )
+  ) || true
 }
 
 # 2023-02-07: Just noting-to-self, should I ever choose to try it,
@@ -576,7 +577,7 @@ launchservices_customize () {
   false && (
     # Disable the "Are you sure you want to open this application?" dialog.
     defaults write com.apple.LaunchServices LSQuarantine -bool false
-  )
+  ) || true
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -664,7 +665,7 @@ keyboard_customize_press_and_hold_enabled_false__disabled () {
   false && (
     echo "Keyboard: Disable press-and-hold keys to increase key repeat rate"
     defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-  )
+  ) || true
 }
 
 keyboard_customize_reclaim_fkeys () {
@@ -703,7 +704,7 @@ sound_preferences_customize_sound_effects_play_user_interface_sound_effects_fals
   false && (
     echo "Sound: Sound Effects: ✗ Play user interface sound effects"
     defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool false
-  )
+  ) || true
   # 2022-11-02: Why was this disabled? It silences Slack notifications, which
   # I like to hear when I'm not paying attention to my MacBook screen.
   # ISOFF/2024-04-15 02:15: Enabled by default, so leave alone (then if user
@@ -711,7 +712,7 @@ sound_preferences_customize_sound_effects_play_user_interface_sound_effects_fals
   false && (
     echo "Sound: Sound Effects: ✓ Play user interface sound effects"
     defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool true
-  )
+  ) || true
 }
 
 sound_preferences_customize_sound_effects_select_an_alert_sound_jump () {
@@ -913,7 +914,7 @@ screenshots_customize_type__disabled () {
     # Options: png, jpg, gif, pdf, bmp, jpeg, tiff.
     echo "Screencapture: Change image format: JPG"
     defaults write com.apple.screencapture type jpg
-  )
+  ) || true
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1001,7 +1002,7 @@ finder_customize_add_quit_menu_option__disabled () {
     echo "Finder: Add Quit menu option"
     defaults write com.apple.finder QuitMenuItem -bool true
     restart_finder=true
-  )
+  ) || true
 }
 
 # I've never tried this option, nor does it sound appealing, but I do
@@ -1012,7 +1013,7 @@ finder_customize_show_full_path_in_finder_window_title__disabled () {
     echo "Finder: Show full path in Finder window title"
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
     restart_finder=true
-  )
+  ) || true
 }
 
 finder_customize_show_path_bar () {
@@ -1066,7 +1067,7 @@ finder_customize_avoid_ds_store_file_creation_on_network_volumes () {
     echo "Finder: (Hidden?) Avoid creating .DS_Store files on network volumes"
     defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
     restart_finder=true
-  )
+  ) || true
 }
 
 # ***
@@ -1188,22 +1189,25 @@ macos_customize () {
 # "Automatically quit printer app once the print jobs complete."
 macos_customize_quit_printer_when_queue_empties () {
   echo "DISABLED: macOS Misc.: Printer: Quit when finished"
-  false &&
+  if false; then
     defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+  fi
 }
 
 # "Prevent Photos from opening automatically when devices are plugged in."
 macos_customize_disable_device_plug_opening_preview () {
   echo "DISABLED: macOS Misc.: External devices: Do not launch Photos on mount"
-  false &&
+  if false; then
     defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+  fi
 }
 
 # "Stop iTunes from responding to the keyboard media keys."
 macos_customize_disable_itunes_listening_media_keys () {
   echo "DISABLED: macOS Misc.: Media keys: Disable iTunes listening on media keys"
-  false &&
+  if false; then
     launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+  fi
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1374,7 +1378,7 @@ alttab_customize_controls_minimized_windows__hide () {
     echo "AltTab: Preferences... > Controls > Shortcut 1
       > Minimized windows: Show at the end"
     defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 2
-  )
+  ) || true
 }
 
 # DUNNO: This option doesn't hide what I think are hidden windows,
@@ -1666,7 +1670,7 @@ activity_monitor_customize_dock_icon_show_cpu_history () {
   false && (
     echo "Activity Monitor: Right-click Dock Icon: Dock Icon > ✓ Show CPU Usage"
     defaults write com.apple.ActivityMonitor IconType -int 5
-  )
+  ) || true
   echo "Activity Monitor: Right-click Dock Icon: Dock Icon > ✓ Show CPU History"
   defaults write com.apple.ActivityMonitor IconType -int 6
 }
@@ -1999,7 +2003,7 @@ iterm2_customize_profiles_general_command () {
     print_at_end+=("\
 🔳 iTerm2: Preferences: Profiles: General: Default Profile:
    - Command: /opt/homebrew/bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /opt/homebrew/bin/bash")
- )
+  ) || true
 }
 
 iterm2_customize_profiles_add_profile_bash_5x () {
@@ -2358,7 +2362,7 @@ shortcuts_mission_control_remap_show_desktop () {
       -dict-add 36 "<dict><key>enabled</key><false/></dict>"
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
       -dict-add 37 "<dict><key>enabled</key><false/></dict>"
-  )
+  ) || true
 
   # But then I remember that I like dressing up my Mac as Linux.
   echo "Keyboard Shortcuts: Mission Control: Show Desktop: F11 → Ctrl+Alt+d"
@@ -2374,7 +2378,7 @@ shortcuts_mission_control_remap_show_desktop () {
       "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>103</integer><integer>8388608</integer></array><key>type</key><string>standard</string></dict></dict>"
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 37 \
       "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>103</integer><integer>8519680</integer></array><key>type</key><string>standard</string></dict></dict>"
-  )
+  ) || true
 
   rewire_shortcuts=true
 }
@@ -2751,14 +2755,15 @@ app_shortcuts_update_universalaccess () {
   # FIXME: It'd be like this, but not sure it's necessary.
   # - CPYST: And run this to grab a copy:
   #     defaults read com.apple.universalaccess com.apple.custommenu.apps
-  false &&
-  defaults write com.apple.universalaccess com.apple.custommenu.apps '{
-    "com.apple.finder",
-    "org.vim.MacVim",
-    "com.googlecode.iterm2",
-    "com.google.Chrome",
-    "com.apple.Safari"
-  }'
+  false && (
+    defaults write com.apple.universalaccess com.apple.custommenu.apps '{
+      "com.apple.finder",
+      "org.vim.MacVim",
+      "com.googlecode.iterm2",
+      "com.google.Chrome",
+      "com.apple.Safari"
+    }'
+  ) || true
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -2897,7 +2902,7 @@ false && (
     #
     #  restart_system_preferences=true
   }
-)
+) || true
 
 app_shortcuts_customize_system_preferences () {
   # Requires restarting System Settings to take effect.
@@ -3319,7 +3324,7 @@ false && (
   app_shortcuts_customize_google_chrome_select_all () {
     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Select All: Cmd-A → Ctrl-A"
   }
-)
+) || true
 
 # ***
 
