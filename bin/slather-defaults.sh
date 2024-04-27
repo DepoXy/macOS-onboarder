@@ -2548,7 +2548,7 @@ shortcuts_mission_control_remap () {
 }
 
 shortcuts_mission_control_remap_mission_control () {
-  echo "Keyboard Shortcuts: Mission Control: Mission Control: ^↑ → ^⌥ ↑"
+  echo "Keyboard Shortcuts: Mission Control: Mission Control: Ctrl-Up (^↑) → Ctrl-Alt-Up (^⌥ ↑)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 32 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>126</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 34 \
@@ -2558,7 +2558,7 @@ shortcuts_mission_control_remap_mission_control () {
 }
 
 shortcuts_mission_control_remap_application_windows () {
-  echo "Keyboard Shortcuts: Mission Control: Application windows: ^↓ → ^⌥ ↓"
+  echo "Keyboard Shortcuts: Mission Control: Application windows: Ctrl-Down (^↓) → Ctrl-Alt-Down (^⌥ ↓)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 33 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>125</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 35 \
@@ -2578,7 +2578,7 @@ shortcuts_mission_control_remap_show_desktop () {
   ) || true
 
   # But then I remember that I like dressing up my Mac as Linux.
-  echo "Keyboard Shortcuts: Mission Control: Show Desktop: F11 → Ctrl+Alt+d"
+  echo "Keyboard Shortcuts: Mission Control: Show Desktop: F11 → Ctrl+Alt+d (^⌥ d)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 36 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>100</integer><integer>2</integer><integer>786432</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 37 \
@@ -2597,7 +2597,7 @@ shortcuts_mission_control_remap_show_desktop () {
 }
 
 shortcuts_mission_control_remap_move_left_a_space () {
-  echo "Keyboard Shortcuts: Mission Control: Move left a space: ^← → ^⌥ ←"
+  echo "Keyboard Shortcuts: Mission Control: Move left a space: Ctrl-left (^←) → Ctrl-Alt-left (^⌥ ←)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 80 \
@@ -2607,7 +2607,7 @@ shortcuts_mission_control_remap_move_left_a_space () {
 }
 
 shortcuts_mission_control_remap_move_right_a_space () {
-  echo "Keyboard Shortcuts: Mission Control: Move right a space: ^→ → ^⌥ →"
+  echo "Keyboard Shortcuts: Mission Control: Move right a space: Ctrl-right (^←) → Ctrl-Alt-right (^⌥ ←)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 82 \
@@ -2618,7 +2618,7 @@ shortcuts_mission_control_remap_move_right_a_space () {
 
 # I rarely use multiple desktops.
 shortcuts_mission_control_remap_switch_to_desktop () {
-  echo "Keyboard Shortcuts: Mission Control: Switch to Desktop 1: ^1 → (Unset)"
+  echo "Keyboard Shortcuts: Mission Control: Switch to Desktop 1: Ctrl-1 (^1) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 118 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>18</integer><integer>262144</integer></array><key>type</key><string>standard</string></dict></dict>"
 
@@ -2626,7 +2626,7 @@ shortcuts_mission_control_remap_switch_to_desktop () {
 }
 
 shortcuts_mission_control_remap_quick_note () {
-  echo "Keyboard Shortcuts: Mission Control: Quick Note: 🌐 q → (Unset)"
+  echo "Keyboard Shortcuts: Mission Control: Quick Note: Web-q (🌐 q) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 190 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>113</integer><integer>12</integer><integer>8388608</integer></array><key>type</key><string>standard</string></dict></dict>"
 
@@ -2652,7 +2652,7 @@ shortcuts_keyboard_remap () {
 # and I've got a Karabiner-Elements Cmd-` shortcut to bring GVim front,
 # both of which seem to override this ⌘ ` mapping, so disable it.
 shortcuts_keyboard_remap_move_focus_to_next_window () {
-  echo "Keyboard Shortcuts: Keyboard: Move focus to next window: ⌘ \` → (Unset)"
+  echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
 
@@ -2753,7 +2753,7 @@ shortcuts_services_remap_searching_search_with_google_unmap () {
   #   But then if you disable "Convert Text to...implified Chinese", you'll see
   #   a second dictionary added to the same key-value. Oy. So we'll tackle all
   #   these together in a separate function.
-  echo "Keyboard Shortcuts: Services: Searching: Search With Google: ⇧⌘ L → (✗ Off) [Does nothing for me anyway]"
+  echo "Keyboard Shortcuts: Services: Searching: Search With Google: Shift-Cmd-L (⇧⌘ L) → (✗ Off) [Does nothing for me anyway]"
 }
 
 shortcuts_services_remap_text_convert_to_simplified_chinese_unmap () {
@@ -2762,28 +2762,28 @@ shortcuts_services_remap_text_convert_to_simplified_chinese_unmap () {
   # Apparently a number of settings are combined in the same key-value.
   # See the combined unmapping below, in the function:
   #   shortcuts_services_remap_pbs_unmap_all
-  echo "Keyboard Shortcuts: Services: Text: Convert Text from Traditional to Simplified Chinese: ^⌥ ⇧⌘ C → (✗ Off)"
+  echo "Keyboard Shortcuts: Services: Text: Convert Text from Traditional to Simplified Chinese: Shift-Ctrl-Cmd-Alt-C (^⌥ ⇧⌘ C) → (✗ Off)"
 }
 
 shortcuts_services_remap_text_convert_to_traditional_chinese_unmap () {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
-  echo "Keyboard Shortcuts: Services: Text: Convert Text from Simplified to Traditional Chinese: ^⌥ ⇧⌘ C → (✗ Off)"
+  echo "Keyboard Shortcuts: Services: Text: Convert Text from Simplified to Traditional Chinese: Shift-Ctrl-Cmd-C (^⇧⌘ C) → (✗ Off)"
 }
 
 shortcuts_services_remap_text_make_new_sticky_note_unmap () {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
-  echo "Keyboard Shortcuts: Services: Text: Make New Sticky Note: ⇧⌘ Y → (✗ Off)"
+  echo "Keyboard Shortcuts: Services: Text: Make New Sticky Note: Shift-Cmd-Y (⇧⌘ Y) → (✗ Off)"
 
 }
 
 shortcuts_services_remap_text_open_man_page_in_terminal_unmap () {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
-  echo "Keyboard Shortcuts: Services: Text: Open man Page in terminal: ⇧⌘ M → (✗ Off)"
+  echo "Keyboard Shortcuts: Services: Text: Open man Page in terminal: Shift-Cmd-M (⇧⌘ M) → (✗ Off)"
 }
 
 shortcuts_services_remap_text_search_man_pag_ndex_in_terminal_unmap () {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
-  echo "Keyboard Shortcuts: Services: Text: Search map Page...ndex in Terminal: ⇧⌘ A → ✗ Off)"
+  echo "Keyboard Shortcuts: Services: Text: Search map Page...ndex in Terminal: Shift-Cmd-A (⇧⌘ A) → ✗ Off)"
 }
 
 shortcuts_services_remap_pbs_unmap_all () {
@@ -2792,12 +2792,12 @@ shortcuts_services_remap_pbs_unmap_all () {
   # - So we'll just tell user to do this manually.
   print_at_end+=("\
 🔳 System Settings: Keyboard: Keyboard Shortcuts...: Services: Disable all active items that are mapped:
-   - Searching: Search With Google: ⇧⌘ L → (✗ Off) [Does nothing for me anyway]
-   - Text: Convert Text to Simplified Chinese: ^⌥ ⇧⌘ C → (✗ Off)
-   - Text: Convert Text to Traditional Chinese: ^⇧⌘ C → (✗ Off)
-   - Text: Make New Sticky Note: ⇧⌘ Y → (✗ Off)
-   - Text: Open man Page in terminal: ⇧⌘ M → (✗ Off)
-   - Text: Search map Page Index in Terminal: ⇧⌘ A → ✗ Off)")
+   - Searching: Search With Google: Shift-Cmd-L (⇧⌘ L) → (✗ Off) [Does nothing for me anyway]
+   - Text: Convert Text to Simplified Chinese: Shift-Ctrl-Cmd-Alt-C (^⌥ ⇧⌘ C) → (✗ Off)
+   - Text: Convert Text to Traditional Chinese: Shift-Ctrl-Cmd-C (^⇧⌘ C) → (✗ Off)
+   - Text: Make New Sticky Note: Shift-Cmd-Y (⇧⌘ Y) → (✗ Off)
+   - Text: Open man Page in terminal: Shift-Cmd-M (⇧⌘ M) → (✗ Off)
+   - Text: Search map Page Index in Terminal: Shift-Cmd-A (⇧⌘ A) → ✗ Off)")
 
   # The following mapping apparently re-enables all those settings.
   # Or at least they show up re-enabled in
