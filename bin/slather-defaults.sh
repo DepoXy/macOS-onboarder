@@ -1911,7 +1911,9 @@ iterm2_customize () {
   iterm2_customize_permission_full_disk_access
 
   iterm2_customize_profiles_general_command
+  iterm2_customize_profiles_rename_profile_bash_3x
   iterm2_customize_profiles_add_profile_bash_5x
+  iterm2_customize_profiles_set_profile_bash_5x_default
   iterm2_customize_profiles_add_profile_norc_3x
   iterm2_customize_profiles_add_profile_norc_5x
   iterm2_customize_profiles_add_profile_norc_5x_lite
@@ -2199,10 +2201,20 @@ iterm2_customize_profiles_general_command () {
   ) || true
 }
 
+iterm2_customize_profiles_rename_profile_bash_3x () {
+  print_at_end+=("\
+  🔳 iTerm2: Preferences: Profiles: General: Basics: Name: “Default” → “Bash 3.x”")
+}
+
 iterm2_customize_profiles_add_profile_bash_5x () {
   print_at_end+=("\
 🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “Bash 5.x”
    - Command: /opt/homebrew/bin/bash")
+}
+
+iterm2_customize_profiles_set_profile_bash_5x_default () {
+  print_at_end+=("\
+  🔳 iTerm2: Preferences: Profiles: (Select) Bash 5.x: Other Actions...: ✓ Set as Default")
 }
 
 iterm2_customize_profiles_add_profile_norc_3x () {
