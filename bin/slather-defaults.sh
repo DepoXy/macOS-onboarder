@@ -1911,10 +1911,10 @@ iterm2_customize () {
   iterm2_customize_permission_full_disk_access
 
   iterm2_customize_profiles_general_command
-  iterm2_customize_profiles_add_profile_norc_5x
-  iterm2_customize_profiles_add_profile_norc_5x_lite
   iterm2_customize_profiles_add_profile_bash_5x
   iterm2_customize_profiles_add_profile_norc_3x
+  iterm2_customize_profiles_add_profile_norc_5x
+  iterm2_customize_profiles_add_profile_norc_5x_lite
 }
 
 # ***
