@@ -9,7 +9,7 @@
 #     meld ~/.kit/mOS/macOS-onboarder/lib/defaults-domains-block.list \
 #       <(defaults-domains-list)
 #
-# USAGE: Run `bin/slather-defaults --cnt-run` to see list of domains
+# USAGE: Run `bin/slather-defaults.sh --cnt-run` to see list of domains
 #        actually used with `defaults` calls, and ensure those exposed
 #        (commented) below.
 
