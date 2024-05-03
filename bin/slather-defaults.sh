@@ -57,7 +57,7 @@
 DXY_SCREENCAPS_LOCATION="${DXY_SCREENCAPS_LOCATION:-${HOME}/screencaps}"
 
 # YOU: Set this false if you want to keep GarageBand and iMovie.
-DXY_REMOVE_BLOATWARE=false
+SLATHER_REMOVE_BLOATWARE=false
 
 # DXY_ONB_EXPECTED_MAJOR_VERS=13
 # DXY_ONB_EXPECTED_MAJOR_VERS_NAME="Ventura"
@@ -4038,14 +4038,14 @@ EOF
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # ISOFF/2024-04-16: Whatever, I finally bought my own Mac, so keeping
-# these (DXY_REMOVE_BLOATWARE=false now), who doesn't like to compose
+# these (SLATHER_REMOVE_BLOATWARE=false now), who doesn't like to compose
 # their own music, or to edit their own blarghbusters.
 #   The author doesn't use GarageBand or iMovie for development, and I
 #   don't like seeing these popup in Spotlight, or seeing them elsewhere,
 #   so I like them gone. I also don't run macOS personally (Linux here)
 #   so don't see myself wanting to try either app (never opened either).
 macos_remove_bloatware () {
-  if ! ${DXY_REMOVE_BLOATWARE:-false}; then
+  if ! ${SLATHER_REMOVE_BLOATWARE:-false}; then
     echo "✗ Skipping bloatware removal"
 
     return 0
