@@ -54,7 +54,7 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-DXY_SCREENCAPS_LOCATION="${DXY_SCREENCAPS_LOCATION:-${HOME}/screencaps}"
+DEPOXY_SCREENCAPS_DIR="${DEPOXY_SCREENCAPS_DIR:-${HOME}/Documents/screencaps}"
 
 # YOU: Set this false if you want to keep GarageBand and iMovie.
 SLATHER_REMOVE_BLOATWARE=false
@@ -892,10 +892,10 @@ screenshots_customize () {
 # ***
 
 screenshots_customize_location () {
-  mkdir -p "${DXY_SCREENCAPS_LOCATION}"
+  mkdir -p "${DEPOXY_SCREENCAPS_DIR}"
 
-  echo "Screencapture: Save screenshots to: ${DXY_SCREENCAPS_LOCATION}"
-  defaults write com.apple.screencapture location "${DXY_SCREENCAPS_LOCATION}"
+  echo "Screencapture: Save screenshots to: ${DEPOXY_SCREENCAPS_DIR}"
+  defaults write com.apple.screencapture location "${DEPOXY_SCREENCAPS_DIR}"
 }
 
 screenshots_customize_disable_shadow () {
