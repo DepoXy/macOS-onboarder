@@ -4470,7 +4470,7 @@ promote_homebrew_bash () {
   local brew_prefix="$(print_homebrew_prefix)"
 
   if [ -n "${brew_prefix}" ]; then
-    if ${SLATHER_DEJA_VU:-false}; then
+    if ${PROMOTE_BASH_DEJA_VU:-false}; then
       >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash <= v3?!)"
 
       exit_1
@@ -4479,7 +4479,7 @@ promote_homebrew_bash () {
     >&2 echo "Shimming to Homebrew Bash..."
 
     # Run via Homebrew bash.
-    SLATHER_DEJA_VU=true exec "${brew_prefix}/bin/bash" "$0" "$@"
+    PROMOTE_BASH_DEJA_VU=true exec "${brew_prefix}/bin/bash" "$0" "$@"
   else
     >&2 echo "ERROR: Requires Bash v4 or better (and Homebrew bash not found)"
 
