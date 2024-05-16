@@ -757,6 +757,8 @@ display_customize () {
   display_customize_external_monitor_mirror_displays
   display_customize_battery_power_adapter_turn_display_off_after_never
   display_customize_battery_power_adapter_no_sleep_when_display_is_off
+  display_customize_energy_saver_no_sleep_when_display_is_off
+  display_customize_energy_saver_reboot_automatically_after_a_power_failure
   display_customize_gripe_cannot_not_sleep_nor_lock_when_latched
   display_customize_external_enable_notifications
 }
@@ -826,12 +828,39 @@ display_customize_battery_power_adapter_turn_display_off_after_never () {
    - Turn display off after: Change from '10m' to 'Never'.")
 }
 
+# ***
+
+# UCASE: Using an external monitor, and having the laptop lid closed (and
+# perhaps switching between multiple sources on the external monitor).
 display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🔳 System Settings: Battery: Power Adapter:
    - ✓ Prevent your Mac from automatically sleeping when the display is off.
      - This prompts you about affecting battery life.")
+}
+
+# The next setting is likely stored in privileged OS cache (it's at
+# least not in any plist), so the following is a reminder, and not a
+# `defaults` call.
+# - NTRST/2024-05-15: The first time the author enabled this setting,
+#   macOS prompted for the account password. But a day later, after
+#   reopening System Settings, there is no such prompt on either
+#   disable nor enable — So is there literally just 1 password prompt
+#   to enable this setting the very first time, but then never again?
+#   - Or maybe after logging off or rebooting?
+display_customize_energy_saver_no_sleep_when_display_is_off () {
+  ! is_probably_a_laptop || return 0
+
+  print_at_end+=("🤷 System Settings: Energy Saver:
+   - ✓ Prevent automatic sleeping when the display is off.
+     - This prompts for account password, but only once, ever.")
+
+# ***
+
+display_customize_energy_saver_reboot_automatically_after_a_power_failure () {
+  print_at_end+=("🤷 System Settings: Energy Saver:
+   - ✓ Start up automatically after a power failure")
 }
 
 display_customize_gripe_cannot_not_sleep_nor_lock_when_latched () {
