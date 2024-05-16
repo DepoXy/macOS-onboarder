@@ -2179,46 +2179,129 @@ iterm2_customize_advanced_pasteboard_trim_whitespace_when_copying_to_pasteboard_
 
 # ***
 
-# When pasting a lot of text to the terminal, iTerm will insert a newline unexpectedly
-# at some point, and then what you're pasting will be misinterpreted. (And seems to
-# be a race condition, because newline does not always appear at the same point in a
-# paste).
-# REFER:
-#   https://apple.stackexchange.com/questions/226096/increase-amount-of-text-copied-in-iterm2
+# BUGGY: When pasting a lot of text to the terminal, something bugs out
+# and causes one or more newlines to be injected randomly into the input.
+# - If you're pasting to the shell prompt, what you're pasting will be
+#   misinterpreted — and you might inadvertently run the wrong command!
+#   (Though usually what happens is the shell reports a syntax error.)
+#
+# Author has not found a definitive, clear answer on why this happens.
+# - But I've seen a few fingers pointed at `readline`, which makes sense
+#   if that's where iTerm2 sends user input. Though there might be other
+#   terminal components at play, too.
+#   - REFER: Here's the closest I've found to an explanation:
+#       "For example, pasting into a bash 'heredoc' requires you to paste
+#        slowly because of a bug in bash. In my experience this is caused
+#        by the receiving app (usually readline) resetting the TTY after
+#        each line of input, which causes buffered input to be lost."
+#     https://gitlab.com/gnachman/iterm2/-/issues/3160#note_1329105
+#     - Though I'm not sure why they say "pasting into a bash 'heredoc'",
+#       because I seen the issue just pasting into iTerm2, regardless of
+#       the foreground app, shell, or specific input being pasted.
+#     - It's also curious re: "resetting ... after each line of input":
+#       Does that mean the issue potentially happens only after a newline
+#       in the input? (This is where I tell myself it's not worth my time
+#       to build iTerm2 and `readline`, and start my own investigation...)
+#       - One simple test: paste a really long string without a newline.
+#
+# - REFER:
 #   https://iterm2.com/documentation-hidden-settings.html
-#   - From the doc:
+#   https://apple.stackexchange.com/questions/226096/increase-amount-of-text-copied-in-iterm2
+#   https://gitlab.com/gnachman/iterm2/-/issues/3160#note_1329105
+#   https://github.com/taylormonacelli/dotfiles/commit/cf668ec1df254881ac9fd5dc8b5f658fa48c7460
+
+# REFER: iTerm2 offers two types of paste (regular and slow) and two
+#        settings each, the Chunk Size and the Interchunk Delay:
 #
-#     Pastes (both regular and slow) are done by splitting the text to paste into chunks.
-#     There is a delay between the transmission of each chunk.
-#     To change the speed that "paste" pastes at:
+#     $ defaults read com.googlecode.iterm2 QuickPasteBytesPerCall
+#     $ defaults read com.googlecode.iterm2 QuickPasteDelayBetweenCalls
+#     $ defaults read com.googlecode.iterm2 SlowPasteBytesPerCall
+#     $ defaults read com.googlecode.iterm2 SlowPasteDelayBetweenCalls
 #
-#       defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 1024
-#       defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.01
+# - None of these config settings exist by default.
+# - So-called "slow paste", as far as the author can tell, is just a menu
+#   option, Edit > Paste Special > Paste Slowly, and one without a shortcut.
+#   - Meaning, the user has to opt-in slow paste, and they have to use the
+#     mouse to pick a nested option to boot (unless they assign a binding).
+#   - Furthermore, the user needs to identify when it's appropriate to slow
+#     paste, either because they know they have a large chunk copied, or
+#     because they already normal-pasted and it failed.
+#     - Note the latter seems dangerous, because it's not just that it
+#       "failed", but that a newline got injected into the input, and
+#       the shell interpreted it — and hopefully the shell failed to
+#       actually execute any of the broken input, because who knows
+#       what unintended commands might get executed.
+#
+#   - This whole diatribe is to recommend that we ignore the Paste Slowly
+#     option, and to use normal paste speed values that will always succeed.
+#     - Then there's no risk on running unintended commands; there's no
+#       being annoyed when normal paste fails; and there's no extra brain
+#       math required to think about paste size and which paste type to use.
+
+# SAVVY: To see the default config values, delete the config entries:
+#         $ defaults delete com.googlecode.iterm2 QuickPasteBytesPerCall
+#         # etc.
+# - NTHEN: Preferences > Advanced > Search *paste*:
+#   - Normal paste:
+#     - Delay in seconds between chunks when pasting normally: 0.01530456
+#     - Number of bytes to paste in each chunk when pasting normally: 667
+#   - Slow paste:
+#     - Delay in seconds between chunks when pasting slowly: 0.125
+#     - Number of bytes to paste in each chunk when pasting slowly: 16
+#
+# - Author has had issues with default normal paste speed on all Macs
+#   they've used: M2 Mac mini, M1 Macbook, and earlier Intel Macbook.
+#   - Meaning, the default values, 667 bytes w/ 0.015 sec. delay is
+#     too aggressive.
+
+# OBSRV/2024-05-16: Results from M2 Mac Mini:
+#
+# +-------+-------+--------+------------+---------------------------------------+
+# | Bytes | Delay | Works? | Rate (bps) | Notes                                 |
+# +-------+-------+--------+------------+---------------------------------------+
+#    1024   0.01     Fail       102,400   Splits even small large pastes, e.g., 32 lines
+#      32   0.05     PASS           640   Very slow
+#    1024   0.05     Fail        20,480   All sorts of corrupted input
+#    1024   1.0      PASS         1,024   Works, with an obvious pause
+#    999999999999  0.05  Fail  19999999999980  Haha, nope
+#     512   0.05     Fail        10,240   Nope
+#     256   0.05     Fail         5,120   Nope
+#     128   0.05     PASS         2,560   Finally!
+#    1024   0.05     Fail        20,480   Nope
+#    1024   0.25     Fail         4,096   Nope
+#    1024   0.50     PASS         2,048   Finally!
+#    1024   0.40     PASS         2,560   Seems to be the best rate...
+#    1024   0.39     Fail!?       2,626   † Fails-not fails, depending
+#     667   0.01530456  Fail     43,582   This is the iTerm2 normal paste default
+#     667   0.33     Fail         2,021   Odd, given low rate, b/c <=2,560 usually works
+#     667   0.5      PASS         1,334   ‡ Suggests importance of delay...
+#      16   0.125    PASS           128   This is the iTerm2 slowly paste default
+#
+# NTRST: † Note that 1024/0.40 works, but 1024/0.39 borks it.
+# - † 1024 bytes with 0.39 secs delay failed on a 1,155 character copy-paste
+#     of three shell commands.
+#     - But it works if pasted as one shell command!
+#       - E.g., if you connect the 3 commands using `&& \`, then it works!
+#       - Not sure if larger paste (still using `&& \`) would also work,
+#         but this anecdote does make it seem like the issue does have
+#         something to do with `readline` resetting (dropping) input after
+#         receiving a complete command on input.
+#
+# NOTED: ‡
+# - ‡ 667b w/ 0.1s delay repeats each separate pasted command (e.g., if you
+#     copy three separate commands and the third command is over 1K chars
+#     across multiple lines). And it's not just once, but you'll see the
+#     same pasted command repeated multiple times.
+#     - Also, you'll see multiple Bash PS1 prompts... what a mess.
+#     At least 667b w/ 0.5s delay works, and output looks normal, nothing
+#     echoed.
 
 iterm2_customize_increase_paste_buffer_size () {
-  # None of these exist by default:
-  #  $ defaults read com.googlecode.iterm2 QuickPasteBytesPerCall
-  #  $ defaults read com.googlecode.iterm2 QuickPasteDelayBetweenCalls
-  #  $ defaults read com.googlecode.iterm2 SlowPasteBytesPerCall
-  #  $ defaults read com.googlecode.iterm2 SlowPasteDelayBetweenCalls
+  echo "iTerm2: Increase paste \"speed\" (chunk size and interchunk delay)"
+  defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 1024
+  defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.4
 
-  # ISOFF/2024-04-16: Wait until you sense an issue with default
-  # paste "speed", then fiddle with these values (and maybe see
-  # if you can determine roughly what the defaults are (or search
-  # the iTerm2 source for the answer)).
-  if true; then
-    print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll to Top / Shortcut: Ctrl-Shift-Home")
-  else
-    # FIXME: Given this doesn't exist at first, what's the default BytesPerCall?
-    echo "iTerm2: Increase paste buffer size"
-    defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 32
-
-    # FIXME: Given this doesn't exist at first, what's the default DelayBetweenCalls?
-    echo "iTerm2: Increase paste buffer size"
-    defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.05
-
-    # FIXME: killall iTerm(2)... well, tell user, don't want to zap their terms
-  fi
+  print_at_end+=("🔳 iTerm2: Restart terminals for changes to take effect (incl. paste speed)")
 }
 
 # ***
