@@ -1876,6 +1876,7 @@ activity_monitor_customize_dock_icon_show_cpu_history () {
 
 # CXREF: app_shortcuts_customize_iterm2
 iterm2_customize () {
+  iterm2_customize_general_selection_copied_text_includes_trailing_newline_on
   iterm2_customize_general_selection_copy_to_pasteboard_on_selection_off
 
   iterm2_customize_profiles_color_scheme
@@ -1951,6 +1952,13 @@ iterm2_customize () {
   iterm2_customize_profiles_add_profile_norc_3x
   iterm2_customize_profiles_add_profile_norc_5x
   iterm2_customize_profiles_add_profile_norc_5x_lite
+}
+
+# ***
+
+iterm2_customize_general_selection_copied_text_includes_trailing_newline_on () {
+  echo "iTerm2: General > Selection > ✓ Copied text includes trailing newline"
+  defaults write com.googlecode.iterm2 CopyLastNewline -bool true
 }
 
 # ***
