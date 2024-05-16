@@ -2147,7 +2147,7 @@ iterm2_customize_advanced_pasteboard_trim_whitespace_when_copying_to_pasteboard_
 #
 #       defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 1024
 #       defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.01
-#
+
 iterm2_customize_increase_paste_buffer_size () {
   # None of these exist by default:
   #  $ defaults read com.googlecode.iterm2 QuickPasteBytesPerCall
