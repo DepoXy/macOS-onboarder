@@ -1011,6 +1011,15 @@ finder_customize_advanced_show_all_filename_extensions () {
   restart_finder=true
 }
 
+# BWARE/2024-05-11: Disabling the desktop inhibits display resolution detection
+# via AppleScript, e.g.:
+#   $ osascript -e 'tell application "Finder" to get bounds of window of desktop'
+#   0, 0, 2560, 1440
+#   $ defaults write com.apple.finder CreateDesktop -bool false
+#   $ killall Finder
+#   $ osascript -e 'tell application "Finder" to get bounds of window of desktop'
+#   33:39: execution error: Finder got an error: Can’t get bounds of window of desktop. (-1728)
+# - ALTLY: Parse `system_profiler SPDisplaysDataType` instead of get-bounds.
 finder_customize_disable_desktop_focus () {
   echo "Finder: Disable Desktop so it doesn't steal focus when you click on it"
   defaults write com.apple.finder CreateDesktop -bool false
