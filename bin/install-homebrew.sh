@@ -762,7 +762,7 @@ init_homebrew_or_exit () {
   if [ ! -e "${BREW_PATH}" ]; then
     >&2 echo "ERROR: Missing Homebrew."
 
-    exit 1
+    exit_1
   fi
 
   eval "$(${BREW_PATH} shellenv)"
@@ -922,8 +922,36 @@ os_is_macos () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+_NORMAL_EXIT=false
+
+exit_1 () { _NORMAL_EXIT=true; exit 1; }
+exit_0 () { _NORMAL_EXIT=true; exit 0; }
+
+exit_cleanup () {
+  if ! ${_NORMAL_EXIT}; then
+    # USAGE: Alert on unexpected error path, so you can add happy path.
+    >&2 echo "ALERT: "$(basename -- "$0")" exited abnormally!"
+    >&2 echo "- Hint: Enable \`set -x\` and run again..."
+  fi
+
+  trap - EXIT INT
+
+  ${_NORMAL_EXIT} && exit 0 || exit 1
+}
+
+int_cleanup () {
+  _NORMAL_EXIT=true
+
+  exit_cleanup
+}
+
+# ***
+
 main () {
   set -e
+
+  trap -- exit_cleanup EXIT
+  trap -- int_cleanup INT
 
   os_is_macos || ( >&2 echo "ERROR: Not macOS" && return 1 )
 
@@ -936,6 +964,8 @@ main () {
   create_user_local_bin_symlinks
 
   echo "Pizza!"
+
+  trap - EXIT INT
 }
 
 # Run the installer iff being executed.
