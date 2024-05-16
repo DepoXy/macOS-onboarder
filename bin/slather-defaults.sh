@@ -801,44 +801,44 @@ display_customize_external_monitor_mirror_displays () {
   is_probably_a_laptop || return 0
 
   print_at_end+=('🔳 System Settings: Displays:
-  - If using a laptop connected to an external monitor,
-    and the laptop lid is always closed, set up mirroring;
-    otherwise skip this step.
+   - If using a laptop connected to an external monitor,
+     and the laptop lid is always closed, set up mirroring;
+     otherwise skip this step.
 
-    - Mirror both monitors:
-      - 1920x1080
-      - "Color LCD" color profile.
-    - Note that the *Display Settings...* button appears when an external
-      monitor connected (in my case, HDMI to USB-C).
-    - Note circa 2022 on M1 Mac I needed to change resolution to 1280 x 720
-      first, then to 1920 x 1080.
-    - Unsure whether HDMI ghost dongle necessary.
-      - On 2020 Intel MacBook, I needed the bi-directional EDID ghost to
-        keep macOS from disconnecting the display when I changed HDMI inputs.
-      - On 2020 M1 MacBook, I did not use the EDID ghost, because when it is
-        used, the external monitor received no signal.')
+     - Mirror both monitors:
+       - 1920x1080
+       - "Color LCD" color profile.
+     - Note that the *Display Settings...* button appears when an external
+       monitor connected (in my case, HDMI to USB-C).
+     - Note circa 2022 on M1 Mac I needed to change resolution to 1280 x 720
+       first, then to 1920 x 1080.
+     - Unsure whether HDMI ghost dongle necessary.
+       - On 2020 Intel MacBook, I needed the bi-directional EDID ghost to
+         keep macOS from disconnecting the display when I changed HDMI inputs.
+       - On 2020 M1 MacBook, I did not use the EDID ghost, because when it is
+         used, the external monitor received no signal.')
 }
 
 display_customize_battery_power_adapter_turn_display_off_after_never () {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🔳 System Settings: Battery: Power Adapter:
-  - Turn display off after: Change from '10m' to 'Never'.")
+   - Turn display off after: Change from '10m' to 'Never'.")
 }
 
 display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🔳 System Settings: Battery: Power Adapter:
-  - ✓ Prevent your Mac from automatically sleeping when the display is off.
-    - This prompts you about affecting battery life.")
+   - ✓ Prevent your Mac from automatically sleeping when the display is off.
+     - This prompts you about affecting battery life.")
 }
 
 display_customize_gripe_cannot_not_sleep_nor_lock_when_latched () {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🤷 System Settings: Display Preferences: Do not Lock when Lid Closed
-  - Throw a coaster on the laptop keyboard to keep lid from closing all the way.")
+   - Throw a coaster on the laptop keyboard to keep lid from closing all the way.")
 }
 
 # Seems like a poor default, but notifs are disabled when an external
@@ -850,7 +850,7 @@ display_customize_external_enable_notifications () {
   #  is_probably_a_laptop || return 0
 
   print_at_end+=("🔳 System Settings: Notifications:
-    ✓ Allow notifications when mirroring or sharing the display")
+   - ✓ Allow notifications when mirroring or sharing the display")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -875,7 +875,7 @@ accessibility_customize_pointer_control_ignore_built_in_trackpad_when_mouse_is_p
 #   not Premium, latter has weird inflections).
 accessibility_customize_spoken_content_download_voices () {
   print_at_end+=("🔳 System Settings: Accessibility: Spoken Content: System Voice: Drop-down: Manage Voices...:
-  - Select and download voices (e.g., pick a few \"Enhanced\" or \"Premium\" voices you like).")
+   - Select and download voices (e.g., pick a few \"Enhanced\" or \"Premium\" voices you like).")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1287,12 +1287,11 @@ google_chrome_customize_make_default_browser () {
 google_chrome_customize_suggest_setup () {
   print_at_end+=("\
 🔳 Google Chrome: Initial setup:
-  - Remove New Tab shortcut(s) (e.g., Web Store)
-  - Click *Customize Chrome* (lower-right)
-    - Decide *My shortcuts* vs. *Most visited sites*
-  - Skip setting Chrome as default browser (We use *Finicky*)
-  - Decline Chrome Sync
-")
+   - Remove New Tab shortcut(s) (e.g., Web Store)
+   - Click *Customize Chrome* (lower-right)
+     - Decide *My shortcuts* vs. *Most visited sites*
+   - Skip setting Chrome as default browser (We use *Finicky*)
+   - Decline Chrome Sync")
 }
 
 google_chrome_customize_continue_where_you_left_off () {
@@ -1319,23 +1318,24 @@ google_chrome_customize_add_extension_react_developer_tools () {
 
 google_chrome_customize_add_extension_redux_devtools () {
   print_at_end+=("\
-🔳 Google Chrome: Add extenstion: Redux DevTools
+🔳 Google Chrome: Add extenstion: Redux DevTools::
      sensible-open https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related?hl=en
+   - Configure Redux DevTools::
+       sensible-open chrome://extensions/shortcuts
 - 🔳 Configure Redux DevTools: [Icon right of location] > Options: ✓ Allow in incognito
-- 🔳 Configure Redux DevTools: Keyboard shortcut: Shift-Cmd-E → Alt-Shift-R
-       sensible-open chrome://extensions/shortcuts")
+- 🔳 Configure Redux DevTools: Keyboard shortcut: Shift-Cmd-E → Alt-Shift-R")
 }
 
 # Clear Cache is helpful where Shift-F5 not clearing what you need cleared
 # (e.g., temporary access tokens).
 google_chrome_customize_add_extension_clear_cache () {
   print_at_end+=("\
-🔳 Google Chrome: Add extenstion: Clear Cache
+🔳 Google Chrome: Add extenstion: Clear Cache::
      sensible-open https://chrome.google.com/webstore/detail/clear-cache/cppjkneekbjaeellbfkmgnhonkkjfpdn/RK%3D2/RS%3DzwqaryCReNAACSfd_oYYPpX0_tw-
 - 🔳 Configure Clear Cache: Reload: ✔ Automatically reload active tab after clearing data
 - 🔳 Configure Clear Cache: Date to Remove: ☑ Local Storage
 - 🔳 Configure Clear Cache: Time Period: 🔘 Last Day
-- 🔳 Configure Redux DevTools: Keyboard shortcut: (none) → Alt-Shift-E [rEload]
+- 🔳 Configure Redux DevTools: Keyboard shortcut: (none) → Alt-Shift-E [rEload]::
        sensible-open chrome://extensions/shortcuts")
 }
 
@@ -1369,13 +1369,13 @@ mozilla_firefox_customize() {
 # REFER: https://css-tricks.com/sliding-nightmare-understanding-range-input/
 mozilla_firefox_customize_devtools_show_user_agent_shadow_dom () {
   print_at_end+=("\
-🔳 Mozilla Firefox: DevTools: Verify \`devtools.inspector.showAllAnonymousContent\` is true
+🔳 Mozilla Firefox: DevTools: Verify \`devtools.inspector.showAllAnonymousContent\` is true::
     firefox about:config")
 }
 
 mozilla_firefox_customize_customize_add_extension_redux_devtools () {
   print_at_end+=("\
-🔳 Mozilla Firefox: Add extenstion: Redux DevTools
+🔳 Mozilla Firefox: Add extenstion: Redux DevTools::
      sensible-open https://github.com/zalmoxisus/redux-devtools-extension")
 }
 
@@ -1500,9 +1500,9 @@ alttab_customize_appearance_theme_windows_10 () {
 alttab_customize_blocklist_hide_in_alttab () {
   print_at_end+=("$(cat << 'EOF'
 🔳 AltTab: Preferences...: Blacklists: +: [Select app] / Hide in AltTab: Always
-   - Hide apps that appear in AltTab even when not open, e.g.,:
-     - /Applications/Pulse Secure.app
-     - /Applications/Webex.app
+   - Hide apps that appear in AltTab even when not open, e.g.,::
+       /Applications/Pulse Secure.app
+       /Applications/Webex.app
 EOF
   )")
 }
@@ -2357,7 +2357,7 @@ meld_customize_syntax_highlighting_color_scheme () {
 
 meld_customize_filename_filters () {
   print_at_end+=("\
-🔳 Meld: Settings: File Filters: Filename filters: (Press +):
+🔳 Meld: Settings: File Filters: Filename filters: (Press +)::
    - Developer cruft: TBD*
    - NodeJS: node_modules
    - Python Build: .make.out *.mo .tox _build dist htmlcov
