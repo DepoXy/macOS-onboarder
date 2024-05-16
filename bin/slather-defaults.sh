@@ -2154,6 +2154,7 @@ iterm2_customize_keys_key_bindings_add__ctrl_shift_pageup__scroll_one_page_up ()
 iterm2_customize_keys_key_bindings_add__ctrl_shift_pagedown__scroll_one_page_down () {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Page Down / Shortcut: Ctrl-Shift-PageDown")
 }
+
 iterm2_customize_keys_key_bindings_add__ctrl_shift_home__scroll_to_top () {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll to Top / Shortcut: Ctrl-Shift-Home")
 }
