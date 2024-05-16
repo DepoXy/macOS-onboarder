@@ -258,6 +258,9 @@ BREW_APPS+=("tree")
 # --------------------------
 
 BREW_APPS+=("less")
+# Useful for LESSOPEN, e.g.,
+#   LESSOPEN="| highlight %s --out-format xterm256 --force"
+BREW_APPS+=("highlight")
 
 # "Clone of cat(1) with syntax highlighting and Git integration"
 BREW_APPS+=("bat")
