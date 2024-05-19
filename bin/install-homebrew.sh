@@ -315,6 +315,11 @@ BREW_APPS+=("gnu-time")
 
 BREW_APPS+=("wget")
 
+# SAVVY/2024-05-17: @macOS 14.4.1:  "rsync  version 2.6.9  protocol version 29"
+#                   @linux LM 21.3: "rsync  version 3.2.7  protocol version 31"
+BREW_APPS+=("rsync")
+USER_LINK+=("rsync rsync")
+
 # --------------------------
 
 BREW_APPS+=("ctags")
