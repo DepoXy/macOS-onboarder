@@ -1616,6 +1616,48 @@ karabiner_elements_customize_complex_modifications_add_rule_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+hammerspoon_customize () {
+  local restart_hammerspoon=false
+
+  hammerspoon_customize_setup_reminder
+
+  hammerspoon_customize_launch_at_login
+
+  hammerspoon_customize_enable_accessibility
+
+  if ${restart_hammerspoon}; then
+    killall Hammerspoon
+
+    open /Applications/Hammerspoon.app/
+  fi
+}
+
+hammerspoon_customize_setup_reminder () {
+  print_at_end+=("🔳 Hammerspoon: Run Hammerspoon.app (e.g., via <Cmd+Space> Spotlight)
+   - 🔳 Choose *Check Automatically* from *Check for updates automatically?* popup
+   - See following reminders for *Hammerspoon Preferences* window that pops up")
+}
+
+# No `defaults` option for auto-start.
+hammerspoon_customize_launch_at_login () {
+  print_at_end+=("🔳 Hammerspoon: Hammerspoon Preferences:
+   - Enable option: ✓ *Launch Hammerspoon at login*")
+}
+
+hammerspoon_customize_enable_accessibility () {
+  print_at_end+=("🔳 Hammerspoon: Hammerspoon Preferences:
+   - Set privilege: Click *Enable Accessibility* and allow Hammerspoon")
+}
+
+# hammerspoon_customize_example () {
+#   echo "Hammerspoon: Hammerspoon Preferences: Example"
+#   defaults write org.hammerspoon.Hammerspoon Example -int 0
+#
+#   restart_hammerspoon=true
+# }
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # So nice: Note that changes to Rectangle's plist take effect immediately.
 
 # SAVVY: Be sure to delete any existing keybinding before assigning a
@@ -4476,6 +4518,10 @@ domains_customize () {
   # ***
 
   karabiner_elements_customize
+
+  # ***
+
+  hammerspoon_customize
 
   # ***
 

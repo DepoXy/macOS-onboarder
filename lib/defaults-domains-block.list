@@ -327,6 +327,7 @@ net.pulsesecure.Pulse-Secure
 org.dmarcotte.Easy-Move-Resize
 org.gimp.gimp-2.10:
 #org.gnome.meld
+#org.hammerspoon.Hammerspoon
 org.jkiss.dbeaver.core.product
 org.pqrs.Karabiner-Elements.Preferences
 org.pqrs.Karabiner-Elements.Settings

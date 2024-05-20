@@ -37,6 +37,7 @@ declare -a USER_LINK=()
 
 # *Powerful* keyboard customization.
 # - PROMPTS: Requires admin password.
+# - CALSO: See also Hammerspoon automator (installed below).
 BREW_APPS+=("--cask karabiner-elements")
 
 # --------------------------
@@ -721,6 +722,17 @@ BREW_APPS+=("--cask contexts")
 # - CXREF: https://stackoverflow.com/questions/17058134/
 #             is-there-an-equivalent-of-lsusb-for-os-x
 BREW_APPS+=("mikhailai/misc/usbutils")
+
+# --------------------------
+
+# Hammerspoon is a Lua-powered desktop automation application.
+#   https://www.hammerspoon.org/
+#   https://www.hammerspoon.org/Spoons/
+# - Config-based setup makes it easier to edit your keybindings:
+# - Installs both /Applications/Hammerspoon.app and `hs` to PATH,
+#   e.g., `/opt/homebrew/bin/hs`.
+# - CALSO: Karabiner Elements (KE) (installed above).
+BREW_APPS+=("--cask hammerspoon")
 
 # --------------------------
 
