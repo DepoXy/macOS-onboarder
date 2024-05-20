@@ -228,7 +228,9 @@ desktop_and_screen_saver_customize () {
 
 # I changed the desktop to black, but I didn't see any plist change.
 desktop_and_screen_saver_customize_desktop_black () {
-  print_at_end+=("🔳 System Settings: Wallpaper: *Configure to taste* (Generally I choose Black)")
+  print_at_end+=("🔳 System Settings: Wallpaper: *Configure to taste*
+   - Author generally chooses least distracting background, usually
+     solid black (#000000), but dark green (like #062013) also nice")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
