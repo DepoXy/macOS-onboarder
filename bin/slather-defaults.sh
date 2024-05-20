@@ -1868,6 +1868,39 @@ _rectangle_customize_circa_2022_macbook () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+contexts_customize () {
+  local restart_contexts=false
+
+  contexts_customize_setup_reminder
+
+  contexts_customize_when_cursor_not_over_hide
+
+  if ${restart_contexts}; then
+    killall Contexts
+
+    open /Applications/Contexts.app/
+  fi
+}
+
+contexts_customize_setup_reminder () {
+  print_at_end+=("🔳 Contexts: Run Contexts.app (e.g., via <Cmd+Space> Spotlight)
+   - 🔳 Click through to open Privacy & Security > Accessibility
+        to enable privileges for Contexts
+   - 🧽 Note that running Contexts for the first time sets it to auto-start on boot
+   - 🧽 After opening Contexts, its settings window auto-hides when it loses focus
+        - You can recover focus via <Cmd+Space> Contexts menu, or via Spotlight")
+}
+
+contexts_customize_when_cursor_not_over_hide () {
+  # Defaults: Show Icons (1) / Other options: Show Icons & Title Start, Keep Expanded
+  echo "Contexts: Sidebar > When cursor not over: ✓ Hide"
+  defaults write com.contextsformac.Contexts CTSidebarInactiveMaximumWidth -int 0
+
+  restart_contexts=true
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 activity_monitor_customize () {
   activity_monitor_customize_dock_icon_show_cpu_history
 }
@@ -4447,6 +4480,10 @@ domains_customize () {
   # ***
 
   rectangle_customize
+
+  # ***
+
+  contexts_customize
 
   # ***
 

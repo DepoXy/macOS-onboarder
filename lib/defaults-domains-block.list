@@ -279,6 +279,7 @@ com.citrix.receiver.helper
 com.citrix.receiver.icaviewer.mac
 com.citrix.receiver.nomas
 com.citrix.receiver.safariadapter
+#com.contextsformac.Contexts
 com.cylance.CylanceUI
 #com.docker.docker
 #com.electron.dockerdesktop
