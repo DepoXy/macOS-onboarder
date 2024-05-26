@@ -94,6 +94,11 @@ BREW_APPS+=("coreutils")
 USER_LINK+=("gcp")
 USER_LINK+=("gdate")
 USER_LINK+=("gdu")
+# SAVVY/2024-05-26: Here we symlink ~/.local/bin/ls -> /opt/homebrew/bin/gls
+# - Note that Homefries adds `alias ls='/opt/homebrew/bin/gls ...'
+#   but this symlink used if user runs `command ls`.
+# - If user wants to print macOS ACL details, then can use /bin/ls, e.g.,
+#     /bin/ls -led ~/.Trash
 USER_LINK+=("gls")
 USER_LINK+=("gmktemp")
 USER_LINK+=("gsort")
