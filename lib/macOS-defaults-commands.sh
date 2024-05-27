@@ -173,9 +173,9 @@ alert_if_executed () {
   elif ! $(printf %s "$0" | grep -q -E '(^-?|\/)bash$' -); then
     # Not Bash.
     print_usage=true
-  elif [ -z "${BASH_SOURCE[0]}" ]; then
-    # Unreachable path?
-    >&2 echo "Unexpected: BASH_SOURCE[0] is unset?"
+  elif [ -z "${BASH_SOURCE}" ] || [ -z "${BASH_SOURCE[0]}" ]; then
+    # Unreachable path (unless grep-for-bash broken).
+    >&2 echo "GAFFE: Unexpected: \${BASH_SOURCE[0]} unset"
 
     print_usage=true
   # else, ${BASH_SOURCE[0]} is the path to this file,
