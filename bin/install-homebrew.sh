@@ -35,7 +35,7 @@ declare -a USER_LINK=()
 
 # BWARE: These install(s) prompt the user! **PROMPTY**
 
-# *Powerful* keyboard customization.
+# Karabiner Elements: *Powerful* keyboard customization
 # - PROMPTS: Requires admin password.
 # - CALSO: See also Hammerspoon automator (installed below).
 BREW_APPS+=("--cask karabiner-elements")
