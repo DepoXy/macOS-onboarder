@@ -662,6 +662,10 @@ BREW_APPS+=("pass")
 
 BREW_APPS+=("pwgen")
 
+# https://formulae.brew.sh/formula/pinentry-mac
+# https://github.com/GPGTools/pinentry
+BREW_APPS+=("pinentry-mac")
+
 # I had previously installed `gocryptfs` for various DX environment use,
 # but Homebrew complains about it now, ever since macFUSE (osxfuse) went
 # closed-source, because Homebrew discourages closed-source formulae.

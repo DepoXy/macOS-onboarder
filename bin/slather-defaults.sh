@@ -2578,6 +2578,20 @@ meld_customize_filename_filters () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+pinentry_mac_customize () {
+  pinentry_mac_customize_opt_out_save_in_keychain
+}
+
+# Re: Default "✓ Save in Keychain" option:
+#  https://superuser.com/questions/1626005/pinentry-mac-completely-disables-prompt-for-gpg-passphrase/1644574#1644574
+#  https://github.com/olebedev/pinentry-mac-keychain
+pinentry_mac_customize_opt_out_save_in_keychain () {
+  echo "Pinentry Mac: Opt-out: ✗ Save in Keychain [popup default]"
+  defaults write org.gpgtools.pinentry-mac UseKeychain -bool NO
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 outlook_customize () {
   outlook_customize_notifications
   outlook_customize_style
@@ -4548,6 +4562,10 @@ domains_customize () {
   # ***
 
   meld_customize
+
+  # ***
+
+  pinentry_mac_customize
 
   # ***
 
