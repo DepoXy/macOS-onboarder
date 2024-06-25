@@ -182,17 +182,18 @@ USER_LINK+=("vimdiff vimdiff")
 
 # --------------------------
 
-# See also without Nerd Font:
-#  BREW_APPS+=("--cask homebrew/cask-fonts/font-hack")
-# 2022-10-11 17:44: This prompted for password, which I denied, but
-# then it finished anyway... though I wonder if that password is just GitHub
-# not being happy with an anoymous user downloading so much in so little.
-# HSTRY/2024-04-14: ==> font-hack-nerd-font: 3.2.1
 # - SAVVY: To view fonts, open Launchpad and run `Font Book`
-BREW_APPS+=("--cask homebrew/cask-fonts/font-hack-nerd-font")
-# DUNNO/2022-10-11 What's this font?
+# - HSTRY/2024-04-14: ==> font-hack-nerd-font: 3.2.1
+# - CALSO: See also without Nerd Font:
+#     BREW_APPS+=("--cask homebrew/cask-fonts/font-hack")
+BREW_APPS+=("--cask font-hack-nerd-font")
+
+# Some other text editor/terminal fonts I previewed, but
+# not as much to the author's liking as Hack:
+#
+#   BREW_APPS+=("--cask font-daddy-time-mono-nerd-font")
+#   BREW_APPS+=("--cask font-intone-mono-nerd-font")
 #   BREW_APPS+=("--cask font-sauce-code-pro-nerd-font")
-# Via: https://iscinumpy.gitlab.io/post/setup-a-new-mac/
 
 # --------------------------
 
