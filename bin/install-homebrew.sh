@@ -195,6 +195,14 @@ BREW_APPS+=("--cask font-hack-nerd-font")
 #   BREW_APPS+=("--cask font-intone-mono-nerd-font")
 #   BREW_APPS+=("--cask font-sauce-code-pro-nerd-font")
 
+# Unifont adds some glyphs you won't otherwise see on @macOS, like
+# the latter half of the *Miscellaneous Symbols and Arrows* block.
+# - Note you don't need to explicitly use this font; it just needs
+#   to exist and @macOS will fall back on it as necessary.
+# https://unifoundry.com/unifont/
+# https://formulae.brew.sh/cask/font-gnu-unifont
+BREW_APPS+=("--cask font-gnu-unifont")
+
 # --------------------------
 
 # SAVVY: "htop requires root privileges to correctly display all running
