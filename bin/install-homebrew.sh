@@ -11,6 +11,7 @@
 declare -a BREW_TAPS=()
 declare -a BREW_APPS=()
 declare -a BREW_LINK=()
+declare -a BREW_SVCS=()
 
 declare -a USER_LINK=()
 
@@ -426,6 +427,18 @@ BREW_APPS+=("macdown")
 
 # Note that some organizations will offer iTerm2 from their app store.
 BREW_APPS+=("iterm2")
+
+# ILIKE/2024-06-23: I'm groovin' on Alacritty so far, simple and elegant.
+# - And I think I'm over iTerm2, the immutable nuances are too many. 
+BREW_APPS+=("--cask alacritty")
+
+# Alacritty does not draw a border, which makes it hard to resize when
+# it's overlapping other windows, because you cannot see the corner.
+# - Fortunately there's Borders.
+BREW_TAPS+=("FelixKratz/formulae")
+BREW_APPS+=("borders")
+# Call `brew services start borders`
+BREW_SVCS+=("borders")
 
 # --------------------------
 
@@ -879,6 +892,20 @@ brew_link_apps () {
   done
 }
 
+brew_start_services () {
+  init_homebrew_or_exit
+
+  local brew_svc
+
+  for brew_svc in "${BREW_SVCS[@]}"; do
+    print_hr
+    echo "Start service: ${brew_svc}"
+    echo
+    brew services start ${brew_svc}
+    echo
+  done
+}
+
 print_Caveats () {
   awk '
     BEGIN {
@@ -1028,6 +1055,7 @@ main () {
   brew_install_taps
   brew_install_apps
   brew_link_apps
+  brew_start_services
 
   create_user_local_bin_symlinks
 
