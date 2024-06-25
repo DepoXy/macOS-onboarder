@@ -839,6 +839,8 @@ init_homebrew_or_exit () {
 brew_install_taps () {
   init_homebrew_or_exit
 
+  local brew_tap
+
   for brew_tap in "${BREW_TAPS[@]}"; do
     local tap_user="$(dirname -- "${brew_tap}")"
     local tap_repo="$(basename -- "${brew_tap}")"
@@ -862,6 +864,8 @@ brew_install_taps () {
 brew_install_apps () {
   init_homebrew_or_exit
 
+  local brew_app_or_cask
+
   for brew_app_or_cask in "${BREW_APPS[@]}"; do
     print_hr
     # Note that `brew info` shows info about any match, installed or not,
@@ -882,6 +886,8 @@ brew_install_apps () {
 
 brew_link_apps () {
   init_homebrew_or_exit
+
+  local brew_link
 
   for brew_link in "${BREW_LINK[@]}"; do
     print_hr
