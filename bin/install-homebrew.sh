@@ -755,6 +755,12 @@ BREW_APPS+=("pinentry-mac")
 
 # --------------------------
 
+# - Sniffing:
+
+BREW_APPS+=("--cask wireshark")
+
+# --------------------------
+
 # - macOS Desktop Applications and Extensions:
 
 # SAVVY/2024-04-24: On @macOS Sonoma, Apple shows an icon in the menu bar
