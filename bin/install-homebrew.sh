@@ -29,8 +29,11 @@
 #
 # OPT-INS: (more niche stuff you might not care about):
 #
+# . # Virtualization tools
 #   BREW_INCLUDE_COLIMA=true
 #   BREW_INCLUDE_DOCKER_DESKTOP=true
+#   BREW_INCLUDE_VIRTUALBOX=true
+#
 #   BREW_INCLUDE_SPOTIFY=true
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -714,6 +717,14 @@ BREW_APPS+=("hashicorp/tap/packer")
 #  Friendly fork of https://github.com/wercker/stern"
 # https://github.com/stern/stern
 BREW_APPS+=("stern")
+
+if ${BREW_INCLUDE_VIRTUALBOX:-false}; then
+  # This is still the Intel version:
+  #   BREW_APPS+=("--cask virtualbox")
+  # Here's the Apple Silicone version.
+  # - SAVVY: Prompts for PWD.
+  BREW_APPS+=("--cask virtualbox@beta")
+fi
 
 # --------------------------
 
