@@ -29,13 +29,15 @@
 #
 # OPT-INS: (more niche stuff you might not care about):
 #
-# . # Virtualization tools
+#   # Virtualization tools
 #   BREW_INCLUDE_COLIMA=true
 #   BREW_INCLUDE_DOCKER_DESKTOP=true
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
 #   BREW_INCLUDE_SPOTIFY=true
+#   BREW_INCLUDE_DROPBOX=true
 #
+#   # These require Rosetta 2 (tho not a big deal)
 #   BREW_INCLUDE_DIGIKAM=true
 #   BREW_INCLUDE_GNUCASH=true
 
@@ -838,6 +840,12 @@ BREW_APPS+=("--cask hammerspoon")
 # rocks out, but maybe not from the Vendor's equipment.
 if ${BREW_INCLUDE_SPOTIFY:-false}; then
   BREW_APPS+=("--cask spotify")
+fi
+
+# --------------------------
+
+if ${BREW_INCLUDE_DROPBOX:-false}; then
+  BREW_APPS+=("--cask dropbox")
 fi
 
 # --------------------------
