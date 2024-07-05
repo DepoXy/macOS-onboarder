@@ -495,17 +495,24 @@ BREW_APPS+=("exiftool")
 # "PGF/TikZ diagram editor"
 BREW_APPS+=("--cask tikzit")
 
-# I've used Dia in the past on Linux, but it depends on
-# XQuartz (X11 server/client for macOS), which requires
-# admin priveleges to install. This seems like a heavy
-# load, so let's not automatically install these casks.
-# Though we'll comment here should you want to manually.
-#
-# XQuartz: "An X11 server and client libraries for macOS"
-#  BREW_APPS+=("--cask xquartz")
-#
 # Dia: "Draw structured diagrams"
-#  BREW_APPS+=("--cask dia")
+# - Also installs XQuartzx:
+#     XQuartz: "An X11 server and client libraries for macOS"
+#     BREW_APPS+=("--cask xquartz")
+#
+# ISOFF/2024-07-04: I tried Dia (and XQuartz) on @macOS
+# but it blips the screen and runs XQuartz, but nothing
+# else. Oh, well, I tried. (I enjoy this app on @Linux!)
+# - From USAGE above:
+#   # Dia requires --cask xquartz (X11 emulator) which requires pwd.
+#   # - Also you need to *Open Anyway* via macOS Settings because not
+#   #   signed ("not free from malware").
+#   BREW_INCLUDE_DIA=true
+if false && ${BREW_INCLUDE_DIA:-false}; then
+  # NOTED: Prompts for PWD:
+  #   ==> Running installer for xquartz with sudo; the password may be necessary.
+  BREW_APPS+=("--cask dia")
+fi
 
 # "Free cross-platform office suite, fresh version"
 BREW_APPS+=("--cask libreoffice")
