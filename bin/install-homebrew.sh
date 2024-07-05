@@ -35,6 +35,9 @@
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
 #   BREW_INCLUDE_SPOTIFY=true
+#
+#   BREW_INCLUDE_DIGIKAM=true
+#   BREW_INCLUDE_GNUCASH=true
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -839,6 +842,23 @@ fi
 
 # --------------------------
 
+# - Rosetta 2 apps
+
+MOSON_INSTALL_ROSETTA_2=false
+
+if ${BREW_INCLUDE_DIGIKAM:-false}; then
+  MOSON_INSTALL_ROSETTA_2=true
+
+  BREW_APPS+=("--cask digikam")
+fi
+
+if ${BREW_INCLUDE_GNUCASH:-false}; then
+  MOSON_INSTALL_ROSETTA_2=true
+
+  # Prompts PWD.
+  BREW_APPS+=("--cask gnucash")
+fi
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -886,6 +906,22 @@ print_homebrew_path () {
   local brew_path="${brew_bin}/brew"
 
   printf "%s" "${brew_path}"
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# SAVVY: Rosetta 2 installs instantaneously (so probably nothing
+#        downloaded, more about agreeing to the license).
+# - And you can ignore an error like this, or at least digiKam and
+#   GnuCash still work:
+#     2024-07-04 22:36:59.181 softwareupdate[3570:105238108] Package Authoring Error:
+#       062-01890: Package reference com.apple.pkg.RosettaUpdateAuto is missing installKBytes attribute
+
+install_rosetta_2_maybe () {
+  ${MOSON_INSTALL_ROSETTA_2:-false} || return 0
+
+  # Aka /usr/sbin/softwareupdate
+  softwareupdate --install-rosetta --agree-to-license
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1124,6 +1160,8 @@ main () {
   os_is_macos || ( >&2 echo "ERROR: Not macOS" && return 1 )
 
   install_homebrew
+
+  install_rosetta_2_maybe
 
   brew_install_taps
   brew_install_apps
