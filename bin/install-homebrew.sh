@@ -23,6 +23,10 @@
 #   every app; you might as well just fork the repo and
 #   make it your own.
 #
+# OPT-OUTS: (e.g., if your Vendor installs this app for you):
+#
+#   BREW_EXCLUDE_SLACK=true
+#
 # OPT-INS: (more niche stuff you might not care about):
 #
 #   BREW_INCLUDE_COLIMA=true
@@ -531,8 +535,11 @@ BREW_APPS+=("--cask finicky")
 
 # --------------------------
 
-# Slack most likely installed by the organization.
-#  BREW_APPS+=("slack")
+# Slack might be installed by your organization...
+
+if ! ${BREW_EXCLUDE_SLACK:-false}; then
+  BREW_APPS+=("--cask slack")
+fi
 
 # --------------------------
 
