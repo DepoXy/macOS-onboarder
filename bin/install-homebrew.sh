@@ -31,6 +31,7 @@
 #
 #   BREW_INCLUDE_COLIMA=true
 #   BREW_INCLUDE_DOCKER_DESKTOP=true
+#   BREW_INCLUDE_SPOTIFY=true
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -803,6 +804,14 @@ BREW_APPS+=("mikhailai/misc/usbutils")
 #   e.g., `/opt/homebrew/bin/hs`.
 # - CALSO: Karabiner Elements (KE) (installed above).
 BREW_APPS+=("--cask hammerspoon")
+
+# --------------------------
+
+# Opt-in because not dev-related, well, maybe ever dev
+# rocks out, but maybe not from the Vendor's equipment.
+if ${BREW_INCLUDE_SPOTIFY:-false}; then
+  BREW_APPS+=("--cask spotify")
+fi
 
 # --------------------------
 
