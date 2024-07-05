@@ -4,15 +4,42 @@
 # https://github.com/DepoXy/macOS-onboarder#🏂
 # License: MIT
 
-# Copyright (c) © 2021-2022 Landon Bouma. All Rights Reserved.
+# Copyright (c) © 2021-2024 Landon Bouma. All Rights Reserved.
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# USAGE: Call without args to
+#         install all the brew apps and casks listed below,
+#         to add a few symlinks under ~/.local/bin,
+#         and to start one service (currently just "borders",
+#           which makes Alacritty windows more usable).
+#
+#   $ path/to/macOS-onboarder/bin/install-homebrew.sh
+#
+# This is obviously a very prescriptive list.
+#
+# A few apps allow opt-in or opt-out via arg ENVIRONs.
+# - There's not much sense to add CLI args to opt-in/out
+#   every app; you might as well just fork the repo and
+#   make it your own.
+#
+# OPT-INS: (more niche stuff you might not care about):
+#
+#   BREW_INCLUDE_COLIMA=true
+#   BREW_INCLUDE_DOCKER_DESKTOP=true
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 declare -a BREW_TAPS=()
 declare -a BREW_APPS=()
+
+# Array for `brew link` actions (this script doesn't have any).
 declare -a BREW_LINK=()
+
+# Array for `brew services start` actions.
 declare -a BREW_SVCS=()
 
+# USER_LINK is used to add symlinks under ~/.local/bin
 declare -a USER_LINK=()
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -602,7 +629,7 @@ BREW_APPS+=("--cask liclipse")
 # Try colima if you'd like your container ecosystem to be all CLI.
 # - Though if you're new to containers, perhaps try Docker Desktop, at
 #   least until you start grokking all the tools and how it all works.
-if ${BREW_INSTALL_CONTAINERS_COLIMA:-false}; then
+if ${BREW_INCLUDE_COLIMA:-false}; then
   # Except for `colima`, Docker Desltop installs each of these apps
   # (and a few more) and symlinks them all from homebrew/bin.
   # - I'm not sure this is a complete list, this is just what I could
@@ -649,7 +676,7 @@ fi
 #   - Also, TL_DR/2022-10-28: I currently suggest installing Docker Desktop from
 #     the DMG file you get from their website, and not installing via HB cask.
 #     At least not until I know more about what I'm doing.
-if ${BREW_INSTALL_CONTAINERS_DOCKER_DESKTOP:-false}; then
+if ${BREW_INCLUDE_DOCKER_DESKTOP:-false}; then
   BREW_APPS+=("--cask docker")
 fi
 
