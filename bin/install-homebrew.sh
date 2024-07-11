@@ -51,6 +51,8 @@ declare -a BREW_LINK=()
 
 # Array for `brew services start` actions.
 declare -a BREW_SVCS=()
+# Array for `eval` actions.
+declare -a POST_EVAL=()
 
 # USER_LINK is used to add symlinks under ~/.local/bin
 declare -a USER_LINK=()
@@ -825,6 +827,15 @@ BREW_APPS+=("mikhailai/misc/usbutils")
 
 # --------------------------
 
+# skhd "is a simple hotkey daemon for macOS"
+#   https://github.com/koekeishiya/skhd
+# - And not just "simple", wicked easy to configure, just save
+#   the config and your new bindings and changes take effect!
+#   (Seriously, KE, this is how you should do it!)
+BREW_APPS+=("koekeishiya/formulae/skhd")
+# I.e., call `skhd --start-service` after brew-install.
+POST_EVAL+=("skhd --start-service")
+
 # Hammerspoon is a Lua-powered desktop automation application.
 #   https://www.hammerspoon.org/
 #   https://www.hammerspoon.org/Spoons/
@@ -1023,6 +1034,18 @@ brew_start_services () {
   done
 }
 
+post_brew_evals () {
+  local eval_cmd
+
+  for eval_cmd in "${POST_EVAL[@]}"; do
+    print_hr
+    echo "Run command: ${eval_cmd}"
+    echo
+    eval "${eval_cmd}"
+    echo
+  done
+}
+
 print_Caveats () {
   awk '
     BEGIN {
@@ -1175,6 +1198,7 @@ main () {
   brew_install_apps
   brew_link_apps
   brew_start_services
+  post_brew_evals
 
   create_user_local_bin_symlinks
 
