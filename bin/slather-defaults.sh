@@ -122,7 +122,7 @@ fake_it () {
     echo "  $(highlight "open") $@"; }
   osascript () {
     echo "  $(highlight "osascript") $@"; }
-  sudo_bin_rm_rf () {
+  rm_rf_target () {
     echo "  $(highlight "command rm -rf --") $@"; }
 }
 
@@ -161,7 +161,7 @@ count_it () {
 
     echo "  osascript $@"
   }
-  sudo_bin_rm_rf () {
+  rm_rf_target () {
     let 'cnt_binrmrfs += 1'
 
     echo "  sudo /usr/bin/env rm -rf $@"
@@ -4283,13 +4283,13 @@ macos_remove_bloatware_app () {
   if [ -d "${appdir}" ]; then
     echo "Removing bloatware: $(basename -- "${appdir}")"
 
-    sudo_bin_rm_rf "${appdir}"
+    rm_rf_target "${appdir}"
   else
     echo "✓ Bloatware absent: $(basename -- "${appdir}")"
   fi
 }
 
-sudo_bin_rm_rf () {
+rm_rf_target () {
   local target="$1"
 
   [ -n "${target}" ] || return 1
