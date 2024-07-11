@@ -149,22 +149,22 @@ count_it () {
 
     let "cnt_defaults_domain[$2] += 1"
 
-    echo "  defaults $@";
+    echo "  defaults $@"
   }
   killall () {
     let 'cnt_killalls += 1'
 
-    echo "  killall $@";
+    echo "  killall $@"
   }
   osascript () {
     let 'cnt_ascripts += 1'
 
-    echo "  osascript $@";
+    echo "  osascript $@"
   }
   sudo_bin_rm_rf () {
     let 'cnt_binrmrfs += 1'
 
-    echo "  sudo /usr/bin/env rm -rf $@";
+    echo "  sudo /usr/bin/env rm -rf $@"
   }
 }
 
@@ -1509,7 +1509,7 @@ alttab_customize_controls_also_select_windows_using_mouse_hover_off () {
 alttab_customize_appearance_theme_windows_10 () {
   echo "AltTab: Preferences... > Appearance
     > Theme: “Windows 10” (easier to see selected window; default: macOS)"
-  defaults write com.lwouis.alt-tab-macos theme -string "1";
+  defaults write com.lwouis.alt-tab-macos theme -string "1"
 }
 
 # I'd rather not try to write the blocklist value, which is a large array
