@@ -324,6 +324,7 @@ knowledge-agent
 loginwindow
 net.kassett.finicky
 net.pulsesecure.Pulse-Secure
+#org.alacritty
 org.dmarcotte.Easy-Move-Resize
 org.gimp.gimp-2.10:
 #org.gnome.meld
