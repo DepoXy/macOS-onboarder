@@ -164,7 +164,7 @@ count_it () {
   rm_rf_target () {
     let 'cnt_binrmrfs += 1'
 
-    echo "  sudo /usr/bin/env rm -rf $@"
+    echo "  command rm -rf -- $@"
   }
 }
 
