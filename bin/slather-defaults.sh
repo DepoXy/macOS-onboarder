@@ -3565,6 +3565,24 @@ app_shortcuts_customize_iterm2_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+app_shortcuts_customize_alacritty () {
+  app_shortcuts_customize_alacritty_quit_alacritty
+
+  app_shortcuts_customize_alacritty_all
+}
+
+app_shortcuts_customize_alacritty_quit_alacritty () {
+  echo "${CRUMB_APP_SHORTCUTS}: Alacritty.app: Quit alacritty: Cmd-Q → Ctrl-Shift-Q"
+}
+
+app_shortcuts_customize_alacritty_all () {
+  defaults write org.alacritty NSUserKeyEquivalents '{
+    "Quit alacritty" = "^$q";
+  }'
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # 31 mappings!
 app_shortcuts_customize_google_chrome () {
   app_shortcuts_customize_google_chrome_new_tab
@@ -4614,6 +4632,8 @@ domains_customize () {
   app_shortcuts_customize_macvim
 
   app_shortcuts_customize_iterm2
+
+  app_shortcuts_customize_alacritty
 
   app_shortcuts_customize_google_chrome
 
