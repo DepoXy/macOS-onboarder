@@ -1429,6 +1429,7 @@ alttab_customize () {
   alttab_customize_controls_while_open_close_window_noop
   alttab_customize_controls_also_select_windows_using_mouse_hover_off
   alttab_customize_appearance_theme_windows_10
+  alttab_customize_appearance_apparition_delay
   alttab_customize_blocklist_hide_in_alttab
 
   killall "AltTab"
@@ -1510,6 +1511,17 @@ alttab_customize_appearance_theme_windows_10 () {
   echo "AltTab: Preferences... > Appearance
     > Theme: “Windows 10” (easier to see selected window; default: macOS)"
   defaults write com.lwouis.alt-tab-macos theme -string "1"
+}
+
+# Sometimes pressing and releasing Alt-Tab quickly to try to switch to
+# MRU window doesn't register, and Alt-Tab popup stays up. (And then you
+# have to use Alt-Tab again to pick next window, and release keypress to
+# recover.) Adding a short timeout seems to inhibit the race condition
+# from happening.
+alttab_customize_appearance_apparition_delay () {
+  echo "AltTab: Preferences... > Appearance
+    > Apparition delay: “169 ms” (kluge so fast Alt-Tab does not break Alt-Tab)"
+  defaults write com.lwouis.alt-tab-macos windowDisplayDelay -int "169"
 }
 
 # I'd rather not try to write the blocklist value, which is a large array
