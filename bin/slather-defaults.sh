@@ -4216,7 +4216,7 @@ app_shortcuts_customize_macdown () {
 }
 
 app_shortcuts_customize_macdown_quit_macdown () {
-  echo "${CRUMB_APP_SHORTCUTS}: MacDown.app: “Quit MacDown”: Cmd-Q → Ctrl-q"
+  echo "${CRUMB_APP_SHORTCUTS}: MacDown.app: “Quit MacDown”: Cmd-Q → Ctrl-Q"
 }
 
 app_shortcuts_customize_macdown_all () {
@@ -4234,7 +4234,7 @@ app_shortcuts_customize_libreoffice () {
 }
 
 app_shortcuts_customize_libreoffice_quit_libreoffice () {
-  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Quit LibreOffice”: Cmd-Q → Ctrl-q"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Quit LibreOffice”: Cmd-Q → Ctrl-Q"
 }
 
 app_shortcuts_customize_libreoffice_all () {
