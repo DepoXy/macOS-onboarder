@@ -2851,7 +2851,7 @@ shortcuts_mission_control_remap_show_desktop () {
 
   # For posterity, here's the original setting.
   false && (
-    echo "Keyboard Shortcuts: Mission Control: Show Desktop: ?? → F11 (Reset)"
+    echo "Keyboard Shortcuts: Mission Control: Show Desktop: F11"
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 36 \
       "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>103</integer><integer>8388608</integer></array><key>type</key><string>standard</string></dict></dict>"
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 37 \
