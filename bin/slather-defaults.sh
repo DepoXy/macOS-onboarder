@@ -4228,18 +4228,138 @@ app_shortcuts_customize_macdown_all () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 app_shortcuts_customize_libreoffice () {
-  app_shortcuts_customize_libreoffice_quit_libreoffice
+  app_shortcuts_customize_libreoffice_menu_libreoffice
+  app_shortcuts_customize_libreoffice_menu_file
+  app_shortcuts_customize_libreoffice_menu_edit
+  app_shortcuts_customize_libreoffice_menu_view
+  app_shortcuts_customize_libreoffice_menu_insert
+  app_shortcuts_customize_libreoffice_menu_format
+  app_shortcuts_customize_libreoffice_menu_styles
+  app_shortcuts_customize_libreoffice_menu_sheet
+  app_shortcuts_customize_libreoffice_menu_data
+  app_shortcuts_customize_libreoffice_menu_tools
+  app_shortcuts_customize_libreoffice_menu_window
 
   app_shortcuts_customize_libreoffice_all
 }
 
-app_shortcuts_customize_libreoffice_quit_libreoffice () {
-  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Quit LibreOffice”: Cmd-Q → Ctrl-Q"
+app_shortcuts_customize_libreoffice_menu_libreoffice () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “LibreOffice > Quit LibreOffice”: Cmd-Q → Ctrl-Q"
+}
+
+app_shortcuts_customize_libreoffice_menu_file () {
+  # Note that <Ctrl-N> mapping works, but <Cmd-N> also continues to work.
+  # - Also there's no Minimize menu item for LibreOffice, so use <Cmd-H> Hide.
+  #   - Which means <Cmd-N> is different in LibreOffice than the other apps
+  #     that map <Cmd-N> to Minimize:
+  #     - MacVim, iTerm2, Chrome, Slack, Preview, Webex
+  #     - Missing from: LibreOffice
+  #     - Missing from but see FIXMEs to add <Cmd-N> changes to: Firefox, Safari
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > New > Spreadsheet”: Cmd-N → Ctrl-N"
+
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > New > Templates...”: Shift-Cmd-N → Shift-Ctrl-N"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Open...”: Cmd-O → Ctrl-O"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Templates > Manage Templates...”: Shift-Cmd-N → Shift-Ctrl-N"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Save”: Cmd-S → Ctrl-S"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Save As...”: Shift-Cmd-S → Shift-Ctrl-S"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Print...”: Cmd-P → Ctrl-P"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Print Preview”: Shift-Cmd-O → Shift-Ctrl-O"
+}
+
+app_shortcuts_customize_libreoffice_menu_edit () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Find...”: Cmd-F → Ctrl-F"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Find and Replace...”: Shift-Cmd-F → Shift-Ctrl-F"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Edit Mode”: Shift-Cmd-M → Shift-Ctrl-M"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Paste Special > Paste Unformatted Text”: Shift-Cmd-Alt-V → Shift-Ctrl-Alt-V"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Paste Special > Paste Special...”: Shift-Cmd-V → Shift-Ctrl-V"
+}
+
+app_shortcuts_customize_libreoffice_menu_view () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Styles”: Cmd-T → Ctrl-T"
+  # echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Full Screen”: Ctrl-Cmd-F → "
+}
+
+app_shortcuts_customize_libreoffice_menu_insert () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Comment”: Cmd-Alt-C → Ctrl-Alt-C"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Hyperlink”: Cmd-K → Ctrl-K"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Date”: Cmd-; → Ctrl-;"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Time”: Shift-Cmd-; → Shift-Ctrl-;"
+}
+
+app_shortcuts_customize_libreoffice_menu_format () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Bold”: Cmd-B → Ctrl-B"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Italic”: Cmd-I → Ctrl-I"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Superscript”: Shift-Cmd-P → Shift-Ctrl-P"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Subscript”: Shift-Cmd-B → Shift-Ctrl-B"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Align Text > Left”: Cmd-L → Ctrl-L"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Align Text > Centered”: Cmd-E → Ctrl-E"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Align Text > Right”: Cmd-R → Ctrl-R"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Align Text > Justified”: Cmd-J → Ctrl-J"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Cells...”: Cmd-1 → Ctrl-1"
+}
+
+app_shortcuts_customize_libreoffice_menu_styles () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Style > Manage Styles”: Cmd-T → Ctrl-T"
+}
+
+app_shortcuts_customize_libreoffice_menu_sheet () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Sheet > Insert Cells...”: Cmd-+ → Ctrl-+"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Sheet > Delete Cells...”: Cmd-- → Ctrl--"
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Sheet > Fill Cells > Fill Down”: Cmd-D → Ctrl-D"
+}
+
+app_shortcuts_customize_libreoffice_menu_data () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Data > AutoFilter”: Shift-Cmd-L → Shift-Ctrl-L"
+}
+
+app_shortcuts_customize_libreoffice_menu_tools () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Tools > Extensions...”: Cmd-Alt-E → Ctrl-Alt-E"
+}
+
+app_shortcuts_customize_libreoffice_menu_window () {
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Window > Close Window”: Cmd-W → Ctrl-W"
 }
 
 app_shortcuts_customize_libreoffice_all () {
+  # ISOFF/2024-07-15: These two appear changed in the menu,
+  # but the bindings don't change. So omit menu change until/
+  # unless we figure out why the bindings don't change.
+  #   "Date" = "^;";
+  #   "Time" = "^$;";
   defaults write org.libreoffice.script NSUserKeyEquivalents '{
+    "AutoFilter" = "^$l";
+    "Bold" = "^b";
+    "Cells..." = "^1";
+    "Centered" = "^e";
+    "Close Window" = "^w";
+    "Comment" = "~^c";
+    "Delete Cells..." = "^-";
+    "Edit Mode" = "^$m";
+    "Extensions..." = "~^e";
+    "Fill Down" = "^d";
+    "Find..." = "^f";
+    "Find and Replace..." = "~^f";
+    "Hyperlink..." = "^k";
+    "Insert Cells..." = "^=";
+    "Italic" = "^i";
+    "Justified" = "^j";
+    "Left" = "^l";
+    "Open..." = "^o";
+    "Manage Styles" = "^t";
+    "Manage Templates" = "^$n";
     "Quit LibreOffice" = "^q";
+    "Paste Special..." = "^$v";
+    "Paste Unformatted Text" = "~^$v";
+    "Print..." = "^p";
+    "Print Preview" = "^$o";
+    "Right" = "^r";
+    "Save" = "^s";
+    "Save As..." = "^$s";
+    "Spreadsheet" = "^n";
+    "Styles" = "^t";
+    "Subscript" = "^$b";
+    "Superscript" = "^$p";
+    "Templates..." = "^$n";
   }'
 }
 
