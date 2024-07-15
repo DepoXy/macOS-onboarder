@@ -2815,7 +2815,34 @@ shortcuts_mission_control_remap_show_desktop () {
       -dict-add 37 "<dict><key>enabled</key><false/></dict>"
   ) || true
 
-  # But then I remember that I like dressing up my Mac as Linux.
+  # ... But I do like dressing up my Mac as Linux.
+
+  # Note that Mission Control *Show Desktop* is not similar to
+  # MATE *Show Desktop*, and you might be interested in an
+  # AppleScript that hides all windows instead:
+  #
+  # CXREF/2024-07-15: See skhdrc hide windows binding:
+  #
+  #     shift + ctrl + cmd - w:
+  #       osascript \
+  #         ~/.kit/mOS/macOS-skhibidirc/lib/hide-all-windows.osa
+  #
+  #   https://github.com/DepoXy/macOS-skhibidirc#👤
+  #
+  # The Mission Control *Show Desktop* slides all window outside the four
+  # edges on the desktop, but then Alt-Tab doesn't even work! And going
+  # to Dock to select an app brings all windows back.
+  # - The only use case I have for *Show Desktop* is to use it as a
+  #   toggle: Show Desktop once to see what GeekTool geeklets I have
+  #   (currently the clock and weather), and then to run *Show Desktop*
+  #   *again* to slide the windows back to where they where.
+  # - In contrast, on Linux Mint MATE, show desktop is essentially
+  #   minimize all windows.
+  # - The recently added hide-all-windows.osa skhdrc binding hides
+  #   all windows, so you can reactivate just the windows you want.
+  # Given all that, this binding really isn't all that useful, or
+  # at least it's not useful how you'd expect if you're used to how
+  # other desktop managers' "Show Desktop" features work.
   echo "Keyboard Shortcuts: Mission Control: Show Desktop: F11 → Ctrl+Alt+d (^⌥ d)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 36 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>100</integer><integer>2</integer><integer>786432</integer></array><key>type</key><string>standard</string></dict></dict>"
