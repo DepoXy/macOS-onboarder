@@ -2398,6 +2398,12 @@ iterm2_customize_increase_paste_buffer_size () {
 # Give iTerm2 permissions to access the trash, e.g., `ls ~/.Trash`.
 iterm2_customize_permission_full_disk_access () {
   # So you can `ls` anything, and the like.
+  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ Alacritty")
+  # For `gupdatedb`, if you index your whole system.
+  # - Otherwise you'll always be prompted with:
+  #     “gfind” would like to access data from other apps.
+  #   - Even if you click "Allow", it'll come back each time until FDA granted.
+  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ gfind")
   # So you can `ls` anything, and the like.
   print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ iTerm")
   # Might as well, long as we're here...
