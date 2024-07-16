@@ -2397,9 +2397,11 @@ iterm2_customize_increase_paste_buffer_size () {
 
 # Give iTerm2 permissions to access the trash, e.g., `ls ~/.Trash`.
 iterm2_customize_permission_full_disk_access () {
-  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ iTerm2.app")
+  # So you can `ls` anything, and the like.
+  # So you can `ls` anything, and the like.
+  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ iTerm")
   # Might as well, long as we're here...
-  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ Terminal.app")
+  print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ Terminal")
 }
 
 # ***
