@@ -4052,15 +4052,17 @@ app_shortcuts_customize_safari_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# 2022-10-18: Yeah, you wish you could set custom keyboard mappings on
-# Meld, but ya can't: It has no respect.
-# E.g.,
+# ISOFF/2022-10-18: Yeah, you wish you could set custom keyboard mappings
+# on Meld, but ya can't: It has no respect. (Must not be "scriptable", as
+# they say in macOS parlance.)
+#
+# - E.g.:
 #   - Apple [menu] > System Preferences... > Keyboard [launcher] > Shortcuts [tab]
 #     > App Shortcuts [left tab]:
-#       Press ``+`` and enter:
-#         *Application*: Choose ``Meld.app``
-#           - *Menu Title*: ``Quit Meld``
-#             *Keyboard Shortcut*: ``Ctrl-Q`` (``^Q``) [Default: ``Cmd-Q``]
+#       Press `+` and enter:
+#         *Application*: Choose `Meld.app`
+#           - *Menu Title*: `Quit Meld`
+#             *Keyboard Shortcut*: `Ctrl-Q` (`^Q`) [Default: `Cmd-Q`]
 #     then run Meld, and you'll see the Meld > Quit Meld menu entry shows
 #     the Ctrl-Q that you assigned, but pressing Ctrl-Q has no effect. And
 #     then you press Cmd-Q and Meld quits, and so you realize Meld doesn't
@@ -4068,11 +4070,19 @@ app_shortcuts_customize_safari_all () {
 #
 # - ANIDA: You wanna be a hero to the Meld community? Make this work.
 #
-# NOTE: DepoXy uses KE to bind Ctrl-q, but now *both* shortcuts work:
-#       - Pressing either Cmd-q or Ctrl-q will Quit Meld.
+# SAVVY: DepoXy uses Karabiner Elements to bind Ctrl-Q and the other menu
+#        options.
+#        - But now *both* Quit Meld shortcuts work:
+#          - Pressing either Cmd-Q or Ctrl-Q will Quit Meld.
 #
-# NOTE: Meld has no *Minimize* menu item, which is another common
-#       menu item we like to remap.
+# - CXREF: You'll find the KE modifications in another project:
+#
+#     https://github.com/DepoXy/Karabiner-Elephants#🐘
+#
+#       https://github.com/DepoXy/Karabiner-Elephants/blob/release/complex_modifications/0370-applcn-meld.json
+#
+# OWELL: Meld has no *Minimize* menu item, which is another common
+#        menu item we like to remap.
 
 app_shortcuts_customize_meld () {
   :
