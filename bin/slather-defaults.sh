@@ -3793,15 +3793,15 @@ app_shortcuts_customize_google_chrome_quit_and_keep_windows () {
 # - View > Actual Size: Cmd-0 → Ctrl-Shift-0
 
 app_shortcuts_customize_google_chrome_zoom_in_bigger () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Zoom In: Cmd-= → Ctrl-Shift-="
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Zoom In: Cmd-= → Ctrl-="
 }
 
 app_shortcuts_customize_google_chrome_zoom_out_smaller () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Zoom Out: Cmd-_ → Ctrl-Shift--"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Zoom Out: Cmd-- → Ctrl--"
 }
 
 app_shortcuts_customize_google_chrome_zoom_actual_size_reset () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Actual Size: Cmd-0 → Ctrl-Shift-0"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Actual Size: Cmd-0 → Ctrl-0"
 }
 
 app_shortcuts_customize_google_chrome_minimize () {
@@ -3836,7 +3836,7 @@ false && (
 #   defaults read com.google.Chrome NSUserKeyEquivalents
 app_shortcuts_customize_google_chrome_all () {
   defaults write com.google.Chrome NSUserKeyEquivalents '{
-    "Actual Size" = "^$0";
+    "Actual Size" = "^0";
     Back = "^\U2190";
     "Bookmark All Tabs..." = "^$d";
     "Bookmark Manager" = "^$o";
@@ -3867,8 +3867,8 @@ app_shortcuts_customize_google_chrome_all () {
     "Use Selection for Find" = "\Uf704";
     "View Source" = "^$u";
     Zoom = "\Uf70e";
-    "Zoom In" = "^$=";
-    "Zoom Out" = "^$-";
+    "Zoom In" = "^=";
+    "Zoom Out" = "^-";
   }'
 }
 
