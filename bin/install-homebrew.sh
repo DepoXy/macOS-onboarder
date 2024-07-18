@@ -151,18 +151,25 @@ USER_LINK+=("grealpath")
 
 # --------------------------
 
-# Don't bother with Brew git.
-# - macOS releases git regularly, though not as fast as Brew.
-#   - So you're not missing anything sticking with macOS git.
-# - Brew git is agonizingly slow running custom commands (like
-#   those found in https://github.com/landonb/git-smart,
-#   or https://github.com/landonb/git-my-merge-status).
-# - If you do install it, I'd advise against linking it:
-#     # USER_LINK+=("git git")
-#   And I'd suggest sticking with system git, e.g.,
-#     ln -s /usr/bin/git ~/.local/bin/git
+# - HSTRY/2024-07-18: Circa 2020, I tried Brew git, but it was
+#   agonizingly slow running custom commands (like those found
+#   in https://github.com/landonb/git-smart, or
+#   https://github.com/landonb/git-my-merge-status).
+#   - But macOS/Apple git trails Brew git, currently by over a
+#     year:
+#       $ git --version
+#       git version 2.39.3 (Apple Git-146)
+#       # Apr 17, 2023
 #
-#  BREW_APPS+=("git")
+#       $ /opt/homebrew/bin/git --version
+#       git version 2.45.2
+#       # May 30, 2024
+#   - Most recently, however, I wanted to demo the new
+#     --default-prefix option (added in git 2.41) while
+#     hacking on tig.
+#   - So let's give Brew git another shot.
+BREW_APPS+=("git")
+USER_LINK+=("git")
 
 # tig is my all-time favorite git history viewer and staging tool.
 BREW_APPS+=("tig")
