@@ -554,6 +554,12 @@ add_firefox_unless_installed () {
 }
 add_firefox_unless_installed
 
+# https://brave.com/
+BREW_APPS+=("--cask brave-browser")
+
+# https://arc.net/
+BREW_APPS+=("--cask arc")
+
 # "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
 BREW_APPS+=("--cask finicky")
