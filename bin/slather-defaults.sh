@@ -594,6 +594,8 @@ keyboard_customize () {
 
   keyboard_customize_reclaim_fkeys
 
+  keyboard_customize_disable_add_period_with_double_space
+
   keyboard_reminder_discourage_bluetooth_peripherals
 
   # DUNNO: Is it really necessary to logout?
@@ -683,6 +685,39 @@ keyboard_customize_reclaim_fkeys () {
 
   echo "Keyboard: Keyboard Shortcuts...: Function Keys: Use F1, F2, etc. keys as standard function keys"
   defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
+}
+
+# W_T_F/2024-07-23: How is this enabled by default, and how is it so buried?
+# - And how could I forget so long about this setting, it's been bugging
+#   me intermittently for months in Vim, and I kept thinking it was a Vim
+#   issue, ha!
+#   - I rarely double-space, and usually the comment-leader and tab-indent
+#     know where to put the cursor, so this binding never kicked in (and
+#     it seems to be disabled (blocked?) when you first start MacVim, or
+#     open a file, but then eventually it'll start happening).
+#   - It's also weird, e.g., if you typed:
+#       "foo  bar  baz"
+#     then macOS would substitute ". " for each second space, e.g.,
+#       "foo . bar . baz"
+#     - I'm not sure how this is suppose to help the average Mac user.
+#       Maybe in a document editor it strips whitespace so it looks
+#       like this instead:
+#         "foo. bar. baz"
+#       - Still, what a strange, bewildering setting!!
+#         - And while this plagues MacVim, it doesn't plague any terminal.
+#         - Oh, interest, it does affect Chrome, e.g., if double-space in
+#           the address bar, it'll insert a period — and it'll remove the
+#           preceding space (it changes double-space to single "."), so
+#           that is how this is suppose to work... but, seriously, is
+#           this suppose to be a time-saver for typists? Is it really
+#           that much faster to double-space than it is to dot-space?
+#       - Also still bothers me I didn't make the connection that
+#         macOS was causing this, and not MacVim, I could swear
+#         that I'm familiar with this setting, but it's been years
+#         since I've been reminded of it!
+keyboard_customize_disable_add_period_with_double_space () {
+  echo "Keyboard: Text Input > Input Sources > Edit...: ✗ Add period with double-space"
+  defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -int 0
 }
 
 keyboard_reminder_discourage_bluetooth_peripherals () {
