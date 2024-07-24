@@ -3754,6 +3754,7 @@ app_shortcuts_customize_google_chrome () {
   app_shortcuts_customize_google_chrome_javascript_console
   app_shortcuts_customize_google_chrome_back
   app_shortcuts_customize_google_chrome_forward
+  app_shortcuts_customize_google_chrome_show_full_history
   app_shortcuts_customize_google_chrome_bookmark_manager
   app_shortcuts_customize_google_chrome_bookmark_this_tab
   app_shortcuts_customize_google_chrome_bookmark_all_tabs
@@ -3869,6 +3870,11 @@ app_shortcuts_customize_google_chrome_forward () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Forward: Cmd-Right → Ctrl-Right"
 }
 
+app_shortcuts_customize_google_chrome_show_full_history () {
+  # <Ctrl-H> is Linux binding. Mnemonic: H, like History. But macOS <Cmd-H> is Hide.
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Show Full History: Cmd-Y → Ctrl-H"
+}
+
 app_shortcuts_customize_google_chrome_bookmark_manager () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Bookmark Manager: Opt-Cmd-B → Ctrl-Shift-O"
 }
@@ -3973,6 +3979,7 @@ app_shortcuts_customize_google_chrome_all () {
     "Reload This Page" = "^r";
     "Reopen Closed Tab" = "^$t";
     "Save Page As..." = "^s";
+    "Show Full History" = "^h";
     Undo = "^z";
     "Use Selection for Find" = "\Uf704";
     "View Source" = "^$u";
