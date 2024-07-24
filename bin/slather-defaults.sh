@@ -717,7 +717,7 @@ keyboard_customize_reclaim_fkeys () {
 #         since I've been reminded of it!
 keyboard_customize_disable_add_period_with_double_space () {
   echo "Keyboard: Text Input > Input Sources > Edit...: ✗ Add period with double-space"
-  defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -int 0
+  defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 }
 
 keyboard_reminder_discourage_bluetooth_peripherals () {
