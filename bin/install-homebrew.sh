@@ -808,25 +808,31 @@ BREW_APPS+=("--cask rectangle")
 #
 #  BREW_APPS+=("--cask ghosttile")
 
-# Ctrl-space shows fuzzy-find-enabled window list menu.
-#   https://contexts.co/
-# - Author has been looking for something like MATE's window-list
-#   that I can use to quickly access specific windows with the mouse.
-#   - Mission Control sorta works, but users can order window-list how
-#     they like, so you can find a window just knowing where it "lives"
-#     in the mate-panel window-list.
-#   - Contexts is obviously different than window-list, but it shows a
-#     compact, concise list of windows labeled and ordered well enough
-#     to make it easy to find what I'm looking for — and allows me to
-#     click to open or to use the keyboard. Which is what I'm looking
-#     for, a convenient window switcher different than Alt-Tab,
-#     different than Mission Control, different than the Dock, etc.
-# - USAGE: Run Contexts.app via Spotlight to install it — Enable
-#   Accessibility permissions, and wire to auto-start on boot.
-#   - Also run Contexts via Spotlight to open its settings GUI —
-#     because that window hides when it loses focus — or use
-#     the Contexts <Ctrl+Space> menu to raise the hidden window.
-BREW_APPS+=("--cask contexts")
+# ISOFF/2024-07-24: I've replicated the Contexts Search menu (<Cmd-Space>)
+# and the Sidebar pop-out tray using Hammerspoon (at <Cmd-Space>), so this
+# (proprietary, monetarily licensed) application no longer needed.
+#
+# - CXREF: https://github.com/DepoXy/macOS-Hammyspoony#🥄
+#
+#   # Ctrl-space shows fuzzy-find-enabled window list menu.
+#   #   https://contexts.co/
+#   # - Author has been looking for something like MATE's window-list
+#   #   that I can use to quickly access specific windows with the mouse.
+#   #   - Mission Control sorta works, but users can order window-list how
+#   #     they like, so you can find a window just knowing where it "lives"
+#   #     in the mate-panel window-list.
+#   #   - Contexts is obviously different than window-list, but it shows a
+#   #     compact, concise list of windows labeled and ordered well enough
+#   #     to make it easy to find what I'm looking for — and allows me to
+#   #     click to open or to use the keyboard. Which is what I'm looking
+#   #     for, a convenient window switcher different than Alt-Tab,
+#   #     different than Mission Control, different than the Dock, etc.
+#   # - USAGE: Run Contexts.app via Spotlight to install it — Enable
+#   #   Accessibility permissions, and wire to auto-start on boot.
+#   #   - Also run Contexts via Spotlight to open its settings GUI —
+#   #     because that window hides when it loses focus — or use
+#   #     the Contexts <Ctrl+Space> menu to raise the hidden window.
+#   BREW_APPS+=("--cask contexts")
 
 # --------------------------
 
