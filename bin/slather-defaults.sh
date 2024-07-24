@@ -245,6 +245,7 @@ dock_and_menu_bar_customize () {
   dock_and_menu_bar_customize_dock_position_on_screen_left
   dock_and_menu_bar_customize_dock_minimize_windows_using_scale_effect
   dock_and_menu_bar_customize_dock_animate_opening_applications_disable
+  dock_and_menu_bar_customize_dock_minimize_windows_into_application_icon
   dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock
   dock_and_menu_bar_customize_dock_show_indicators_for_open_applications_disable
   dock_and_menu_bar_customize_dock_show_recent_application_in_dock_false
@@ -293,6 +294,35 @@ dock_and_menu_bar_customize_dock_minimize_windows_using_scale_effect () {
 dock_and_menu_bar_customize_dock_animate_opening_applications_disable () {
   echo "Desktop & Dock: Dock: ✗ Animate opening applications"
   defaults write com.apple.dock launchanim -bool false
+}
+
+# ENABL/2024-07-24: I haven't appreciated "minimize to app icon" until now.
+# - Because recently I ran into a glaring Dock limitation:
+#   - It doesn't do well with *lots* of minimized windows.
+# - I have not experienced this issue because, for years, I've mostly done
+#   dev work on macOS, and I've never had too many windows minimized.
+#   - I also have keyboard bindings to front or open my favorite apps and
+#     windows.
+#     - So I didn't interact with the Dock often, and I keep it hidden.
+#   - But recently I've adopted macOS as my personal environment, too,
+#     and apparently I like to have *lots* of browser windows open, and
+#     lots more apps, too.
+#   - And now the Dock is completely useless!
+#     - It shrinks so much the (screenshot) icons are too small to help
+#       distinguish between windows.
+#       - And I've never liked having to mouse-over icons to see window
+#         titles.
+#   - (On Linux Mint MATE (GNOME 2), my other dev environment, I just used
+#      a multiple-row `window-list` in the `mate-panel`. But the macOS
+#      Dock is limited to a single row.)
+# - Also, I recently (hours ago) developed a Hammerspoon binding to show
+#   a FZF-list of browser windows (alphabetized by window title), and now
+#   I have even *less* use for the Dock.
+#   - So we'll keep it auto-hidden, on the left, and now without
+#     minimized windows cluttering it.
+dock_and_menu_bar_customize_dock_minimize_windows_into_application_icon () {
+  echo "Desktop & Dock: Dock: ✓ Minimize windows into application icon"
+  defaults write com.apple.dock minimize-to-application -bool true
 }
 
 dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock () {
