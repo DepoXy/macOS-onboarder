@@ -1547,19 +1547,64 @@ alttab_customize_controls_while_open_close_window_noop () {
   defaults write com.lwouis.alt-tab-macos closeWindowShortcut ''
 }
 
-# I often have my hand on the mouse when Alt-Tabbing, and even the smallest
-# mouse movement causes the selection to change to the window under mouse.
-# - UGH: This one is tough. It really bothers me that the smallest mouse
-#   movement moves focus, at least when I don't intend to do so; but it
-#   really bothers me that I cannot click on windows.
-#   - But you can Mission Control via either lower corner, and via
-#     Ctrl-Alt-Up, and you can click MC windows, so maybe I just need
-#     to remember to use Mission Control if I'm looking for an app
-#     window to click.
+# ENABL/2024-07-24: I've had select-via-mouse-hover enabled for the past week.
+# - I enabled it because I've had so many windows visible recently,
+#   and <Tab>bing through AltTab is *tedious*.
+# - I also forget about using Mission Control, by mousing to the
+#   bottom-right corner (or to the bottom-left corner, or pressing
+#   <Ctrl-Alt-Up>).
+#   - Mission Control shows all window images, positioned to fill up
+#     your screen, and it lets you quickly hover-and-click to pick one.
+# - Though Mission Control shouldn't matter:
+#   - Using the mouse should work in AltTab.
+#     - It just seems like it should work when you looking at AltTab.
+#   - It's just too annoying either way:
+#     - When you can't mouse-and-click, that sucks.
+#     - And when you're mousing when you hit <Alt-Tab>
+#       and the selection moves to some random window, *that sucks*.
+#     - MAYBE: Really, AltTab should have a delay setting, for idiots
+#       like me that are pressing <Alt-Tab> which also jiggling away.
+#   - Fortunately, over this past week, I quickly adapted to *lay off
+#   the mouse* when I'm about to hit <Alt-Tab>.
+#   - And I really appreciate being able to click on the AltTab icons,
+#     so let's make this setting permanent.
+#   - I'm also not sure I'll remember to use Mission Control...
+#     I think I like the more compact AltTab icons vs. having to
+#     scan the whole display when I'm looking at Mission Control.
+#   - It also doesn't occur to me if I should AltTab or use Mission
+#     Control when I'm switching windows — I almost always AltTab
+#     (well, unless I use a keyboard shortcut instead).
+#     - Like, it doesn't occur to me to consider: am I switching to an
+#       MRU window, where it's just a few tabs away; Or, do I want to
+#       visually look for a window based on its screenshot?
+#     - I think that's one reason I never go to Mission Control:
+#       I usually think of windows in terms of *MRU* windows.
+#       - Or, with Hammerspoon nowadays, and the Chrome FZF popup,
+#         I think in terms of window *titles*.
+#       - Basically, if I know the app or terminal window I want:
+#         - I'll use a global keybinding if available.
+#         - If it's a recent window I was using, I'll AltTab.
+#         - Or if it's one of the dozens of Chrome windows I have
+#           open, I'll use the Hammerspoon FZF Chrome window list,
+#           which just shows a list of titles.
+# Read on for why I had this setting disabled circa 2023.
+#
+# - THOTS/2023-02-27: I often have my hand on the mouse when Alt-Tabbing,
+#   and even the smallest mouse movement causes the selection to change to
+#   the window under mouse.
+#   - UGH: This one is tough. It really bothers me that the smallest mouse
+#     movement moves focus, at least when I don't intend to do so; but it
+#     really bothers me that I cannot click on windows.
+#     - MAYBE/2024-07-24: Ask AltTab to add a delay setting, i.e.,
+#       ignore mouse movement on <Alt-Tab> for X msecs.
+#     - But you can Mission Control via either lower corner, and via
+#       Ctrl-Alt-Up, and you can click MC windows, so maybe I just need
+#       to remember to use Mission Control if I'm looking for an app
+#       window to click.
 alttab_customize_controls_also_select_windows_using_mouse_hover_off () {
   echo "AltTab: Preferences... > Controls > Shortcut 1
-    > Also select windows using: ✗ Mouse hover"
-  defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -string "false"
+    > Also select windows using: ✓ Mouse hover"
+  defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -string "true"
 }
 
 # AltTab defaults to "macOS" theme but also has a "Windows 10" theme.
