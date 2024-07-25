@@ -426,6 +426,12 @@ if ! ${BREW_EXCLUDE_MELD:-false}; then
   BREW_APPS+=("--cask meld")
 fi
 
+# P4Merge — Meld alternative, though not quite as slick (it's close).
+# https://formulae.brew.sh/cask/p4v
+# - SAVVY: Installs more than just P4Merge:
+#   - Use Spotlight to run `p4merge.app`, not `p4v.app`
+BREW_APPS+=("--cask p4v")
+
 # --------------------------
 
 BREW_APPS+=("direnv")
