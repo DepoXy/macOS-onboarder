@@ -26,6 +26,7 @@
 # OPT-OUTS: (e.g., if your Vendor installs this app for you):
 #
 #   BREW_EXCLUDE_SLACK=true
+#   BREW_EXCLUDE_MELD=true  # Set true if you don't want Rosetta 2
 #
 # OPT-INS: (more niche stuff you might not care about):
 #
@@ -410,19 +411,20 @@ BREW_APPS+=("colordiff")
 # NOTE: App is not signed. See our `quarantine-release-apps`, or try:
 #   xattr -dr com.apple.quarantine "/Applications/Meld.app"
 #
-# ISOFF/2024-04-15: Meld not yet released for Apple Silicon on Homebrew.
-# - See slather-defauls for the OMR 'install' reminder.
-add_meld_unless_apple_silicon () {
-  # ALTLY: test "$(uname -p)" = "arm"  # vs. "i386"
-  if [ "$(uname -m)" = "arm64" ]; then
-    # Apple Silicon (not "x86_64" Intel).
-
-    return 0
-  fi
+# Brew includes a Meld for macOS fork:
+#   https://github.com/yousseb/meld/
+#   https://yousseb.github.io/meld/
+# - It requires Rosetta 2, but from my experience, Rosetta works
+#   fine, and I'd guess it comes pre-installed, anyway, you just
+#   need to acknowledge the EULA to use it (so you're not using
+#   more disk space, i.e.).
+#   - So we'll install Meld with a default-yes opt-in (which I
+#     guess makes it an opt-out)
+if ! ${BREW_EXCLUDE_MELD:-false}; then
+  MOSON_INSTALL_ROSETTA_2=true
 
   BREW_APPS+=("--cask meld")
-}
-add_meld_unless_apple_silicon
+fi
 
 # --------------------------
 
@@ -936,6 +938,7 @@ install_homebrew () {
 #   or let this DRY violation continue to violate.
 print_homebrew_path () {
   # Apple Silicon (arm64) brew path is /opt/homebrew.
+  # - ALTLY: [ "$(uname -m)" = "arm64" ]
   local brew_bin="/opt/homebrew/bin"
 
   # Otherwise on Intel Macs it's under /usr/local.
