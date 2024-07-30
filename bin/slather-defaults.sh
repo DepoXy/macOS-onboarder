@@ -3438,7 +3438,7 @@ app_shortcuts_customize_finder_all () {
 app_shortcuts_customize_preview () {
   app_shortcuts_customize_preview_close_window
   app_shortcuts_customize_preview_quit_preview
-  app_shortcuts_customize_preview_minimize
+  # app_shortcuts_customize_preview_minimize
 
   app_shortcuts_customize_preview_all
 }
@@ -3451,14 +3451,18 @@ app_shortcuts_customize_preview_quit_preview () {
   echo "${CRUMB_APP_SHORTCUTS}: Preview: Quit Preview: Cmd-Q → Ctrl-Q"
 }
 
-app_shortcuts_customize_preview_minimize () {
-  echo "${CRUMB_APP_SHORTCUTS}: Preview: Minimize: Cmd-M → Cmd-N"
-}
+# ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
+#    Minimize = "@m";
+# - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
+#    Minimize = "@n";
+#
+# app_shortcuts_customize_preview_minimize () {
+#   echo "${CRUMB_APP_SHORTCUTS}: Preview: Minimize: Cmd-M → Cmd-N"
+# }
 
 app_shortcuts_customize_preview_all () {
   defaults write com.apple.Preview NSUserKeyEquivalents '{
     "Close Window" = "^w";
-    Minimize = "@n";
     "Quit Preview" = "^q";
   }'
 }
@@ -3519,7 +3523,7 @@ app_shortcuts_customize_macvim () {
   app_shortcuts_customize_macvim_edit_font_bigger
   app_shortcuts_customize_macvim_edit_font_smaller
   app_shortcuts_customize_macvim_edit_font_reset
-  app_shortcuts_customize_macvim_minimize
+  # app_shortcuts_customize_macvim_minimize
 
   app_shortcuts_customize_macvim_all
 }
@@ -3582,9 +3586,14 @@ app_shortcuts_customize_macvim_edit_font_reset () {
   : # Who knows! Doesn't appear to be an option.
 }
 
-app_shortcuts_customize_macvim_minimize () {
-  echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Window > Minimize: Cmd-M → Cmd-N"
-}
+# ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
+#    Minimize = "@m";
+# - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
+#    Minimize = "@n";
+#
+# app_shortcuts_customize_macvim_minimize () {
+#   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Window > Minimize: Cmd-M → Cmd-N"
+# }
 
 # ***
 
@@ -3603,7 +3612,6 @@ app_shortcuts_customize_macvim_all () {
   defaults write org.vim.MacVim NSUserKeyEquivalents '{
     Bigger = "^$=";
     "Close Window" = "@~^$w";
-    Minimize = "@n";
     "New Tab" = "@~^t";
     "Newer List" = "@~^$\U2193";
     "Next Error" = "@~^$\U2192";
@@ -3630,7 +3638,7 @@ app_shortcuts_customize_iterm2 () {
   app_shortcuts_customize_iterm2_view_make_text_smaller
   app_shortcuts_customize_iterm2_view_make_text_reset
   app_shortcuts_customize_iterm2_reset
-  app_shortcuts_customize_iterm2_minimize
+  # app_shortcuts_customize_iterm2_minimize
 
   app_shortcuts_customize_iterm2_all
 }
@@ -3683,9 +3691,14 @@ app_shortcuts_customize_iterm2_reset () {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Reset: Cmd-R → Ctrl-Opt-Cmd-R"
 }
 
-app_shortcuts_customize_iterm2_minimize () {
-  echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Window > Minimize: Cmd-M → Cmd-N"
-}
+# ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
+#    Minimize = "@m";
+# - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
+#    Minimize = "@n";
+#
+# app_shortcuts_customize_iterm2_minimize () {
+#   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Window > Minimize: Cmd-M → Cmd-N"
+# }
 
 # ***
 
@@ -3698,7 +3711,6 @@ app_shortcuts_customize_iterm2_all () {
     "Make Text Bigger" = "^$=";
     "Make Text Normal Size" = "^$0";
     "Make Text Smaller" = "^$-";
-    Minimize = "@n";
     "New Tab" = "@~^t";
     "New Window" = "^n";
     Paste = "^$v";
@@ -3763,7 +3775,7 @@ app_shortcuts_customize_google_chrome () {
   app_shortcuts_customize_google_chrome_zoom_in_bigger
   app_shortcuts_customize_google_chrome_zoom_out_smaller
   app_shortcuts_customize_google_chrome_zoom_actual_size_reset
-  app_shortcuts_customize_google_chrome_minimize
+  # app_shortcuts_customize_google_chrome_minimize
 
   app_shortcuts_customize_google_chrome_all
 }
@@ -3920,9 +3932,14 @@ app_shortcuts_customize_google_chrome_zoom_actual_size_reset () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Actual Size: Cmd-0 → Ctrl-0"
 }
 
-app_shortcuts_customize_google_chrome_minimize () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Window: Minimize: Cmd-M → Cmd-N"
-}
+# ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
+#    Minimize = "@m";
+# - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
+#    Minimize = "@n";
+#
+# app_shortcuts_customize_google_chrome_minimize () {
+#   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Window: Minimize: Cmd-M → Cmd-N"
+# }
 
 # ***
 
@@ -3967,7 +3984,6 @@ app_shortcuts_customize_google_chrome_all () {
     Forward = "^\U2192";
     "Inspect Elements" = "^$c";
     "JavaScript Console" = "^$j";
-    Minimize = "@n";
     "New Incognito Window" = "^$n";
     "New Tab" = "^t";
     "New Window" = "^n";
@@ -4219,7 +4235,7 @@ app_shortcuts_customize_slack () {
   app_shortcuts_customize_slack_paste_and_match_style
   app_shortcuts_customize_slack_find
   app_shortcuts_customize_slack_search
-  app_shortcuts_customize_slack_minimize
+  # app_shortcuts_customize_slack_minimize
 
   app_shortcuts_customize_slack_all
 }
@@ -4246,14 +4262,18 @@ app_shortcuts_customize_slack_search () {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Search: Cmd-G → Cmd-G"
 }
 
-app_shortcuts_customize_slack_minimize () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Minimize: Cmd-M → Cmd-N"
-}
+# ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
+#    Minimize = "@m";
+# - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
+#    Minimize = "@n";
+#
+# app_shortcuts_customize_slack_minimize () {
+#   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Minimize: Cmd-M → Cmd-N"
+# }
 
 app_shortcuts_customize_slack_all () {
   defaults write com.tinyspeck.slackmacgap NSUserKeyEquivalents '{
     "Find..." = "^f";
-    Minimize = "@n";
     "Paste and Match Style" = "^$v";
     Redo = "^$z";
     Search = "^g";
@@ -4306,7 +4326,7 @@ app_shortcuts_customize_webex () {
   # Conveniently, View > Full Screen already using Ctrl, at Ctrl-Shift-F
   app_shortcuts_customize_webex_mute_me
   app_shortcuts_customize_webex_unmute_me
-  app_shortcuts_customize_webex_minimize
+  # app_shortcuts_customize_webex_minimize
 
   app_shortcuts_customize_webex_all
 }
@@ -4335,15 +4355,19 @@ app_shortcuts_customize_webex_unmute_me () {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Unmute Me: Cmd-Shift-M → Ctrl-Shift-M"
 }
 
-app_shortcuts_customize_webex_minimize () {
-  echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Window: Minimize: Cmd-M → Cmd-N"
-}
+# ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
+#    Minimize = "@m";
+# - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
+#    Minimize = "@n";
+#
+# app_shortcuts_customize_webex_minimize () {
+#   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Window: Minimize: Cmd-M → Cmd-N"
+# }
 
 app_shortcuts_customize_webex_all () {
   defaults write com.webex.meetingmanager NSUserKeyEquivalents '{
     "End Meeting" = "^l";
     "Leave Meeting" = "^l";
-    Minimize = "@n";
     "Mute Me" = "^$m";
     Redo = "^$z";
     Undo = "^z";
