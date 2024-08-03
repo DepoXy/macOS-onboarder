@@ -602,6 +602,7 @@ BREW_APPS+=("yarn")
 BREW_APPS+=("rust")
 
 BREW_APPS+=("pyenv")
+USER_LINK+=("pyenv pyenv")
 # https://github.com/pyenv/pyenv-virtualenv
 BREW_APPS+=("pyenv-virtualenv")
 
