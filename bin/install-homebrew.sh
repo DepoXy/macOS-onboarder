@@ -609,6 +609,9 @@ BREW_APPS+=("pyenv-virtualenv")
 # For `mandb` (used by at least fries-findup's `make install`).
 BREW_APPS+=("man-db")
 
+# Apple `make` is "GNU Make 3.81". Brew's is ≥ 4.4.1.
+BREW_APPS+=("make")
+
 # --------------------------
 
 # - DB dev tools
