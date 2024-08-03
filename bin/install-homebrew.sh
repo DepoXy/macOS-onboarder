@@ -479,8 +479,7 @@ BREW_APPS+=("macdown")
 
 # --------------------------
 
-# INERT/2022-10-11: I haven't run tmux for work in ages.
-#  BREW_APPS+=("tmux")
+BREW_APPS+=("tmux")
 
 # Note that some organizations will offer iTerm2 from their app store.
 BREW_APPS+=("iterm2")
