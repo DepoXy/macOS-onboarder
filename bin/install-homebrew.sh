@@ -404,8 +404,12 @@ BREW_APPS+=("diffutils")
 # so use a two-word USER_LINK entry.
 USER_LINK+=("diff diff")
 
-# FIXME: A colorful diff utility I've yet to demo.
-#        - See also: diff, git-diff, and meld.
+# "colordiff — a tool to colorize diff output"
+# - Essentially a `diff` wrapper with syntax highlighting.
+# https://www.colordiff.org/
+# https://github.com/daveewart/colordiff
+# - Author has yet to demo colordiff.
+#   - See also: diff, git-diff, and meld.
 BREW_APPS+=("colordiff")
 
 # NOTE: App is not signed. See our `quarantine-release-apps`, or try:
@@ -479,6 +483,9 @@ BREW_APPS+=("macdown")
 
 # --------------------------
 
+# CXREF: Per its install output, example config and Bash completion:
+#   /opt/homebrew/opt/tmux/share/tmux/example_tmux.conf
+#   /opt/homebrew/etc/bash_completion.d/tmux
 BREW_APPS+=("tmux")
 
 # Note that some organizations will offer iTerm2 from their app store.

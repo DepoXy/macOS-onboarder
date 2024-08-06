@@ -4700,6 +4700,8 @@ slather_macos_defaults () {
     local cnt_defaults_write=0
     local cnt_defaults_delete=0
     local cnt_defaults_other=0
+    # SAVVY: `declare -A` requires Bash v4. See:
+    #   _promote_homebrew_bash
     declare -A cnt_defaults_domain
     local cnt_killalls=0
     local cnt_ascripts=0
