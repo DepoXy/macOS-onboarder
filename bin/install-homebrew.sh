@@ -524,7 +524,13 @@ BREW_APPS+=("exiftool")
 # --------------------------
 
 # "PGF/TikZ diagram editor"
-BREW_APPS+=("--cask tikzit")
+# https://tikzit.github.io/
+# https://formulae.brew.sh/cask/tikzit
+# - SAVVY/2024-08-05: I demoed tikZiT,
+#   not the diagram app I was hoping for.
+if ${BREW_INCLUDE_TIKZIT:-false}; then
+  BREW_APPS+=("--cask tikzit")
+fi
 
 # Dia: "Draw structured diagrams"
 # - Also installs XQuartzx:
