@@ -462,7 +462,10 @@ BREW_APPS+=("tldr")
 
 # --------------------------
 
+# Used by Dob plugin, for notification toasts:
+#   https://github.com/landonb/dob-plugin-my-post-processor
 BREW_APPS+=("cowsay")
+BREW_APPS+=("fortune")
 
 # E.g., `/usr/local/bin/terminal-notifier -message "PATH=$PATH"`.
 #  https://github.com/julienXX/terminal-notifier
