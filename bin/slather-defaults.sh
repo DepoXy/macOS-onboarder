@@ -1704,7 +1704,7 @@ karabiner_elements_customize_devices_devices_modify_events () {
 }
 
 karabiner_elements_customize_complex_modifications_add_rule_all () {
-  print_at_end+=("🔳 Karabiner Elements: Settings...: Complex Modications:
+  print_at_end+=("🔳 Karabiner Elements: Settings...: Complex Modifications:
    - Click (+) “Add predefined rule” and *Enable All* for each set of rules you want)")
   print_at_end+=("🔳 Karabiner Elements: Restart some apps for changes to take effect, e.g., MacVim")
 }
@@ -4255,11 +4255,11 @@ app_shortcuts_customize_slack_paste_and_match_style () {
 }
 
 app_shortcuts_customize_slack_find () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Find...: Cmd-F → Cmd-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Find...: Cmd-F → Ctrl-F"
 }
 
 app_shortcuts_customize_slack_search () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Search: Cmd-G → Cmd-G"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Search: Cmd-G → Ctrl-G"
 }
 
 # ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
