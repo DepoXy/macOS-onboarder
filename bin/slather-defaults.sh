@@ -3762,6 +3762,7 @@ app_shortcuts_customize_google_chrome () {
   app_shortcuts_customize_google_chrome_use_selection_for_find
   app_shortcuts_customize_google_chrome_reload_this_page
   app_shortcuts_customize_google_chrome_force_reload_this_page
+  app_shortcuts_customize_google_chrome_enter_exit_full_screen
   app_shortcuts_customize_google_chrome_view_source
   app_shortcuts_customize_google_chrome_developer_tools
   app_shortcuts_customize_google_chrome_inspect_elements
@@ -3852,6 +3853,11 @@ app_shortcuts_customize_google_chrome_reload_this_page () {
 
 app_shortcuts_customize_google_chrome_force_reload_this_page () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Force Reload This Page: Cmd-Shift-R → Ctrl-Shift-R"
+}
+
+app_shortcuts_customize_google_chrome_enter_exit_full_screen () {
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Enter Full Screen: Globe-F → Ctrl-Shift-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Exit Full Screen: Globe-F → Ctrl-Shift-F"
 }
 
 app_shortcuts_customize_google_chrome_view_source () {
@@ -3979,6 +3985,8 @@ app_shortcuts_customize_google_chrome_all () {
     "Close Tab" = "~w";
     "Close Window" = "^$w";
     "Developer Tools" = "^$i";
+    "Enter Full Screen" = "^$f";
+    "Exit Full Screen" = "^$f";
     "Find Next" = "\Uf706";
     "Find Previous" = "$\Uf706";
     "Find..." = "^f";
