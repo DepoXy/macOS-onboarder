@@ -3376,7 +3376,7 @@ app_shortcuts_customize_finder () {
   app_shortcuts_customize_finder_rename
   app_shortcuts_customize_finder_find
   app_shortcuts_customize_finder_close_quick_look
-  app_shortcuts_customize_finder_enter_full_screen
+  app_shortcuts_customize_finder_enter_exit_full_screen
 
   app_shortcuts_customize_finder_all
 }
@@ -3413,8 +3413,9 @@ app_shortcuts_customize_finder_close_quick_look () {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Close Quick Look: Cmd-Y → Ctrl-Shift-W"
 }
 
-app_shortcuts_customize_finder_enter_full_screen () {
+app_shortcuts_customize_finder_enter_exit_full_screen () {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Enter Full Screen: Cmd-Shift-F → Ctrl-Shift-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Finder: Exit Full Screen: Cmd-Shift-F → Ctrl-Shift-F"
 }
 
 app_shortcuts_customize_finder_all () {
@@ -3422,6 +3423,7 @@ app_shortcuts_customize_finder_all () {
     "Close Quick Look" = "^$w";
     "Close Window" = "^w";
     "Enter Full Screen" = "^$f";
+    "Exit Full Screen" = "^$f";
     Find = "^f";
     "New Finder Window" = "^n";
     "New Folder" = "^$n";
