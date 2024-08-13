@@ -623,6 +623,11 @@ BREW_APPS+=("pyenv-virtualenv")
 
 # For `mandb` (used by at least fries-findup's `make install`).
 BREW_APPS+=("man-db")
+# If you open Homebrew man pages with Apple man, e.g.,
+# `/opt/homebrew/share/man/man1/bash.1`, you'll see:
+# "This manpage is not compatible with mandoc(1)
+#  and might display incorrectly."
+USER_LINK+=("gman")
 
 # Apple `make` is "GNU Make 3.81". Brew's is ≥ 4.4.1.
 BREW_APPS+=("make")
