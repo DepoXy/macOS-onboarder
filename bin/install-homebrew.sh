@@ -632,6 +632,10 @@ USER_LINK+=("gman")
 # Apple `make` is "GNU Make 3.81". Brew's is ≥ 4.4.1.
 BREW_APPS+=("make")
 
+# For dateutils.ddiff, etc.
+BREW_APPS+=("dateutils")
+USER_LINK+=("datediff datediff")
+
 # --------------------------
 
 # - DB dev tools
