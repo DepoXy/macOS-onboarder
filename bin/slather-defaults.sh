@@ -40,7 +40,9 @@
 #
 # - NSUserKeyEquivalents characters:
 #
-#     @ Cmd / ~ Alt / $ Shift / ^ Ctrl
+#     ⇧ Shift: '$' | ^ Ctrl: '^' | ⌘  Command: '@' | ⌥  Option/Alt/Meta: '~' | 🌐 Globe/Function: ??
+#
+#   - See below: #key_icons
 #
 # - See also for editing plist files: /usr/libexec/PlistBuddy
 #
@@ -1711,7 +1713,7 @@ karabiner_elements_customize_complex_modifications_add_rule_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# List of Keyboard Key icons:
+# List of Keyboard Key icons #key_icons:
 #
 #     ^  - Control
 #     ⌥  - Option
