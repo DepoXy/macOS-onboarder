@@ -524,6 +524,9 @@ BREW_APPS+=("exiftool")
 #  BREW_APPS+=("--cask blender")
 #  BREW_APPS+=("--cask inkscape")
 
+# Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
+BREW_APPS+=("qpdf")
+
 # --------------------------
 
 # "PGF/TikZ diagram editor"
