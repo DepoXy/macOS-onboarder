@@ -4242,54 +4242,126 @@ app_shortcuts_customize_meld () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 app_shortcuts_customize_slack () {
-  app_shortcuts_customize_slack_undo
-  app_shortcuts_customize_slack_redo
-  app_shortcuts_customize_slack_paste_and_match_style
-  app_shortcuts_customize_slack_find
-  app_shortcuts_customize_slack_search
-  # app_shortcuts_customize_slack_minimize
+  app_shortcuts_customize_slack_menu_slack
+  app_shortcuts_customize_slack_menu_file
+  app_shortcuts_customize_slack_menu_edit
+  app_shortcuts_customize_slack_menu_view
+  app_shortcuts_customize_slack_menu_go
+  app_shortcuts_customize_slack_menu_window
+  app_shortcuts_customize_slack_menu_help
 
   app_shortcuts_customize_slack_all
 }
 
-# Globally remapped by KE: Cut, Copy, Paste, and Select All.
+# These shortcuts are reflected in menus only, but app ignores them.
+# - See Hammerspoon config (and/or Karabiner Elements) for working bindings.
 
-app_shortcuts_customize_slack_undo () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Undo: Cmd-Z → Ctrl-Z"
+app_shortcuts_customize_slack_menu_slack () {
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Settings...: Cmd-, → Cmd-,"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Hide Slack: Cmd-H → Cmd-H"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Hide Others: Cmd-Alt-H → Cmd-Alt-H"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Quit Slack: Cmd-Q → Ctrl-Q"
 }
 
-app_shortcuts_customize_slack_redo () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
+app_shortcuts_customize_slack_menu_file () {
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > New Message: Cmd-N → Ctrl-N"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > New Canvas: Shift-Cmd-N → Shift-Ctrl-N"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > Workspace > <Workspace 1>: Cmd-1 → Ctrl-1"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > Workspace > Select Next Workspace: Shift-Cmd-} → Shift-Ctrl-}"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > Workspace > Select Previous Workspace: Shift-Cmd-{ → Shift-Ctrl-{"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > Close Window: Cmd-W → Ctrl-W"
 }
 
-app_shortcuts_customize_slack_paste_and_match_style () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Paste and Match Style: Cmd-Shift-V → Ctrl-Shift-V"
+app_shortcuts_customize_slack_menu_edit () {
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Undo: Cmd-Z → Ctrl-Z"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Cut: Cmd-X → Ctrl-X"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Copy: Cmd-C → Ctrl-C"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Paste: Cmd-V → Ctrl-V"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Paste and Match Style: Cmd-Shift-V → Ctrl-Shift-V"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Select All: Cmd-A → Ctrl-A"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Search: Cmd-G → Ctrl-G"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Find...: Cmd-F → Ctrl-F"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Emoji & Symbols: Globe → (meh)"
 }
 
-app_shortcuts_customize_slack_find () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Find...: Cmd-F → Ctrl-F"
+app_shortcuts_customize_slack_menu_view () {
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Reload: Cmd-R → Ctrl-R"
+  # DUNNO/2024-08-17: "Force Reload" menu item still shows ⇧⌘ R
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Force Reload: Shift-Cmd-R → Shift-Ctrl-R"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Toggle Full Screen: Ctrl-Cmd-F → Shift-Ctrl-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Hide Sidebar: Shift-Cmd-D → Shift-Ctrl-D"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Actual Size: Cmd-0 → Ctrl-0"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Zoom In: Cmd-+ → Ctrl-+"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Zoom In: Cmd-= → Ctrl-="
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Zoom Out: Cmd-- → Ctrl--"
 }
 
-app_shortcuts_customize_slack_search () {
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Search: Cmd-G → Ctrl-G"
+app_shortcuts_customize_slack_menu_go () {
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Switch to Channel: Cmd-K → Ctrl-K"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > History > Back: Cmd-[ → Ctrl-["
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > History > Forward: Cmd-] → Ctrl-]"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > All Unreads: Shift-Cmd-A → Shift-Ctrl-A"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Threads: Shift-Cmd-T → Shift-Ctrl-T"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > All DMs: Shift-Cmd-K → Shift-Ctrl-K"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Activity: Shift-Cmd-M → Shift-Ctrl-M"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Channel Browser: Shift-Cmd-L → Shift-Ctrl-L"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > People & User Groups: Shift-Cmd-E → Shift-Ctrl-E"
+  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Downloads: Shift-Cmd-J → Shift-Ctrl-J"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Keyboard Navigation > Next Section: F6 → F6"
+  # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Keyboard Navigation > Previous Section: Shift-F6 → Shift-F6"
 }
 
 # ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
 #    Minimize = "@m";
 # - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
 #    Minimize = "@n";
-#
-# app_shortcuts_customize_slack_minimize () {
-#   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window: Minimize: Cmd-M → Cmd-N"
-# }
+app_shortcuts_customize_slack_menu_window () {
+  : # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window > Minimize: Cmd-M → Cmd-M"
+}
+
+app_shortcuts_customize_slack_menu_help () {
+  : # <None>
+}
 
 app_shortcuts_customize_slack_all () {
+  # DUNNO/2024-08-17: Setting these appears to interfere with Hammerspoon.
+  #   defaults delete com.tinyspeck.slackmacgap NSUserKeyEquivalents
+  return 0
+
   defaults write com.tinyspeck.slackmacgap NSUserKeyEquivalents '{
-    "Find..." = "^f";
-    "Paste and Match Style" = "^$v";
-    Redo = "^$z";
-    Search = "^g";
+    "Quit Slack" = "^q";
+    "New Message" = "^n";
+    "New Canvas" = "^$n";
+    "Select Next Workspace" = "^)";
+    "Select Previous Workspace" = "^(";
+    "Close Window" = "^w";
     Undo = "^z";
+    Redo = "^$z";
+    Cut = "^x";
+    Copy = "^c";
+    Paste = "^v";
+    "Paste and Match Style" = "^$v";
+    "Select All" = "^a";
+    Search = "^g";
+    "Find..." = "^f";
+    Reload = "^r";
+    "Force Reload" = "^$r";
+    "Toggle Full Screen" = "^$f";
+    "Hide Sidebar" = "^$d";
+    "Actual Size" = "^0";
+    "Zoom In" = "^=";
+    "Zoom Out" = "^-";
+    "Switch to Channel" = "^k";
+    Back = "^[";
+    Forward = "^]";
+    "All Unreads" = "^$a";
+    Threads = "^$t";
+    "All DMs" = "^$k";
+    Activity = "^$m";
+    "Channel Browser" = "^$l";
+    "People & User Groups" = "^$e";
+    Downloads = "^$j";
   }'
 }
 
