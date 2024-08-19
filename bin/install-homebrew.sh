@@ -464,7 +464,11 @@ BREW_APPS+=("tldr")
 
 # Used by Dob plugin, for notification toasts:
 #   https://github.com/landonb/dob-plugin-my-post-processor
-BREW_APPS+=("cowsay")
+# - `brew install cowsay` is deprecated:
+#   https://formulae.brew.sh/formula/cowsay
+# https://github.com/cowsay-org/homebrew-cowsay
+# https://github.com/cowsay-org/cowsay
+BREW_APPS+=("cowsay-org/cowsay/cowsay-org")
 BREW_APPS+=("fortune")
 
 # E.g., `/usr/local/bin/terminal-notifier -message "PATH=$PATH"`.
