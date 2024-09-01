@@ -643,6 +643,36 @@ BREW_APPS+=("make")
 BREW_APPS+=("dateutils")
 USER_LINK+=("datediff datediff")
 
+# Ruby
+# - @macOS $ /usr/bin/ruby -v
+#   ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin23]
+# - @hbrew $ /opt/homebrew/bin
+# REFER:
+#   /opt/homebrew/opt/ruby/bin
+#   /opt/homebrew/lib/ruby/gems/3.3.0/bin
+# Some gems:
+#   bashcov
+# Caveats:
+#   By default, binaries installed by gem will be placed into:
+#     /opt/homebrew/lib/ruby/gems/3.3.0/bin
+#
+#   You may want to add this to your PATH.
+#
+#   ruby is keg-only, which means it was not symlinked into /opt/homebrew,
+#   because macOS already provides this software and installing another version in
+#   parallel can cause all kinds of trouble.
+#
+#   If you need to have ruby first in your PATH, run:
+#     echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.profile
+#
+#   For compilers to find ruby you may need to set:
+#     export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+#     export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+#
+#   For pkg-config to find ruby you may need to set:
+#     export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+BREW_APPS+=("ruby")
+
 # --------------------------
 
 # - DB dev tools
