@@ -925,8 +925,6 @@ display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
 # ALTLY: You can also use `caffeinate` to keep the machine from sleeping.
 # - UCASE: You're using a Vendor laptop, and Help Desk locks this setting.
 display_customize_energy_saver_no_sleep_when_display_is_off () {
-  ! is_probably_a_laptop || return 0
-
   print_at_end+=("🤷 System Settings: Energy Saver:
    - ✓ Prevent automatic sleeping when the display is off.
      - This prompts for account password, but only once, ever.
