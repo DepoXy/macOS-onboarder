@@ -327,6 +327,9 @@ dock_and_menu_bar_customize_dock_minimize_windows_into_application_icon () {
   defaults write com.apple.dock minimize-to-application -bool true
 }
 
+# SAVVY/2024-09-18: If not hidden, you might want to consider disabling
+# the distracting Dock app alert icon *bounce*:
+#   defaults write com.apple.dock no-bouncing -bool false
 dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock () {
   echo "Desktop & Dock: Dock: ✓ Automatically hide and show the Dock"
   defaults write com.apple.dock autohide -bool true
