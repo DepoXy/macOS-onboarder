@@ -313,10 +313,29 @@ BREW_APPS+=("fzf")
 
 # --------------------------
 
-# "Modern replacement for 'ls'".
-# - ISOFF/2024-04-13: Brew install fails:
-#   "Error: exa has been disbled because it is not maintained upstream!"
-#  BREW_APPS+=("exa")
+# Some "modern" replacements for 'ls'.
+# - Albeit I'm not sure I find these more useful...
+#   if anything, the individual colors for the permissions bits
+#   and the icon ornamentation is distracting without making it
+#   easier or quicker to (visually) consume the output.
+
+# https://github.com/eza-community/eza
+# - REFER: Successor to `exa`, which Homebrew dropped support for:
+#     "Error: exa has been disbled because it is not maintained upstream!"
+# - SAVVY: "Bash completion has been installed to:"
+#     /opt/homebrew/etc/bash_completion.d
+# - E.g.,
+#     eza --icons --long --header
+BREW_APPS+=("eza")
+
+# https://github.com/lsd-rs/lsd
+# - SAVVY: "Bash completion has been installed to:"
+#     /opt/homebrew/etc/bash_completion.d
+# - E.g.,
+#     lsd -lhFa --color=always
+BREW_APPS+=("lsd")
+
+# --------------------------
 
 # "list contents of directories in a tree-like format."
 BREW_APPS+=("tree")
