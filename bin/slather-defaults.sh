@@ -921,12 +921,18 @@ display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
 #   disable nor enable — So is there literally just 1 password prompt
 #   to enable this setting the very first time, but then never again?
 #   - Or maybe after logging off or rebooting?
+#
+# ALTLY: You can also use `caffeinate` to keep the machine from sleeping.
+# - UCASE: You're using a Vendor laptop, and Help Desk locks this setting.
 display_customize_energy_saver_no_sleep_when_display_is_off () {
   ! is_probably_a_laptop || return 0
 
   print_at_end+=("🤷 System Settings: Energy Saver:
    - ✓ Prevent automatic sleeping when the display is off.
-     - This prompts for account password, but only once, ever.")
+     - This prompts for account password, but only once, ever.
+   - UCASE: Prevents dropping SSH connections when you take a break
+     - ALTLY: \`nohup caffeinate -du -t 1860000 >/dev/null 2>&1 &\`")
+}
 
 # ***
 
