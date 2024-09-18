@@ -552,6 +552,7 @@ BREW_APPS+=("qpdf")
 
 # --------------------------
 
+# *** Diagramming apps
 
 # Dia: "Draw structured diagrams"
 # - Also installs XQuartzx:
@@ -571,6 +572,37 @@ if false && ${BREW_INCLUDE_DIA:-false}; then
   #   ==> Running installer for xquartz with sudo; the password may be necessary.
   BREW_APPS+=("--cask dia")
 fi
+
+# https://www.drawio.com/
+# https://formulae.brew.sh/cask/drawio
+# - STATS/2024-09-16: 27k installs past 365 days.
+# - STATS: Large .tar.gz, 128M
+BREW_APPS+=("--cask drawio")
+
+# https://pencil.evolus.vn/
+# https://formulae.brew.sh/cask/pencil
+# - STATS/2024-09-16: 566 installs past 365 days.
+# - STATS: Large .tar.gz, 170M, also very slow download
+#     ls -l ~/Library/Caches/Homebrew/downloads/*Pencil*.dmg
+#
+# - OPTIN: Pencil download is slow, and you only need one diagramming app,
+#   so we'll install draw.io (very popular option) and yed (nice app) and
+#   you can opt-in Pencil.
+#   - Also draw.io and yed are signed, but Pencil is not signed,
+#     so install shows extra prompts and requires System Settings
+#     intervention via Privacy & Security unblockage.
+if ${BREW_INCLUDE_PENCIL:-false}; then
+  BREW_APPS+=("--cask pencil")
+fi
+
+# https://www.yworks.com/products/yed
+# https://formulae.brew.sh/cask/yed
+# - STATS/2024-09-16: 904 installs past 365 days.
+# - STATS: Large .tar.gz, 153M, also very slow download
+# - ILIKE/2024-09-16: Ooooh, this is nice...
+BREW_APPS+=("--cask yed")
+
+# --------------------------
 
 # "Free cross-platform office suite, fresh version"
 BREW_APPS+=("--cask libreoffice")
