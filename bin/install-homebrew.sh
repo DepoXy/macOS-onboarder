@@ -459,7 +459,9 @@ BREW_APPS+=("colordiff")
 # https://formulae.brew.sh/cask/p4v
 # - SAVVY: Installs more than just P4Merge:
 #   - Use Spotlight to run `p4merge.app`, not `p4v.app`
-BREW_APPS+=("--cask p4v")
+if ${BREW_INCLUDE_P4MERGE:-false}; then
+  BREW_APPS+=("--cask p4v")
+fi
 
 # --------------------------
 
