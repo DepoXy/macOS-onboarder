@@ -406,8 +406,12 @@ USER_LINK+=("rsync rsync")
 
 # --------------------------
 
+# This is "ctags-exuberant".
+# - REFER: See also macOS built-in ctags:
+#   /Library/Developer/CommandLineTools/usr/bin/ctags
+#   /Library/Developer/CommandLineTools/usr/share/man/man1/ctags.1
 BREW_APPS+=("ctags")
-# See also "ctags-exuberant", which I think identical to "ctags" formula.
+USER_LINK+=("ctags ctags")
 
 # --------------------------
 
