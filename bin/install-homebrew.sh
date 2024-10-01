@@ -618,6 +618,9 @@ BREW_APPS+=("--cask yed")
 
 # "Free cross-platform office suite, fresh version"
 BREW_APPS+=("--cask libreoffice")
+_MOSON_SOFFICE="/Applications/LibreOffice.app/Contents/MacOS/soffice"
+POST_EVAL+=("command ln -sfn '${_MOSON_SOFFICE}' '${HOME}/.local/bin/libreoffice'")
+POST_EVAL+=("command ln -sfn '${_MOSON_SOFFICE}' '${HOME}/.local/bin/soffice'")
 
 # --------------------------
 
