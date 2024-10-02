@@ -2776,6 +2776,115 @@ dbeaver_customize_text_editors_word_wrap () {
   print_at_end+=("🔳 DBeaver: Window > Preferences > Editors > Text Editors: ✓ *Enable word wrap when opening an editor* > Apply and Close")
 }
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+gnucash_customize () {
+  gnucash_customize_ledger_default_style
+  gnucash_customize_only_display_leaf_account_names
+  gnucash_customize_retain_log_backup_files
+  gnucash_customize_date_format
+  gnucash_customize_invoices_notify_when_due
+  gnucash_customize_qif_import_show_documentation
+}
+
+_SLATHER_GNC_PREFS="Gnucash: Settings...: GnuCash Preferences"  # [sic]
+
+# Register Defaults > Default Style > ✓ Auto-split ledger
+# - One of: Basic ledger / Auto-split ledger / Transaction Journal
+# - Set one of these 'true' (1) and the other two 'false' (0).
+gnucash_customize_ledger_default_style () {
+  echo "${_SLATHER_GNC_PREFS}: Register Defaults > Default Style > ✓ *Auto-split ledger*"
+  # Disable *Basic ledger*
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/register/default-style-ledger" -int 0
+  # Enable *Auto-split ledger*
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/register/default-style-autoledger" -int 1
+  # Disable *Transaction Journal* [unset/missing by default, but just in case exists]
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/register/default-style-journal" -int 0
+}
+
+# Register Defaults > Other Defaults > ✓ Only display leaf account names
+# - OPINE: Depending on how you've named accounts (mine are pretty verbose),
+#   the full account names are long and difficult to read quickly.
+# - ALTLY: I tried using a different separator (defaults 'colon'):
+#     Accounts > Separator Character > Character: »
+#   which helped a little, but the short name works better, I think.
+gnucash_customize_only_display_leaf_account_names () {
+  echo "${_SLATHER_GNC_PREFS}: Register Defaults > Other Defaults > ✓ *Only display leaf account names*"
+  # Enable *Only display leaf account names*
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/register/show-leaf-account-names" -int 1
+}
+
+# General > Retain log/backup files > ✓ Never
+# - One of: Never / For (X days) / Forever
+# - OPINE: I mostly import data, and don't make too many edits or new
+#   transactions in the application. But mostly I'm diligent about saving
+#   (and then committing to a repo), so I don't feel the need for this
+#   file noise (also I've never needed or used a GNC log/backup file).
+# - REFER: general/retain-type-days pairs with general/retain-days, e.g.:
+#     "/org/gnucash/GnuCash/general/retain-days" = 30;
+gnucash_customize_retain_log_backup_files () {
+  # ISOFF/2024-10-02: I have backups disabled on Linux Mint, but I also have
+  # dozens of hours of GnuCash usage (and confidence) thereon.
+  # - But on macOS, I've only been using GnuCash for a handful of hours, so
+  #   I'll leave backups enabled, just in case.
+  #   - INERT: I might disable backups later, but they're not large (they're
+  #     just diffs, or maybe a sequence of edit operations), and I have them
+  #     .gitignore'd. So I'm unlikely to notice or remember they exist.
+  return
+
+  echo "${_SLATHER_GNC_PREFS}: General > Retain log/backup files > ✓ *Never*"
+  # Enable *Never*
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/retain-type-never" -int 1
+  # Disable *For* (X days)
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/retain-type-days" -int 0
+  # Disable *Forever* [unset/missing by default, but just in case exists]
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/retain-type-forever" -int 0
+}
+
+# Numbers, Date, Time > Date Format: *ISO 2013-07-31*
+# - Defaults "4", aka *Locale 07/31/2013*
+gnucash_customize_date_format () {
+  echo "${_SLATHER_GNC_PREFS}: Numbers, Date, Time > Date Format: ✓ *ISO 2013-07-31*"
+  # Enable *ISO* dates
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/general/date-format" -int 3
+}
+
+# Business > Invoices > Notify when due > Days in advance: 1
+# - Defaults to 7, lowest is 1.
+# - OPINE: I set this to 1. I don't quite get why GNC uses a week. Like,
+#   if the client still has a week to pay, what's the purpose of the
+#   alert? So I can prod the client to pay? But why would I want to do
+#   that, if they still have another week to pay? / In my case, all my
+#   clients pay like clockwork, about 1 week before the technical due
+#   date. So the GnuCash alert — to me — only serves to remind me to
+#   update my books (import recent bank transactions into GnuCash, and
+#   assign payments to invoices).
+gnucash_customize_invoices_notify_when_due () {
+  echo "${_SLATHER_GNC_PREFS}: Business > Invoices > Notify when due > Days in advance: *1*"
+  # Update *Notify when due*
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/dialogs/business/invoice/days-in-advance" -int 1
+}
+
+# Import > QIF Import > ✗ Show documentation
+# - SPIKE/2021-03-13: Will this cut down on Wizard screens?
+gnucash_customize_qif_import_show_documentation () {
+  echo "${_SLATHER_GNC_PREFS}: Import > QIF Import > ✗ *Show documentation*"
+  # Disable *Show documentation*
+  defaults write org.gnucash.Gnucash \
+    "/org/gnucash/GnuCash/dialogs/import/qif/show-doc" -int 0
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # Keyboard Shortcuts config is a hot mess! Or at least somewhat opaque,
 # in that the entries are keyed and valued by integers, so it's not
 # obvious what does what without just observing changes in the plist.
@@ -5044,6 +5153,10 @@ domains_customize () {
   # ***
 
   dbeaver_customize
+
+  # ***
+
+  gnucash_customize
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
