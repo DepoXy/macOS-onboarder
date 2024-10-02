@@ -2890,20 +2890,28 @@ shortcuts_mission_control_remap () {
   #                    my client set some non-standard defauts, who knows.
   # ✓ Mission Control: F12 or ^↑ → Ctrl-Opt-↑
   shortcuts_mission_control_remap_mission_control
+  #
   # ✗ Show Notification Center: Leave (Unset)
+  #
   # ✗ Turn Do Not Disturb On/Off: Leave (Unset)
+  #
   # ✓ Application windows: ^↓ → Ctrl-Opt-↓
   shortcuts_mission_control_remap_application_windows
+  #
   # ✓ Show Desktop: F11 → Ctrl+Alt+d
   #   - Note that Rectangle uses a conflicting Ctrl-Alt-d mapping for its "First Third"
   #     shortcut, so this script tackles Rectangle remaps before remapping macOS Shortcuts.
   shortcuts_mission_control_remap_show_desktop
+  #
   # ✓ Mission Control: Move left a space: ^← → Ctrl-Opt-←
   shortcuts_mission_control_remap_move_left_a_space
+  #
   # ✓ Mission Control: Move right a space: ^→ → Ctrl-Opt-→
   shortcuts_mission_control_remap_move_right_a_space
+  #
   # ✓ Mission Control: Switch to Desktop 1: ^1 → (Unset)
   shortcuts_mission_control_remap_switch_to_desktop
+  #
   # ✓ Quick Note: 🌐 q aka Fn+q → (Unset)
   shortcuts_mission_control_remap_quick_note
 
