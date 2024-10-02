@@ -2887,7 +2887,8 @@ shortcuts_mission_control_remap () {
   # ✓ Mission Control: F12 (or was it ^↑) → Ctrl-Opt-↑
   shortcuts_mission_control_remap_mission_control
   #
-  # ✗ Show Notification Center: Leave (Unset)
+  # ✗ Show Notification Center: (Unset) → Shift-Ctrl-Alt-C
+  shortcuts_mission_control_remap_show_notification_center
   #
   # ✗ Turn Do Not Disturb On/Off: Leave (Unset)
   #
@@ -2928,6 +2929,25 @@ shortcuts_mission_control_remap_mission_control () {
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>126</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 34 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>126</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  rewire_shortcuts=true
+}
+
+# ✗ Show Notification Center: (Unset) → Shift-Ctrl-Alt-C
+#
+# - Slides the notification center in/out from under the menu bar clock.
+# - TRYNG/2024-10-02: I finally customized the Notification Center, and
+#   now I enjoy having a shortcut to it! And not just to see recent
+#   toasts, but also so I can see the latest sunrise and sunset times,
+#   a monthly calendar, the weather for today and the next fives days,
+#   and my recent machine and app usage (screen) times.
+# - REFER: Note that it's not easy to see past notifications, but it's
+#   sorta possible via files:
+#     https://www.reddit.com/r/MacOS/comments/azhj1m/view_past_notifications/
+shortcuts_mission_control_remap_show_notification_center () {
+  echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Alt-C (⇧^⌥ C)"
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 163 \
+    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>99</integer><integer>8</integer><integer>917504</integer></array><key>type</key><string>standard</string></dict></dict>"
 
   rewire_shortcuts=true
 }
