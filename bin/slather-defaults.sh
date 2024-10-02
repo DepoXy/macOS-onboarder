@@ -2780,7 +2780,7 @@ dbeaver_customize_text_editors_word_wrap () {
 # in that the entries are keyed and valued by integers, so it's not
 # obvious what does what without just observing changes in the plist.
 # REFER:
-#   http://krypted.com/mac-os-x/defaults-symbolichotkeys/
+#   https://krypted.com/mac-os-x/defaults-symbolichotkeys/
 #   https://github.com/diimdeep/dotfiles/blob/master/osx/configure/hotkeys.sh
 
 # Note that I've see two different approaches for writing keys.
@@ -2884,11 +2884,7 @@ shortcuts_display_remap () {
 # ***
 
 shortcuts_mission_control_remap () {
-  # ✓ Mission Control: I'd swear this was F12 until I hit *Restore Defaults*,
-  #                    and then it changed to ^↑. (Same with another setting,
-  #                    don't remember which now, but I feel like, well, maybe
-  #                    my client set some non-standard defauts, who knows.
-  # ✓ Mission Control: F12 or ^↑ → Ctrl-Opt-↑
+  # ✓ Mission Control: F12 (or was it ^↑) → Ctrl-Opt-↑
   shortcuts_mission_control_remap_mission_control
   #
   # ✗ Show Notification Center: Leave (Unset)
@@ -2920,6 +2916,12 @@ shortcuts_mission_control_remap () {
   rewire_shortcuts=false
 }
 
+# ✓ Mission Control: F12 (or was it ^↑) → Ctrl-Opt-↑
+#
+# - DUNNO: I'd swear this was F12 until I hit *Restore Defaults*, and
+#   then it changed to ^↑. (Same with another setting, don't remember
+#   which now, but I feel like, well, maybe my client set some
+#   non-standard defauts, who knows.)
 shortcuts_mission_control_remap_mission_control () {
   echo "Keyboard Shortcuts: Mission Control: Mission Control: Ctrl-Up (^↑) → Ctrl-Alt-Up (^⌥ ↑)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 32 \
@@ -2930,6 +2932,7 @@ shortcuts_mission_control_remap_mission_control () {
   rewire_shortcuts=true
 }
 
+# ✓ Application windows: ^↓ → Ctrl-Opt-↓
 shortcuts_mission_control_remap_application_windows () {
   echo "Keyboard Shortcuts: Mission Control: Application windows: Ctrl-Down (^↓) → Ctrl-Alt-Down (^⌥ ↓)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 33 \
@@ -2940,6 +2943,7 @@ shortcuts_mission_control_remap_application_windows () {
   rewire_shortcuts=true
 }
 
+# ✓ Show Desktop: F11 → Ctrl+Alt+d
 shortcuts_mission_control_remap_show_desktop () {
   # My original instinct was to just disable Show Desktop:
   false && (
@@ -2996,6 +3000,7 @@ shortcuts_mission_control_remap_show_desktop () {
   rewire_shortcuts=true
 }
 
+# ✓ Mission Control: Move left a space: ^← → Ctrl-Opt-←
 shortcuts_mission_control_remap_move_left_a_space () {
   echo "Keyboard Shortcuts: Mission Control: Move left a space: Ctrl-left (^←) → Ctrl-Alt-left (^⌥ ←)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 \
@@ -3006,6 +3011,7 @@ shortcuts_mission_control_remap_move_left_a_space () {
   rewire_shortcuts=true
 }
 
+# ✓ Mission Control: Move right a space: ^→ → Ctrl-Opt-→
 shortcuts_mission_control_remap_move_right_a_space () {
   echo "Keyboard Shortcuts: Mission Control: Move right a space: Ctrl-right (^←) → Ctrl-Alt-right (^⌥ ←)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 \
@@ -3016,7 +3022,8 @@ shortcuts_mission_control_remap_move_right_a_space () {
   rewire_shortcuts=true
 }
 
-# I rarely use multiple desktops.
+# ✓ Mission Control: Switch to Desktop 1: ^1 → (Unset)
+#   - I rarely use multiple desktops.
 shortcuts_mission_control_remap_switch_to_desktop () {
   echo "Keyboard Shortcuts: Mission Control: Switch to Desktop 1: Ctrl-1 (^1) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 118 \
@@ -3025,6 +3032,8 @@ shortcuts_mission_control_remap_switch_to_desktop () {
   rewire_shortcuts=true
 }
 
+# ✓ Quick Note: 🌐 q aka Fn+q → (Unset)
+#   - My non-Apple (mechanical) keyboard doesn't have a Function/Globe key.
 shortcuts_mission_control_remap_quick_note () {
   echo "Keyboard Shortcuts: Mission Control: Quick Note: Web-q (🌐 q) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 190 \
