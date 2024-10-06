@@ -170,6 +170,19 @@ count_it () {
   }
 }
 
+killall_and_reopen () {
+  local apps_name="$"
+
+  if killall "${apps_name}"; then
+    # Don't open too soon, lest:
+    #   _LSOpenURLsWithCompletionHandler() failed with error -600.
+    sleep 0.5
+
+    # CRUMB: OPENERS
+    open "/Applications/${apps_name}.app/"
+  fi
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # LOPRI/2023-01-26: Rename "System Preferences" → "System Settings"
@@ -1506,7 +1519,7 @@ alttab_customize () {
   alttab_customize_appearance_apparition_delay
   alttab_customize_blocklist_hide_in_alttab
 
-  killall "AltTab"
+  killall_and_reopen "AltTab"
 }
 
 # ***
@@ -1687,7 +1700,7 @@ EOF
 easy_move_plus_resize_customize () {
   easy_move_plus_resize_customize_drag_modifier
 
-  killall "Easy Move+Resize"
+  killall_and_reopen "Easy Move+Resize"
 }
 
 easy_move_plus_resize_customize_drag_modifier () {
@@ -1759,9 +1772,7 @@ hammerspoon_customize () {
   hammerspoon_customize_enable_accessibility
 
   if ${restart_hammerspoon}; then
-    killall Hammerspoon
-
-    open /Applications/Hammerspoon.app/
+    killall_and_reopen "Hammerspoon"
   fi
 }
 
@@ -1930,10 +1941,7 @@ rectangle_customize () {
 
   # ***
 
-  killall Rectangle
-
-  # CRUMB: OPENERS
-  open /Applications/Rectangle.app/
+  killall_and_reopen "Rectangle"
 }
 
 # ***
@@ -2051,9 +2059,7 @@ contexts_customize () {
   contexts_customize_when_cursor_not_over_hide
 
   if ${restart_contexts}; then
-    killall Contexts
-
-    open /Applications/Contexts.app/
+    killall_and_reopen "Contexts"
   fi
 }
 
