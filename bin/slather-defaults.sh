@@ -79,8 +79,8 @@ insist_is_latest_macos_version () {
   # `sw_vers -productVersion` prints, e.g., '13.0.1'.
   major_vers="$(sw_vers -productVersion | awk -F '.' '{print $1}')"
 
-  if [ ${major_vers} -ne ${SLATHER_EXPECTED_MAJOR_VERS} ]; then
-    >&2 echo "FAILD: This script is designed for macOS ${SLATHER_EXPECTED_MAJOR_VERS_NAME}."
+  if [ ${major_vers} -lt ${SLATHER_EXPECTED_MAJOR_VERS} ]; then
+    >&2 echo "FAILD: This script is designed for macOS ${SLATHER_EXPECTED_MAJOR_VERS_NAME} or better."
     >&2 echo
     >&2 echo "- Please uncomment this guard clause and run the"
     >&2 echo "  script knowing you will have some chores to do."
