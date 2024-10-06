@@ -2832,6 +2832,7 @@ gnucash_customize_only_display_leaf_account_names () {
 #   file noise (also I've never needed or used a GNC log/backup file).
 # - REFER: general/retain-type-days pairs with general/retain-days, e.g.:
 #     "/org/gnucash/GnuCash/general/retain-days" = 30;
+# - CALSO: GnuCash.app > File > Import > Replay GnuCash .log file...
 gnucash_customize_retain_log_backup_files () {
   # ISOFF/2024-10-02: I have backups disabled on Linux Mint, but I also have
   # dozens of hours of GnuCash usage (and confidence) thereon.
