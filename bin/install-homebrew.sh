@@ -562,6 +562,8 @@ BREW_APPS+=("qpdf")
 #   error: cannot run pdfinfo: No such file or directory
 BREW_APPS+=("xpdf")
 
+BREW_APPS+=("--cask adobe-acrobat-reader")
+
 # --------------------------
 
 # *** Diagramming apps
