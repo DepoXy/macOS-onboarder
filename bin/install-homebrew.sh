@@ -190,11 +190,6 @@ BREW_APPS+=("gh")
 # - Often wired via ~/.gitconfig: sequence.editor=interactive-rebase-tool
 BREW_APPS+=("git-interactive-rebase-tool")
 
-# IDGI: Git `log -S` with `--reverse` fails on macOS for want of pdfinfo:
-#   $ git --no-pager log -S "some query term" --source -m --reverse
-#   error: cannot run pdfinfo: No such file or directory
-BREW_APPS+=("xpdf")
-
 # --------------------------
 
 # If you install MacVim from the formula, you'll see:
@@ -561,6 +556,11 @@ BREW_APPS+=("exiftool")
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
 BREW_APPS+=("qpdf")
+
+# IDGI: Git `log -S` with `--reverse` fails on macOS for want of pdfinfo:
+#   $ git --no-pager log -S "some query term" --source -m --reverse
+#   error: cannot run pdfinfo: No such file or directory
+BREW_APPS+=("xpdf")
 
 # --------------------------
 
