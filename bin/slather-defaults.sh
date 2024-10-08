@@ -3612,7 +3612,9 @@ app_shortcuts_customize_preview_close_window () {
 }
 
 app_shortcuts_customize_preview_quit_preview () {
-  echo "${CRUMB_APP_SHORTCUTS}: Preview: Quit Preview: Cmd-Q → Ctrl-Q"
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #   echo "${CRUMB_APP_SHORTCUTS}: Preview: Quit Preview: Cmd-Q → Ctrl-Q"
+  :
 }
 
 # ISOFF/2024-07-30: I trained my brain to use <Cmd-M> for minimize
@@ -3625,9 +3627,10 @@ app_shortcuts_customize_preview_quit_preview () {
 # }
 
 app_shortcuts_customize_preview_all () {
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #   "Quit Preview" = "^q";
   defaults write com.apple.Preview NSUserKeyEquivalents '{
     "Close Window" = "^w";
-    "Quit Preview" = "^q";
   }'
 }
 
@@ -3654,13 +3657,17 @@ false && (
   }
 
   app_shortcuts_customize_system_preferences_quit_system_preferences () {
-    echo "${CRUMB_APP_SHORTCUTS}: System Settings.app: Quit System Settings: Cmd-Q → Ctrl-Q"
+    # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+    #   echo "${CRUMB_APP_SHORTCUTS}: System Settings.app: Quit System Settings: Cmd-Q → Ctrl-Q"
+    :
   }
 
   app_shortcuts_customize_system_preferences_all () {
-    defaults write com.apple.systempreferences NSUserKeyEquivalents '{
-      "Quit System Settings" = "^q";
-    }'
+    # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+    #   defaults write com.apple.systempreferences NSUserKeyEquivalents '{
+    #     "Quit System Settings" = "^q";
+    #   }'
+    :
 
     # INERT: User needs to restart System Preferences to realize the change:
     #
@@ -3670,7 +3677,10 @@ false && (
 
 app_shortcuts_customize_system_preferences () {
   # Requires restarting System Settings to take effect.
-  print_at_end+=("🔳 ${CRUMB_APP_SHORTCUTS}: System Settings.app: “Quit System Settings”: Cmd-Q → Ctrl-Q")
+
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #  print_at_end+=("🔳 ${CRUMB_APP_SHORTCUTS}: System Settings.app: “Quit System Settings”: Cmd-Q → Ctrl-Q")
+  :
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -4285,7 +4295,9 @@ app_shortcuts_customize_safari () {
 }
 
 app_shortcuts_customize_safari_quit_safari () {
-  echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Quit Safari: Cmd-Q → Ctrl-Shift-Q"
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #  echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Quit Safari: Cmd-Q → Ctrl-Shift-Q"
+  :
 }
 
 app_shortcuts_customize_safari_new_window () {
@@ -4343,6 +4355,8 @@ app_shortcuts_customize_safari_show_javascript_console () {
 # If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
 #   defaults read com.apple.Safari NSUserKeyEquivalents
 app_shortcuts_customize_safari_all () {
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #  "Quit Safari" = "^$q";
   defaults write com.apple.Safari NSUserKeyEquivalents '{
     "Close Window" = "~w";
     "Find Next" = "^g";
@@ -4352,7 +4366,6 @@ app_shortcuts_customize_safari_all () {
     "New Tab" = "^t";
     "New Tab at End" = "^$t";
     "New Window" = "^n";
-    "Quit Safari" = "^$q";
     Redo = "^$z";
     "Reload Page" = "^r";
     "Show JavaScript Console" = "^$j";
@@ -4420,7 +4433,10 @@ app_shortcuts_customize_slack_menu_slack () {
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Settings...: Cmd-, → Cmd-,"
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Hide Slack: Cmd-H → Cmd-H"
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Hide Others: Cmd-Alt-H → Cmd-Alt-H"
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Quit Slack: Cmd-Q → Ctrl-Q"
+
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Quit Slack: Cmd-Q → Ctrl-Q"
+  :
 }
 
 app_shortcuts_customize_slack_menu_file () {
@@ -4489,8 +4505,10 @@ app_shortcuts_customize_slack_all () {
   #   defaults delete com.tinyspeck.slackmacgap NSUserKeyEquivalents
   return 0
 
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #  "Quit Slack" = "^q";
+
   defaults write com.tinyspeck.slackmacgap NSUserKeyEquivalents '{
-    "Quit Slack" = "^q";
     "New Message" = "^n";
     "New Canvas" = "^$n";
     "Select Next Workspace" = "^)";
@@ -4534,13 +4552,17 @@ app_shortcuts_customize_teams () {
 }
 
 app_shortcuts_customize_teams_quit_microsoft_teams () {
-  echo "${CRUMB_APP_SHORTCUTS}: Microsoft Teams.app: Quit Microsoft Teams: Cmd-Q → Ctrl-q"
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #   echo "${CRUMB_APP_SHORTCUTS}: Microsoft Teams.app: Quit Microsoft Teams: Cmd-Q → Ctrl-q"
+  :
 }
 
 app_shortcuts_customize_teams_all () {
-  defaults write com.microsoft.teams NSUserKeyEquivalents '{
-    "Quit Microsoft Teams" = "^q";
-  }'
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #   defaults write com.microsoft.teams NSUserKeyEquivalents '{
+  #     "Quit Microsoft Teams" = "^q";
+  #   }'
+  :
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -4632,9 +4654,11 @@ app_shortcuts_customize_dbeaver_quit_dbeaver () {
 }
 
 app_shortcuts_customize_dbeaver_all () {
-  defaults write org.jkiss.dbeaver.core.product NSUserKeyEquivalents '{
-    "Quit DBeaver" = "^q";
-  }'
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #   defaults write org.jkiss.dbeaver.core.product NSUserKeyEquivalents '{
+  #     "Quit DBeaver" = "^q";
+  #   }'
+  :
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -4650,9 +4674,11 @@ app_shortcuts_customize_macdown_quit_macdown () {
 }
 
 app_shortcuts_customize_macdown_all () {
-  defaults write com.uranusjr.macdown NSUserKeyEquivalents '{
-    "Quit MacDown" = "^q";
-  }'
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
+  #   defaults write com.uranusjr.macdown NSUserKeyEquivalents '{
+  #     "Quit MacDown" = "^q";
+  #   }'
+  :
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -4674,7 +4700,9 @@ app_shortcuts_customize_libreoffice () {
 }
 
 app_shortcuts_customize_libreoffice_menu_libreoffice () {
-  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “LibreOffice > Quit LibreOffice”: Cmd-Q → Ctrl-Q"
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all apps.
+  #   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “LibreOffice > Quit LibreOffice”: Cmd-Q → Ctrl-Q"
+  :
 }
 
 app_shortcuts_customize_libreoffice_menu_file () {
@@ -4760,6 +4788,8 @@ app_shortcuts_customize_libreoffice_all () {
   # unless we figure out why the bindings don't change.
   #   "Date" = "^;";
   #   "Time" = "^$;";
+  # ISOFF/2024-10-08: Maintain Quit binding parity across all apps.
+  #   "Quit LibreOffice" = "^q";
   defaults write org.libreoffice.script NSUserKeyEquivalents '{
     "AutoFilter" = "^$l";
     "Bold" = "^b";
@@ -4781,7 +4811,6 @@ app_shortcuts_customize_libreoffice_all () {
     "Open..." = "^o";
     "Manage Styles" = "^t";
     "Manage Templates" = "^$n";
-    "Quit LibreOffice" = "^q";
     "Paste Special..." = "^$v";
     "Paste Unformatted Text" = "~^$v";
     "Print..." = "^p";
