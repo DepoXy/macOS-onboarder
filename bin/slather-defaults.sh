@@ -4719,6 +4719,10 @@ app_shortcuts_customize_libreoffice_menu_insert () {
 app_shortcuts_customize_libreoffice_menu_format () {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Bold”: Cmd-B → Ctrl-B"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Italic”: Cmd-I → Ctrl-I"
+  # The docs suggest that Underline is mapped from <Cmd-U>, but I see no mapping assigned.
+  #   https://help.libreoffice.org/latest/en-US/text/swriter/guide/shortcut_writing.html
+  #   file:///Applications/LibreOffice.app/Contents/Resources/help/en-US/text/swriter/guide/shortcut_writing.html
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Single Underline”: (Unassigned?!) → Ctrl-U"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Superscript”: Shift-Cmd-P → Shift-Ctrl-P"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Subscript”: Shift-Cmd-B → Shift-Ctrl-B"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Align Text > Left”: Cmd-L → Ctrl-L"
@@ -4785,6 +4789,7 @@ app_shortcuts_customize_libreoffice_all () {
     "Right" = "^r";
     "Save" = "^s";
     "Save As..." = "^$s";
+    "Single Underline" = "^u";
     "Spreadsheet" = "^n";
     "Styles" = "^t";
     "Subscript" = "^$b";
