@@ -303,7 +303,8 @@ USER_LINK+=("gfind")
 
 # *find entries in the filesystem*
 BREW_APPS+=("fd")
-# *fzf - a command-line fuzzy finder*
+# fzf - *a command-line fuzzy finder*
+# https://github.com/junegunn/fzf
 BREW_APPS+=("fzf")
 
 # --------------------------
