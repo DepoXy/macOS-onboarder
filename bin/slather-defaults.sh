@@ -4720,6 +4720,12 @@ app_shortcuts_customize_libreoffice_menu_file () {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Templates > Manage Templates...”: Shift-Cmd-N → Shift-Ctrl-N"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Save”: Cmd-S → Ctrl-S"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Save As...”: Shift-Cmd-S → Shift-Ctrl-S"
+  # DUNNO/2024-10-10: I tried to add "Export as PDF..." accelerator, but does nothing:
+  #   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Export as PDF...”: (Unassigned) → Shift-Ctrl-E"
+  #   "Export as PDF..." = "^$e";
+  # - Fortunately we can bind "Export..."
+  # - ALTLY: Use Tool > Customize... > Keyboard > Shortcut Keys
+  echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Export as PDF...”: (Unassigned) → Shift-Ctrl-E"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Print...”: Cmd-P → Ctrl-P"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Print Preview”: Shift-Cmd-O → Shift-Ctrl-O"
 }
@@ -4799,6 +4805,7 @@ app_shortcuts_customize_libreoffice_all () {
     "Comment" = "~^c";
     "Delete Cells..." = "^-";
     "Edit Mode" = "^$m";
+    "Export..." = "^$e";
     "Extensions..." = "~^e";
     "Fill Down" = "^d";
     "Find..." = "^f";
