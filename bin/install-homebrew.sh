@@ -582,15 +582,17 @@ BREW_APPS+=("--cask adobe-acrobat-reader")
 # but it blips the screen and runs XQuartz, but nothing
 # else. Oh, well, I tried. (I enjoy this app on @Linux!)
 # - From USAGE above:
-#   # Dia requires --cask xquartz (X11 emulator) which requires pwd.
+#   # Dia requires --cask xquartz (X11 emulator) which requires sudo
+#   # and prompts for your password.
 #   # - Also you need to *Open Anyway* via macOS Settings because not
-#   #   signed ("not free from malware").
+#   #   signed (and "not free from malware", says dialog).
 #   BREW_INCLUDE_DIA=true
-if false && ${BREW_INCLUDE_DIA:-false}; then
-  # NOTED: Prompts for PWD:
-  #   ==> Running installer for xquartz with sudo; the password may be necessary.
-  BREW_APPS+=("--cask dia")
-fi
+#
+#   if ${BREW_INCLUDE_DIA:-false}; then
+#     # NOTED: Prompts for PWD:
+#     #   ==> Running installer for xquartz with sudo; the password may be necessary.
+#     BREW_APPS+=("--cask dia")
+#   fi
 
 # https://www.drawio.com/
 # https://formulae.brew.sh/cask/drawio
