@@ -41,6 +41,7 @@
 #
 #   # Media players
 #   BREW_INCLUDE_SPOTIFY=true
+#   BREW_INCLUDE_MEDIA_PLAYERS=true   # mpv, vlc, smplayer (reqs. Rosetta 2)
 #
 #   # Diagraming apps
 #   BREW_INCLUDE_PENCIL=true
@@ -48,6 +49,7 @@
 #   # These will enable Rosetta 2 (tho not a big deal)
 #   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more
 #   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books
+#   BREW_INCLUDE_MEDIA_PLAYERS=true   # smplayer reqs. Rosetta 2 (but not mpv, vlc)
 #
 #   # Disabled apps
 #   # BREW_INCLUDE_DIA=true
@@ -1020,6 +1022,34 @@ BREW_APPS+=("--cask hammerspoon")
 # rocks out, but maybe not from the Vendor's equipment.
 if ${BREW_INCLUDE_SPOTIFY:-false}; then
   BREW_APPS+=("--cask spotify")
+fi
+
+# Similarly for other media apps, opt-in, so you're not "polluting"
+# a vendor machine with non-work related apps.
+
+if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
+  # mpv *a free, open source, and cross-platform media player*, CLI player
+  # https://mpv.io/
+  # https://mpv.io/installation/
+  # https://github.com/Homebrew/homebrew-core/blob/master/Formula/m/mpv.rb
+  # https://formulae.brew.sh/formula/mpv
+  # - "Media player based on MPlayer and mplayer2"
+  # SIZED/2024-10-12: 453 MB
+  BREW_APPS+=("mpv")
+
+  # https://www.videolan.org/vlc/
+  # See also VLC Remote: https://formulae.brew.sh/cask/vlc-setup
+  # SIZED/2024-10-12: 188 MB
+  BREW_APPS+=("--cask vlc")
+
+  # "SMPlayer is a graphical user interface (GUI) for the award-winning MPlayer"
+  # https://www.smplayer.info/en/mplayer
+  # http://www.mplayerhq.hu/design7/info.html
+  # https://formulae.brew.sh/cask/smplayer
+  # - Requires Rosetta 2
+  MOSON_INSTALL_ROSETTA_2=true
+  # SIZED/2024-10-12: 21 MB
+  BREW_APPS+=("--cask smplayer")
 fi
 
 # --------------------------
