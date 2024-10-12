@@ -109,9 +109,15 @@ QUARANTINE_PARDONS+=("Meld.app")
 
 quarantine-liberate-apps () {
   for pardon_me in "${QUARANTINE_PARDONS[@]}"; do
-    echo "Pardoning app: ${pardon_me}"
+    local apps_path="/Applications/${pardon_me}"
 
-    xattr -dr com.apple.quarantine "/Applications/${pardon_me}"
+    if [ -d "${apps_path}" ]; then
+      echo "Pardoning app: ${pardon_me}"
+
+      xattr -dr com.apple.quarantine "${apps_path}"
+    else
+      echo "Not pardoning: ${pardon_me} (is not installed)"
+    fi
   done
 }
 
