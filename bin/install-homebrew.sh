@@ -26,7 +26,6 @@
 # OPT-OUTS: (e.g., if your Vendor installs any of these app for you):
 #
 #   BREW_EXCLUDE_SLACK=true
-#   # BREW_EXCLUDE_MELD=true          # Disabled below (you'll want to build from sources)
 #
 # OPT-INS: (more niche stuff you might not care about):
 #
@@ -36,6 +35,7 @@
 #   BREW_INCLUDE_DOCKER_DESKTOP=true  # Easier to use than colima et al, prob.
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
+#   # Misc. apps
 #   BREW_INCLUDE_DROPBOX=true
 #   BREW_INCLUDE_P4MERGE=true         # File diff (tho author prefers Meld)
 #
@@ -43,7 +43,7 @@
 #   BREW_INCLUDE_SPOTIFY=true
 #   BREW_INCLUDE_MEDIA_PLAYERS=true   # mpv, vlc, smplayer (reqs. Rosetta 2)
 #
-#   # Diagraming apps
+#   # Diagramming apps
 #   BREW_INCLUDE_PENCIL=true
 #
 #   # These will enable Rosetta 2 (tho not a big deal)
@@ -51,8 +51,9 @@
 #   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books
 #   BREW_INCLUDE_MEDIA_PLAYERS=true   # smplayer reqs. Rosetta 2 (but not mpv, vlc)
 #
-#   # Disabled apps
-#   # BREW_INCLUDE_DIA=true
+#   # Disabled apps (these install but don't work, at least not for the author):
+#   #   BREW_EXCLUDE_MELD=true          # Disabled below (you'll want to build from sources)
+#   #   BREW_INCLUDE_DIA=true
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
