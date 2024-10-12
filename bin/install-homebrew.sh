@@ -23,24 +23,34 @@
 #   every app; you might as well just fork the repo and
 #   make it your own.
 #
-# OPT-OUTS: (e.g., if your Vendor installs this app for you):
+# OPT-OUTS: (e.g., if your Vendor installs any of these app for you):
 #
 #   BREW_EXCLUDE_SLACK=true
-#   # BREW_EXCLUDE_MELD=true  # Disabled below (you'll want to build from sources)
+#   # BREW_EXCLUDE_MELD=true          # Disabled below (you'll want to build from sources)
 #
 # OPT-INS: (more niche stuff you might not care about):
 #
 #   # Virtualization tools
-#   BREW_INCLUDE_COLIMA=true
-#   BREW_INCLUDE_DOCKER_DESKTOP=true
+#   BREW_INCLUDE_COLIMA=true          # Also installs docker, docker-compose,
+#                                     # docker-credential-helper, & kubernetes-cli
+#   BREW_INCLUDE_DOCKER_DESKTOP=true  # Easier to use than colima et al, prob.
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
-#   BREW_INCLUDE_SPOTIFY=true
 #   BREW_INCLUDE_DROPBOX=true
+#   BREW_INCLUDE_P4MERGE=true         # File diff (tho author prefers Meld)
 #
-#   # These require Rosetta 2 (tho not a big deal)
-#   BREW_INCLUDE_DIGIKAM=true
-#   BREW_INCLUDE_GNUCASH=true
+#   # Media players
+#   BREW_INCLUDE_SPOTIFY=true
+#
+#   # Diagraming apps
+#   BREW_INCLUDE_PENCIL=true
+#
+#   # These will enable Rosetta 2 (tho not a big deal)
+#   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more
+#   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books
+#
+#   # Disabled apps
+#   # BREW_INCLUDE_DIA=true
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
