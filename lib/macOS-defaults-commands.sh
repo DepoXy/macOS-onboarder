@@ -107,7 +107,7 @@ QUARANTINE_PARDONS+=("Meld.app")
 #   $ xattr -p com.apple.quarantine /Applications/Easy\ Move+Resize.app
 #   0181;6334e1ba;Homebrew\x20Cask;A30E92DD-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
-quarantine-release-apps () {
+quarantine-liberate-apps () {
   for pardon_me in "${QUARANTINE_PARDONS[@]}"; do
     echo "Pardoning app: ${pardon_me}"
 
@@ -135,7 +135,7 @@ You can now try the following commands:
 
   apply-macos-defaults --tame   Skip \`killall\` calls and anything interruptive
 
-  quarantine-release-apps       Unrestrict unsigned applications (Meld, Easy Move+Resize, etc.)
+  quarantine-liberate-apps       Unrestrict unsigned applications (Meld, Easy Move+Resize, etc.)
 EOF
 }
 
