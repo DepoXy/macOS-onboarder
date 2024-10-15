@@ -1051,6 +1051,11 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   MOSON_INSTALL_ROSETTA_2=true
   # SIZED/2024-10-12: 21 MB
   BREW_APPS+=("--cask smplayer")
+
+  # MP3 player
+  # https://www.elmedia-video-player.com/mp3-player-mac.html
+  # https://formulae.brew.sh/cask/elmedia-player
+  BREW_APPS+=("--cask elmedia-player")
 fi
 
 # --------------------------
