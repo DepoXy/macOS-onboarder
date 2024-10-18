@@ -478,10 +478,17 @@ mission_control_customize_automatically_rearrange_spaces_based_on_most_recent_us
   restart_dock=true
 }
 
+# SAVVY/2024-10-17 23:56: Oftentimes in full-screen the play button is lower-left,
+# so fishing for it with the mouse triggers Mission Control, super annoying.
+# - I.e., not this:
+#     echo "Desktop & Dock: Mission Control: Hot Corners... > Mission Control (Lower-left, and Lower-right)"
+#     defaults write com.apple.dock wvous-bl-corner -int 2
+#     ...
 mission_control_customize_hot_corners_lower_corners_mission_control () {
-  echo "Desktop & Dock: Mission Control: Hot Corners... > Mission Control (Lower-left, and Lower-right)"
+  echo "Desktop & Dock: Mission Control: Hot Corners... > Mission Control (Lower-right)"
+  echo " - The other three corners: Disabled (No Hotness)"
   # Factory defaults: All off except Quick Note lower-right: "wvous-br-corner" = 14
-  defaults write com.apple.dock wvous-bl-corner -int 2
+  defaults write com.apple.dock wvous-bl-corner -int 1
   defaults write com.apple.dock wvous-bl-modifier -int 0
   defaults write com.apple.dock wvous-br-corner -int 2
   defaults write com.apple.dock wvous-br-modifier -int 0
