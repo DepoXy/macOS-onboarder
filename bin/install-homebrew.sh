@@ -320,6 +320,11 @@ BREW_APPS+=("fd")
 # https://github.com/junegunn/fzf
 BREW_APPS+=("fzf")
 
+# bfs — Breadth-first version of find
+# https://tavianator.com/projects/bfs.html
+# https://formulae.brew.sh/formula/bfs
+BREW_APPS+=("bfs")
+
 # --------------------------
 
 # Some "modern" replacements for 'ls'.
