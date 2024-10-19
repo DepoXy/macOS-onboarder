@@ -3952,8 +3952,8 @@ app_shortcuts_customize_google_chrome () {
   app_shortcuts_customize_google_chrome_developer_tools
   app_shortcuts_customize_google_chrome_inspect_elements
   app_shortcuts_customize_google_chrome_javascript_console
-  app_shortcuts_customize_google_chrome_back
-  app_shortcuts_customize_google_chrome_forward
+  # app_shortcuts_customize_google_chrome_back
+  # app_shortcuts_customize_google_chrome_forward
   app_shortcuts_customize_google_chrome_show_full_history
   app_shortcuts_customize_google_chrome_bookmark_manager
   app_shortcuts_customize_google_chrome_bookmark_this_tab
@@ -4061,19 +4061,51 @@ app_shortcuts_customize_google_chrome_javascript_console () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: JavaScript Console: Opt-Cmd-J → Ctrl-Shift-J"
 }
 
-# FIXME: TRYME: Not sure if suppose to be Alt-L/R or Ctrl-L/R.
-#        - See also KE bindings.
-#        - In Linux: Alt-L/R is Back/Forward,
-#          and Ctrl-L/R should jump cursor by word.
-app_shortcuts_customize_google_chrome_back () {
-  # echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Back: Cmd-[ → Alt-Left"
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Back: Cmd-Left → Ctrl-Left"
-}
-
-app_shortcuts_customize_google_chrome_forward () {
-  # echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Forward: Cmd-] → Alt-Right"
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Forward: Cmd-Right → Ctrl-Right"
-}
+# On Linux, Alt-L/R is Back/Forward, even in text field (which tends
+#   to surprise me when I try to use Alt-L/R to move cursor line-wise,
+#   which is how Alt-L/R almost always works in text fields on Linux).
+#
+# On macOS, Cmd-L/R is Back/Forward, execpt when text field active;
+#   but Cmd-[/] also Back/Forward and always work.
+#
+# ISOFF/2024-10-19: This used to remap Back/Forward to Ctrl-Left/Ctrl-Right,
+# but now Hammyspoony does it, and maps Alt-Left/Alt-Right to Back/Forward
+# when text field not active, otherwise Alt-Left/Alt-Right moves cursor
+# line-wise when text field active.
+#
+# - CXREF:
+#     https://github.com/DepoXy/macOS-Hammyspoony#🥄
+#       https://github.com/DepoXy/macOS-Hammyspoony/blob/114594a/Source/AppTapChrome.spoon/init.lua#L191-L217
+#   If running DepoXy, found locally at:
+#     ~/.kit/mOS/macOS-Hammyspoony/Source/AppTapChrome.spoon/init.lua
+#
+# - ISOFF:
+#
+#   app_shortcuts_customize_google_chrome_back () {
+#     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Back: Cmd-[ → Ctrl-Left"
+#   }
+#
+#   app_shortcuts_customize_google_chrome_forward () {
+#     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Forward: Cmd-] → Ctrl-Right"
+#   }
+#
+#   # Note I was unable to remap to <Ctrl-J>/<Ctrl-K>,
+#   # or to <Alt-J>/<Alt-K>:
+#   #   Back = "$j";
+#   #   Forward = "$k";
+#   #   Back = "~j";
+#   #   Forward = "~k";
+#   # But I was able to remap to <Cmd-J>/<Cmd-K>:
+#   #   Back = "@j";
+#   #   Forward = "@k";
+#   app_shortcuts_customize_google_chrome_all () {
+#     # Remap Back/Forward to <Ctrl-Left>/<Ctrl-Right>:
+#     defaults write com.google.Chrome NSUserKeyEquivalents '{
+#       ...
+#       Back = "^\U2190";
+#       Forward = "^\U2192";
+#     ...
+#   }
 
 app_shortcuts_customize_google_chrome_show_full_history () {
   # <Ctrl-H> is Linux binding. Mnemonic: H, like History. But macOS <Cmd-H> is Hide.
@@ -4163,7 +4195,6 @@ false && (
 app_shortcuts_customize_google_chrome_all () {
   defaults write com.google.Chrome NSUserKeyEquivalents '{
     "Actual Size" = "^0";
-    Back = "^\U2190";
     "Bookmark All Tabs..." = "^$d";
     "Bookmark Manager" = "^$o";
     "Bookmark This Tab..." = "^d";
@@ -4176,7 +4207,6 @@ app_shortcuts_customize_google_chrome_all () {
     "Find Previous" = "$\Uf706";
     "Find..." = "^f";
     "Force Reload This Page" = "^$r";
-    Forward = "^\U2192";
     "Inspect Elements" = "^$c";
     "JavaScript Console" = "^$j";
     "New Incognito Window" = "^$n";
