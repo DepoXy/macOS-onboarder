@@ -1658,9 +1658,15 @@ alttab_customize_appearance_theme_windows_10 () {
 # recover.) Adding a short timeout seems to inhibit the race condition
 # from happening.
 alttab_customize_appearance_apparition_delay () {
+  # DUNNO/2024-10-19: Perhaps it's my Hammerspoon config, but AltTab
+  # started misbehaving again, after months of working fine.
+  # - Changing 169 → 200 msec. so far has fixed it...
+  #  local delay="169"
+  local delay="200"
+
   echo "AltTab: Preferences... > Appearance
-    > Apparition delay: “169 ms” (kluge so fast Alt-Tab does not break Alt-Tab)"
-  defaults write com.lwouis.alt-tab-macos windowDisplayDelay -int "169"
+    > Apparition delay: “${delay} ms” (kluge so fast Alt-Tab does not break Alt-Tab)"
+  defaults write com.lwouis.alt-tab-macos windowDisplayDelay -int "${delay}"
 }
 
 # I'd rather not try to write the blocklist value, which is a large array
