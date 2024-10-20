@@ -715,11 +715,26 @@ BREW_APPS+=("pyenv-virtualenv")
 
 # For `mandb` (used by at least fries-findup's `make install`).
 BREW_APPS+=("man-db")
-# If you open Homebrew man pages with Apple man, e.g.,
-# `/opt/homebrew/share/man/man1/bash.1`, you'll see:
-# "This manpage is not compatible with mandoc(1)
-#  and might display incorrectly."
-USER_LINK+=("gman")
+# If you open Homebrew man pages with Apple man, you'll see an
+# error message before the pager starts, e.g.:
+#     $ /usr/bin/man /opt/homebrew/share/man/man1/bash.1
+#     This manpage is not compatible with mandoc(1) and might display incorrectly.
+# - Though you can just as easily redirect to stderr to squelch it.
+#
+# BWARE: `gman` misbehaves: It prints tilde as accent tilde!
+# - E.g., `gman bash` shows:
+#     An additional binary operator, =˜, is available, with the same
+#     precedence as == and !=.
+#   But if you run `/usr/bin/man bash`, you'll see instead:
+#     An additional binary operator, =~, is available, with the same
+#     precedence as == and !=.
+# - I tried some of the formatting options in `man gman` but to no avail.
+#   IDGI
+#
+# ISOFF/2024-10-19: So let's not supercede built-in `man`.
+# - We'll change `man` in the terminal to redirect stderr instead.
+# 
+#  USER_LINK+=("gman")
 
 # Apple `make` is "GNU Make 3.81". Brew's is ≥ 4.4.1.
 BREW_APPS+=("make")
