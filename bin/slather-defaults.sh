@@ -1311,7 +1311,7 @@ macos_customize () {
   macos_customize_disable_device_plug_opening_preview
   macos_customize_disable_itunes_listening_media_keys
 
-  macos_customize_inhibit_create_dot_ds_store
+  macos_customize_inhibit_create_dot_ds_store__you_wish
 }
 
 # ***
@@ -1362,9 +1362,11 @@ macos_customize_disable_itunes_listening_media_keys () {
 #
 # The only setting I could find keeps .DS_Store files off network drives.
 # - I couldn't find a setting to just disable them altogether.
-# - Fortunately I don't use Finder very often, should problem avoided?
+# - Fortunately author doesn't use Finder very often, so somewhat rarely
+#   happens (tho still annoying, and eventually all of my .gitignore
+#   files will probably have a “.DS_Store” rule).
 
-macos_customize_inhibit_create_dot_ds_store () {
+macos_customize_inhibit_create_dot_ds_store__you_wish () {
   return 0
 
   echo "Desktop Services Store: Inhibit .DS_Store from network stores"
