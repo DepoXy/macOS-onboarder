@@ -4127,7 +4127,7 @@ app_shortcuts_customize_google_chrome_bookmark_all_tabs () {
 }
 
 app_shortcuts_customize_google_chrome_zoom () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Zoom: (unset) → F11"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Zoom: (Unset) → F11"
 }
 
 app_shortcuts_customize_google_chrome_quit_and_keep_windows () {
