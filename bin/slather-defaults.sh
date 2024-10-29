@@ -1312,6 +1312,8 @@ macos_customize () {
   macos_customize_disable_itunes_listening_media_keys
 
   macos_customize_inhibit_create_dot_ds_store__you_wish
+
+  app_shortcuts_customize_all_apps_apple_menu_system_settings
 }
 
 # ***
@@ -1371,6 +1373,30 @@ macos_customize_inhibit_create_dot_ds_store__you_wish () {
 
   echo "Desktop Services Store: Inhibit .DS_Store from network stores"
   defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+}
+
+# ***
+
+# The All Applications keyboard bindings default is empty:
+#   NSUserKeyEquivalents = { };
+# Though in System Settings you'll see one item:
+#   Show Help Menu: <Shift-Cmd-/>
+# which works without being included in the following NSUserKeyEquivalents
+# key-value.
+#
+# Note also this binding works from *most* applications, but at least not
+# from Meld (python3).
+# - INERT: Though we could maybe wire from Meld accelerator file source,
+#          and rebuild.
+app_shortcuts_customize_all_apps_apple_menu_system_settings () {
+  echo "${CRUMB_APP_SHORTCUTS}: All Applications: System Settings...: (Unset) → Shift-Ctrl-Cmd-,"
+  # At least I think this is what you need to do (but if you manually
+  # add the binding via System Settings, it works immediately).
+  echo "- SAVVY: You may need to restart one or more applications (or wait?)" \
+    "for this binding to be effectual"
+  defaults write NSGlobalDomain NSUserKeyEquivalents '{
+    "System Settings..." = "~^$,";
+  }'
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
