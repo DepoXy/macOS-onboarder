@@ -914,7 +914,7 @@ BREW_APPS+=("stern")
 if ${BREW_INCLUDE_VIRTUALBOX:-false}; then
   # This is still the Intel version:
   #   BREW_APPS+=("--cask virtualbox")
-  # Here's the Apple Silicone version.
+  # Here's the Apple Silicon version.
   # - SAVVY: Prompts for PWD.
   BREW_APPS+=("--cask virtualbox@beta")
 fi
