@@ -46,6 +46,11 @@
 #   # Diagramming apps
 #   BREW_INCLUDE_PENCIL=true
 #
+#   # Team collab. software (see also Slack, above)
+#   BREW_INCLUDE_MS_TEAMS=true        # SAVVY: Requires admin password
+#   BREW_INCLUDE_ZOOM=true            # SAVVY: Requires admin password
+#   BREW_INCLUDE_WEBEX=true
+#
 #   # These will enable Rosetta 2 (tho not a big deal)
 #   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more
 #   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books
@@ -108,6 +113,34 @@ BREW_APPS+=("--cask karabiner-elements")
 #       https://techtips101.wordpress.com/2017/10/05/mcgimp-gimp-gmic-more/
 #     So unlikely you'll care unless you're a GIMP power user.
 BREW_APPS+=("--cask gimp")
+
+# --------------------------
+
+# Team collaboration applications.
+#
+# - See below: Webex.
+#
+# - Following are those apps that require admin access
+#   (so they're included early in BREW_APPS, and you're
+#   prompted sooner rather than later).
+
+# Microsoft Teams
+# https://www.microsoft.com/en-us/microsoft-teams/group-chat-software
+# https://formulae.brew.sh/cask/microsoft-teams
+#
+# - ADMIN: PROMPTS: Requires admin password.
+if ${BREW_INCLUDE_MS_TEAMS:-false}; then
+  BREW_APPS+=("--cask microsoft-teams")
+fi
+
+# Zoom
+# https://www.zoom.com/
+# https://formulae.brew.sh/cask/zoom
+#
+# - ADMIN: PROMPTS: Requires admin password.
+if ${BREW_INCLUDE_ZOOM:-false}; then
+  BREW_APPS+=("--cask zoom")
+fi
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1079,6 +1112,22 @@ fi
 
 if ${BREW_INCLUDE_DROPBOX:-false}; then
   BREW_APPS+=("--cask dropbox")
+fi
+
+# --------------------------
+
+# Team collaboration applications.
+#
+# https://en.wikipedia.org/wiki/Comparison_of_web_conferencing_software
+
+# REFER: See MS Teams & Zoom, above, which require admin access,
+# so installed earlier.
+
+# Webex (Cisco).
+# https://webex.com/
+# https://formulae.brew.sh/cask/webex
+if ${BREW_INCLUDE_WEBEX:-false}; then
+  BREW_APPS+=("--cask webex")
 fi
 
 # --------------------------
