@@ -1563,6 +1563,22 @@ alttab_customize () {
 
 # ***
 
+# Adjust AltTab's <Alt-Tab> defaults to exclude minimized and hidden windows.
+# - To switch between Alacritty terminal windows, author uses Hammyspoony's
+#   <Cmd-1> thru <Cmd-9> fronters. (Otherwise seeing thumbnails for terminal
+#   windows is not that useful, and I often have 9 open, which makes the
+#   AltTab <Alt-Tab> picker a lot larger than I'd like.)
+#     https://github.com/DepoXy/macOS-Hammyspoony/blob/release/Source/FrillsAlacrittyAndTerminal.spoon/init.lua
+# - To see all Chrome windows, author uses Hammyspoony's <Ctrl-Space>
+#   picker, which shows compact list of browser window titles. (I like
+#   this better than seeing thumbnails because I often have dozens of
+#   Chrome windows open, and it's easier to find what I want by title
+#   than it is by thumbnail.)
+#     https://github.com/DepoXy/macOS-Hammyspoony/blob/release/Source/AppWindowChooser.spoon/init.lua
+# - Otherwise, for most other apps the author uses, there's generally only
+#   one window for the app, and I have all my most used applications hotkeyed
+#   via Hammyspoony accelerators, so I can quickly front them without AltTab.
+#     https://github.com/DepoXy/macOS-Hammyspoony/blob/release/.hammerspoon/init.lua
 alttab_customize_shortcut_1 () {
   alttab_customize_shortcut_1_show_minimized_windows__hide
   alttab_customize_shortcut_1_show_hidden_windows__hide
