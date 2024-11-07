@@ -1551,6 +1551,7 @@ mozilla_firefox_customize_customize_add_extension_redux_devtools () {
 
 alttab_customize () {
   alttab_customize_shortcut_1
+  alttab_customize_shortcut_3
   alttab_customize_additional_controls
   alttab_customize_shortcuts_when_active
   alttab_customize_appearance_theme_windows_10
@@ -1565,6 +1566,19 @@ alttab_customize () {
 alttab_customize_shortcut_1 () {
   alttab_customize_shortcut_1_show_minimized_windows__hide
   alttab_customize_shortcut_1_show_hidden_windows__hide
+}
+
+# Enable a third AltTab binding, <Ctrl-`>, to show active app's visible windows.
+# - You can also see all of an app's windows, visible, hidden, and minimzed,
+#   using AltTab's defauilt Shortcut 2, wired to <Alt-`>.
+alttab_customize_shortcut_3 () {
+  alttab_customize_shortcut_3_trigger_shortcut
+  alttab_customize_shortcut_3_show_windows_from_applications__active_app
+  alttab_customize_shortcut_3_show_windows_from_spaces__visible_spaces
+  alttab_customize_shortcut_3_show_windows_from_screens__screen_showing_alttab
+  alttab_customize_shortcut_3_show_minimized_windows__hide
+  alttab_customize_shortcut_3_show_hidden_windows__hide
+  alttab_customize_shortcut_3_show_fullscreen_windows__hide
 }
 
 alttab_customize_additional_controls () {
@@ -1600,6 +1614,54 @@ alttab_customize_shortcut_1_show_hidden_windows__hide () {
   echo "AltTab: Preferences... > Controls > Shortcut 1
     > Show hidden windows: Hide"
   defaults write com.lwouis.alt-tab-macos showHiddenWindows -int 1
+}
+
+# ***
+
+alttab_customize_shortcut_3_trigger_shortcut () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Trigger shortcut: Hold: ^"
+  defaults write com.lwouis.alt-tab-macos holdShortcut3 '\U2303'
+
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Trigger shortcut: and press: \`"
+  defaults write com.lwouis.alt-tab-macos nextWindowShortcut3 '\`'
+}
+
+alttab_customize_shortcut_3_show_windows_from_applications__active_app () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Show windows from applications: Active app"
+  defaults write com.lwouis.alt-tab-macos appsToShow3 -int 1
+}
+
+alttab_customize_shortcut_3_show_windows_from_spaces__visible_spaces () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Show windows from Spaces: Visible Spaces"
+  defaults write com.lwouis.alt-tab-macos spacesToShow3 -int 1
+}
+
+alttab_customize_shortcut_3_show_windows_from_screens__screen_showing_alttab () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Show windows from screens: Screen showing AltTab"
+  defaults write com.lwouis.alt-tab-macos screensToShow3 -int 1
+}
+
+alttab_customize_shortcut_3_show_minimized_windows__hide () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Show minimized windows: Hide"
+  defaults write com.lwouis.alt-tab-macos showMinimizedWindows3 -int 1
+}
+
+alttab_customize_shortcut_3_show_hidden_windows__hide () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Show hidden windows: Hide"
+  defaults write com.lwouis.alt-tab-macos showHiddenWindows3 -int 1
+}
+
+alttab_customize_shortcut_3_show_fullscreen_windows__hide () {
+  echo "AltTab: Preferences... > Controls > Shortcut 3
+    > Show fullscreen windows: Hide"
+  defaults write com.lwouis.alt-tab-macos showFullscreenWindows3 -int 1
 }
 
 # ***
