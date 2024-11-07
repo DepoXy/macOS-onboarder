@@ -171,7 +171,7 @@ count_it () {
 }
 
 killall_and_reopen () {
-  local apps_name="$"
+  local apps_name="$1"
 
   if killall "${apps_name}"; then
     # Don't open too soon, lest:
