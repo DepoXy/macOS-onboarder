@@ -3867,7 +3867,7 @@ app_shortcuts_customize_iterm2_new_tab () {
 }
 
 app_shortcuts_customize_iterm2_close () {
-  echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Close: Cmd-W → Shift-Cmd-Alt-Cmd-W"
+  echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Close: Cmd-W → Shift-Cmd-Alt-W"
 }
 
 app_shortcuts_customize_iterm2_copy () {
@@ -3883,7 +3883,7 @@ app_shortcuts_customize_iterm2_use_selection_for_find () {
 }
 
 app_shortcuts_customize_iterm2_show_tabs_in_fullscreen () {
-  echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Show Tabs in Fullscreen: Shift-Cmd-T → Ctrl-Opt-Shift-Cmd-T"
+  echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Show Tabs in Fullscreen: Shift-Cmd-T → Shift-Ctrl-Cmd-Alt-T"
 }
 
 app_shortcuts_customize_iterm2_view_make_text_bigger () {
