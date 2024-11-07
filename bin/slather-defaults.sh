@@ -1563,8 +1563,8 @@ alttab_customize () {
 # ***
 
 alttab_customize_shortcut_1 () {
-  alttab_customize_shortcut_1_minimized_windows__hide
-  alttab_customize_shortcut_1_hidden_windows__hide
+  alttab_customize_shortcut_1_show_minimized_windows__hide
+  alttab_customize_shortcut_1_show_hidden_windows__hide
 }
 
 alttab_customize_additional_controls () {
@@ -1579,15 +1579,15 @@ alttab_customize_shortcuts_when_active () {
 
 # ***
 
-alttab_customize_shortcut_1_minimized_windows__hide () {
+alttab_customize_shortcut_1_show_minimized_windows__hide () {
   echo "AltTab: Preferences... > Controls > Shortcut 1
-    > Minimized windows: Hide"
+    > Show minimized windows: Hide"
   defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 1
 
   # Alternatively:
   false && (
     echo "AltTab: Preferences... > Controls > Shortcut 1
-      > Minimized windows: Show at the end"
+      > Show minimized windows: Show at the end"
     defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 2
   ) || true
 }
@@ -1596,9 +1596,9 @@ alttab_customize_shortcut_1_minimized_windows__hide () {
 # like Activity Monitor, and Pulse Secure. Doesn't seem to change
 # a thing for me. But I can hide them using the blocklist. Though
 # we'll still set this option to show our intent, to hide hiddens.
-alttab_customize_shortcut_1_hidden_windows__hide () {
+alttab_customize_shortcut_1_show_hidden_windows__hide () {
   echo "AltTab: Preferences... > Controls > Shortcut 1
-    > Hidden windows: Hide"
+    > Show hidden windows: Hide"
   defaults write com.lwouis.alt-tab-macos showHiddenWindows -int 1
 }
 
