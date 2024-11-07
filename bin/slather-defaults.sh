@@ -1587,6 +1587,11 @@ alttab_customize_shortcut_1 () {
 # Enable a third AltTab binding, <Ctrl-`>, to show active app's visible windows.
 # - You can also see all of an app's windows, visible, hidden, and minimzed,
 #   using AltTab's defauilt Shortcut 2, wired to <Alt-`>.
+# - This `defaults` script also wires macOS's "Move focus to next window"
+#   to <Shift-Ctrl-`>.
+#   - SAVVY: This means you cannot <Ctrl-`> and then use <Shift> to reverse
+#     the selection. Because of the macOS binding, pressing <Shift> will
+#     immediately focus the next application window.
 alttab_customize_shortcut_3 () {
   alttab_customize_shortcut_3_trigger_shortcut
   alttab_customize_shortcut_3_show_windows_from_applications__active_app
@@ -3341,10 +3346,36 @@ shortcuts_keyboard_remap () {
 # AltTab maps Alt-` to switching between windows within an application,
 # and I've got a Karabiner-Elements Cmd-` shortcut to bring GVim front,
 # both of which seem to override this ⌘ ` mapping, so disable it.
+#
+# - SAVVY: Cannot set to <Cmd-Tab> (which macOS *insists* is wired to
+#   "Switch to the next most recently used app among your open apps",
+#   which you can not disable, nor change you change its binding. But
+#   you can preempt it via skhd (though not Hammerspoon)).
+#
+# - SAVVY: <Alt-`> is wired by AltTab to switch between all windows
+#   of the active app, including hidden and minimized windows.
+#   - REFER: See AltTab's defaults for Shortcut 2.
+#
+# - SAVVY: <Ctrl-`> is wired in AltTab to switch between all windows
+#   of the active app, excluding hidden and minimized windows.
+#   - CXREF: alttab_customize_shortcut_3
 shortcuts_keyboard_remap_move_focus_to_next_window () {
-  echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`) → (Unset)"
-  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
+  if false; then
+    echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`) → (Unset)"
+    # Disabled (<Cmd-`>)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+  elif false; then
+    echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`)"
+    # Enabled (<Cmd-`>)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
+      "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+  else
+    echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`) → (Shift-Cmd-\`)"
+    # Enabled (<Shift-Cmd-`>)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
+      "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>393216</integer></array><key>type</key><string>standard</string></dict></dict>"
+  fi
 
   rewire_shortcuts=true
 }
