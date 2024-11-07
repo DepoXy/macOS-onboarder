@@ -1544,12 +1544,9 @@ mozilla_firefox_customize_customize_add_extension_redux_devtools () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 alttab_customize () {
-  alttab_customize_controls_minimized_windows__hide
-  alttab_customize_controls_hidden_windows__hide
-  alttab_customize_controls_while_open_quit_app_noop
-  alttab_customize_controls_while_open_select_previous_window_q
-  alttab_customize_controls_while_open_close_window_noop
-  alttab_customize_controls_also_select_windows_using_mouse_hover_off
+  alttab_customize_shortcut_1
+  alttab_customize_additional_controls
+  alttab_customize_shortcuts_when_active
   alttab_customize_appearance_theme_windows_10
   alttab_customize_appearance_apparition_delay
   alttab_customize_blocklist_hide_in_alttab
@@ -1559,7 +1556,24 @@ alttab_customize () {
 
 # ***
 
-alttab_customize_controls_minimized_windows__hide () {
+alttab_customize_shortcut_1 () {
+  alttab_customize_shortcut_1_minimized_windows__hide
+  alttab_customize_shortcut_1_hidden_windows__hide
+}
+
+alttab_customize_additional_controls () {
+  alttab_customize_additional_controls_select_windows_on_mouse_hover__off
+}
+
+alttab_customize_shortcuts_when_active () {
+  alttab_customize_shortcuts_when_active_quit_select_previous_window__q
+  alttab_customize_shortcuts_when_active_quit_app__noop
+  alttab_customize_shortcuts_when_active_close_window_noop
+}
+
+# ***
+
+alttab_customize_shortcut_1_minimized_windows__hide () {
   echo "AltTab: Preferences... > Controls > Shortcut 1
     > Minimized windows: Hide"
   defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 1
@@ -1576,33 +1590,13 @@ alttab_customize_controls_minimized_windows__hide () {
 # like Activity Monitor, and Pulse Secure. Doesn't seem to change
 # a thing for me. But I can hide them using the blocklist. Though
 # we'll still set this option to show our intent, to hide hiddens.
-alttab_customize_controls_hidden_windows__hide () {
+alttab_customize_shortcut_1_hidden_windows__hide () {
   echo "AltTab: Preferences... > Controls > Shortcut 1
     > Hidden windows: Hide"
   defaults write com.lwouis.alt-tab-macos showHiddenWindows -int 1
 }
 
-# My brain is hard-wired to Alt-tab and then press 'q' to reverse direction
-# in the list, but that keeps closing the app!
-# Default: *Removed*.
-alttab_customize_controls_while_open_quit_app_noop () {
-  echo "AltTab: Preferences... > Controls > Shortcut 1
-    > While open, press: ✗ — Quit app (default: 'Q')"
-  defaults write com.lwouis.alt-tab-macos quitAppShortcut ''
-}
-
-alttab_customize_controls_while_open_select_previous_window_q () {
-  echo "AltTab: Preferences... > Controls > Shortcut 1
-    > While open, press: 'q' — Select previous window (default: ⇧ Shift)"
-  defaults write com.lwouis.alt-tab-macos previousWindowShortcut "Q"
-}
-
-# Might as well nix the Close window action, too.
-alttab_customize_controls_while_open_close_window_noop () {
-  echo "AltTab: Preferences... > Controls > Shortcut 1
-    > While open, press: ✗ — Close window (default: 'W')"
-  defaults write com.lwouis.alt-tab-macos closeWindowShortcut ''
-}
+# ***
 
 # ENABL/2024-07-24: I've had select-via-mouse-hover enabled for the past week.
 # - I enabled it because I've had so many windows visible recently,
@@ -1658,11 +1652,37 @@ alttab_customize_controls_while_open_close_window_noop () {
 #       Ctrl-Alt-Up, and you can click MC windows, so maybe I just need
 #       to remember to use Mission Control if I'm looking for an app
 #       window to click.
-alttab_customize_controls_also_select_windows_using_mouse_hover_off () {
-  echo "AltTab: Preferences... > Controls > Shortcut 1
-    > Also select windows using: ✓ Mouse hover"
+alttab_customize_additional_controls_select_windows_on_mouse_hover__off () {
+  echo "AltTab: Preferences... > Controls > Shortcut X > Additional controls...
+    > Select windows on mouse hover: ✓"
   defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -string "true"
 }
+
+# ***
+
+alttab_customize_shortcuts_when_active_quit_select_previous_window__q () {
+  echo "AltTab: Preferences... > Controls > Shortcut X > Shortcuts when active...
+    > Select previous window: 'Q' (default: ⇧ Shift)"
+  defaults write com.lwouis.alt-tab-macos previousWindowShortcut "Q"
+}
+
+# My brain is hard-wired to Alt-tab and then press 'q' to reverse direction
+# in the list, but that keeps closing the app!
+# Default: *Removed*.
+alttab_customize_shortcuts_when_active_quit_app__noop () {
+  echo "AltTab: Preferences... > Controls > Shortcut X > Shortcuts when active...
+    > Quit app: <Unset> (default: 'Q')"
+  defaults write com.lwouis.alt-tab-macos quitAppShortcut ''
+}
+
+# Might as well nix the Close window action, too.
+alttab_customize_shortcuts_when_active_close_window_noop () {
+  echo "AltTab: Preferences... > Controls > Shortcut X > Shortcuts when active...
+    > Close window: <Unset> (default: 'W')"
+  defaults write com.lwouis.alt-tab-macos closeWindowShortcut ''
+}
+
+# ***
 
 # AltTab defaults to "macOS" theme but also has a "Windows 10" theme.
 # - I prefer the Windows 10 theme because AltTab draws a white border
