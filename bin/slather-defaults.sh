@@ -177,9 +177,15 @@ killall_and_reopen () {
     # Don't open too soon, lest:
     #   _LSOpenURLsWithCompletionHandler() failed with error -600.
     sleep 0.5
+  else
+    >&2 echo "ALERT: Failed to kill app: ${apps_name}"
+  fi
 
-    # CRUMB: OPENERS
-    open "/Applications/${apps_name}.app/"
+  # CRUMB: OPENERS
+  if open -a "/Applications/${apps_name}.app/"; then
+    >&2 echo "Restarted app: ${apps_name}"
+  else
+    >&2 echo "ERROR: Failed to restart app: ${apps_name}"
   fi
 }
 
