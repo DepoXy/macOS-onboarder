@@ -114,6 +114,11 @@ BREW_APPS+=("--cask karabiner-elements")
 #     So unlikely you'll care unless you're a GIMP power user.
 BREW_APPS+=("--cask gimp")
 
+# Vector (SVG) graphics editor.
+# https://inkscape.org/
+# https://formulae.brew.sh/cask/inkscape
+BREW_APPS+=("--cask inkscape")
+
 # --------------------------
 
 # Team collaboration applications.
