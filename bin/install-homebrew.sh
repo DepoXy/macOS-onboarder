@@ -614,6 +614,12 @@ BREW_APPS+=("imagemagick")
 # HINT: To remove EXIF data from an image: `exiftool -all= image.jpg`.
 BREW_APPS+=("exiftool")
 
+# *Multithreaded PNG optimizer written in Rust*
+# https://github.com/shssoichiro/oxipng
+# https://formulae.brew.sh/formula/oxipng
+BREW_APPS+=("oxipng")
+
+# --------------------------
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
 BREW_APPS+=("qpdf")
