@@ -710,7 +710,10 @@ add_firefox_unless_installed () {
 }
 add_firefox_unless_installed
 
+# https://www.opera.com/
+BREW_APPS+=("--cask opera")
 # https://brave.com/
+
 BREW_APPS+=("--cask brave-browser")
 
 # https://arc.net/
