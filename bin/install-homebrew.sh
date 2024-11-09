@@ -119,6 +119,9 @@ BREW_APPS+=("--cask gimp")
 # https://formulae.brew.sh/cask/inkscape
 BREW_APPS+=("--cask inkscape")
 
+# Other graphics apps you might want:
+#  BREW_APPS+=("--cask blender")
+
 # --------------------------
 
 # Team collaboration applications.
@@ -611,8 +614,6 @@ BREW_APPS+=("imagemagick")
 # HINT: To remove EXIF data from an image: `exiftool -all= image.jpg`.
 BREW_APPS+=("exiftool")
 
-# Other graphics apps you might want:
-#  BREW_APPS+=("--cask blender")
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
 BREW_APPS+=("qpdf")
