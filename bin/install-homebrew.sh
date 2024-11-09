@@ -613,7 +613,6 @@ BREW_APPS+=("exiftool")
 
 # Other graphics apps you might want:
 #  BREW_APPS+=("--cask blender")
-#  BREW_APPS+=("--cask inkscape")
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
 BREW_APPS+=("qpdf")
