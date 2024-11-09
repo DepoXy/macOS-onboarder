@@ -996,6 +996,11 @@ BREW_APPS+=("pinentry-mac")
 
 BREW_APPS+=("--cask wireshark")
 
+# "HTTP load testing application written in Rust"
+# https://github.com/fcsonline/drill
+# https://formulae.brew.sh/formula/drill
+BREW_APPS+=("drill")
+
 # --------------------------
 
 # - macOS Desktop Applications and Extensions:
