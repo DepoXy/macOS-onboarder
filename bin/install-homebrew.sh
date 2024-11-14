@@ -1247,6 +1247,9 @@ print_homebrew_path () {
   # On Intel Macs it's under /usr/local (tho deprecated)
   [ -x "${brew_path}" ] || brew_path="/usr/local/bin/brew"
 
+  # On Linux, it's under /home (although there's no 'linuxbrew' account)
+  [ -x "${brew_path}" ] || brew_path="/home/linuxbrew/.linuxbrew/bin/brew"
+
   [ -x "${brew_path}" ] || brew_path=""
 
   printf "%s" "${brew_path}"
