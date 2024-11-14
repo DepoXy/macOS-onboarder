@@ -1378,12 +1378,15 @@ brew_install_taps () {
     if [ -d "${local_tap}" ]; then
       echo "Brew tap: ${brew_tap} is already tapped"
       echo
+
       continue
     fi
 
     echo "Brew tap: ${brew_tap}"
     echo
+
     brew tap ${brew_tap}
+
     echo
   done
 }
@@ -1400,16 +1403,21 @@ brew_install_apps () {
     if brew list ${brew_app_or_cask} > /dev/null 2>&1; then
       echo "Brew install: ${brew_app_or_cask} is already installed"
       echo
+
       brew info ${brew_app_or_cask} | print_Caveats && echo || true
+
       # When unit testing, stub `brew info` after running it once for real
       # (and because pipe, `brew info` ran in subprocess).
       TESTED_ONCE_BREW_INFO_FALSE=true
+
       continue
     fi
 
     echo "Brew install: ${brew_app_or_cask}"
     echo
+
     brew install ${brew_app_or_cask}
+
     echo
   done
 }
@@ -1421,9 +1429,12 @@ brew_link_apps () {
 
   for brew_link in "${BREW_LINK[@]}"; do
     print_hr
+
     echo "Brew link: ${brew_link}"
     echo
+
     brew link ${brew_link}
+
     echo
   done
 }
@@ -1435,9 +1446,12 @@ brew_start_services () {
 
   for brew_svc in "${BREW_SVCS[@]}"; do
     print_hr
+
     echo "Start service: ${brew_svc}"
     echo
+
     brew services start ${brew_svc}
+
     echo
   done
 }
@@ -1447,10 +1461,13 @@ post_brew_evals () {
 
   for eval_cmd in "${POST_EVAL[@]}"; do
     print_hr
+
     echo "Run command: ${eval_cmd}"
     echo
+
     $(${DRY_RUN:-false} && echo "echo STUBD:") \
     eval "${eval_cmd}"
+
     echo
   done
 }
@@ -1483,6 +1500,7 @@ print_Caveats () {
   | tac | awk 'NF {p=1} p' | tac
   # ↑ Reverse output, trim leading empty lines, and reverse again
   #   to trim trailing empty lines.
+
   return ${PIPESTATUS[0]}
 }
 
@@ -1528,6 +1546,7 @@ gbrew_symlink () {
 
   if [ ! -x "${brew_path}" ]; then
     >&2 echo "ERROR: Specified app not there or not executable: ${brew_path}"
+
     return 1  # Because set -e, dies.
   fi
 
@@ -1536,6 +1555,7 @@ gbrew_symlink () {
   fi
 
   echo "Symlinking: Wiring executable: ${brew_app} → ${bin_name}"
+
   ln -sf "${homebrew_bin}/${brew_app}" "${bin_name}"
 }
 
