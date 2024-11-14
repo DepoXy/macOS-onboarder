@@ -1233,18 +1233,21 @@ install_homebrew () {
 
 # ***
 
-# COPIED: From ~/.depoxy/ambers/core/brewskies.sh
-# - Not sure I want to source that file as a dep,
-#   or let this DRY violation continue to violate.
+# USYNC: See DXY's `_depoxy_print_homebrew_path`:
+#   https://github.com/DepoXy/depoxy#🍯
+#     ~/.depoxy/ambers/core/brewskies.sh
+#   https://github.com/DepoXy/depoxy/tree/HEAD/core/brewskies.sh
 print_homebrew_path () {
-  # Apple Silicon (arm64) brew path is /opt/homebrew.
+  local brew_path=""
+
+  # On Apple Silicon (arm64/AArch64) Macs (M1, M2, etc.) it's /opt/homebrew
   # - ALTLY: [ "$(uname -m)" = "arm64" ]
-  local brew_bin="/opt/homebrew/bin"
+  [ -x "${brew_path}" ] || brew_path="/opt/homebrew/bin/brew"
 
-  # Otherwise on Intel Macs it's under /usr/local.
-  [ -d "${brew_bin}" ] || brew_bin="/usr/local/bin"
+  # On Intel Macs it's under /usr/local (tho deprecated)
+  [ -x "${brew_path}" ] || brew_path="/usr/local/bin/brew"
 
-  local brew_path="${brew_bin}/brew"
+  [ -x "${brew_path}" ] || brew_path=""
 
   printf "%s" "${brew_path}"
 }
