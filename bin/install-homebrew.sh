@@ -83,7 +83,7 @@ declare -a POST_EVAL=()
 # USER_LINK is used to add symlinks under ~/.local/bin
 declare -a USER_LINK=()
 
-MOSON_INSTALL_ROSETTA_2=false
+MACOS_INSTALL_ROSETTA2=false
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -535,7 +535,7 @@ BREW_APPS+=("colordiff")
 #   #   - So we'll install Meld with a default-yes opt-in (which I
 #   #     guess makes it an opt-out)
 #   if ! ${BREW_EXCLUDE_MELD:-false}; then
-#     MOSON_INSTALL_ROSETTA_2=true
+#     MACOS_INSTALL_ROSETTA2=true
 #
 #     BREW_APPS+=("--cask meld")
 #   fi
@@ -1142,7 +1142,7 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   # http://www.mplayerhq.hu/design7/info.html
   # https://formulae.brew.sh/cask/smplayer
   # - Requires Rosetta 2
-  MOSON_INSTALL_ROSETTA_2=true
+  MACOS_INSTALL_ROSETTA2=true
   # SIZED/2024-10-12: 21 MB
   BREW_APPS+=("--cask smplayer")
 
@@ -1179,13 +1179,13 @@ fi
 # - Rosetta 2 apps
 
 if ${BREW_INCLUDE_DIGIKAM:-false}; then
-  MOSON_INSTALL_ROSETTA_2=true
+  MACOS_INSTALL_ROSETTA2=true
 
   BREW_APPS+=("--cask digikam")
 fi
 
 if ${BREW_INCLUDE_GNUCASH:-false}; then
-  MOSON_INSTALL_ROSETTA_2=true
+  MACOS_INSTALL_ROSETTA2=true
 
   # Prompts PWD.
   BREW_APPS+=("--cask gnucash")
@@ -1334,7 +1334,7 @@ print_homebrew_path () {
 #       062-01890: Package reference com.apple.pkg.RosettaUpdateAuto is missing installKBytes attribute
 
 install_rosetta_2_maybe () {
-  ${MOSON_INSTALL_ROSETTA_2:-false} || return 0
+  ${MACOS_INSTALL_ROSETTA2:-false} || return 0
 
   # Aka /usr/sbin/softwareupdate
   softwareupdate --install-rosetta --agree-to-license
