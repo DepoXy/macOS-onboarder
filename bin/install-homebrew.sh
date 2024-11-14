@@ -69,8 +69,8 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-declare -a BREW_TAPS=()
 declare -a BREW_APPS=()
+declare -a BREW_TAPS=()
 
 # Array for `brew link` actions (this script doesn't have any).
 declare -a BREW_LINK=()
