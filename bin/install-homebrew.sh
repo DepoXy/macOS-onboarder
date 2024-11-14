@@ -1583,8 +1583,10 @@ brew_install_taps () {
   local brew_tap
 
   for brew_tap in "${BREW_TAPS[@]}"; do
-    local tap_user="$(dirname -- "${brew_tap}")"
-    local tap_repo="$(basename -- "${brew_tap}")"
+    # Homebrew appears to lowercase the user name (at least author assumes
+    # it's Homebrew and not the project config).
+    local tap_user="$(echo "${brew_tap}" | cut -d "/" -f1 | tr "[:upper:]" "[:lower:]")"
+    local tap_repo="$(echo "${brew_tap}" | cut -d "/" -f2)"
     local local_tap="${taps_dir}/${tap_user}/homebrew-${tap_repo}"
 
     print_hr
