@@ -83,6 +83,8 @@ declare -a POST_EVAL=()
 # USER_LINK is used to add symlinks under ~/.local/bin
 declare -a USER_LINK=()
 
+MOSON_INSTALL_ROSETTA_2=false
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # BWARE/2023-02-27: This script untested since recent changes
@@ -1162,8 +1164,6 @@ fi
 # --------------------------
 
 # - Rosetta 2 apps
-
-MOSON_INSTALL_ROSETTA_2=false
 
 if ${BREW_INCLUDE_DIGIKAM:-false}; then
   MOSON_INSTALL_ROSETTA_2=true
