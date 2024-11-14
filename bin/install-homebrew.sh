@@ -1181,6 +1181,27 @@ fi
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# Homebrew/install docs suggests installing via curl:
+#   /bin/bash -c "$( \
+#     curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+#   )"
+# - Which uses the following options:
+#     -f, --fail / (HTTP) Fail with error code 22 and with no response body output
+#                  at all for HTTP transfers returning HTTP response codes ≥ 400.
+#     -s, --silent / Silent or quiet mode. Do not show progress meter or error msgs.
+#                    Makes Curl mute. It still outputs the data you ask for....
+#     -S, --show-error / When used with -s, ... show an error message if it fails.
+#     -L, --location / (HTTP) If the server reports that the requested page has moved to
+#                      a different location..., ... redo the request on the new place.
+# But rather than curl it, we'll keep a local copy under deps/.
+# - If you've setup a DepoXy environment, you'll find that project cloned locally at:
+#     ~/.kit/odd/homebrew/install
+# - And you can keep it up to date within this project thusly:
+#     cd ~/.kit/odd/homebrew/install &&
+#       git pull
+#     cd ~/.kit/mOS/macOS-onboarder &&
+#       mr -d . -n updateDeps
+
 BREW_PATH=""
 
 install_homebrew () {
