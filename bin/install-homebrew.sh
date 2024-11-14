@@ -105,7 +105,8 @@ MACOS_INSTALL_ROSETTA2=false
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# USAGE: Add your preferred Brew formula and tasks to the BREW_APPS array.
+# USAGE: Add your preferred Brew formula and tasks to the BREW_APPS and
+#        BREW_TAPS arrays, using the brew_app and brew_tap functions.
 #
 #        But please put *PROMPTY* formula and casks *first*.
 #
@@ -117,32 +118,222 @@ MACOS_INSTALL_ROSETTA2=false
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# HSTRY/2024-11-14: This script used to exclusively target macOS, but
+# (because lazydocker, and because Homebrew is otherwise convenient),
+# it now works on Linux. (And now author is questioning whether to
+# relocate script to a different/new project, at least not one that's
+# named *macOS-onboarder#🏂*!)
+#
+# - Previously, the BREW_APP+=("<formula>") statements were each top-
+#   level (file scope), but now they're wrapped by a function so we
+#   can specify the target host(s).
+
+# Check if target OS matches machine OS:
+# - If no target specified: target all hosts;
+# - If target is "Darwin": target macOS; or
+# - If target is "GNU/Linux", or just "Linux": target Linux.
+applies_to_os () {
+  local target_os="$1"
+
+  # We could check just `uname` (or `uname -s` (kernel name)),
+  # but we'll check `uname -o` (operating system), in case in
+  # the future we want to distinguish between Linux platforms.
+  # - For now, we'll assume if Linux, user means GNU Linux.
+  if [ "${target_os}" = "Linux" ]; then
+    target_os="GNU/Linux"
+  fi
+
+  if [ -z "${target_os}" ] || [ "$(uname -o)" = "${target_os}" ]; then
+
+    # Applies to host.
+    return 0
+  fi
+
+  # Does not apply to this host.
+  return 1
+}
+
+# ------------------------------ #
+
+array_add () {
+  local arr_name="$1"
+  local cmd_args="$2"
+  local target_os="$3"
+
+  if ! applies_to_os "${target_os}"; then
+
+    return 0
+  fi
+
+  eval "${arr_name}+=(\"${cmd_args}\")"
+}
+
+# *** Conveniences
+
+array_add_both () {
+  local arr_name="$1"
+  local cmd_args="$2"
+
+  local target_os=""
+
+  array_add "${arr_name}" "${cmd_args}" "${target_os}"
+}
+
+array_add_linux () {
+  local arr_name="$1"
+  local cmd_args="$2"
+
+  local target_os="GNU/Linux"
+
+  array_add "${arr_name}" "${cmd_args}" "${target_os}"
+}
+
+array_add_macos () {
+  local arr_name="$1"
+  local cmd_args="$2"
+
+  local target_os="Darwin"
+
+  array_add "${arr_name}" "${cmd_args}" "${target_os}"
+}
+
+# ------------------------------ #
+
+brew_app () {
+  array_add "BREW_APPS" "$@"
+}
+
+brew_app_both () {
+  array_add_both "BREW_APPS" "$@"
+}
+
+brew_app_linux () {
+  array_add_linux "BREW_APPS" "$@"
+}
+
+brew_app_macos () {
+  array_add_macos "BREW_APPS" "$@"
+}
+
+# ------------------------------ #
+
+brew_tap () {
+  array_add "BREW_TAPS" "$@"
+}
+
+brew_tap_both () {
+  array_add_both "BREW_TAPS" "$@"
+}
+
+brew_tap_linux () {
+  array_add_linux "BREW_TAPS" "$@"
+}
+
+brew_tap_macos () {
+  array_add_macos "BREW_TAPS" "$@"
+}
+
+# ------------------------------ #
+
+brew_link () {
+  array_add "BREW_LINK" "$@"
+}
+
+brew_link_both () {
+  array_add_both "BREW_LINK" "$@"
+}
+
+brew_link_linux () {
+  array_add_linux "BREW_LINK" "$@"
+}
+
+brew_link_macos () {
+  array_add_macos "BREW_LINK" "$@"
+}
+
+# ------------------------------ #
+
+service_start () {
+  array_add "BREW_SVCS" "$@"
+}
+
+service_start_both () {
+  array_add_both "BREW_SVCS" "$@"
+}
+
+service_start_linux () {
+  array_add_linux "BREW_SVCS" "$@"
+}
+
+service_start_macos () {
+  array_add_macos "BREW_SVCS" "$@"
+}
+
+# ------------------------------ #
+
+post_eval () {
+  array_add "POST_EVAL" "$@"
+}
+
+post_eval_both () {
+  array_add_both "POST_EVAL" "$@"
+}
+
+post_eval_linux () {
+  array_add_linux "POST_EVAL" "$@"
+}
+
+post_eval_macos () {
+  array_add_macos "POST_EVAL" "$@"
+}
+
+# ------------------------------ #
+
+user_link () {
+  array_add "USER_LINK" "$@"
+}
+
+user_link_both () {
+  array_add_both "USER_LINK" "$@"
+}
+
+user_link_linux () {
+  array_add_linux "USER_LINK" "$@"
+}
+
+user_link_macos () {
+  array_add_macos "USER_LINK" "$@"
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # BWARE: These install(s) prompt the user! **PROMPTY**
 
 # Karabiner Elements: *Powerful* keyboard customization
 # - PROMPTS: Requires admin password.
 # - CALSO: See also Hammerspoon automator (installed below).
-BREW_APPS+=("--cask karabiner-elements")
+brew_app_macos "--cask karabiner-elements"
 
 # --------------------------
 
 # - ADMIN: On some client machines, you may need to start an
 #   *Admin Access* terminal session to install GIMP.
 #   - So this command is potentially **PROMPTY**.
-# - F_Y_I: There's also McGIMP [BREW_APPS+=("--cask mcgimp")]
+# - F_Y_I: There's also McGIMP — `brew_app_macos "--cask mcgimp"`
 #   - It's a user compile with additional plugins, include G’MIC,
 #     Google’s NIC collection, and a panoramic stitcher.
 #       https://techtips101.wordpress.com/2017/10/05/mcgimp-gimp-gmic-more/
 #     So unlikely you'll care unless you're a GIMP power user.
-BREW_APPS+=("--cask gimp")
+brew_app_macos "--cask gimp"
 
 # Vector (SVG) graphics editor.
 # https://inkscape.org/
 # https://formulae.brew.sh/cask/inkscape
-BREW_APPS+=("--cask inkscape")
+brew_app_macos "--cask inkscape"
 
 # Other graphics apps you might want:
-#  BREW_APPS+=("--cask blender")
+#  brew_app_macos "--cask blender"
 
 # --------------------------
 
@@ -160,7 +351,7 @@ BREW_APPS+=("--cask inkscape")
 #
 # - ADMIN: PROMPTS: Requires admin password.
 if ${BREW_INCLUDE_MS_TEAMS:-false}; then
-  BREW_APPS+=("--cask microsoft-teams")
+  brew_app_macos "--cask microsoft-teams"
 fi
 
 # Zoom
@@ -169,19 +360,19 @@ fi
 #
 # - ADMIN: PROMPTS: Requires admin password.
 if ${BREW_INCLUDE_ZOOM:-false}; then
-  BREW_APPS+=("--cask zoom")
+  brew_app_macos "--cask zoom"
 fi
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-BREW_APPS+=("bash")
+brew_app_macos "bash"
 # v1: "Programmable completion for Bash 3.2"
 #      https://formulae.brew.sh/formula/bash-completion
-#        BREW_APPS+=("bash-completion")
+#        brew_app_macos "bash-completion"
 # v2: "Programmable completion for Bash 4.2+"
 #      https://formulae.brew.sh/formula/bash-completion@2
-BREW_APPS+=("bash-completion@2")
+brew_app_macos "bash-completion@2"
 
 # --------------------------
 
@@ -195,7 +386,7 @@ BREW_APPS+=("bash-completion@2")
 #     simply copy /etc/inputrc from any Linux machine into your personal
 #     ~/.inputrc file.
 #   - Or, if you are using DepoXy, look at the home/.inputrc file.
-BREW_APPS+=("readline")
+brew_app_macos "readline"
 
 # --------------------------
 
@@ -210,21 +401,21 @@ BREW_APPS+=("readline")
 #   So it's better to leave each GNU app off PATH until you realize you
 #   need it, and then link what you need individually, which also means
 #   you'll be on the lookout for any issues that may cause.
-BREW_APPS+=("coreutils")
-USER_LINK+=("gcp")
-USER_LINK+=("gdate")
-USER_LINK+=("gdu")
+brew_app_macos "coreutils"
+user_link_macos "gcp"
+user_link_macos "gdate"
+user_link_macos "gdu"
 # SAVVY/2024-05-26: Here we symlink ~/.local/bin/ls -> /opt/homebrew/bin/gls
 # - Note that Homefries adds `alias ls='/opt/homebrew/bin/gls ...'
 #   but this symlink used if user runs `command ls`.
 # - If user wants to print macOS ACL details, then can use /bin/ls, e.g.,
 #     /bin/ls -led ~/.Trash
-USER_LINK+=("gls")
-USER_LINK+=("gmktemp")
-USER_LINK+=("gsort")
-USER_LINK+=("gtouch")
-USER_LINK+=("gwc")
-USER_LINK+=("grealpath")
+user_link_macos "gls"
+user_link_macos "gmktemp"
+user_link_macos "gsort"
+user_link_macos "gtouch"
+user_link_macos "gwc"
+user_link_macos "grealpath"
 
 # --------------------------
 
@@ -245,26 +436,26 @@ USER_LINK+=("grealpath")
 #     --default-prefix option (added in git 2.41) while
 #     hacking on tig.
 #   - So let's give Brew git another shot.
-BREW_APPS+=("git")
-USER_LINK+=("git")
+brew_app_macos "git"
+user_link_macos "git"
 
 # tig is my all-time favorite git history viewer and staging tool.
-BREW_APPS+=("tig")
+brew_app_macos "tig"
 
 # gitk was my old favorite git history viewer, before I found tig. But gitk
 # is a slower GUI application when compared to the screaming-fast tig TUI.
 # And it's especially slow on macOS (obviously not Cocoa), and not much fun.
 #
-#  BREW_APPS+=("git-gui")
+#  brew_app_macos "git-gui"
 
 # GitHUB CLI.
-BREW_APPS+=("gh")
+brew_app_macos "gh"
 
 # Supercharged `git rebase -i`. Beautiful, obscure tool... though I admit
 # I most often just use EDITOR (vim) to edit rebase todos. Though maybe if
 # I took the time to memorize this tool's key bindings I'd use it oftener.
 # - Often wired via ~/.gitconfig: sequence.editor=interactive-rebase-tool
-BREW_APPS+=("git-interactive-rebase-tool")
+brew_app_macos "git-interactive-rebase-tool"
 
 # --------------------------
 
@@ -276,15 +467,15 @@ BREW_APPS+=("git-interactive-rebase-tool")
 #    or otherwise the vi command will not be changed to the new vim."
 #   https://iscinumpy.gitlab.io/post/setup-a-new-mac/#vim
 # Note there are multiple MacVim installation options, e.g.,
-#   BREW_APPS+=("macvim")
-#   BREW_APPS+=("--cask macvim")
-#   BREW_APPS+=("macvim --HEAD")
+#   brew_app_macos "macvim"
+#   brew_app_macos "--cask macvim"
+#   brew_app_macos "macvim --HEAD"
 # 2022-10-11: Trying from cask. Not sure the difference between the cask
 # and the formula, other than the warning you see if you install from the
 # formula. And I checked, and /opt/homebrew/bin/vi, which is a symlink to
 # MacVim, is earlier in PATH than /usr/bin/vi, so I don't see the issue
 # that Henry Schreiner (setup-a-new-mac article from 2019) documented.
-BREW_APPS+=("--cask macvim")
+brew_app_macos "--cask macvim"
 
 # Remember that DepoXy puts Homebrew after `/usr/bin` in PATH, to avoid
 # some (usually slowness) issues with Homebrew apps, so macOS vim, which
@@ -298,24 +489,24 @@ BREW_APPS+=("--cask macvim")
 #   And:
 #     Python3 is required when g:easyescape_timeout < 2000
 #     Press ENTER or type command to continue
-USER_LINK+=("view view")
-USER_LINK+=("vim vim")
-USER_LINK+=("vimdiff vimdiff")
+user_link_macos "view view"
+user_link_macos "vim vim"
+user_link_macos "vimdiff vimdiff"
 
 # --------------------------
 
 # - SAVVY: To view fonts, open Launchpad and run `Font Book`
 # - HSTRY/2024-04-14: ==> font-hack-nerd-font: 3.2.1
 # - CALSO: See also without Nerd Font:
-#     BREW_APPS+=("--cask homebrew/cask-fonts/font-hack")
-BREW_APPS+=("--cask font-hack-nerd-font")
+#     brew_app_macos "--cask homebrew/cask-fonts/font-hack"
+brew_app_macos "--cask font-hack-nerd-font"
 
 # Some other text editor/terminal fonts I previewed, but
 # not as much to the author's liking as Hack:
 #
-#   BREW_APPS+=("--cask font-daddy-time-mono-nerd-font")
-#   BREW_APPS+=("--cask font-intone-mono-nerd-font")
-#   BREW_APPS+=("--cask font-sauce-code-pro-nerd-font")
+#   brew_app_macos "--cask font-daddy-time-mono-nerd-font"
+#   brew_app_macos "--cask font-intone-mono-nerd-font"
+#   brew_app_macos "--cask font-sauce-code-pro-nerd-font"
 
 # Unifont adds some glyphs you won't otherwise see on @macOS, like
 # the latter half of the *Miscellaneous Symbols and Arrows* block.
@@ -323,21 +514,21 @@ BREW_APPS+=("--cask font-hack-nerd-font")
 #   to exist and @macOS will fall back on it as necessary.
 # https://unifoundry.com/unifont/
 # https://formulae.brew.sh/cask/font-gnu-unifont
-BREW_APPS+=("--cask font-gnu-unifont")
+brew_app_macos "--cask font-gnu-unifont"
 
 # --------------------------
 
 # SAVVY: "htop requires root privileges to correctly display all running
 # processes, so you will need to run `sudo htop`. / You should be certain
 # that you trust any software you grant root privileges."
-BREW_APPS+=("htop")
-BREW_APPS+=("pstree")
+brew_app_macos "htop"
+brew_app_macos "pstree"
 
-BREW_APPS+=("pidof")
+brew_app_macos "pidof"
 
 # --------------------------
 
-BREW_APPS+=("grep")
+brew_app_macos "grep"
 # 2022-10-17: System `grep` is so much faster than Homebrew `ggrep`.
 # - Though I could swear that, circa 2020-21, `ggrep` was speedier!
 # - CXREF: See note atop `defaults-domains-dump` that shows when that
@@ -345,11 +536,11 @@ BREW_APPS+=("grep")
 #   /opt/homebrew/bin/ggrep, it takes 31 seconds!
 # Point being, don't link `ggrep` (and hopefully this doesn't break
 # other parts of our environment.
-#  USER_LINK+=("ggrep")
+#  user_link_macos "ggrep"
 
-BREW_APPS+=("ag")
+brew_app_macos "ag"
 
-BREW_APPS+=("rg")
+brew_app_macos "rg"
 
 # - The `brew tap aykamko/tag` suggested by the README is incorrect:
 #     https://github.com/aykamko/homebrew-tag-ag
@@ -357,10 +548,10 @@ BREW_APPS+=("rg")
 #           `brew tap <user>/<repo> https://github.com/<user>/homebrew-<repo>`,
 #   and there is no https://github.com/aykamko/homebrew-tag project.
 # - So this is how you'd install tag-ag:
-#     BREW_TAPS+=("aykamko/tag-ag")
-#     BREW_APPS+=("tag-ag")
+#     brew_tap_macos "aykamko/tag-ag"
+#     brew_app_macos "tag-ag"
 #   Alternatively, I think this format (without the tap) also works:
-#     BREW_APPS+=("aykamko/tag-ag/tag-ag")
+#     brew_app_macos "aykamko/tag-ag/tag-ag"
 # - But don't install tag-ag.
 #   - 2022-10-17: It worked for me on my previous MacBook (circa 2020-21)
 #     but not on my new machine, where I see:
@@ -374,19 +565,19 @@ BREW_APPS+=("rg")
 # --------------------------
 
 # *Collection of GNU find, xargs, and locate*
-BREW_APPS+=("findutils")
-USER_LINK+=("gfind")
+brew_app_macos "findutils"
+user_link_macos "gfind"
 
 # *find entries in the filesystem*
-BREW_APPS+=("fd")
+brew_app_macos "fd"
 # fzf - *a command-line fuzzy finder*
 # https://github.com/junegunn/fzf
-BREW_APPS+=("fzf")
+brew_app_macos "fzf"
 
 # bfs — Breadth-first version of find
 # https://tavianator.com/projects/bfs.html
 # https://formulae.brew.sh/formula/bfs
-BREW_APPS+=("bfs")
+brew_app_macos "bfs"
 
 # --------------------------
 
@@ -403,34 +594,34 @@ BREW_APPS+=("bfs")
 #     /opt/homebrew/etc/bash_completion.d
 # - E.g.,
 #     eza --icons --long --header
-BREW_APPS+=("eza")
+brew_app_macos "eza"
 
 # https://github.com/lsd-rs/lsd
 # - SAVVY: "Bash completion has been installed to:"
 #     /opt/homebrew/etc/bash_completion.d
 # - E.g.,
 #     lsd -lhFa --color=always
-BREW_APPS+=("lsd")
+brew_app_macos "lsd"
 
 # --------------------------
 
 # "list contents of directories in a tree-like format."
-BREW_APPS+=("tree")
+brew_app_macos "tree"
 
 # --------------------------
 
-BREW_APPS+=("less")
+brew_app_macos "less"
 # Useful for LESSOPEN, e.g.,
 #   LESSOPEN="| highlight %s --out-format xterm256 --force"
-BREW_APPS+=("highlight")
+brew_app_macos "highlight"
 
 # "Clone of cat(1) with syntax highlighting and Git integration"
-BREW_APPS+=("bat")
+brew_app_macos "bat"
 
-BREW_APPS+=("dhex")
+brew_app_macos "dhex"
 
 # *Command-line JSON processor*
-BREW_APPS+=("jq")
+brew_app_macos "jq"
 
 # *yq: Command-line YAML/XML/TOML processor - jq wrapper*
 #   https://kislyuk.github.io/yq/
@@ -451,35 +642,35 @@ BREW_APPS+=("jq")
 # - This might be the tomlq project the yq uses (albeit
 #   this project 5 years stale, so seems unlikely):
 #     https://github.com/jamesmunns/tomlq
-BREW_APPS+=("python-yq")
+brew_app_macos "python-yq"
 
 # --------------------------
 
 #  # "Perl-powered file rename script with many helpful built-ins"
-#  BREW_APPS+=("rename")
+#  brew_app_macos "rename"
 
 # Already installed:
-#  BREW_APPS+=("unzip")
+#  brew_app_macos "unzip"
 
 # --------------------------
 
 # Add gsed, which is more rich than BSD sed.
-BREW_APPS+=("gnu-sed")
-USER_LINK+=("gsed")
+brew_app_macos "gnu-sed"
+user_link_macos "gsed"
 
 # --------------------------
 
 # "GNU implementation of time utility"
-BREW_APPS+=("gnu-time")
+brew_app_macos "gnu-time"
 
 # --------------------------
 
-BREW_APPS+=("wget")
+brew_app_macos "wget"
 
 # SAVVY/2024-05-17: @macOS 14.4.1:  "rsync  version 2.6.9  protocol version 29"
 #                   @linux LM 21.3: "rsync  version 3.2.7  protocol version 31"
-BREW_APPS+=("rsync")
-USER_LINK+=("rsync rsync")
+brew_app_macos "rsync"
+user_link_macos "rsync rsync"
 
 # --------------------------
 
@@ -487,22 +678,22 @@ USER_LINK+=("rsync rsync")
 # - REFER: See also macOS built-in ctags:
 #   /Library/Developer/CommandLineTools/usr/bin/ctags
 #   /Library/Developer/CommandLineTools/usr/share/man/man1/ctags.1
-BREW_APPS+=("ctags")
-USER_LINK+=("ctags ctags")
+brew_app_macos "ctags"
+user_link_macos "ctags ctags"
 
 # --------------------------
 
 # Linux Mint 19.3 `awk` is actually `gawk`, FYI.
 # (And I don't see plain `awk` installed; meaning,
 #  all my Bash scripts expect `gawk`.)
-BREW_APPS+=("gawk")
-USER_LINK+=("gawk")  # Will symlink from ~/.local/bin/awk
+brew_app_macos "gawk"
+user_link_macos "gawk"  # Will symlink from ~/.local/bin/awk
 
 # Installs `/opt/homebrew/bin/diff`.
-BREW_APPS+=("diffutils")
+brew_app_macos "diffutils"
 # Note that brew's diff is `diff`, not `gdiff`,
 # so use a two-word USER_LINK entry.
-USER_LINK+=("diff diff")
+user_link_macos "diff diff"
 
 # "colordiff — a tool to colorize diff output"
 # - Essentially a `diff` wrapper with syntax highlighting.
@@ -510,7 +701,7 @@ USER_LINK+=("diff diff")
 # https://github.com/daveewart/colordiff
 # - Author has yet to demo colordiff.
 #   - See also: diff, git-diff, and meld.
-BREW_APPS+=("colordiff")
+brew_app_macos "colordiff"
 
 # ISOFF/2024-09-19: Brew has deprecated the since-abandoned macOS Meld package.
 # - For now, build and run Meld from sources.
@@ -537,7 +728,7 @@ BREW_APPS+=("colordiff")
 #   if ! ${BREW_EXCLUDE_MELD:-false}; then
 #     MACOS_INSTALL_ROSETTA2=true
 #
-#     BREW_APPS+=("--cask meld")
+#     brew_app_macos "--cask meld"
 #   fi
 
 # P4Merge — Meld alternative, though not quite as slick (it's close).
@@ -545,32 +736,32 @@ BREW_APPS+=("colordiff")
 # - SAVVY: Installs more than just P4Merge:
 #   - Use Spotlight to run `p4merge.app`, not `p4v.app`
 if ${BREW_INCLUDE_P4MERGE:-false}; then
-  BREW_APPS+=("--cask p4v")
+  brew_app_macos "--cask p4v"
 fi
 
 # --------------------------
 
-BREW_APPS+=("direnv")
+brew_app_macos "direnv"
 
 # --------------------------
 
 # "whois is key-only, which means it was not symlinked into /opt/homebrew,
 # because macOS already provides this software and installing another
 # version in parallel can cause all kinds of trouble."
-BREW_APPS+=("whois")
+brew_app_macos "whois"
 
 # --------------------------
 
-BREW_APPS+=("cloc")
+brew_app_macos "cloc"
 
 # --------------------------
 
-BREW_APPS+=("tldr")
+brew_app_macos "tldr"
 
 # --------------------------
 
 # Just as easily managed from pipx:
-#  BREW_APPS+=("asciinema")
+#  brew_app_macos "asciinema"
 
 # --------------------------
 
@@ -580,78 +771,78 @@ BREW_APPS+=("tldr")
 #   https://formulae.brew.sh/formula/cowsay
 # https://github.com/cowsay-org/homebrew-cowsay
 # https://github.com/cowsay-org/cowsay
-BREW_APPS+=("cowsay-org/cowsay/cowsay-org")
-BREW_APPS+=("fortune")
+brew_app_macos "cowsay-org/cowsay/cowsay-org"
+brew_app_macos "fortune"
 
 # E.g., `/usr/local/bin/terminal-notifier -message "PATH=$PATH"`.
 #  https://github.com/julienXX/terminal-notifier
-BREW_APPS+=("terminal-notifier")
+brew_app_macos "terminal-notifier"
 
 # --------------------------
 
-BREW_APPS+=("restview")
+brew_app_macos "restview"
 
 # Big Install:
-#  BREW_APPS+=("grip")
+#  brew_app_macos "grip"
 
 # Markdown GUI editor
 # https://macdown.uranusjr.com/
 # NOTE: App is not signed. See our `quarantine-liberate-apps`, or try:
 #   xattr -dr com.apple.quarantine "/Applications/MacDown.app"
-BREW_APPS+=("macdown")
+brew_app_macos "macdown"
 
 # --------------------------
 
 # CXREF: Per its install output, example config and Bash completion:
 #   /opt/homebrew/opt/tmux/share/tmux/example_tmux.conf
 #   /opt/homebrew/etc/bash_completion.d/tmux
-BREW_APPS+=("tmux")
+brew_app_macos "tmux"
 
 # Note that some organizations will offer iTerm2 from their app store.
-BREW_APPS+=("iterm2")
+brew_app_macos "iterm2"
 
 # ILIKE/2024-06-23: I'm groovin' on Alacritty so far, simple and elegant.
 # - And I think I'm over iTerm2, the immutable nuances are too many. 
-BREW_APPS+=("--cask alacritty")
+brew_app_macos "--cask alacritty"
 
 # Alacritty does not draw a border, which makes it hard to resize when
 # it's overlapping other windows, because you cannot see the corner.
 # - Fortunately there's Borders.
-BREW_TAPS+=("FelixKratz/formulae")
-BREW_APPS+=("borders")
+brew_tap_macos "FelixKratz/formulae"
+brew_app_macos "borders"
 # Call `brew services start borders`
-BREW_SVCS+=("borders")
+service_start_macos "borders"
 
 # --------------------------
 
 # INERT/2022-10-11: If you find you need Mongo interface.
 # - NOTE: On some client machines, you may need to start an
 #   *Admin Access* terminal session to install Robo 3T.
-#  BREW_APPS+=("robo-3t")
+#  brew_app_macos "robo-3t"
 
 # --------------------------
 
-BREW_APPS+=("imagemagick")
+brew_app_macos "imagemagick"
 
 # HINT: To remove EXIF data from an image: `exiftool -all= image.jpg`.
-BREW_APPS+=("exiftool")
+brew_app_macos "exiftool"
 
 # *Multithreaded PNG optimizer written in Rust*
 # https://github.com/shssoichiro/oxipng
 # https://formulae.brew.sh/formula/oxipng
-BREW_APPS+=("oxipng")
+brew_app_macos "oxipng"
 
 # --------------------------
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
-BREW_APPS+=("qpdf")
+brew_app_macos "qpdf"
 
 # IDGI: Git `log -S` with `--reverse` fails on macOS for want of pdfinfo:
 #   $ git --no-pager log -S "some query term" --source -m --reverse
 #   error: cannot run pdfinfo: No such file or directory
-BREW_APPS+=("xpdf")
+brew_app_macos "xpdf"
 
-BREW_APPS+=("--cask adobe-acrobat-reader")
+brew_app_macos "--cask adobe-acrobat-reader"
 
 # --------------------------
 
@@ -660,7 +851,7 @@ BREW_APPS+=("--cask adobe-acrobat-reader")
 # Dia: "Draw structured diagrams"
 # - Also installs XQuartzx:
 #     XQuartz: "An X11 server and client libraries for macOS"
-#     BREW_APPS+=("--cask xquartz")
+#     brew_app_macos "--cask xquartz"
 #
 # ISOFF/2024-07-04: I tried Dia (and XQuartz) on @macOS
 # but it blips the screen and runs XQuartz, but nothing
@@ -675,14 +866,14 @@ BREW_APPS+=("--cask adobe-acrobat-reader")
 #   if ${BREW_INCLUDE_DIA:-false}; then
 #     # NOTED: Prompts for PWD:
 #     #   ==> Running installer for xquartz with sudo; the password may be necessary.
-#     BREW_APPS+=("--cask dia")
+#     brew_app_macos "--cask dia"
 #   fi
 
 # https://www.drawio.com/
 # https://formulae.brew.sh/cask/drawio
 # - STATS/2024-09-16: 27k installs past 365 days.
 # - STATS: Large .tar.gz, 128M
-BREW_APPS+=("--cask drawio")
+brew_app_macos "--cask drawio"
 
 # https://pencil.evolus.vn/
 # https://formulae.brew.sh/cask/pencil
@@ -697,7 +888,7 @@ BREW_APPS+=("--cask drawio")
 #     so install shows extra prompts and requires System Settings
 #     intervention via Privacy & Security unblockage.
 if ${BREW_INCLUDE_PENCIL:-false}; then
-  BREW_APPS+=("--cask pencil")
+  brew_app_macos "--cask pencil"
 fi
 
 # https://www.yworks.com/products/yed
@@ -705,12 +896,12 @@ fi
 # - STATS/2024-09-16: 904 installs past 365 days.
 # - STATS: Large .tar.gz, 153M, also very slow download
 # - ILIKE/2024-09-16: Ooooh, this is nice...
-BREW_APPS+=("--cask yed")
+brew_app_macos "--cask yed"
 
 # --------------------------
 
 # "Free cross-platform office suite, fresh version"
-BREW_APPS+=("--cask libreoffice")
+brew_app_macos "--cask libreoffice"
 
 # --------------------------
 
@@ -720,7 +911,7 @@ add_google_chrome_unless_installed () {
   ! [ -e "/Applications/Google Chrome.app" ] \
     || return 0
 
-  BREW_APPS+=("google-chrome")
+  brew_app_macos "google-chrome"
 }
 add_google_chrome_unless_installed
 
@@ -728,29 +919,29 @@ add_firefox_unless_installed () {
   ! [ -e "/Applications/Firefox.app/" ] \
     || return 0
 
-  BREW_APPS+=("--cask firefox")
+  brew_app_macos "--cask firefox"
 }
 add_firefox_unless_installed
 
 # https://www.opera.com/
-BREW_APPS+=("--cask opera")
+brew_app_macos "--cask opera"
 # https://brave.com/
 
-BREW_APPS+=("--cask brave-browser")
+brew_app_macos "--cask brave-browser"
 
 # https://arc.net/
-BREW_APPS+=("--cask arc")
+brew_app_macos "--cask arc"
 
 # "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
-BREW_APPS+=("--cask finicky")
+brew_app_macos "--cask finicky"
 
 # --------------------------
 
 # Slack might be installed by your organization...
 
 if ! ${BREW_EXCLUDE_SLACK:-false}; then
-  BREW_APPS+=("--cask slack")
+  brew_app_macos "--cask slack"
 fi
 
 # --------------------------
@@ -758,7 +949,7 @@ fi
 # SPIKE/2022-10-11: Demo `procps`.
 # *Command line and full screen utilities for browsing procfs*
 # https://gitlab.com/procps-ng/procps
-#  BREW_APPS+=("procps")
+#  brew_app_macos "procps"
 
 # --------------------------
 
@@ -767,20 +958,20 @@ fi
 # Golang. Not sure installing system-wide is best idea (is there
 # Go environment virtualization like with Python and JS?).
 # - But want Go to build aykamko-tag.
-BREW_APPS+=("go")
+brew_app_macos "go"
 
-BREW_APPS+=("node")
-BREW_APPS+=("yarn")
+brew_app_macos "node"
+brew_app_macos "yarn"
 
-BREW_APPS+=("rust")
+brew_app_macos "rust"
 
-BREW_APPS+=("pyenv")
-USER_LINK+=("pyenv pyenv")
+brew_app_macos "pyenv"
+user_link_macos "pyenv pyenv"
 # https://github.com/pyenv/pyenv-virtualenv
-BREW_APPS+=("pyenv-virtualenv")
+brew_app_macos "pyenv-virtualenv"
 
 # For `mandb` (used by at least fries-findup's `make install`).
-BREW_APPS+=("man-db")
+brew_app_macos "man-db"
 # If you open Homebrew man pages with Apple man, you'll see an
 # error message before the pager starts, e.g.:
 #     $ /usr/bin/man /opt/homebrew/share/man/man1/bash.1
@@ -800,14 +991,14 @@ BREW_APPS+=("man-db")
 # ISOFF/2024-10-19: So let's not supercede built-in `man`.
 # - We'll change `man` in the terminal to redirect stderr instead.
 # 
-#  USER_LINK+=("gman")
+#  user_link_macos "gman"
 
 # Apple `make` is "GNU Make 3.81". Brew's is ≥ 4.4.1.
-BREW_APPS+=("make")
+brew_app_macos "make"
 
 # For dateutils.ddiff, etc.
-BREW_APPS+=("dateutils")
-USER_LINK+=("datediff datediff")
+brew_app_macos "dateutils"
+user_link_macos "datediff datediff"
 
 # Ruby
 # - @macOS $ /usr/bin/ruby -v
@@ -837,7 +1028,7 @@ USER_LINK+=("datediff datediff")
 #
 #   For pkg-config to find ruby you may need to set:
 #     export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
-BREW_APPS+=("ruby")
+brew_app_macos "ruby"
 
 # --------------------------
 
@@ -845,29 +1036,29 @@ BREW_APPS+=("ruby")
 
 # USYNC/2024-04-13: Must specify Postgres version.
 #  https://formulae.brew.sh/formula/postgresql@16
-BREW_APPS+=("postgresql@16")
+brew_app_macos "postgresql@16"
 # MAYBE/2022-11-15:
 #   brew services stop postgresql
-BREW_APPS+=("libpq")
+brew_app_macos "libpq"
 
 # https://www.pgadmin.org/docs/
-BREW_APPS+=("--cask pgadmin4")
+brew_app_macos "--cask pgadmin4"
 # https://github.com/dbeaver/dbeaver
-BREW_APPS+=("--cask dbeaver-community")
+brew_app_macos "--cask dbeaver-community"
 
 # --------------------------
 
 # - API dev tools
 
-BREW_APPS+=("--cask insomnia")
-BREW_APPS+=("--cask postman")
-BREW_APPS+=("openapi-generator")
+brew_app_macos "--cask insomnia"
+brew_app_macos "--cask postman"
+brew_app_macos "openapi-generator"
 
 # --------------------------
 
 # - Code editors
 
-# BREW_APPS+=("--cask visual-studio-code")
+# brew_app_macos "--cask visual-studio-code"
 
 # 2023-01-06: Not going to the dark side (never leaving Vim for
 # anything else) but I am curious if I can find a decent Python
@@ -891,7 +1082,7 @@ BREW_APPS+=("openapi-generator")
 #       python -m idlelib.idle
 # - See also: `pip install pdbr`, which improves upon pdb.
 # SPIKE/2023-02-27: Demo LiClipse.
-BREW_APPS+=("--cask liclipse")
+brew_app_macos "--cask liclipse"
 
 # --------------------------
 
@@ -915,21 +1106,21 @@ if ${BREW_INCLUDE_COLIMA:-false}; then
   #     /Applications/Docker.app/Contents/Resources/bin
   #     /Applications/Docker.app/Contents/Resources/cli-plugins/
 
-  BREW_APPS+=("docker")
+  brew_app_macos "docker"
   # Included with `docker`:
-  #  BREW_APPS+=("docker-completion")
+  #  brew_app_macos "docker-completion"
 
-  BREW_APPS+=("docker-compose")
+  brew_app_macos "docker-compose"
   # Error w/ typo: "disabled because it no upstream support for v2!"
-  #  BREW_APPS+=("docker-compose-completion")
+  #  brew_app_macos "docker-compose-completion"
 
-  BREW_APPS+=("docker-credential-helper")
+  brew_app_macos "docker-credential-helper"
 
   # Note there's also `brew install kubectl`, which is a formula alias.
-  BREW_APPS+=("kubernetes-cli")
+  brew_app_macos "kubernetes-cli"
 
   # "Container runtimes on MacOS (and Linux) with minimal setup"
-  BREW_APPS+=("colima")
+  brew_app_macos "colima"
 fi
 
 # Docker Desktop kitchen sink GUI container app.
@@ -954,38 +1145,38 @@ fi
 #     the DMG file you get from their website, and not installing via HB cask.
 #     At least not until I know more about what I'm doing.
 if ${BREW_INCLUDE_DOCKER_DESKTOP:-false}; then
-  BREW_APPS+=("--cask docker")
+  brew_app_macos "--cask docker"
 fi
 
 # - Related containerization apps
 #
 
 # "GitOps Continuous Delivery for Kubernetes"
-BREW_APPS+=("argocd")
+brew_app_macos "argocd"
 
 # Helm manages Charts, packages of pre-configured Kubernetes resources.
 # https://github.com/helm/helm
 # AFAIK: Helm = Docker Image (w/ CMD -- is that Dockerfile, essentially?) + kubectl patches
-BREW_APPS+=("helm")
+brew_app_macos "helm"
 
 # Packer creates machine images.
-BREW_TAPS+=("hashicorp/tap")
-BREW_APPS+=("hashicorp/tap/packer")
+brew_tap_macos "hashicorp/tap"
+brew_app_macos "hashicorp/tap/packer"
 
 # "⎈ Multi pod and container log tailing for Kubernetes --
 #  Friendly fork of https://github.com/wercker/stern"
 # https://github.com/stern/stern
-BREW_APPS+=("stern")
+brew_app_macos "stern"
 
 # - VirtualBox
 #
 
 if ${BREW_INCLUDE_VIRTUALBOX:-false}; then
   # This is still the Intel version:
-  #   BREW_APPS+=("--cask virtualbox")
+  #   brew_app_macos "--cask virtualbox"
   # Here's the Apple Silicon version.
   # - SAVVY: Prompts for PWD.
-  BREW_APPS+=("--cask virtualbox@beta")
+  brew_app_macos "--cask virtualbox@beta"
 fi
 
 # --------------------------
@@ -993,15 +1184,15 @@ fi
 # - Crypto:
 
 # Security stuff.
-BREW_APPS+=("openssl")
+brew_app_macos "openssl"
 
-BREW_APPS+=("pass")
+brew_app_macos "pass"
 
-BREW_APPS+=("pwgen")
+brew_app_macos "pwgen"
 
 # https://formulae.brew.sh/formula/pinentry-mac
 # https://github.com/GPGTools/pinentry
-BREW_APPS+=("pinentry-mac")
+brew_app_macos "pinentry-mac"
 
 # I had previously installed `gocryptfs` for various DX environment use,
 # but Homebrew complains about it now, ever since macFUSE (osxfuse) went
@@ -1019,12 +1210,12 @@ BREW_APPS+=("pinentry-mac")
 
 # - Sniffing:
 
-BREW_APPS+=("--cask wireshark")
+brew_app_macos "--cask wireshark"
 
 # "HTTP load testing application written in Rust"
 # https://github.com/fcsonline/drill
 # https://formulae.brew.sh/formula/drill
-BREW_APPS+=("drill")
+brew_app_macos "drill"
 
 # --------------------------
 
@@ -1034,17 +1225,17 @@ BREW_APPS+=("drill")
 # when AltTab is recording. Which is annoying. There is a work-around:
 #   https://github.com/lwouis/alt-tab-macos/issues/2606
 # - INERT: The author sets menu bar to auto-hide, so doesn't bother me.
-BREW_APPS+=("--cask alt-tab")
+brew_app_macos "--cask alt-tab"
 
 # Alt-click-drag any desktop window to move it, like in Linux!
 # NOTE: App is not signed. See our `quarantine-liberate-apps`, or try:
 #   xattr -dr com.apple.quarantine "/Applications/Easy Move+Resize.app"
-BREW_APPS+=("--cask easy-move-plus-resize")
+brew_app_macos "--cask easy-move-plus-resize"
 
 # Sweet window utility.
 #  https://rectangleapp.com/
 #  https://github.com/rxhanson/Rectangle
-BREW_APPS+=("--cask rectangle")
+brew_app_macos "--cask rectangle"
 
 # 2022-10-16: GhostTile won't hide Finder, nor Pulse Secure, and I've got
 # nothing else I want to hide, so not useful to me (with my latest client
@@ -1053,7 +1244,7 @@ BREW_APPS+=("--cask rectangle")
 #   (which I could access from the menu bar, and only needed to run
 #   once a day, so was otherwise wasting valuable Dock real estate).
 #
-#  BREW_APPS+=("--cask ghosttile")
+#  brew_app_macos "--cask ghosttile"
 
 # ISOFF/2024-07-24: I've replicated the Contexts Search menu (<Cmd-Space>)
 # and the Sidebar pop-out tray using Hammerspoon (at <Cmd-Space>), so this
@@ -1079,7 +1270,7 @@ BREW_APPS+=("--cask rectangle")
 #   #   - Also run Contexts via Spotlight to open its settings GUI —
 #   #     because that window hides when it loses focus — or use
 #   #     the Contexts <Ctrl+Space> menu to raise the hidden window.
-#   BREW_APPS+=("--cask contexts")
+#   brew_app_macos "--cask contexts"
 
 # --------------------------
 
@@ -1089,7 +1280,7 @@ BREW_APPS+=("--cask rectangle")
 #     system_profiler SPUSBDataType
 # - CXREF: https://stackoverflow.com/questions/17058134/
 #             is-there-an-equivalent-of-lsusb-for-os-x
-BREW_APPS+=("mikhailai/misc/usbutils")
+brew_app_macos "mikhailai/misc/usbutils"
 
 # --------------------------
 
@@ -1098,9 +1289,9 @@ BREW_APPS+=("mikhailai/misc/usbutils")
 # - And not just "simple", wicked easy to configure, just save
 #   the config and your new bindings and changes take effect!
 #   (Seriously, KE, this is how you should do it!)
-BREW_APPS+=("koekeishiya/formulae/skhd")
+brew_app_macos "koekeishiya/formulae/skhd"
 # I.e., call `skhd --start-service` after brew-install.
-POST_EVAL+=("skhd --start-service")
+post_eval_macos "skhd --start-service"
 
 # Hammerspoon is a Lua-powered desktop automation application.
 #   https://www.hammerspoon.org/
@@ -1109,14 +1300,14 @@ POST_EVAL+=("skhd --start-service")
 # - Installs both /Applications/Hammerspoon.app and `hs` to PATH,
 #   e.g., `/opt/homebrew/bin/hs`.
 # - CALSO: Karabiner Elements (KE) (installed above).
-BREW_APPS+=("--cask hammerspoon")
+brew_app_macos "--cask hammerspoon"
 
 # --------------------------
 
 # Opt-in because not dev-related, well, maybe ever dev
 # rocks out, but maybe not from the Vendor's equipment.
 if ${BREW_INCLUDE_SPOTIFY:-false}; then
-  BREW_APPS+=("--cask spotify")
+  brew_app_macos "--cask spotify"
 fi
 
 # Similarly for other media apps, opt-in, so you're not "polluting"
@@ -1130,12 +1321,12 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   # https://formulae.brew.sh/formula/mpv
   # - "Media player based on MPlayer and mplayer2"
   # SIZED/2024-10-12: 453 MB
-  BREW_APPS+=("mpv")
+  brew_app_macos "mpv"
 
   # https://www.videolan.org/vlc/
   # See also VLC Remote: https://formulae.brew.sh/cask/vlc-setup
   # SIZED/2024-10-12: 188 MB
-  BREW_APPS+=("--cask vlc")
+  brew_app_macos "--cask vlc"
 
   # "SMPlayer is a graphical user interface (GUI) for the award-winning MPlayer"
   # https://www.smplayer.info/en/mplayer
@@ -1144,18 +1335,18 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   # - Requires Rosetta 2
   MACOS_INSTALL_ROSETTA2=true
   # SIZED/2024-10-12: 21 MB
-  BREW_APPS+=("--cask smplayer")
+  brew_app_macos "--cask smplayer"
 
   # MP3 player
   # https://www.elmedia-video-player.com/mp3-player-mac.html
   # https://formulae.brew.sh/cask/elmedia-player
-  BREW_APPS+=("--cask elmedia-player")
+  brew_app_macos "--cask elmedia-player"
 fi
 
 # --------------------------
 
 if ${BREW_INCLUDE_DROPBOX:-false}; then
-  BREW_APPS+=("--cask dropbox")
+  brew_app_macos "--cask dropbox"
 fi
 
 # --------------------------
@@ -1171,7 +1362,7 @@ fi
 # https://webex.com/
 # https://formulae.brew.sh/cask/webex
 if ${BREW_INCLUDE_WEBEX:-false}; then
-  BREW_APPS+=("--cask webex")
+  brew_app_macos "--cask webex"
 fi
 
 # --------------------------
@@ -1181,14 +1372,14 @@ fi
 if ${BREW_INCLUDE_DIGIKAM:-false}; then
   MACOS_INSTALL_ROSETTA2=true
 
-  BREW_APPS+=("--cask digikam")
+  brew_app_macos "--cask digikam"
 fi
 
 if ${BREW_INCLUDE_GNUCASH:-false}; then
   MACOS_INSTALL_ROSETTA2=true
 
   # Prompts PWD.
-  BREW_APPS+=("--cask gnucash")
+  brew_app_macos "--cask gnucash"
 fi
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1334,7 +1525,10 @@ print_homebrew_path () {
 #       062-01890: Package reference com.apple.pkg.RosettaUpdateAuto is missing installKBytes attribute
 
 install_rosetta_2_maybe () {
-  ${MACOS_INSTALL_ROSETTA2:-false} || return 0
+  if ! os_is_macos || ! ${MACOS_INSTALL_ROSETTA2:-false}; then
+
+    return 0
+  fi
 
   # Aka /usr/sbin/softwareupdate
   softwareupdate --install-rosetta --agree-to-license
@@ -1365,14 +1559,18 @@ brew_install_taps () {
   init_homebrew_or_exit
 
   local brew_repo="$(brew --repository)"
+  # On macOS:
+  #   /opt/homebrew/Library/Taps/
+  # On Linux:
+  #   /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/
+  local taps_dir="${brew_repo}/Library/Taps"
 
   local brew_tap
 
   for brew_tap in "${BREW_TAPS[@]}"; do
     local tap_user="$(dirname -- "${brew_tap}")"
     local tap_repo="$(basename -- "${brew_tap}")"
-    local brew_taps="${brew_repo}/Library/Taps"
-    local local_tap="${brew_taps}/${tap_user}/homebrew-${tap_repo}"
+    local local_tap="${taps_dir}/${tap_user}/homebrew-${tap_repo}"
 
     print_hr
     if [ -d "${local_tap}" ]; then
@@ -1616,8 +1814,6 @@ main () {
   set -e
 
   set_traps
-
-  os_is_macos || ( >&2 echo "ERROR: Not macOS" && return 1 )
 
   stub_external_commands_if_unit_testing
 
