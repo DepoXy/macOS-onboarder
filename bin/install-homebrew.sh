@@ -1294,7 +1294,7 @@ brew_install_taps () {
   for brew_tap in "${BREW_TAPS[@]}"; do
     local tap_user="$(dirname -- "${brew_tap}")"
     local tap_repo="$(basename -- "${brew_tap}")"
-    local brew_taps="$(brew --repository)/Library/Taps/"
+    local brew_taps="$(brew --repository)/Library/Taps"
     local local_tap="${brew_taps}/${tap_user}/homebrew-${tap_repo}"
 
     print_hr
