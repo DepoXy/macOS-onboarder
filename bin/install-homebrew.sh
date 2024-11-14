@@ -1168,6 +1168,21 @@ brew_app_macos "hashicorp/tap/packer"
 # https://github.com/stern/stern
 brew_app_macos "stern"
 
+# - Docker and k8s GUIs/TUIs
+#
+
+# "The lazier way to manage everything docker"
+# https://github.com/jesseduffield/lazydocker
+# - SAVVY: Note that using GH path clones repo, which should stay more
+#   current than the Homebrew formula (`brew install lazydocker`), e.g.,
+#     $ brew install jesseduffield/lazydocker/lazydocker
+#     ...
+#     ==> Tapping jesseduffield/lazydocker
+#     Cloning into '/opt/homebrew/Library/Taps/jesseduffield/homebrew-lazydocker'...
+#     # Or on Linux:
+#     # Cloning into '/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/jesseduffield/homebrew-lazydocker'...
+brew_app_both "jesseduffield/lazydocker/lazydocker"
+
 # - VirtualBox
 #
 
