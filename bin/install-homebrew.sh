@@ -87,8 +87,21 @@ MOSON_INSTALL_ROSETTA_2=false
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# BWARE/2023-02-27: This script untested since recent changes
-#                   while author awaits new macOS device.
+# ALERT: This script is not *integration tested* for long stretches.
+#
+# - The author runs it occassionally (e.g., yearly) to onboard a new host.
+#
+# - But the author frequently (e.g., weekly) adds a new app to the install
+#   list, but then manually installs the app, e.g., `brew install <app>`.
+#
+# Just FYI in case you run this script and find any issues with it.
+#
+# - Though note the script is at least unit tested to ensure that it's
+#   syntactically correct:
+#
+#     DRY_RUN=true ./install-homebrew.sh
+#
+#   This runs the script but stubs out `brew` and other external commands.
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -1181,6 +1194,61 @@ fi
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+TESTED_ONCE_BREW_LIST_FALSE=false
+
+TESTED_ONCE_BREW_INFO_FALSE=false
+
+stub_external_commands_if_unit_testing () {
+  if ! ${DRY_RUN:-false}; then
+
+    return
+  fi
+
+  function brew () {
+    if [ "$1" = "list" ] && ! ${TESTED_ONCE_BREW_LIST_FALSE}; then
+      if [ -x "${BREW_PATH}" ]; then
+        ${BREW_PATH} "$@"
+      fi
+
+      TESTED_ONCE_BREW_LIST_FALSE=true
+    elif [ "$1" = "info" ] && ! ${TESTED_ONCE_BREW_INFO_FALSE}; then
+      if [ -x "${BREW_PATH}" ]; then
+        ${BREW_PATH} "$@"
+      fi
+
+      TESTED_ONCE_BREW_INFO_FALSE=true
+    else
+      case $1 in
+        install | tap | link | services | list | info)
+          echo "STUBD: brew $@"
+          ;;
+
+        --repository | shellenv)
+          if [ -x "${BREW_PATH}" ]; then
+            ${BREW_PATH} "$@"
+          else
+            echo "STUBD: brew $@"
+          fi
+          ;;
+
+        *)
+          echo "STUBX: brew $@"
+          ;;
+      esac
+    fi
+  }
+
+  function ln () {
+    echo "STUBD: ln $@"
+  }
+
+  function softwareupdate () {
+    echo "STUBD: softwareupdate $@"
+  }
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # Homebrew/install docs suggests installing via curl:
 #   /bin/bash -c "$( \
 #     curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
@@ -1223,6 +1291,7 @@ install_homebrew () {
   echo "Install: Homebrew"
   echo
 
+  $(${DRY_RUN:-false} && echo "echo STUBD:") \
   "$(dirname -- "$0")/../deps/Homebrew/install/install.sh"
 
   BREW_PATH="$(print_homebrew_path)"
@@ -1278,6 +1347,12 @@ init_homebrew_or_exit () {
   BREW_PATH="$(print_homebrew_path)"
 
   if [ ! -e "${BREW_PATH}" ]; then
+    if ${DRY_RUN:-false}; then
+      >&2 echo "IGNOR: Missing Homebrew."
+
+      return
+    fi
+
     >&2 echo "ERROR: Missing Homebrew."
 
     exit_1
@@ -1326,6 +1401,9 @@ brew_install_apps () {
       echo "Brew install: ${brew_app_or_cask} is already installed"
       echo
       brew info ${brew_app_or_cask} | print_Caveats && echo || true
+      # When unit testing, stub `brew info` after running it once for real
+      # (and because pipe, `brew info` ran in subprocess).
+      TESTED_ONCE_BREW_INFO_FALSE=true
       continue
     fi
 
@@ -1371,6 +1449,7 @@ post_brew_evals () {
     print_hr
     echo "Run command: ${eval_cmd}"
     echo
+    $(${DRY_RUN:-false} && echo "echo STUBD:") \
     eval "${eval_cmd}"
     echo
   done
@@ -1519,6 +1598,8 @@ main () {
   set_traps
 
   os_is_macos || ( >&2 echo "ERROR: Not macOS" && return 1 )
+
+  stub_external_commands_if_unit_testing
 
   install_homebrew
 
