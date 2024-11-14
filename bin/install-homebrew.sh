@@ -1645,11 +1645,15 @@ else
   >&2 echo "Try running this script instead"
 fi
 
-# DEV: Uncomment 'echo' below and source file to see BREW_APPS count.
+# USAGE: Uncomment 'echo' lines below and source file to see
+#        default BREW_APPS count (it won't include opt-in apps).
 #
-#   # 2023-02-27: Today's count: 74.
+#   # 2023-02-27: Today's count: 74 apps.
+#   # 2024-11-14: Today's count: 102 apps, 3 taps.
 #   $ . bin/install-homebrew.sh
-#   No. BREW_APPS: 74
+#   No. BREW_APPS: 102
+#   No. BREW_TAPS: 3
 #
 #  echo "No. BREW_APPS: ${#BREW_APPS[@]}"
+#  echo "No. BREW_TAPS: ${#BREW_TAPS[@]}"
 
