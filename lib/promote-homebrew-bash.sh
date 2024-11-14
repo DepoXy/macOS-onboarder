@@ -42,6 +42,10 @@ promote_homebrew_bash () {
   return 0
 }
 
+# USYNC: See OMR's `print_homebrew_prefix`:
+#   https://github.com/landonb/ohmyrepos#😤
+#     ~/.kit/git/ohmyrepos/lib/print-homebrew-prefix.sh
+#   https://github.com/landonb/ohmyrepos/tree/HEAD/lib/print-homebrew-prefix.sh
 print_homebrew_prefix () {
   local brew_prefix="${HOMEBREW_PREFIX}"
 
