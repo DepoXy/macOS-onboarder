@@ -17,11 +17,17 @@
 #   $ path/to/macOS-onboarder/bin/install-homebrew.sh
 #
 # This is obviously a very prescriptive list.
+# - If you'd like to customize it, consider forking this project
+#   and making it your own.
+# - Alternatively, if you think everyone would benefit from your
+#   changes, please submit a PR.
 #
-# A few apps allow opt-in or opt-out via arg ENVIRONs.
-# - There's not much sense to add CLI args to opt-in/out
-#   every app; you might as well just fork the repo and
-#   make it your own.
+# REFER: See *Homebrew Documentation* for general brew help:
+#   https://docs.brew.sh/
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# A few apps below allow opt-in or opt-out via arg ENVIRONs.
 #
 # OPT-OUTS: (e.g., if your Vendor installs any of these app for you):
 #
@@ -31,34 +37,35 @@
 #
 #   # Virtualization tools
 #   BREW_INCLUDE_COLIMA=true          # Also installs docker, docker-compose,
-#                                     # docker-credential-helper, & kubernetes-cli
-#   BREW_INCLUDE_DOCKER_DESKTOP=true  # Easier to use than colima et al, prob.
+#                                     # docker-credential-helper, & kubernetes-cli.
+#   BREW_INCLUDE_DOCKER_DESKTOP=true  # Easier to use than colima et al, prob., at
+#                                     # least on macOS.
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
 #   # Misc. apps
-#   BREW_INCLUDE_DROPBOX=true
-#   BREW_INCLUDE_P4MERGE=true         # File diff (tho author prefers Meld)
+#   BREW_INCLUDE_DROPBOX=true         # Opt-in b/c you prob. won't want on vendor machine.
+#   BREW_INCLUDE_P4MERGE=true         # File diff — opt-in b/c author prefers Meld.
 #
 #   # Media players
-#   BREW_INCLUDE_SPOTIFY=true
-#   BREW_INCLUDE_MEDIA_PLAYERS=true   # mpv, vlc, smplayer (reqs. Rosetta 2)
+#   BREW_INCLUDE_SPOTIFY=true         # Opt-in b/c you may not want on vendor machine.
+#   BREW_INCLUDE_MEDIA_PLAYERS=true   # Includes mpv, vlc, smplayer (reqs. Rosetta 2).
 #
 #   # Diagramming apps
-#   BREW_INCLUDE_PENCIL=true
+#   BREW_INCLUDE_PENCIL=true          # Opt-in b/c author rarely uses.
 #
 #   # Team collab. software (see also Slack, above)
-#   BREW_INCLUDE_MS_TEAMS=true        # SAVVY: Requires admin password
-#   BREW_INCLUDE_ZOOM=true            # SAVVY: Requires admin password
+#   BREW_INCLUDE_MS_TEAMS=true        # SAVVY: Requires admin password.
+#   BREW_INCLUDE_ZOOM=true            # SAVVY: Requires admin password.
 #   BREW_INCLUDE_WEBEX=true
 #
 #   # These will enable Rosetta 2 (tho not a big deal)
-#   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more
-#   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books
-#   BREW_INCLUDE_MEDIA_PLAYERS=true   # smplayer reqs. Rosetta 2 (but not mpv, vlc)
+#   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more.
+#   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books.
+#   BREW_INCLUDE_MEDIA_PLAYERS=true   # smplayer reqs. Rosetta 2 (but not mpv, vlc).
 #
 #   # Disabled apps (these install but don't work, at least not for the author):
-#   #   BREW_EXCLUDE_MELD=true          # Disabled below (you'll want to build from sources)
-#   #   BREW_INCLUDE_DIA=true
+#   #   BREW_EXCLUDE_MELD=true        # Commented out b/c you should build from source.
+#   #   BREW_INCLUDE_DIA=true         # Commented out b/c has issues on Apple Silicon.
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
