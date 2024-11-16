@@ -1184,6 +1184,18 @@ brew_app_macos "stern"
 #     # Cloning into '/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/jesseduffield/homebrew-lazydocker'...
 brew_app_both "jesseduffield/lazydocker/lazydocker"
 
+# https://k8slens.dev/
+# https://formulae.brew.sh/cask/lens
+# HSTRY/2024-11-15: Years ago, you could build a free (community) version
+# of Lens from source. Now you can install the proprietary desktop version
+# and use a free license for personal use — though requires an account:
+#   https://app.k8slens.dev/
+# - ONICE: Lens Personal is free "for individuals or companies
+#          with < $10M annual revenue or funding* (that's me!).
+# REFER: You can find Lens configuration in the expected location:
+#   ~/Library/Application Support/Lens/
+brew_app_both "--cask lens"
+
 # - VirtualBox
 #
 
