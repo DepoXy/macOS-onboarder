@@ -1173,6 +1173,7 @@ brew_app_macos "stern"
 
 # "The lazier way to manage everything docker"
 # https://github.com/jesseduffield/lazydocker
+# https://formulae.brew.sh/formula/lazydocker
 # - SAVVY: Note that using GH path clones repo, which should stay more
 #   current than the Homebrew formula (`brew install lazydocker`), e.g.,
 #     $ brew install jesseduffield/lazydocker/lazydocker
