@@ -1194,7 +1194,7 @@ brew_app_both "jesseduffield/lazydocker/lazydocker"
 #          with < $10M annual revenue or funding* (that's me!).
 # REFER: You can find Lens configuration in the expected location:
 #   ~/Library/Application Support/Lens/
-brew_app_both "--cask lens"
+brew_app_macos "--cask lens"
 
 # - VirtualBox
 #
