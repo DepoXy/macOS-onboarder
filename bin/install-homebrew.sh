@@ -1175,8 +1175,9 @@ brew_app_macos "stern"
 # https://k8slens.dev/
 # https://formulae.brew.sh/cask/lens
 # HSTRY/2024-11-15: Years ago, you could build a free (community) version
-# of Lens from source. Now you can install the proprietary desktop version
-# and use a free license for personal use — though requires an account:
+# of Lens from source — but that project, OpenLens, is now frozen. Lately,
+# you can install the proprietary desktop version and use a free license
+# for personal use — though requires an account:
 #   https://app.k8slens.dev/
 # - ONICE: Lens Personal is free "for individuals or companies
 #          with < $10M annual revenue or funding* (that's me!).
