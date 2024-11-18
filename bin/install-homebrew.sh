@@ -489,6 +489,7 @@ brew_app_macos "--cask macvim"
 #   And:
 #     Python3 is required when g:easyescape_timeout < 2000
 #     Press ENTER or type command to continue
+user_link_macos "vi vi"
 user_link_macos "view view"
 user_link_macos "vim vim"
 user_link_macos "vimdiff vimdiff"
