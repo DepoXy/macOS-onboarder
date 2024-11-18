@@ -1172,6 +1172,18 @@ brew_app_macos "stern"
 # - Docker and k8s GUIs/TUIs
 #
 
+# k9s: "Kubernetes CLI To Manage Your Clusters In Style!"
+# https://k9scli.io/
+# https://formulae.brew.sh/formula/k9s
+brew_app_macos "k9s"
+
+# https://monokle.io/
+# https://github.com/kubeshop/monokle
+# https://formulae.brew.sh/cask/monokle
+# - *Monokle vs. Lens vs. K9s*
+#   https://medium.com/kubeshop-i/monokle-vs-lens-vs-k9s-1d5d94d84b5c
+brew_app_macos "--cask monokle"
+
 # https://k8slens.dev/
 # https://formulae.brew.sh/cask/lens
 # HSTRY/2024-11-15: Years ago, you could build a free (community) version
@@ -1197,6 +1209,16 @@ brew_app_macos "--cask lens"
 #     # Or on Linux:
 #     # Cloning into '/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/jesseduffield/homebrew-lazydocker'...
 brew_app_both "jesseduffield/lazydocker/lazydocker"
+
+# - 
+
+# "nerdctl: Docker-compatible CLI for containerd"
+# https://github.com/containerd/nerdctl
+# SAVVY: macOS support is via Lima VM project instead:
+#     brew install lima
+# - REFER: https://github.com/containerd/nerdctl?tab=readme-ov-file#macos
+#   https://github.com/lima-vm/lima
+brew_app_linux("nerdctl")
 
 # - VirtualBox
 #
