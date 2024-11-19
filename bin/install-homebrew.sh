@@ -1267,6 +1267,19 @@ brew_app_linux("nerdctl")
 # AFAIK: Helm = Docker Image (w/ CMD -- is that Dockerfile, essentially?) + kubectl patches
 brew_app_macos "helm"
 
+# "Kubernetes native configuration management"
+# https://kustomize.io/
+# "Customization of kubernetes YAML configurations"
+# https://github.com/kubernetes-sigs/kustomize
+# "Template-free customization of Kubernetes YAML manifests"
+# https://formulae.brew.sh/formula/kustomize
+brew_app_macos "kustomize"
+
+# https://skaffold.dev/
+# "Easy and Repeatable Kubernetes Development"
+# https://formulae.brew.sh/formula/skaffold
+brew_app_macos "skaffold"
+
 # - Assorted containerization apps
 #
 
