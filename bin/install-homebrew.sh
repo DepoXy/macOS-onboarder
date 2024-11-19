@@ -1087,23 +1087,71 @@ brew_app_macos "--cask liclipse"
 
 # --------------------------
 
-# - Containerization collections
+# - Container orchestration systems
+#
+# Kubernetes is a collection of separate applications, APIs, services, etc.
+# - On Linux, you can install the various bits individually, e.g., you
+#   could install Docker to build images, you could install containerd
+#   to run those images, you could install CNI plugins to configure
+#   network interfaces in containers, and you could install kubeadm
+#   to manage clusters (the control plane). You'll then need to spin
+#   up pods for various tasks: a K8s API server, scheduler, DNS, etcd,
+#   etc.
+# - You could also install specific tools that include and wire most of
+#   these bits for you, e.g., you could install Docker Desktop and enable
+#   its Kubernetes plugin, or you could install minikube which manages
+#   Kubernetes setup in a VM or docker, or you could install kind or k3d
+#   which runs Kubernetes in docker. Or MicroK8s.
+#   - These tools can run on macOS, because they use Docker or VMs.
+#   - Though note that at least minikube and kind are more for
+#     providing a quick and easy development environment and may
+#     not be ideal for a production environment. Also note that k3d
+#     and MicroK8s target edge and IoT devices (e.g., Raspberry Pi).
+# - Also please excuse me if I'm describing anything K8s-related
+#   incorrectly. I'm still somewhat of a K8s noob.
+#
+# REFER:
+# https://www.docker.com/products/docker-desktop/
+# https://minikube.sigs.k8s.io/docs/
+# https://kind.sigs.k8s.io/
+# https://k3d.io/v5.7.4/
+# https://github.com/k3s-io/k3s
+# https://microk8s.io/
 
-# The Docker Desktop app includes its own docker and kubectl, so
-# you either want to install all the pieces individually, and then
-# use a container runtime such as `colima`; or, you only want to
-# install Docker Desktop (what the --cask installs), and you'll
-# get all the pieces from the one source.
+# Docker Desktop, a one-stop container orchestration solution.
+#   https://www.docker.com/products/docker-desktop/
+# - Includes `docker`, `docker-compose`, `kubectl`, and more.
+#   - You can enable Docker's Kubernetes via
+#       Settings > Kubernetes > Enable Kubernetes
+#   - For macOS K8s development, this is probably the easiest solution.
+# - Free for personal use — Docker Engine + Kubernetes, Unlimited public
+#   repos (on Docker Hub), 200 image pulls per 6 hours, 3 Scout enabled
+#   repos, and local Scout analysis (vulnerability detection).
+# - I assume you can install Colima (see below) alongside Docker Desktop,
+#   but author hasn't tried. If anything, you'll probably have to be
+#   careful about paths, because tools will probably be duplicated.
+if ${BREW_INCLUDE_DOCKER_DESKTOP:-false}; then
+  brew_app_macos "--cask docker"
+fi
 
-# Try colima if you'd like your container ecosystem to be all CLI.
-# - Though if you're new to containers, perhaps try Docker Desktop, at
-#   least until you start grokking all the tools and how it all works.
+# Alternatively, you could install Colima.
+#   https://github.com/abiosoft/colima
+# - Colima is shorthand for *Containers on Lima*.
+#   - Lima runs Linux VMs — https://lima-vm.io/
+# - My understanding is that Colima launches Docker on Alpine VM, though
+#   you could also install Lima separately (though not necessary) to run
+#   containered on Ubuntu VM.
+#   - REFER: https://www.dae.mn/blog/docker-in-mac-m1/m2-colima
+# - Note that Docker Desktop on macOS also runs using virtual machines.
+# BWARE: The author only briefly tried Colima in 2023, and I didn't
+# get very far until I gave up, uninstalled these components, and
+# switched to Docker Desktop. (I was also very fresh to K8s back then.)
 if ${BREW_INCLUDE_COLIMA:-false}; then
   # Except for `colima`, Docker Desltop installs each of these apps
   # (and a few more) and symlinks them all from homebrew/bin.
-  # - I'm not sure this is a complete list, this is just what I could
-  #   find when I snooped around Docker Desktops application folder,
-  #   specifically:
+  # - I'm not sure the apps list here is complete. This is just what
+  #   I could find when I snooped around Docker Desktops application
+  #   folder, specifically:
   #     /Applications/Docker.app/Contents/Resources/bin
   #     /Applications/Docker.app/Contents/Resources/cli-plugins/
 
@@ -1112,62 +1160,20 @@ if ${BREW_INCLUDE_COLIMA:-false}; then
   #  brew_app_macos "docker-completion"
 
   brew_app_macos "docker-compose"
-  # Error w/ typo: "disabled because it no upstream support for v2!"
+  # SKIPD: "disabled because it no upstream support for v2!" [sic]
   #  brew_app_macos "docker-compose-completion"
 
   brew_app_macos "docker-credential-helper"
 
-  # Note there's also `brew install kubectl`, which is a formula alias.
+  # Install `kubectl`.
+  # https://kubernetes.io/docs/reference/kubectl/
+  # https://formulae.brew.sh/formula/kubernetes-cli
+  # - Same formula (alias) as `brew install kubectl`.
   brew_app_macos "kubernetes-cli"
 
-  # "Container runtimes on MacOS (and Linux) with minimal setup"
+  # "Container runtimes on MacOS (and Linux) with minimal setup".
   brew_app_macos "colima"
 fi
-
-# Docker Desktop kitchen sink GUI container app.
-# - Docker Desktop is a one-stop container solution. It includes `docker`,
-#   `docker-compose`, `kubectl`, and more.
-# - It requires an enterprise license for large companies, but it's cheap.
-# - You'll either want to install the standalone docker apps (from the
-#   COLIMA section, above), or you'll want to install Docker Desktop, but
-#   not both.
-#   - You can technically run colima and Docker Desktop side-by-side.
-# - If you try colima but want to return to Docker Desktop, install it all:
-#     brew uninstall docker docker-compose docker-credential-helper kubernetes-cli colima
-# - 2022-10-28: I first installed Docker Desktop from a DMG and it worked great.
-#   Then I uninstalled Docker Desktop and installed colima and the docker standalone
-#   tools, and my app worked... okay, but maybe there were issues? Then I uninstalled
-#   the standalone docker apps but not colima, and I installed Docker Desktop from
-#   Homebrew cask, and I had issues. Then I uninstalled colima, but still had issues.
-#   Then I uninstalled the Docker Desktop cask, rebooted, and installed Docker Desktop
-#   from the DMG file. And Now it's... sorta working again. I wish I knew containers
-#   better!
-#   - Also, TL_DR/2022-10-28: I currently suggest installing Docker Desktop from
-#     the DMG file you get from their website, and not installing via HB cask.
-#     At least not until I know more about what I'm doing.
-if ${BREW_INCLUDE_DOCKER_DESKTOP:-false}; then
-  brew_app_macos "--cask docker"
-fi
-
-# - Related containerization apps
-#
-
-# "GitOps Continuous Delivery for Kubernetes"
-brew_app_macos "argocd"
-
-# Helm manages Charts, packages of pre-configured Kubernetes resources.
-# https://github.com/helm/helm
-# AFAIK: Helm = Docker Image (w/ CMD -- is that Dockerfile, essentially?) + kubectl patches
-brew_app_macos "helm"
-
-# Packer creates machine images.
-brew_tap_macos "hashicorp/tap"
-brew_app_macos "hashicorp/tap/packer"
-
-# "⎈ Multi pod and container log tailing for Kubernetes --
-#  Friendly fork of https://github.com/wercker/stern"
-# https://github.com/stern/stern
-brew_app_macos "stern"
 
 # - Docker and k8s GUIs/TUIs
 #
@@ -1210,7 +1216,40 @@ brew_app_macos "--cask lens"
 #     # Cloning into '/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/jesseduffield/homebrew-lazydocker'...
 brew_app_both "jesseduffield/lazydocker/lazydocker"
 
-# - 
+# - Container runtimes
+#
+# Common container runtimes include: 
+#   containerd      (Backed by Docker; Docker's default CRI impl.)
+#   CRI-O           (Backed by RedHat; RedHat's default CRI impl.)
+# Old container runtimes:
+#   Docker Engine   (Using cri-dockerd; replaces deprecated dockershim)
+#   Mirantis Container Runtime (Commercially supported Docker Engine)
+# See also:
+#   Colima          (See notes above)
+#     https://github.com/abiosoft/colima
+#   Incus (sorta a K8s alternative which supports OCI app containers)
+#     https://linuxcontainers.org/incus/
+#
+# REFER:
+# https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+#
+# CXREF: On Linux, you can install containerd directly.
+# - See author's ansible-role-docker fork that adds K8s:
+#   https://github.com/geerlingguy/ansible-role-docker
+#
+# On macOS, Docker Desktop and Colima wrap their own container runtime.
+
+# - Container runtime CLIs
+#
+#
+# Popular container runtime CLIs:
+#   ctl       — CLI included with containerd.io (Linux package).
+#               https://github.com/containerd/containerd/tree/main/cmd/ctr
+#               - A low-level tool meant for debugging more than mgmt.
+#   crictl    — Designed for CRI-compatible container runtimes.
+#               https://github.com/kubernetes-sigs/cri-tools/blob/HEAD/docs/crictl.md
+#               https://github.com/containerd/containerd/blob/HEAD/docs/cri/crictl.md
+#   nerdctl   — "contaiNERD CTL"
 
 # "nerdctl: Docker-compatible CLI for containerd"
 # https://github.com/containerd/nerdctl
@@ -1219,6 +1258,33 @@ brew_app_both "jesseduffield/lazydocker/lazydocker"
 # - REFER: https://github.com/containerd/nerdctl?tab=readme-ov-file#macos
 #   https://github.com/lima-vm/lima
 brew_app_linux("nerdctl")
+
+# - K8s configuration tools
+#
+
+# Helm manages Charts, packages of pre-configured Kubernetes resources.
+# https://github.com/helm/helm
+# AFAIK: Helm = Docker Image (w/ CMD -- is that Dockerfile, essentially?) + kubectl patches
+brew_app_macos "helm"
+
+# - Assorted containerization apps
+#
+
+# "GitOps Continuous Delivery for Kubernetes"
+# https://argo-cd.readthedocs.io/en/stable/
+brew_app_macos "argocd"
+
+# Packer creates machine images.
+# https://www.packer.io/
+brew_tap_macos "hashicorp/tap"
+brew_app_macos "hashicorp/tap/packer"
+
+# "⎈ Multi pod and container log tailing for Kubernetes --
+#  Friendly fork of https://github.com/wercker/stern"
+# https://github.com/stern/stern
+brew_app_macos "stern"
+
+# --------------------------
 
 # - VirtualBox
 #
