@@ -704,6 +704,13 @@ user_link_macos "diff diff"
 #   - See also: diff, git-diff, and meld.
 brew_app_macos "colordiff"
 
+# "Good-lookin' diffs. Actually… nah… The best-lookin' diffs. 🎉"
+# https://github.com/so-fancy/diff-so-fancy/
+# "Good-lookin' diffs with diff-highlight and more"
+# https://formulae.brew.sh/formula/diff-so-fancy
+brew_app_macos "diff-so-fancy"
+user_link_macos "diff-so-fancy diff-so-fancy"
+
 # ISOFF/2024-09-19: Brew has deprecated the since-abandoned macOS Meld package.
 # - For now, build and run Meld from sources.
 #   - CXREF: For those who run DepoXy:
