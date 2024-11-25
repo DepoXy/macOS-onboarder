@@ -1038,6 +1038,12 @@ user_link_macos "datediff datediff"
 #     export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 brew_app_macos "ruby"
 
+# SAVVY/2024-11-25: GNU debugger `gdb` doesn't run on macOS, use `lldb` instead:
+#   $ brew install gdb
+#   gdb: The x86_64 architecture is required for this software.
+#   $ lldb -- program <args>
+# https://formulae.brew.sh/formula/gdb
+
 # --------------------------
 
 # - DB dev tools
