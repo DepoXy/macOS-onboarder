@@ -1094,6 +1094,15 @@ brew_app_macos "openapi-generator"
 #   - Wing IDE
 #   - eric
 #   - Atom
+
+# https://code.visualstudio.com/
+# https://formulae.brew.sh/cask/visual-studio-code
+# SAVVY: Launch via shell so VS Code resolves your shell properly.
+# - E.g., if you use Alacritty and start VS Code from Spotlight,
+#   on startup it'll say it timed-out trying to suss the shell.
+#     $ open -a /Applications/Visual\ Studio\ Code.app
+brew_app_macos "--cask visual-studio-code"
+
 # SPIKE/2023-02-27: Demo LiClipse.
 # https://www.liclipse.com/
 # https://formulae.brew.sh/cask/liclipse
