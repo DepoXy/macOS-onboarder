@@ -1077,25 +1077,26 @@ brew_app_macos "openapi-generator"
 # 2023-01-06: Not going to the dark side (never leaving Vim for
 # anything else) but I am curious if I can find a decent Python
 # debugger GUI (mostly so it's easier to inspect variables).
-# - VS Code (might be worth checking out)
-# - PyCharm (licensed, but not that exensive)
-# - Spyder
-# - PyDev (can be installed into Eclipse; and is part of LiClipse)
-#   https://www.pydev.org/
-#   https://github.com/fabioz/Pydev
-# - LiClipse (has brew install and includes PyDev → easiest route to PyDev)
-#   https://www.liclipse.com/
-#   https://formulae.brew.sh/cask/liclipse
-# - Thonny
-# - Wing IDE
-# - eric
-# - Atom
-# - IDLE (the built-in interactive interpreter GUI app)
-#   - If `idle` is on PATH but fails to run, try nonintuitive
-#     command to run what's supposed to be a beginner's tool:
-#       python -m idlelib.idle
-# - See also: `pip install pdbr`, which improves upon pdb.
+# - Standard Python debug tools:
+#   - I current use pdb & pdbr, which are great, but require switching
+#     to a terminal window and typing commands, vs., e.g., seeing a
+#     list of locals, etc.
+# - Python GUI IDEs:
+#   - VS Code (might be worth checking out, but difficult for a
+#     Vimmer to dive into)
+#   - PyCharm (licensed, but not that expensive)
+#   - Spyder
+#   - LiClipse (has brew install and includes PyDev → easiest route to PyDev)
+#   - PyDev (can be installed into Eclipse; and is part of LiClipse)
+#       https://www.pydev.org/
+#       https://github.com/fabioz/Pydev
+#   - Thonny
+#   - Wing IDE
+#   - eric
+#   - Atom
 # SPIKE/2023-02-27: Demo LiClipse.
+# https://www.liclipse.com/
+# https://formulae.brew.sh/cask/liclipse
 brew_app_macos "--cask liclipse"
 
 # --------------------------
