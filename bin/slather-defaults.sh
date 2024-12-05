@@ -2250,7 +2250,7 @@ activity_monitor_customize_dock_icon_show_cpu_history () {
 # CXREF: app_shortcuts_customize_iterm2
 iterm2_customize () {
   iterm2_customize_general_selection_copied_text_includes_trailing_newline_on
-  iterm2_customize_general_selection_copy_to_pasteboard_on_selection_off
+  iterm2_customize_general_selection_copy_to_pasteboard_on_selection_on
 
   iterm2_customize_profiles_color_scheme
   iterm2_customize_profiles_color_foreground_color
@@ -2336,9 +2336,12 @@ iterm2_customize_general_selection_copied_text_includes_trailing_newline_on () {
 
 # ***
 
-iterm2_customize_general_selection_copy_to_pasteboard_on_selection_off () {
+# HSTRY/2024-12-03: For many years as a terminal junkie, I had never liked
+# copy-on-selection. But for some reason, when I started using Alacritty
+# on macOS this year, I've immensely enjoyed it.
+iterm2_customize_general_selection_copy_to_pasteboard_on_selection_on () {
   echo "iTerm2: General > Selection > ✗ Copy to pasteboard on selection"
-  defaults write com.googlecode.iterm2 CopySelection -bool false
+  defaults write com.googlecode.iterm2 CopySelection -bool true
 }
 
 # ***
