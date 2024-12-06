@@ -40,7 +40,11 @@
 #
 # - NSUserKeyEquivalents characters:
 #
-#     ⇧ Shift: '$' | ^ Ctrl: '^' | ⌘  Command: '@' | ⌥  Option/Alt/Meta: '~' | 🌐 Globe/Function: ??
+#     $: Shift ⇧
+#     ^: Ctrl ^
+#     @: Command ⌘
+#     ~: Option/Alt/Meta ⌥
+#      : Globe/Function 🌐 (not addressable)
 #
 #   - See below: #key_icons
 #
