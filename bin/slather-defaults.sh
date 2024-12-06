@@ -4203,8 +4203,20 @@ app_shortcuts_customize_google_chrome_redo () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
 }
 
+# SAVVY/2024-12-06: GitHub source code view in Chrome steals <Ctrl-F> and
+# <Shift-Ctrl-F>. So pick something else for Find.
+# - <Ctrl-F> moves cursor forward.
+#   <Shift-Ctrl-F> selects as it moves fwd.
+# - But no other simliar binding works! If we change <Cmd-F> to anything
+#   else, once GitHub source code has focus, none of these bindings work:
+#    "Find..." = "^f";
+#    "Find..." = "^$f";
+#    "Find..." = "~f";
+#    "Find..." = "~$f";
+#    "Find..." = "@~^$f"; # didn't try
+# - So we'll use <Cmd-F>, no choice!
 app_shortcuts_customize_google_chrome_find () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Find...: Cmd-F → Ctrl-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Find...: Cmd-F → Cmd-F"
 }
 
 app_shortcuts_customize_google_chrome_find_next () {
@@ -4393,7 +4405,7 @@ app_shortcuts_customize_google_chrome_all () {
     "Exit Full Screen" = "@^f";
     "Find Next" = "\Uf706";
     "Find Previous" = "$\Uf706";
-    "Find..." = "^f";
+    "Find..." = "@f";
     "Force Reload This Page" = "^$r";
     "Inspect Elements" = "^$c";
     "JavaScript Console" = "^$j";
