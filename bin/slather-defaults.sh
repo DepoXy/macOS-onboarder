@@ -2493,8 +2493,11 @@ iterm2_customize_keys_key_bindings_add__ctrl_shift_c_remap_mods_in_iTerm2_only (
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Remap Modifiers in iTerm2 Only / Shortcut: Ctrl-Shift-C")
 }
 
+# REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
 iterm2_customize_keys_key_bindings_add__ctrl_command_f_toggle_fullscreen () {
-  print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Toggle Fullscreen / Shortcut: Ctrl-Cmd-F")
+  :
+  # - Already the default:
+  #  print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Toggle Fullscreen / Shortcut: Ctrl-Cmd-F")
 }
 
 # ***
@@ -3758,17 +3761,31 @@ app_shortcuts_customize_finder_close_quick_look () {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Close Quick Look: Cmd-Y → Ctrl-Shift-W"
 }
 
+# SAVVY/2024-12-06: GitHub source code view in Chrome steals <Ctrl-F> and
+# <Shift-Ctrl-F>. So pick something else for Full Screen.
+# - Here's a look at default Full Screen bindings for various apps:
+#   Finder Full Screen: Cmd-Shift-F
+#   Google Chrome Enter Full Screen: Globe-F
+#   Firefox Enter Full Screen: Ctrl-Cmd-F
+#   Slack: Ctrl-Cmd-F
+#   Libre Office: Ctrl-Cmd-F
+#   iTerm: Ctrl-Cmd-F
+# Let's pick <Ctrl-Cmd-F>, a clear favorite, despite Apple and Chrome doing
+# their own things (also note author doesn't have a Globe/Function key on
+# their keyboard, so I'm always amazed when I see default Fn bindings).
+#
+# REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
 app_shortcuts_customize_finder_enter_exit_full_screen () {
-  echo "${CRUMB_APP_SHORTCUTS}: Finder: Enter Full Screen: Cmd-Shift-F → Ctrl-Shift-F"
-  echo "${CRUMB_APP_SHORTCUTS}: Finder: Exit Full Screen: Cmd-Shift-F → Ctrl-Shift-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Finder: Enter Full Screen: Cmd-Shift-F → Ctrl-Cmd-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Finder: Exit Full Screen: Cmd-Shift-F → Ctrl-Cmd-F"
 }
 
 app_shortcuts_customize_finder_all () {
   defaults write com.apple.finder NSUserKeyEquivalents '{
     "Close Quick Look" = "^$w";
     "Close Window" = "^w";
-    "Enter Full Screen" = "^$f";
-    "Exit Full Screen" = "^$f";
+    "Enter Full Screen" = "@^f";
+    "Exit Full Screen" = "@^f";
     Find = "^f";
     "New Finder Window" = "^n";
     "New Folder" = "^$n";
@@ -4210,9 +4227,10 @@ app_shortcuts_customize_google_chrome_force_reload_this_page () {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Force Reload This Page: Cmd-Shift-R → Ctrl-Shift-R"
 }
 
+# REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
 app_shortcuts_customize_google_chrome_enter_exit_full_screen () {
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Enter Full Screen: Globe-F → Ctrl-Shift-F"
-  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Exit Full Screen: Globe-F → Ctrl-Shift-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Enter Full Screen: Globe-F → Ctrl-Cmd-F"
+  echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Exit Full Screen: Globe-F → Ctrl-Cmd-F"
 }
 
 app_shortcuts_customize_google_chrome_view_source () {
@@ -4371,8 +4389,8 @@ app_shortcuts_customize_google_chrome_all () {
     "Close Tab" = "~w";
     "Close Window" = "^$w";
     "Developer Tools" = "^$i";
-    "Enter Full Screen" = "^$f";
-    "Exit Full Screen" = "^$f";
+    "Enter Full Screen" = "@^f";
+    "Exit Full Screen" = "@^f";
     "Find Next" = "\Uf706";
     "Find Previous" = "$\Uf706";
     "Find..." = "^f";
@@ -4678,7 +4696,9 @@ app_shortcuts_customize_slack_menu_view () {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Reload: Cmd-R → Ctrl-R"
   # DUNNO/2024-08-17: "Force Reload" menu item still shows ⇧⌘ R
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Force Reload: Shift-Cmd-R → Shift-Ctrl-R"
-  echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Toggle Full Screen: Ctrl-Cmd-F → Shift-Ctrl-F"
+  # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
+  # - Already the default:
+  #   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Toggle Full Screen: Ctrl-Cmd-F → Ctrl-Cmd-F"
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Hide Sidebar: Shift-Cmd-D → Shift-Ctrl-D"
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Actual Size: Cmd-0 → Ctrl-0"
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Zoom In: Cmd-+ → Ctrl-+"
@@ -4738,7 +4758,6 @@ app_shortcuts_customize_slack_all () {
     "Find..." = "^f";
     Reload = "^r";
     "Force Reload" = "^$r";
-    "Toggle Full Screen" = "^$f";
     "Hide Sidebar" = "^$d";
     "Actual Size" = "^0";
     "Zoom In" = "^=";
@@ -4953,7 +4972,9 @@ app_shortcuts_customize_libreoffice_menu_edit () {
 
 app_shortcuts_customize_libreoffice_menu_view () {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Styles”: Cmd-T → Ctrl-T"
-  # echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Full Screen”: Ctrl-Cmd-F → "
+  # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
+  # - Already the default:
+  #   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Full Screen”: Ctrl-Cmd-F → Ctrl-Cmd-F"
 }
 
 app_shortcuts_customize_libreoffice_menu_insert () {
