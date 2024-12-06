@@ -4433,61 +4433,113 @@ app_shortcuts_customize_google_chrome_all () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 app_shortcuts_customize_firefox () {
-  app_shortcuts_customize_firefox_quit_firefox
-  app_shortcuts_customize_firefox_new_tab
-  app_shortcuts_customize_firefox_new_window
-  app_shortcuts_customize_firefox_close_tab
-  app_shortcuts_customize_firefox_undo
-  app_shortcuts_customize_firefox_redo
-  app_shortcuts_customize_firefox_find_in_this_page
-  app_shortcuts_customize_firefox_find_again
-  # FIXME/2022-10-19: Add Minimize.
+  app_shortcuts_customize_firefox_menu_firefox
+  app_shortcuts_customize_firefox_menu_file
+  app_shortcuts_customize_firefox_menu_edit
+  app_shortcuts_customize_firefox_menu_view
+  app_shortcuts_customize_firefox_menu_history
+  app_shortcuts_customize_firefox_menu_bookmarks
+  app_shortcuts_customize_firefox_menu_tools
+  app_shortcuts_customize_firefox_menu_window
+  app_shortcuts_customize_firefox_menu_help
 
   app_shortcuts_customize_firefox_all
 }
 
-app_shortcuts_customize_firefox_quit_firefox () {
+app_shortcuts_customize_firefox_menu_firefox () {
+  # FTREQ/2024-11-07: Use long-press, like Chrome.
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Quit Firefox: Cmd-Q → Ctrl-Shift-Q"
 }
 
-app_shortcuts_customize_firefox_new_tab () {
+app_shortcuts_customize_firefox_menu_file () {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: New Tab: Cmd-T → Ctrl-T"
-}
-
-app_shortcuts_customize_firefox_new_window () {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: New Window: Cmd-N → Ctrl-N"
+  echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: New Private Window: Shift-Cmd-P → Shift-Ctrl-P"
+  # SAVVY: This mapping doesn't work if edit input has focus (like location bar).
+  # - CALSO: I found 1 addon for close-on-Alt-W, and it, similarly, does not work
+  #   from location bar:
+  #   https://addons.mozilla.org/en-US/firefox/addon/close-current-tab-by-alt-w/
+  # - REFER: Fortunately you can use a Hammerspoon eventtap to make this work:
+  #     https://github.com/DepoXy/macOS-Hammyspoony/blob/release/Source/AppTapFirefox.spoon/init.lua
+  #   - Found locally in a DepoXy environment at:
+  #     ~/.kit/mOS/macOS-Hammyspoony/Source/AppTapFirefox.spoon/init.lua
+  #
+  # echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Close Tab: Cmd-W → Alt-W"
 }
 
-app_shortcuts_customize_firefox_close_tab () {
-  echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Close Tab: Cmd-W → Alt-W"
-}
-
-app_shortcuts_customize_firefox_undo () {
-  echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Undo: Cmd-Z → Ctrl-Z"
-}
-
-app_shortcuts_customize_firefox_redo () {
-  echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
-}
-
-app_shortcuts_customize_firefox_find_in_this_page () {
+app_shortcuts_customize_firefox_menu_edit () {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Find in This Page...: Cmd-F → Ctrl-F"
-}
-
-app_shortcuts_customize_firefox_find_again () {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Find Again: Cmd-G → Ctrl-G"
 }
 
-# FIXME/2022-10-17: I haven't installed Firefox yet, nor remapped shortcuts:
-#   defaults read com.mozilla.firefox NSUserKeyEquivalents
-# If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
-#   defaults read com.mozilla.firefoxXXXXX NSUserKeyEquivalents
+app_shortcuts_customize_firefox_menu_view () {
+  :
+  # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
+  # - Already the default:
+  #   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Enter Full Screen: Ctrl-Cmd-F → Ctrl-Cmd-F"
+  #   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Exit Full Screen: Ctrl-Cmd-F → Ctrl-Cmd-F"
+}
+
+app_shortcuts_customize_firefox_menu_history () {
+  :
+}
+
+app_shortcuts_customize_firefox_menu_bookmarks () {
+  :
+}
+
+app_shortcuts_customize_firefox_menu_tools () {
+  :
+}
+
+app_shortcuts_customize_firefox_menu_window () {
+  :
+}
+
+app_shortcuts_customize_firefox_menu_help () {
+  :
+}
+
 app_shortcuts_customize_firefox_all () {
-  echo
-  echo "FIXME: Complete the Firefox customization."
-  echo
-  # defaults write XXX NSUserKeyEquivalents '{
-  # }'
+  defaults write org.mozilla.firefox NSUserKeyEquivalents '{
+    "Settings..." = "^,";
+    "Quit Firefox" = "^$q";
+
+    "New Tab" = "^t";
+    "New Window" = "^n";
+    "New Private Window" = "^$p";
+    "Open File..." = "^o";
+    "Close Window" = "^$w";
+    "Save Page As..." = "^s";
+    "Print..." = "^p";
+
+    "Undo" = "^z";
+    "Redo" = "^$z";
+    "Find in Page..." = "^f";
+    "Find Again" = "^g";
+
+    "Never Show" = "^$b";
+    "History" = "^h";
+    "Bookmarks" = "^$b";
+    "Zoom In" = "^=";
+    "Zoom Out" = "^-";
+    "Actual Size" = "^0";
+    "Enter Full Screen" = "@^f";
+
+    "Show All History" = "^y";
+
+    "Manage Bookmarks" = "^$o";
+    "Bookmark Current Tab..." = "^d";
+    "Bookmark All Tabs..." = "^$d";
+
+    "Downloads" = "^j";
+    "Add-ons and Themes" = "^$a";
+    "Web Developer Tools" = "~^i";
+    "Browser Console" = "^$j";
+    "Responsive Design Mode" = "@~m";
+    "Page Source" = "^u";
+    "Page Info" = "^i";
+  }'
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
