@@ -799,6 +799,10 @@ brew_app_macos "restview"
 #   xattr -dr com.apple.quarantine "/Applications/MacDown.app"
 brew_app_macos "macdown"
 
+# Pandoc "a universal document converter"
+# https://pandoc.org/
+brew_app_macos "pandoc"
+
 # --------------------------
 
 # CXREF: Per its install output, example config and Bash completion:
