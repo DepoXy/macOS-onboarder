@@ -45,6 +45,7 @@
 #   # Misc. apps
 #   BREW_INCLUDE_DROPBOX=true         # Opt-in b/c you prob. won't want on vendor machine.
 #   BREW_INCLUDE_P4MERGE=true         # File diff — opt-in b/c author prefers Meld.
+#   BREW_INCLUDE_TRANSMISSION=true    # BitTorrent client
 #
 #   # Media players
 #   BREW_INCLUDE_SPOTIFY=true         # Opt-in b/c you may not want on vendor machine.
@@ -1539,6 +1540,14 @@ if ${BREW_INCLUDE_GNUCASH:-false}; then
   # Prompts PWD.
   brew_app_macos "--cask gnucash"
 fi
+
+# --------------------------
+
+if ${BREW_INCLUDE_TRANSMISSION:-false}; then
+  brew_app_macos "--cask transmission"
+fi
+
+# --------------------------
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
