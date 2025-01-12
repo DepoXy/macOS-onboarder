@@ -144,7 +144,7 @@ You can now try the following commands:
 
   apply-macos-defaults --tame   Skip \`killall\` calls and anything interruptive
 
-  quarantine-liberate-apps       Unrestrict unsigned applications (Meld, Easy Move+Resize, etc.)
+  quarantine-liberate-apps      Unrestrict unsigned applications (Meld, Easy Move+Resize, etc.)
 EOF
 }
 
