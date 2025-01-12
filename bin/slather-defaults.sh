@@ -14,7 +14,7 @@
 #   cd path/to/macOS-onboarder
 #   ./bin/slather-defaults.sh
 #
-#   # To see list of reminders, and to test script runs, dry-run it:
+#   # To see list of reminders, and to smoke-test this script, dry-run it:
 #   ./bin/slather-defaults.sh --dry-run
 #
 #   # ALTLY: If you've got DepoXy installed:
@@ -50,13 +50,13 @@
 #
 # - See also for editing plist files: /usr/libexec/PlistBuddy
 #
-# - For a count of `defaults write` commands, replace-all in Vim:
+# - For a count of `defaults write` commands:
 #
-#     \(^\s\+\)defaults write
+#     grep -e "^[[:space:]]*defaults write" \
+#       ~/.kit/mOS/macOS-onboarder/bin/slather-defaults.sh \
+#       | wc -l
 #
-#   with \1defaults write
-#
-#   - Today's `defaults write` count: 127.
+#   - Today's `defaults write` count: 190.
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
