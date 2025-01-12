@@ -102,7 +102,6 @@ insist_is_latest_macos_version () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 check_deps () {
-  # In lieu of checking `os_is_macos`, just check what really matters.
   ( true \
     && command -v defaults > /dev/null \
     && command -v osascript > /dev/null \
