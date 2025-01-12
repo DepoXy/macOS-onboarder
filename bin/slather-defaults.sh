@@ -70,6 +70,12 @@ SLATHER_REMOVE_BLOATWARE=false
 SLATHER_EXPECTED_MAJOR_VERS=14
 SLATHER_EXPECTED_MAJOR_VERS_NAME="Sonoma"
 
+# Because macOS just rebranded System Preferences → System Settings
+# and rearranged and reworded everything therein, might as well pull
+# out and abstract some of those bits susceptible to disruption, so
+# we're prepared if it happens again.
+CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts...: App Shortcuts"
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # This script only supports the latest macOS (that the author's used).
@@ -92,12 +98,6 @@ insist_is_latest_macos_version () {
     exit_1
   fi
 }
-
-# Because macOS just rebranded System Preferences → System Settings
-# and rearranged and reworded everything therein, might as well pull
-# out and abstract some of those bits susceptible to disruption, so
-# we're prepared if it happens again.
-CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts...: App Shortcuts"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
