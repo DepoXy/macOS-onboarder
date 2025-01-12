@@ -102,12 +102,25 @@ insist_is_latest_macos_version () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 check_deps () {
+  local dry_run=$1
+
   ( true \
     && command -v defaults > /dev/null \
     && command -v osascript > /dev/null \
   ) && return 0 || true
 
-  >&2 echo "ERROR: Missing \`defaults\` and/or \`osascript\`"
+  local fiver="ERROR"
+  if ${dry_run}; then
+    fiver="ALERT"
+  fi
+
+  >&2 echo "${fiver}: Missing \`defaults\` and/or \`osascript\`"
+
+  if ${dry_run}; then
+
+    return 0
+  fi
+
   >&2 echo "- Hint: On Linux? Try --dry-run"
 
   exit_1
@@ -5294,7 +5307,7 @@ slather_macos_defaults () {
     fake_it
   fi
 
-  check_deps
+  check_deps ${dry_run}
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
