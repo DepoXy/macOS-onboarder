@@ -83,6 +83,27 @@ CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts...: App Shortcuts"
 #   commit history instead, and checkout an old revision.
 #   - MAYBE: Ideally I'll version this project after each macOS update.
 #            I could even version this project to track macOS versions.
+
+insist_is_latest_macos_version_unless_dry_run () {
+  local dry_run=$1
+
+  os_is_macos () {
+    [ "$(uname)" = 'Darwin' ]
+  }
+
+  if ! os_is_macos; then
+    if ${dry_run}; then
+      >&2 echo "ALERT: Running dry-run, but not on macOS!"
+    else
+      >&2 echo "ERROR: This script is designed for macOS!"
+
+      exit_1
+    fi
+  fi
+
+  insist_is_latest_macos_version
+}
+
 insist_is_latest_macos_version () {
   local major_vers=""
 
@@ -5311,13 +5332,7 @@ slather_macos_defaults () {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  os_is_macos () {
-    [ "$(uname)" = 'Darwin' ]
-  }
-
-  os_is_macos || return 0
-
-  insist_is_latest_macos_version
+  insist_is_latest_macos_version_unless_dry_run ${dry_run}
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
