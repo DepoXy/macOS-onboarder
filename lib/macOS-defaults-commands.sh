@@ -54,7 +54,10 @@ defaults-domains-dump () {
     # Check the blocklist.
     local blocklist="${DEFAULTS_SH_ROOT}/${DEFAULTS_SH_BLOCKLIST}"
 
-    [ "$1" != "--all" ] && grep -q -e "^${name}\$" "${blocklist}" && continue
+    if [ "$1" != "--all" ] && grep -q -e "^${name}\$" "${blocklist}"; then
+
+      continue
+    fi
 
     echo "Dumping domain: ${name}"
 
