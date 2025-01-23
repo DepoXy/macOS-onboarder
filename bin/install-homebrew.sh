@@ -495,6 +495,48 @@ user_link_macos "view view"
 user_link_macos "vim vim"
 user_link_macos "vimdiff vimdiff"
 
+# *** Neovim et al
+#     ^^^^^^^^^^^^
+
+brew_app_both "neovim"
+
+# ONICE/2025-01-22: This is a pleasant surprise, Neovide is very elegant.
+brew_app_macos "--cask neovide"
+
+# "VimR — Neovim GUI for macOS in Swift"
+# https://github.com/qvacua/vimr
+# TRIED/2025-01-20: Starts up with a file browser in the left pane.
+# - DUNNO: Normal mode cursor is invisible.
+brew_app_macos "--cask vimr"
+
+# envim — "Neovim frontend writen by electron."
+# https://github.com/tk-shirasaka/envim
+#
+# - TRIED: Haven't.
+
+# vv — "Neovim client for macOS." Electron.
+# https://github.com/vv-vim/vv
+# TRIED/2025-01-20: Very similar to `nvim` in terminal.
+# - Even cursor icon remains pointer in Insert mode, and doesn't
+#   change to I-beam like you see in MacVim or Neovide.
+# - BUGGY/2025-01-20: vv uses #!/bin/sh but the script is Bashy.
+#   - So run explicitly through Bash:
+#     $ bash /opt/homebrew/bin/vv
+# - BUGGY/2025-01-20: On :q, throws popup error message:
+#     "A JavaScript error occurred in the main process".
+#   - Also does not go away on <Cmd-Q> or *Quit VV* [menu].
+#     - So kill manually:
+#       ps aux | grep vv.vim | awk '{print $2}' | xargs kill -9
+brew_app_macos "vv"
+
+# *** Other Editors
+#     ^^^^^^^^^^^^^
+
+# "Multiplayer code editor" / "Zed is a next-generation code editor
+# designed for high-performance collaboration with humans and AI."
+# https://zed.dev/
+brew_app_macos "--cask zed"
+
 # --------------------------
 
 # - SAVVY: To view fonts, open Launchpad and run `Font Book`
