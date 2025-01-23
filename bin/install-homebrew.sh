@@ -460,6 +460,9 @@ brew_app_macos "git-interactive-rebase-tool"
 
 # --------------------------
 
+# *** Vim et al
+#     ^^^^^^^^^
+
 # If you install MacVim from the formula, you'll see:
 #   $ brew install macvim
 #   Warning: Treating macvim as a formula. For the cask, use homebrew/cask/macvim
@@ -478,18 +481,15 @@ brew_app_macos "git-interactive-rebase-tool"
 # that Henry Schreiner (setup-a-new-mac article from 2019) documented.
 brew_app_macos "--cask macvim"
 
-# Remember that DepoXy puts Homebrew after `/usr/bin` in PATH, to avoid
-# some (usually slowness) issues with Homebrew apps, so macOS vim, which
-# lacks Python3 support, among other deficiencies (my colors appear muted),
-# remains wired unless we supercede from ~/.local/bin.
-# - If you don't do this, running CLI Vim shows errors when loading:
-#     Error detected while processing
-#       /Users/user/.vimrc[14]../Users/user/.vim/plugin/dubs_preloads.vim:
-#     line   74:
-#     E518: Unknown option: macmeta
-#   And:
-#     Python3 is required when g:easyescape_timeout < 2000
-#     Press ENTER or type command to continue
+# SAVVY: Note that Apple Vim is relatively current. E.g.:
+# - On 2025-01-22, running v9.1 1-754, compiled 2024-11-09.
+# But it lacks several features compared to Homebrew Vim:
+#   -arabic         -gettext      -perl         -sodium
+#   -balloon_eval   -keymap       -profile      -sound
+#   -browse         -langmap      -python       -toolbar
+#   -clientserver   -lua          -python3      -vartabs
+#   -dnd            -mouseshape   -rightleft    -xim
+#   -emacs_tags                   -ruby         -xim
 user_link_macos "vi vi"
 user_link_macos "view view"
 user_link_macos "vim vim"
