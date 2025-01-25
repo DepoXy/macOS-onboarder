@@ -500,10 +500,14 @@ user_link_macos "vimdiff vimdiff"
 
 brew_app_both "neovim"
 
+# Neovide — "simple, no-nonsense, cross-platform [GUI] for Neovim
+#            (an aggressively refactored and updated Vim editor)"
+# https://neovide.dev/
+# https://github.com/neovide/neovide
 # ONICE/2025-01-22: This is a pleasant surprise, Neovide is very elegant.
 brew_app_macos "--cask neovide"
 
-# "VimR — Neovim GUI for macOS in Swift"
+# VimR — "Neovim GUI for macOS in Swift"
 # https://github.com/qvacua/vimr
 # TRIED/2025-01-20: Starts up with a file browser in the left pane.
 # - DUNNO: Normal mode cursor is invisible.
