@@ -558,6 +558,17 @@ brew_app_macos "--cask font-hack-nerd-font"
 #   brew_app_macos "--cask font-daddy-time-mono-nerd-font"
 #   brew_app_macos "--cask font-intone-mono-nerd-font"
 #   brew_app_macos "--cask font-sauce-code-pro-nerd-font"
+#
+# THOTS/2025-01-31: Monaspice is nice! It's giving Hack a run
+# for its money...
+# - It's also nice to stare at a slightly different glyph
+#   for a change.
+#
+# https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Monaspace
+# https://github.com/githubnext/monaspace
+# BEGET: https://github.com/augustocdias/dotfiles/blob/main/.config/alacritty/alacritty.toml
+#   https://www.reddit.com/r/neovim/comments/16ug1jf/very_slow_startup_in_macos_sonoma/
+brew_app_macos "--cask font-monaspace-nerd-font"
 
 # Unifont adds some glyphs you won't otherwise see on @macOS, like
 # the latter half of the *Miscellaneous Symbols and Arrows* block.
