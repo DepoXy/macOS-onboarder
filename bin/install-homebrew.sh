@@ -458,6 +458,9 @@ brew_app_macos "gh"
 # - Often wired via ~/.gitconfig: sequence.editor=interactive-rebase-tool
 brew_app_macos "git-interactive-rebase-tool"
 
+# https://github.com/tummychow/git-absorb
+brew_app_both "git-absorb"
+
 # --------------------------
 
 # *** Vim et al
