@@ -678,6 +678,20 @@ brew_app_macos "lsd"
 # "list contents of directories in a tree-like format."
 brew_app_macos "tree"
 
+# ranger — "console file manager with VI key bindings"
+# https://ranger.fm/
+# I'm not much of a file browser person, I `cd` and `ll`
+# mostly. But maybe for poking around new code repos or
+# something you might appreciate a TUI fs browser.
+brew_app_macos "ranger"
+
+# nnn — "n³ The unorthodox terminal file manager"
+# https://github.com/jarun/nnn
+# ISOFF/2025-02-02: So sophisticated! And yet I don't
+# see a use case for me (or at least my workflow).
+# 
+#  brew_app_macos "nnn"
+
 # --------------------------
 
 brew_app_macos "less"
