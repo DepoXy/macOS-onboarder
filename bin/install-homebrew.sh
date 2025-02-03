@@ -972,6 +972,7 @@ if ${BREW_INCLUDE_PENCIL:-false}; then
   brew_app_macos "--cask pencil"
 fi
 
+# yEd - graph editor
 # https://www.yworks.com/products/yed
 # https://formulae.brew.sh/cask/yed
 # - STATS/2024-09-16: 904 installs past 365 days.
