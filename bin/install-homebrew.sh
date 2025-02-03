@@ -987,6 +987,12 @@ brew_app_macos "--cask libreoffice"
 
 # --------------------------
 
+# Pure Vanity.
+# https://github.com/dylanaraps/neofetch
+brew_app_macos "neofetch"
+
+# --------------------------
+
 # SAVVY/2024-04-14: Don't install Homebrew Chrome over corporate
 # version, if your laptop already came with Chrome installed.
 add_google_chrome_unless_installed () {
