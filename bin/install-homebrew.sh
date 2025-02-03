@@ -314,7 +314,15 @@ user_link_macos () {
 # Karabiner Elements: *Powerful* keyboard customization
 # - PROMPTS: Requires admin password.
 # - CALSO: See also Hammerspoon automator (installed below).
-brew_app_macos "--cask karabiner-elements"
+#
+# ISOFF/2024-10-29: KE stopped working after upgrading to macOS Sequoia (15.0.1).
+# - It's perhaps been fixed since then, but I migrated everything to Hammerspoon.
+# - Also Hammerspoon's ~/.hammerspoon/init.lua is wicked faster than having to
+#   futz with a GUI to update KE JSON. (Not that I don't love Karabiner Elements!
+#   It's always bitter-sweet switching tools when one has served you so lovingly
+#   for so long. =)
+#
+# brew_app_macos "--cask karabiner-elements"
 
 # --------------------------
 
@@ -1516,9 +1524,12 @@ post_eval_macos "skhd --start-service"
 #   https://www.hammerspoon.org/
 #   https://www.hammerspoon.org/Spoons/
 # - Config-based setup makes it easier to edit your keybindings:
+#   just edit and save your config, and Hammerspoon immediately
+#   reloads.
 # - Installs both /Applications/Hammerspoon.app and `hs` to PATH,
 #   e.g., `/opt/homebrew/bin/hs`.
-# - CALSO: Karabiner Elements (KE) (installed above).
+# - HSTRY: Author previously used Karabiner Elements (KE).
+#   - See KE notes elsewhere in this file.
 brew_app_macos "--cask hammerspoon"
 
 # --------------------------
