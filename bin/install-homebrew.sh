@@ -43,16 +43,26 @@
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
 #   # Misc. apps
+#   BREW_INCLUDE_ACROBAT_READER       # Adobe Acrobat Reader cask (>500M)
 #   BREW_INCLUDE_DROPBOX=true         # Opt-in b/c you prob. won't want on vendor machine.
+#   BREW_INCLUDE_PGADMIN4=true        # Postgres tool
 #   BREW_INCLUDE_P4MERGE=true         # File diff — opt-in b/c author prefers Meld.
 #   BREW_INCLUDE_TRANSMISSION=true    # BitTorrent client
+#   BREW_INCLUDE_WIRESHARK
+#
+#   # Editors
+#   BREW_INCLUDE_LICLIPSE
+#   BREW_INCLUDE_VIMR
+#   BREW_INCLUDE_VV
 #
 #   # Media players
 #   BREW_INCLUDE_SPOTIFY=true         # Opt-in b/c you may not want on vendor machine.
 #   BREW_INCLUDE_MEDIA_PLAYERS=true   # Includes mpv, vlc, smplayer (reqs. Rosetta 2).
+#   BREW_INCLUDE_ELMEDIA_PLAYER
+#   BREW_INCLUDE_SMPLAYER
 #
 #   # Diagramming apps
-#   BREW_INCLUDE_PENCIL=true          # Opt-in b/c author rarely uses.
+#   BREW_INCLUDE_PENCIL=false         # Opt-in b/c author rarely uses.
 #
 #   # Team collab. software (see also Slack, above)
 #   BREW_INCLUDE_MS_TEAMS=true        # SAVVY: Requires admin password.
@@ -522,7 +532,9 @@ brew_app_macos "--cask neovide"
 # https://github.com/qvacua/vimr
 # TRIED/2025-01-20: Starts up with a file browser in the left pane.
 # - DUNNO: Normal mode cursor is invisible.
-brew_app_macos "--cask vimr"
+if ${BREW_INCLUDE_VIMR:-false}; then
+  brew_app_macos "--cask vimr"
+fi
 
 # envim — "Neovim frontend writen by electron."
 # https://github.com/tk-shirasaka/envim
@@ -542,7 +554,9 @@ brew_app_macos "--cask vimr"
 #   - Also does not go away on <Cmd-Q> or *Quit VV* [menu].
 #     - So kill manually:
 #       ps aux | grep vv.vim | awk '{print $2}' | xargs kill -9
-brew_app_macos "vv"
+if ${BREW_INCLUDE_VV:-false}; then
+  brew_app_macos "vv"
+fi
 
 # *** Other Editors
 #     ^^^^^^^^^^^^^
@@ -937,7 +951,11 @@ brew_app_macos "qpdf"
 #   error: cannot run pdfinfo: No such file or directory
 brew_app_macos "xpdf"
 
-brew_app_macos "--cask adobe-acrobat-reader"
+# YIKES: It's 2025, probably don't need this.
+# - Also on my ¼TB Mac Mini, space is precious, and this is >500M.
+if ${BREW_INCLUDE_ACROBAT_READER:-false}; then
+  brew_app_macos "--cask adobe-acrobat-reader"
+fi
 
 # --------------------------
 
@@ -1150,7 +1168,17 @@ brew_app_macos "postgresql@16"
 brew_app_macos "libpq"
 
 # https://www.pgadmin.org/docs/
-brew_app_macos "--cask pgadmin4"
+# - SIZED/2025-02-05: 662M: /Applications/pgAdmin 4.app
+# - REFER: pgadmin is uninstallable via its version numbers, e.g.:
+#     $ brew uninstall --cask pgadmin4
+#     Error: Cask 'pgadmin4' is not installed.
+#     $ brew list | grep postgres
+#     postgresql@14
+#     postgresql@16
+#     $ brew list | grep postgres | xargs brew uninstall
+if ${BREW_INCLUDE_PGADMIN4:-false}; then
+  brew_app_macos "--cask pgadmin4"
+fi
 # https://github.com/dbeaver/dbeaver
 brew_app_macos "--cask dbeaver-community"
 
@@ -1200,7 +1228,9 @@ brew_app_macos "--cask visual-studio-code"
 # SPIKE/2023-02-27: Demo LiClipse.
 # https://www.liclipse.com/
 # https://formulae.brew.sh/cask/liclipse
-brew_app_macos "--cask liclipse"
+if ${BREW_INCLUDE_LICLIPSE:-false}; then
+  brew_app_macos "--cask liclipse"
+fi
 
 # --------------------------
 
@@ -1458,7 +1488,9 @@ brew_app_macos "pinentry-mac"
 
 # - Sniffing:
 
-brew_app_macos "--cask wireshark"
+if ${BREW_INCLUDE_WIRESHARK:-false}; then
+  brew_app_macos "--cask wireshark"
+fi
 
 # "HTTP load testing application written in Rust"
 # https://github.com/fcsonline/drill
@@ -1578,7 +1610,9 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   # See also VLC Remote: https://formulae.brew.sh/cask/vlc-setup
   # SIZED/2024-10-12: 188 MB
   brew_app_macos "--cask vlc"
+fi
 
+if ${BREW_INCLUDE_SMPLAYER:-false}; then
   # "SMPlayer is a graphical user interface (GUI) for the award-winning MPlayer"
   # https://www.smplayer.info/en/mplayer
   # http://www.mplayerhq.hu/design7/info.html
@@ -1586,8 +1620,11 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   # - Requires Rosetta 2
   MACOS_INSTALL_ROSETTA2=true
   # SIZED/2024-10-12: 21 MB
+  # - SIZED/2025-02-05: /Applications/SMPlayer.app is 152M
   brew_app_macos "--cask smplayer"
+fi
 
+if ${BREW_INCLUDE_ELMEDIA_PLAYER:-false}; then
   # MP3 player
   # https://www.elmedia-video-player.com/mp3-player-mac.html
   # https://formulae.brew.sh/cask/elmedia-player
