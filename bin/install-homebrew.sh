@@ -784,8 +784,25 @@ user_link_macos "rsync rsync"
 # - REFER: See also macOS built-in ctags:
 #   /Library/Developer/CommandLineTools/usr/bin/ctags
 #   /Library/Developer/CommandLineTools/usr/share/man/man1/ctags.1
-brew_app_macos "ctags"
-user_link_macos "ctags ctags"
+#
+if ${BREW_INCLUDE_OLD_EXUBERANT_CTAGS:-false}; then
+  brew_app_macos "ctags"
+  user_link_macos "ctags ctags"
+fi
+
+# Universal Ctags, a maintained fork of Exuberant Ctags
+# - HSTRY/2025-02-12: Ha, new to me, thanks! to
+#   https://github.com/preservim/tagbar for the enlightenment
+# https://ctags.io/
+# - I.e.,
+#   brew unlink ctags
+#   brew tap universal-ctags/universal-ctags
+#   brew install --HEAD universal-ctags
+if ! ${BREW_INCLUDE_OLD_EXUBERANT_CTAGS:-false}; then
+  brew_tap_macos "universal-ctags/universal-ctags"
+  brew_app_macos "--HEAD universal-ctags"
+  user_link_macos "ctags ctags"
+fi
 
 # --------------------------
 
