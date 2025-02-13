@@ -1742,19 +1742,19 @@ stub_external_commands_if_unit_testing () {
     else
       case $1 in
         install | tap | link | services | list | info)
-          echo "STUBD: brew $@"
+          >&2 echo "STUBD: brew $@"
           ;;
 
         --repository | shellenv)
           if [ -x "${BREW_PATH}" ]; then
             ${BREW_PATH} "$@"
           else
-            echo "STUBD: brew $@"
+            >&2 echo "STUBD: brew $@"
           fi
           ;;
 
         *)
-          echo "STUBX: brew $@"
+          >&2 echo "STUBX: brew $@"
           ;;
       esac
     fi
