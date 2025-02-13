@@ -1188,6 +1188,9 @@ brew_app_macos "ruby"
 #   $ lldb -- program <args>
 # https://formulae.brew.sh/formula/gdb
 
+# As recommended by Linux Homebrew install.
+brew_app_both "gcc"
+
 # --------------------------
 
 # - DB dev tools
