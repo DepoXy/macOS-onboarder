@@ -469,6 +469,12 @@ brew_app_macos "tig"
 # https://formulae.brew.sh/formula/lazygit
 brew_app_both "jesseduffield/lazygit/lazygit"
 
+# https://github.com/extrawurst/gitui
+# Supposedly works better on larger repos, where supposedly tig fails.
+# - Doesn't seem as intuitive as lazygit... at least for the 3 mins. I
+#   demoed it...
+brew_app_macos "gitui"
+
 # gitk was my old favorite git history viewer, before I found tig. But gitk
 # is a slower GUI application when compared to the screaming-fast tig TUI.
 # And it's especially slow on macOS (obviously not Cocoa), and not much fun.
