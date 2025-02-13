@@ -1724,18 +1724,21 @@ stub_external_commands_if_unit_testing () {
   fi
 
   function brew () {
-    if [ "$1" = "list" ] && ! ${TESTED_ONCE_BREW_LIST_FALSE}; then
-      if [ -x "${BREW_PATH}" ]; then
-        ${BREW_PATH} "$@"
-      fi
-
+    if [ "$1" = "list" ] && \
+      ! ${TESTED_ONCE_BREW_LIST_FALSE} && \
+      [ -x "${BREW_PATH}" ] \
+    ; then
       TESTED_ONCE_BREW_LIST_FALSE=true
-    elif [ "$1" = "info" ] && ! ${TESTED_ONCE_BREW_INFO_FALSE}; then
-      if [ -x "${BREW_PATH}" ]; then
-        ${BREW_PATH} "$@"
-      fi
 
+      ${BREW_PATH} "$@"
+    elif [ "$1" = "info" ] && \
+      ! ${TESTED_ONCE_BREW_INFO_FALSE} && \
+      [ -x "${BREW_PATH}" ] \
+      \
+    ; then
       TESTED_ONCE_BREW_INFO_FALSE=true
+
+      ${BREW_PATH} "$@"
     else
       case $1 in
         install | tap | link | services | list | info)
