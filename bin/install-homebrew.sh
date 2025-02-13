@@ -1435,7 +1435,7 @@ brew_app_both "jesseduffield/lazydocker/lazydocker"
 #     brew install lima
 # - REFER: https://github.com/containerd/nerdctl?tab=readme-ov-file#macos
 #   https://github.com/lima-vm/lima
-brew_app_linux("nerdctl")
+brew_app_linux "nerdctl"
 
 # - K8s configuration tools
 #
