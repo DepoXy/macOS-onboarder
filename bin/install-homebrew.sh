@@ -467,6 +467,7 @@ brew_app_macos "tig"
 #   or fails on a stacktrace if lazygit is not installed.
 # https://github.com/jesseduffield/lazygit
 # https://formulae.brew.sh/formula/lazygit
+brew_tap_both "jesseduffield/lazygit"
 brew_app_both "jesseduffield/lazygit/lazygit"
 
 # https://github.com/extrawurst/gitui
