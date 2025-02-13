@@ -535,6 +535,7 @@ user_link_macos "vimdiff vimdiff"
 #     ^^^^^^^^^^^^
 
 brew_app_both "neovim"
+user_link_both "nvim nvim"
 
 # Neovide — "simple, no-nonsense, cross-platform [GUI] for Neovim
 #            (an aggressively refactored and updated Vim editor)"
