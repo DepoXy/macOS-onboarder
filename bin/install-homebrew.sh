@@ -461,6 +461,14 @@ user_link_macos "git"
 # tig is my all-time favorite git history viewer and staging tool.
 brew_app_macos "tig"
 
+# Author is invested in tig and tig-newtons, but if I had found lazygit
+# years ago, maybe I'd be a LazyGit devotee instead.
+# - In any case, lazy.nvim's <localleader>l opens git-log using lazygit,
+#   or fails on a stacktrace if lazygit is not installed.
+# https://github.com/jesseduffield/lazygit
+# https://formulae.brew.sh/formula/lazygit
+brew_app_both "jesseduffield/lazygit/lazygit"
+
 # gitk was my old favorite git history viewer, before I found tig. But gitk
 # is a slower GUI application when compared to the screaming-fast tig TUI.
 # And it's especially slow on macOS (obviously not Cocoa), and not much fun.
@@ -478,14 +486,6 @@ brew_app_macos "git-interactive-rebase-tool"
 
 # https://github.com/tummychow/git-absorb
 brew_app_both "git-absorb"
-
-# Author is invested in tig and tig-newtons, but if I had found lazygit
-# years ago, maybe I'd be a LazyGit devotee instead.
-# - In any case, lazy.nvim's <localleader>l opens git-log using lazygit,
-#   or fails on a stacktrace if lazygit is not installed.
-# https://github.com/jesseduffield/lazygit
-# https://formulae.brew.sh/formula/lazygit
-brew_app_both "jesseduffield/lazygit/lazygit"
 
 # --------------------------
 
