@@ -712,6 +712,8 @@ brew_app_macos "lsd"
 # --------------------------
 
 # "list contents of directories in a tree-like format."
+# ALTLY: You can tree using eza:
+#   eza -alT --icons=always
 brew_app_macos "tree"
 
 # ranger — "console file manager with VI key bindings"
