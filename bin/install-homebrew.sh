@@ -494,6 +494,12 @@ brew_app_macos "git-interactive-rebase-tool"
 # https://github.com/tummychow/git-absorb
 brew_app_both "git-absorb"
 
+# https://github.com/dandavison/delta
+# https://dandavison.github.io/delta/
+# THANX: 25.4k GH ☆'s and I learned about it from spying on someone's dotfiles:
+# https://github.com/lukas-reineke/dotfiles/blob/02064d6dc/git/.gitconfig
+brew_app_both "git-delta"
+
 # --------------------------
 
 # *** Vim et al
