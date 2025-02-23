@@ -752,6 +752,10 @@ brew_app_macos "ranger"
 # 
 #  brew_app_macos "nnn"
 
+# walk — "Terminal file manager"
+# https://github.com/antonmedv/walk
+brew_app_both "walk"
+
 # --------------------------
 
 brew_app_macos "less"
