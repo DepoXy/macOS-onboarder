@@ -1231,6 +1231,10 @@ brew_app_macos "ruby"
 # As recommended by Linux Homebrew install.
 brew_app_both "gcc"
 
+# "A Lua code formatter"
+# https://github.com/JohnnyMorganz/StyLua
+brew_app_both "stylua"
+
 # --------------------------
 
 # - DB dev tools
