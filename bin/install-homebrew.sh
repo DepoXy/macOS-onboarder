@@ -1265,6 +1265,11 @@ brew_app_macos "--cask insomnia"
 brew_app_macos "--cask postman"
 brew_app_macos "openapi-generator"
 
+# "Modern API client that lives in your terminal"
+# https://posting.sh/
+# https://github.com/darrenburns/posting
+brew_app_both "posting"
+
 # --------------------------
 
 # - Code editors
