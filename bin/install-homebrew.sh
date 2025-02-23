@@ -703,6 +703,10 @@ brew_app_macos "fzf"
 # https://formulae.brew.sh/formula/bfs
 brew_app_macos "bfs"
 
+# NCurses Disk Usage
+# https://dev.yorhel.nl/ncdu
+brew_app_both "ncdu"
+
 # --------------------------
 
 # Some "modern" replacements for 'ls'.
