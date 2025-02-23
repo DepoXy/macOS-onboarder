@@ -994,6 +994,17 @@ brew_app_macos "borders"
 # Call `brew services start borders`
 service_start_macos "borders"
 
+# https://github.com/kovidgoyal/kitty
+brew_app_macos "--cask kitty"
+
+# "GPU-accelerated cross-platform terminal emulator and multiplexer"
+# https://wezterm.org/
+brew_app_macos "--cask wezterm"
+
+# "Fast, lightweight and minimalistic Wayland terminal emulator"
+# https://codeberg.org/dnkl/foot
+brew_app_linux "foot"
+
 # --------------------------
 
 # INERT/2022-10-11: If you find you need Mongo interface.
