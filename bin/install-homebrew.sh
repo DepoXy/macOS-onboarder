@@ -1735,6 +1735,15 @@ fi
 
 # --------------------------
 
+# Silly, though maybe you'll find a compelling use case (pomadoro?).
+# https://github.com/antonmedv/countdown
+# USAGE: E.g., `countdown 5s && confetty`
+#   https://github.com/Handfish/confetty_rs
+# - Or `countdown 17:00`. `countdown -up 30s`
+brew_app_both "countdown"
+
+# --------------------------
+
 # - Rosetta 2 apps
 
 if ${BREW_INCLUDE_DIGIKAM:-false}; then
