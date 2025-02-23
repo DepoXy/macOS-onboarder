@@ -540,6 +540,17 @@ user_link_macos "vimdiff vimdiff"
 # *** Neovim et al
 #     ^^^^^^^^^^^^
 
+# REFER/2025-02-23: You may want both stable and latest, especially
+# because Neovim very much still under development (they're not even
+# at version 1 yet?! =):
+#   brew install neovim
+#   brew unlink neovim
+#   brew install --HEAD neovim
+# But this script doesn't support that workflow, so we'll get it
+# "in post".
+# - CXREF: DepoXy uses an OMR 'install' task, which you'll find here
+#   within a DepoXy environment within the Neovim myrepos config file:
+#     ~/.depoxy/ambers/home/.kit/nvim/_mrconfig
 brew_app_both "neovim"
 user_link_both "nvim nvim"
 
