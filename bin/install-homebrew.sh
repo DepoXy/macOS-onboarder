@@ -639,6 +639,13 @@ brew_app_macos "--cask font-gnu-unifont"
 # processes, so you will need to run `sudo htop`. / You should be certain
 # that you trust any software you grant root privileges."
 brew_app_macos "htop"
+
+# "Resource monitor. C++ version and continuation of bashtop and bpytop"
+# https://github.com/aristocratos/btop
+#   https://github.com/aristocratos/bashtop
+#   https://github.com/aristocratos/bpytop
+brew_app_both "btop"
+
 brew_app_macos "pstree"
 
 brew_app_macos "pidof"
