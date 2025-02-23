@@ -771,6 +771,11 @@ brew_app_macos "dhex"
 # *Command-line JSON processor*
 brew_app_macos "jq"
 
+# "Terminal JSON viewer"
+# https://fx.wtf/
+# https://github.com/antonmedv/fx
+brew_app_both "fx"
+
 # *yq: Command-line YAML/XML/TOML processor - jq wrapper*
 #   https://kislyuk.github.io/yq/
 # Aka `python-yq`. Installs `yq` and `tomlq` (and prob. `jq`).
