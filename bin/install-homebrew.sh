@@ -599,6 +599,11 @@ fi
 # https://zed.dev/
 brew_app_macos "--cask zed"
 
+# TRYME/2025-02-23: See what's all the rage:
+if ${BREW_INCLUDE_OBSIDIAN:-false}; then
+  brew_app_macos "obsidian"
+fi
+
 # --------------------------
 
 # - SAVVY: To view fonts, open Launchpad and run `Font Book`
