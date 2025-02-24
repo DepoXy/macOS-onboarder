@@ -1272,9 +1272,17 @@ brew_app_macos "ruby"
 # As recommended by Linux Homebrew install.
 brew_app_both "gcc"
 
+# https://luarocks.org/
+brew_app_both "luarocks"
+
 # "A Lua code formatter"
 # https://github.com/JohnnyMorganz/StyLua
 brew_app_both "stylua"
+
+# "Language Server for the Lua language" (incl. Lazyman dep, but also
+# so you don't have to, e.g., install via :Mason).
+# https://github.com/LuaLS/lua-language-server
+brew_app_both "lua-language-server"
 
 # --------------------------
 
