@@ -1027,6 +1027,9 @@ brew_app_macos "--cask wezterm"
 # https://codeberg.org/dnkl/foot
 brew_app_linux "foot"
 
+# https://ghostty.org/
+brew_app_macos "--cask ghostty"
+
 # --------------------------
 
 # INERT/2022-10-11: If you find you need Mongo interface.
