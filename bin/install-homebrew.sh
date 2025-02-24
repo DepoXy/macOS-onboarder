@@ -1006,6 +1006,8 @@ brew_app_macos "iterm2"
 
 # ILIKE/2024-06-23: I'm groovin' on Alacritty so far, simple and elegant.
 # - And I think I'm over iTerm2, the immutable nuances are too many. 
+# - MAYBE/2025-02-23: Change to brew_app_both, and disable custom Debian
+#   build in DepoXy project: ~/.depoxy/ambers/home/.kit/rust/_mrconfig
 brew_app_macos "--cask alacritty"
 
 # Alacritty does not draw a border, which makes it hard to resize when
@@ -1309,6 +1311,9 @@ if ${BREW_INCLUDE_PGADMIN4:-false}; then
 fi
 # https://github.com/dbeaver/dbeaver
 brew_app_macos "--cask dbeaver-community"
+
+# Other db tools:
+#   brew_app_both "mysql-client"
 
 # --------------------------
 
