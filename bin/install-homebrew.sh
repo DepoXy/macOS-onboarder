@@ -604,6 +604,12 @@ if ${BREW_INCLUDE_OBSIDIAN:-false}; then
   brew_app_macos "obsidian"
 fi
 
+# *** Editor-Adjacent
+#     ^^^^^^^^^^^^^^^
+
+# https://tree-sitter.github.io/tree-sitter/
+brew_app_both "tree-sitter"
+
 # --------------------------
 
 # - SAVVY: To view fonts, open Launchpad and run `Font Book`
