@@ -1769,6 +1769,13 @@ if ${BREW_INCLUDE_ELMEDIA_PLAYER:-false}; then
   brew_app_macos "--cask elmedia-player"
 fi
 
+if ${BREW_INCLUDE_OBS:-false}; then
+  # "Free and open source software for video recording and live streaming."
+  # - Open Broadcaster Software
+  # https://obsproject.com/
+  brew_app_macos "--cask obs"
+fi
+
 # --------------------------
 
 if ${BREW_INCLUDE_DROPBOX:-false}; then
