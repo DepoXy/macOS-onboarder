@@ -1172,6 +1172,11 @@ if ! ${BREW_EXCLUDE_SLACK:-false}; then
   brew_app_macos "--cask slack"
 fi
 
+if ${BREW_INCLUDE_DISCORD:-false}; then
+  # https://discord.com/
+  brew_app_macos "--cask discord"
+fi
+
 # --------------------------
 
 # SPIKE/2022-10-11: Demo `procps`.
