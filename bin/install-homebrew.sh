@@ -949,7 +949,13 @@ brew_app_macos "cloc"
 
 # --------------------------
 
-brew_app_macos "tldr"
+# ISOFF/2025-02-23: Requires unlink to install both tldr and tealdeer.
+#
+#  brew_app_macos "tldr"
+
+# "Very fast implementation of tldr in Rust"
+# https://tealdeer-rs.github.io/tealdeer/
+brew_app_macos "tealdeer"
 
 # --------------------------
 
