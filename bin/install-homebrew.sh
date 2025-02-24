@@ -742,6 +742,11 @@ brew_app_macos "eza"
 #     lsd -lhFa --color=always
 brew_app_macos "lsd"
 
+# "A smarter cd command."
+# https://github.com/ajeetdsouza/zoxide
+# CALSO: https://github.com/skywind3000/z.lua
+brew_app_both "zoxide"
+
 # --------------------------
 
 # "list contents of directories in a tree-like format."
