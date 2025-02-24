@@ -808,6 +808,13 @@ brew_app_macos "highlight"
 # "Clone of cat(1) with syntax highlighting and Git integration"
 brew_app_macos "bat"
 
+# "Rich-cli is a command line toolbox for fancy output in the terminal"
+# - Added because a nvim-Lazyman dep, but an interesting tool on its own.
+#   - CALSO: pdb + Rich library
+#     https://github.com/cansarigol/pdbr
+# https://github.com/textualize/rich-cli
+brew_app_macos "rich-cli"
+
 brew_app_macos "dhex"
 
 # *Command-line JSON processor*
