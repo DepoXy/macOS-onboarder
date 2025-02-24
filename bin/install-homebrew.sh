@@ -610,6 +610,32 @@ fi
 # https://tree-sitter.github.io/tree-sitter/
 brew_app_both "tree-sitter"
 
+# *** Lazyman deps
+#     ^^^^^^^^^^^^
+
+if ${BREW_INCLUDE_LAZYMAN_DEPS:-false}; then
+  # "Cut, copy, and paste anything, anywhere, all from the terminal"
+  # - E.g., can `cb copy` files and directories.
+  # https://getclipboard.app/
+  # https://github.com/Slackadays/Clipboard
+  brew_app_both "clipboard"
+
+  # C/C++/ObjC language server
+  # https://github.com/MaskRay/ccls
+  brew_app_both "ccls"
+
+  # "convert images into ascii art and print them on the console"
+  # https://github.com/TheZoraiz/ascii-image-converter
+  # https://github.com/TheZoraiz/homebrew-ascii-image-converter
+  brew_app_both "TheZoraiz/ascii-image-converter/ascii-image-converter"
+
+  # "Control nvim processes using `nvr` command-line tool"
+  # https://github.com/mhinz/neovim-remote
+  # - I think this predates --server CLI arg, or at least
+  #   gvim-open-kindness makes it work.
+  brew_app_both "neovim-remote"
+fi
+
 # --------------------------
 
 # - SAVVY: To view fonts, open Launchpad and run `Font Book`
