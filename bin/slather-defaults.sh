@@ -1676,10 +1676,15 @@ alttab_customize_shortcut_1_show_hidden_windows__hide () {
 
 # ***
 
+# HSTRY/2025-02-24: Was <Ctrl-Backtick>, now <Shift-Ctrl-Backtick>.
+# - I never use this binding, and I want to map a new Neovim binding.
 alttab_customize_shortcut_3_trigger_shortcut () {
+  # echo "AltTab: Preferences... > Controls > Shortcut 3
+  #   > Trigger shortcut: Hold: ^"
+  # defaults write com.lwouis.alt-tab-macos holdShortcut3 '\U2303'
   echo "AltTab: Preferences... > Controls > Shortcut 3
-    > Trigger shortcut: Hold: ^"
-  defaults write com.lwouis.alt-tab-macos holdShortcut3 '\U2303'
+    > Trigger shortcut: Hold: \$^"
+  defaults write com.lwouis.alt-tab-macos holdShortcut3 '\u2303\u21e7'
 
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Trigger shortcut: and press: \`"
