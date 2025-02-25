@@ -393,6 +393,9 @@ brew_app_macos "bash"
 #      https://formulae.brew.sh/formula/bash-completion@2
 brew_app_macos "bash-completion@2"
 
+# https://fishshell.com/
+brew_app_both "fish"
+
 # --------------------------
 
 # Readline is a dependency for many apps, so might as well be explicit
