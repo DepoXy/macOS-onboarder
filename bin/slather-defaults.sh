@@ -3259,9 +3259,15 @@ shortcuts_mission_control_remap_mission_control () {
 #   sorta possible via files:
 #     https://www.reddit.com/r/MacOS/comments/azhj1m/view_past_notifications/
 shortcuts_mission_control_remap_show_notification_center () {
-  echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Alt-C (⇧^⌥ C)"
+  # <Shift-Ctrl-Alt-C>
+  # # echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Alt-C (⇧^⌥ C)"
+  # # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 163 \
+  #   "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>99</integer><integer>8</integer><integer>917504</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  # <Shift-Ctrl-Cmd-C>
+  echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Cmd-C (⇧^⌥ C)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 163 \
-    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>99</integer><integer>8</integer><integer>917504</integer></array><key>type</key><string>standard</string></dict></dict>"
+    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>99</integer><integer>8</integer><integer>1441792</integer></array><key>type</key><string>standard</string></dict></dict>"
 
   rewire_shortcuts=true
 }
