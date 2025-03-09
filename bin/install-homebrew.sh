@@ -1090,6 +1090,15 @@ brew_app_macos "exiftool"
 # https://formulae.brew.sh/formula/oxipng
 brew_app_macos "oxipng"
 
+# *Versatile and fast Unicode/ASCII/ANSI graphics renderer*
+# https://hpjansson.org/chafa/
+# - BEGET: Someone's LazyVim dashboard image:
+#   https://github.com/folke/snacks.nvim/discussions/111#discussioncomment-11526630
+# - E.g.,
+#   chafa picture.png --size 50x50
+#   chafa picture.png --format symbols --size 50x50
+brew_app_both "chafa"
+
 # --------------------------
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
