@@ -673,6 +673,9 @@ brew_app_macos "--cask font-monaspace-nerd-font"
 # https://formulae.brew.sh/cask/font-gnu-unifont
 brew_app_macos "--cask font-gnu-unifont"
 
+# CALSO/2025-03-05: Commit Mono has a nice looking website and customizable downloads.
+# https://commitmono.com/
+
 # --------------------------
 
 # SAVVY: "htop requires root privileges to correctly display all running
