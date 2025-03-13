@@ -3343,22 +3343,38 @@ shortcuts_mission_control_remap_show_desktop () {
 
 # ✓ Mission Control: Move left a space: ^← → Ctrl-Opt-←
 shortcuts_mission_control_remap_move_left_a_space () {
+  # # BNDNG: <Ctrl-Alt-Left>
+  # echo "Keyboard Shortcuts: Mission Control: Move left a space: Ctrl-left (^←) → Ctrl-Alt-left (^⌥ ←)"
+  # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 \
+  #   "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
+  # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 80 \
+  #   "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  # BNDNG: <Cmd-Alt-Left>
   echo "Keyboard Shortcuts: Mission Control: Move left a space: Ctrl-left (^←) → Ctrl-Alt-left (^⌥ ←)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 \
-    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
+    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>12058624</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 80 \
-    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>123</integer><integer>12189696</integer></array><key>type</key><string>standard</string></dict></dict>"
 
   rewire_shortcuts=true
 }
 
 # ✓ Mission Control: Move right a space: ^→ → Ctrl-Opt-→
 shortcuts_mission_control_remap_move_right_a_space () {
+  # # BNDNG: <Ctrl-Alt-Right>
+  # echo "Keyboard Shortcuts: Mission Control: Move right a space: Ctrl-right (^←) → Ctrl-Alt-right (^⌥ ←)"
+  # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 \
+  #   "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
+  # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 82 \
+  #   "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+  # BNDNG: <Cmd-Alt-Right>
   echo "Keyboard Shortcuts: Mission Control: Move right a space: Ctrl-right (^←) → Ctrl-Alt-right (^⌥ ←)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 \
-    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
+    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>12058624</integer></array><key>type</key><string>standard</string></dict></dict>"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 82 \
-    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>11403264</integer></array><key>type</key><string>standard</string></dict></dict>"
+    "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>124</integer><integer>12189696</integer></array><key>type</key><string>standard</string></dict></dict>"
 
   rewire_shortcuts=true
 }
