@@ -3259,12 +3259,12 @@ shortcuts_mission_control_remap_mission_control () {
 #   sorta possible via files:
 #     https://www.reddit.com/r/MacOS/comments/azhj1m/view_past_notifications/
 shortcuts_mission_control_remap_show_notification_center () {
-  # <Shift-Ctrl-Alt-C>
+  # BNDNG: <Shift-Ctrl-Alt-C>
   # # echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Alt-C (⇧^⌥ C)"
   # # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 163 \
   #   "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>99</integer><integer>8</integer><integer>917504</integer></array><key>type</key><string>standard</string></dict></dict>"
 
-  # <Shift-Ctrl-Cmd-C>
+  # BNDNG: <Shift-Ctrl-Cmd-C>
   echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Cmd-C (⇧^⌥ C)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 163 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>99</integer><integer>8</integer><integer>1441792</integer></array><key>type</key><string>standard</string></dict></dict>"
@@ -3274,6 +3274,7 @@ shortcuts_mission_control_remap_show_notification_center () {
 
 # ✓ Application windows: ^↓ → Ctrl-Opt-↓
 shortcuts_mission_control_remap_application_windows () {
+  # BNDNG: <Ctrl-Alt-Down>
   echo "Keyboard Shortcuts: Mission Control: Application windows: Ctrl-Down (^↓) → Ctrl-Alt-Down (^⌥ ↓)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 33 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>125</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
