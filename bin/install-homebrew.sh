@@ -143,7 +143,7 @@ MACOS_INSTALL_ROSETTA2=false
 # - If no target specified: target all hosts;
 # - If target is "Darwin": target macOS; or
 # - If target is "GNU/Linux", or just "Linux": target Linux.
-applies_to_os () {
+applies_to_os() {
   local target_os="$1"
 
   # We could check just `uname` (or `uname -s` (kernel name)),
@@ -166,7 +166,7 @@ applies_to_os () {
 
 # ------------------------------ #
 
-array_add () {
+array_add() {
   local arr_name="$1"
   local cmd_args="$2"
   local target_os="$3"
@@ -181,7 +181,7 @@ array_add () {
 
 # *** Conveniences
 
-array_add_both () {
+array_add_both() {
   local arr_name="$1"
   local cmd_args="$2"
 
@@ -190,7 +190,7 @@ array_add_both () {
   array_add "${arr_name}" "${cmd_args}" "${target_os}"
 }
 
-array_add_linux () {
+array_add_linux() {
   local arr_name="$1"
   local cmd_args="$2"
 
@@ -199,7 +199,7 @@ array_add_linux () {
   array_add "${arr_name}" "${cmd_args}" "${target_os}"
 }
 
-array_add_macos () {
+array_add_macos() {
   local arr_name="$1"
   local cmd_args="$2"
 
@@ -210,109 +210,109 @@ array_add_macos () {
 
 # ------------------------------ #
 
-brew_app () {
+brew_app() {
   array_add "BREW_APPS" "$@"
 }
 
-brew_app_both () {
+brew_app_both() {
   array_add_both "BREW_APPS" "$@"
 }
 
-brew_app_linux () {
+brew_app_linux() {
   array_add_linux "BREW_APPS" "$@"
 }
 
-brew_app_macos () {
+brew_app_macos() {
   array_add_macos "BREW_APPS" "$@"
 }
 
 # ------------------------------ #
 
-brew_tap () {
+brew_tap() {
   array_add "BREW_TAPS" "$@"
 }
 
-brew_tap_both () {
+brew_tap_both() {
   array_add_both "BREW_TAPS" "$@"
 }
 
-brew_tap_linux () {
+brew_tap_linux() {
   array_add_linux "BREW_TAPS" "$@"
 }
 
-brew_tap_macos () {
+brew_tap_macos() {
   array_add_macos "BREW_TAPS" "$@"
 }
 
 # ------------------------------ #
 
-brew_link () {
+brew_link() {
   array_add "BREW_LINK" "$@"
 }
 
-brew_link_both () {
+brew_link_both() {
   array_add_both "BREW_LINK" "$@"
 }
 
-brew_link_linux () {
+brew_link_linux() {
   array_add_linux "BREW_LINK" "$@"
 }
 
-brew_link_macos () {
+brew_link_macos() {
   array_add_macos "BREW_LINK" "$@"
 }
 
 # ------------------------------ #
 
-service_start () {
+service_start() {
   array_add "BREW_SVCS" "$@"
 }
 
-service_start_both () {
+service_start_both() {
   array_add_both "BREW_SVCS" "$@"
 }
 
-service_start_linux () {
+service_start_linux() {
   array_add_linux "BREW_SVCS" "$@"
 }
 
-service_start_macos () {
+service_start_macos() {
   array_add_macos "BREW_SVCS" "$@"
 }
 
 # ------------------------------ #
 
-post_eval () {
+post_eval() {
   array_add "POST_EVAL" "$@"
 }
 
-post_eval_both () {
+post_eval_both() {
   array_add_both "POST_EVAL" "$@"
 }
 
-post_eval_linux () {
+post_eval_linux() {
   array_add_linux "POST_EVAL" "$@"
 }
 
-post_eval_macos () {
+post_eval_macos() {
   array_add_macos "POST_EVAL" "$@"
 }
 
 # ------------------------------ #
 
-user_link () {
+user_link() {
   array_add "USER_LINK" "$@"
 }
 
-user_link_both () {
+user_link_both() {
   array_add_both "USER_LINK" "$@"
 }
 
-user_link_linux () {
+user_link_linux() {
   array_add_linux "USER_LINK" "$@"
 }
 
-user_link_macos () {
+user_link_macos() {
   array_add_macos "USER_LINK" "$@"
 }
 
@@ -797,7 +797,7 @@ brew_app_macos "ranger"
 # https://github.com/jarun/nnn
 # ISOFF/2025-02-02: So sophisticated! And yet I don't
 # see a use case for me (or at least my workflow).
-# 
+#
 #  brew_app_macos "nnn"
 
 # walk — "Terminal file manager"
@@ -912,7 +912,7 @@ fi
 # (And I don't see plain `awk` installed; meaning,
 #  all my Bash scripts expect `gawk`.)
 brew_app_macos "gawk"
-user_link_macos "gawk"  # Will symlink from ~/.local/bin/awk
+user_link_macos "gawk" # Will symlink from ~/.local/bin/awk
 
 # Installs `/opt/homebrew/bin/diff`.
 brew_app_macos "diffutils"
@@ -1044,7 +1044,7 @@ brew_app_macos "tmux"
 brew_app_macos "iterm2"
 
 # ILIKE/2024-06-23: I'm groovin' on Alacritty so far, simple and elegant.
-# - And I think I'm over iTerm2, the immutable nuances are too many. 
+# - And I think I'm over iTerm2, the immutable nuances are too many.
 # - MAYBE/2025-02-23: Change to brew_app_both, and disable custom Debian
 #   build in DepoXy project: ~/.depoxy/ambers/home/.kit/rust/_mrconfig
 brew_app_macos "--cask alacritty"
@@ -1185,17 +1185,17 @@ brew_app_macos "neofetch"
 
 # SAVVY/2024-04-14: Don't install Homebrew Chrome over corporate
 # version, if your laptop already came with Chrome installed.
-add_google_chrome_unless_installed () {
-  ! [ -e "/Applications/Google Chrome.app" ] \
-    || return 0
+add_google_chrome_unless_installed() {
+  ! [ -e "/Applications/Google Chrome.app" ] ||
+    return 0
 
   brew_app_macos "google-chrome"
 }
 add_google_chrome_unless_installed
 
-add_firefox_unless_installed () {
-  ! [ -e "/Applications/Firefox.app/" ] \
-    || return 0
+add_firefox_unless_installed() {
+  ! [ -e "/Applications/Firefox.app/" ] ||
+    return 0
 
   brew_app_macos "--cask firefox"
 }
@@ -1273,7 +1273,7 @@ brew_app_macos "man-db"
 #
 # ISOFF/2024-10-19: So let's not supercede built-in `man`.
 # - We'll change `man` in the terminal to redirect stderr instead.
-# 
+#
 #  user_link_macos "gman"
 
 # Apple `make` is "GNU Make 3.81". Brew's is ≥ 4.4.1.
@@ -1551,7 +1551,7 @@ brew_app_both "jesseduffield/lazydocker/lazydocker"
 
 # - Container runtimes
 #
-# Common container runtimes include: 
+# Common container runtimes include:
 #   containerd      (Backed by Docker; Docker's default CRI impl.)
 #   CRI-O           (Backed by RedHat; RedHat's default CRI impl.)
 # Old container runtimes:
@@ -1852,7 +1852,7 @@ fi
 # https://github.com/antonmedv/countdown
 # USAGE: E.g., `countdown 5s && confetty`
 #   https://github.com/Handfish/confetty_rs
-# - Or `countdown 17:00`. `countdown -up 30s`
+# - Or `countdown 17:00`, `countdown -up 30s`.
 brew_app_both "countdown"
 
 # --------------------------
@@ -1887,54 +1887,53 @@ TESTED_ONCE_BREW_LIST_FALSE=false
 
 TESTED_ONCE_BREW_INFO_FALSE=false
 
-stub_external_commands_if_unit_testing () {
+stub_external_commands_if_unit_testing() {
   if ! ${DRY_RUN:-false}; then
 
     return
   fi
 
-  function brew () {
-    if [ "$1" = "list" ] && \
-      ! ${TESTED_ONCE_BREW_LIST_FALSE} && \
+  function brew() {
+    if [ "$1" = "list" ] &&
+      ! ${TESTED_ONCE_BREW_LIST_FALSE} &&
       [ -x "${BREW_PATH}" ] \
-    ; then
+      ; then
       TESTED_ONCE_BREW_LIST_FALSE=true
 
       ${BREW_PATH} "$@"
-    elif [ "$1" = "info" ] && \
-      ! ${TESTED_ONCE_BREW_INFO_FALSE} && \
+    elif [ "$1" = "info" ] &&
+      ! ${TESTED_ONCE_BREW_INFO_FALSE} &&
       [ -x "${BREW_PATH}" ] \
-      \
-    ; then
+      ; then
       TESTED_ONCE_BREW_INFO_FALSE=true
 
       ${BREW_PATH} "$@"
     else
       case $1 in
-        install | tap | link | services | list | info)
+      install | tap | link | services | list | info)
+        >&2 echo "STUBD: brew $@"
+        ;;
+
+      --repository | shellenv)
+        if [ -x "${BREW_PATH}" ]; then
+          ${BREW_PATH} "$@"
+        else
           >&2 echo "STUBD: brew $@"
-          ;;
+        fi
+        ;;
 
-        --repository | shellenv)
-          if [ -x "${BREW_PATH}" ]; then
-            ${BREW_PATH} "$@"
-          else
-            >&2 echo "STUBD: brew $@"
-          fi
-          ;;
-
-        *)
-          >&2 echo "STUBX: brew $@"
-          ;;
+      *)
+        >&2 echo "STUBX: brew $@"
+        ;;
       esac
     fi
   }
 
-  function ln () {
+  function ln() {
     echo "STUBD: ln $@"
   }
 
-  function softwareupdate () {
+  function softwareupdate() {
     echo "STUBD: softwareupdate $@"
   }
 }
@@ -1964,7 +1963,7 @@ stub_external_commands_if_unit_testing () {
 
 BREW_PATH=""
 
-install_homebrew () {
+install_homebrew() {
   print_hr
 
   BREW_PATH="$(print_homebrew_path)"
@@ -1984,7 +1983,7 @@ install_homebrew () {
   echo
 
   $(${DRY_RUN:-false} && echo "echo STUBD:") \
-  "$(dirname -- "$0")/../deps/Homebrew/install/install.sh"
+    "$(dirname -- "$0")/../deps/Homebrew/install/install.sh"
 
   BREW_PATH="$(print_homebrew_path)"
 
@@ -1998,7 +1997,7 @@ install_homebrew () {
 #   https://github.com/DepoXy/depoxy#🍯
 #     ~/.depoxy/ambers/core/brewskies.sh
 #   https://github.com/DepoXy/depoxy/tree/HEAD/core/brewskies.sh
-print_homebrew_path () {
+print_homebrew_path() {
   local brew_path=""
 
   # On Apple Silicon (arm64/AArch64) Macs (M1, M2, etc.) it's /opt/homebrew
@@ -2025,7 +2024,7 @@ print_homebrew_path () {
 #     2024-07-04 22:36:59.181 softwareupdate[3570:105238108] Package Authoring Error:
 #       062-01890: Package reference com.apple.pkg.RosettaUpdateAuto is missing installKBytes attribute
 
-install_rosetta_2_maybe () {
+install_rosetta_2_maybe() {
   if ! os_is_macos || ! ${MACOS_INSTALL_ROSETTA2:-false}; then
 
     return 0
@@ -2037,7 +2036,7 @@ install_rosetta_2_maybe () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-init_homebrew_or_exit () {
+init_homebrew_or_exit() {
   # Aka: "${HOMEBREW_PREFIX}/bin/brew"
   BREW_PATH="$(print_homebrew_path)"
 
@@ -2056,7 +2055,7 @@ init_homebrew_or_exit () {
   eval "$(${BREW_PATH} shellenv)"
 }
 
-brew_install_taps () {
+brew_install_taps() {
   init_homebrew_or_exit
 
   local brew_repo="$(brew --repository)"
@@ -2092,7 +2091,7 @@ brew_install_taps () {
   done
 }
 
-brew_install_apps () {
+brew_install_apps() {
   init_homebrew_or_exit
 
   local brew_app_or_cask
@@ -2101,7 +2100,7 @@ brew_install_apps () {
     print_hr
     # Note that `brew info` shows info about any match, installed or not,
     # whereas `brew list` only shows info if the formula or cask is installed.
-    if brew list ${brew_app_or_cask} > /dev/null 2>&1; then
+    if brew list ${brew_app_or_cask} >/dev/null 2>&1; then
       echo "Brew install: ${brew_app_or_cask} is already installed"
       echo
 
@@ -2123,7 +2122,7 @@ brew_install_apps () {
   done
 }
 
-brew_link_apps () {
+brew_link_apps() {
   init_homebrew_or_exit
 
   local brew_link
@@ -2140,7 +2139,7 @@ brew_link_apps () {
   done
 }
 
-brew_start_services () {
+brew_start_services() {
   init_homebrew_or_exit
 
   local brew_svc
@@ -2157,7 +2156,7 @@ brew_start_services () {
   done
 }
 
-post_brew_evals () {
+post_brew_evals() {
   local eval_cmd
 
   for eval_cmd in "${POST_EVAL[@]}"; do
@@ -2167,13 +2166,13 @@ post_brew_evals () {
     echo
 
     $(${DRY_RUN:-false} && echo "echo STUBD:") \
-    eval "${eval_cmd}"
+      eval "${eval_cmd}"
 
     echo
   done
 }
 
-print_Caveats () {
+print_Caveats() {
   awk '
     BEGIN {
       show_line = 0;
@@ -2197,8 +2196,7 @@ print_Caveats () {
     END {
       exit found_caveats;
     }
-  ' \
-  | tac | awk 'NF {p=1} p' | tac
+  ' | tac | awk 'NF {p=1} p' | tac
   # ↑ Reverse output, trim leading empty lines, and reverse again
   #   to trim trailing empty lines.
 
@@ -2207,7 +2205,7 @@ print_Caveats () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-create_user_local_bin_symlinks () {
+create_user_local_bin_symlinks() {
   init_homebrew_or_exit
 
   local homebrew_bin="${HOMEBREW_PREFIX}/bin"
@@ -2221,7 +2219,7 @@ create_user_local_bin_symlinks () {
 
   [ -d "${homebrew_bin}" ] || (
     >&2 echo "ERROR: Where's Homebrew bin? It's not at: ${homebrew_bin}" &&
-    return 1  # Because set -e, dies.
+      return 1 # Because set -e, dies.
   )
 
   for gbrew_app in "${USER_LINK[@]}"; do
@@ -2237,7 +2235,7 @@ create_user_local_bin_symlinks () {
 # USER_LINK as either one word or two.
 # - One word:  E.g., "gdate"     — Symlinks ~/.local/bin/gdate → homebrew/bin/date
 # - Two words: E.g., "diff diff" — Symlinks ~/.local/bin/diff  → homebrew/bin/diff
-gbrew_symlink () {
+gbrew_symlink() {
   # If two words were specified (as one string), use `set` to split them.
   set -- $1
   local brew_app="$1"
@@ -2248,7 +2246,7 @@ gbrew_symlink () {
   if [ ! -x "${brew_path}" ]; then
     >&2 echo "ERROR: Specified app not there or not executable: ${brew_path}"
 
-    return 1  # Because set -e, dies.
+    return 1 # Because set -e, dies.
   fi
 
   if [ -z "${bin_name}" ]; then
@@ -2262,40 +2260,40 @@ gbrew_symlink () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-print_hr () {
+print_hr() {
   echo "🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-os_is_macos () {
+os_is_macos() {
   [ "$(uname)" = 'Darwin' ]
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-clear_traps () {
+clear_traps() {
   trap - EXIT INT
 }
 
-set_traps () {
+set_traps() {
   trap -- trap_exit EXIT
   trap -- trap_int INT
 }
 
-exit_0 () {
+exit_0() {
   clear_traps
 
   exit 0
 }
 
-exit_1 () {
+exit_1() {
   clear_traps
 
   exit 1
 }
 
-trap_exit () {
+trap_exit() {
   clear_traps
 
   # USAGE: Alert on unexpected error path, so you can add happy path.
@@ -2305,7 +2303,7 @@ trap_exit () {
   exit 2
 }
 
-trap_int () {
+trap_int() {
   clear_traps
 
   exit 3
@@ -2313,7 +2311,7 @@ trap_int () {
 
 # ***
 
-main () {
+main() {
   set -e
 
   set_traps
@@ -2355,4 +2353,3 @@ fi
 #
 #  echo "No. BREW_APPS: ${#BREW_APPS[@]}"
 #  echo "No. BREW_TAPS: ${#BREW_TAPS[@]}"
-
