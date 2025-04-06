@@ -729,6 +729,11 @@ brew_app_macos "rg"
 # - CXREF: ~/.depoxy/ambers/home/.kit/go/_mrconfig
 #     $ mr -d ~/.depoxy/ambers/home/.kit/go/aykamko-tag install
 
+# REFER:
+# https://ast-grep.github.io/
+# https://ast-grep.github.io/guide/introduction.html
+brew_app_both "ast-grep"
+
 # --------------------------
 
 # *Collection of GNU find, xargs, and locate*
