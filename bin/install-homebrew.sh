@@ -607,6 +607,13 @@ if ${BREW_INCLUDE_OBSIDIAN:-false}; then
   brew_app_macos "obsidian"
 fi
 
+# windsurf (née Codeium)
+# https://windsurf.com/
+# https://github.com/Exafunction/windsurf.nvim
+brew_app_macos "--cask windsurf"
+
+brew_app_macos "--cask cursor"
+
 # *** Editor-Adjacent
 #     ^^^^^^^^^^^^^^^
 
