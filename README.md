@@ -40,10 +40,10 @@ Gnarly `brew install` and `defaults` 🏂
 
 ## SEE ALSO
 
-  This project complements a collection of Karabiner-Elements
-  modifications that add bindings beyond the reach of `defaults`
+  This project complements a collection of Hammerspoon Spoons
+  which add additional bindings beyond the reach of `defaults`
 
-  https://github.com/DepoXy/Karabiner-Elephants#🐘
+  <https://github.com/DepoXy/macOS-Hammyspoony#🥄>
 
   This project is one part of a larger dev stack bound together
   by the DepoXy Development Environment Orchestrator
