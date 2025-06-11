@@ -1346,6 +1346,10 @@ brew_app_both "stylua"
 # https://github.com/LuaLS/lua-language-server
 brew_app_both "lua-language-server"
 
+# https://github.com/astral-sh/uv
+# https://docs.astral.sh/uv/
+brew_app_both "uv"
+
 # --------------------------
 
 # - DB dev tools
