@@ -1,5 +1,5 @@
-Knarley `brew install` and `defaults` 🏂
-========================================
+Gnarly `brew install` and `defaults` 🏂
+=======================================
 
 ## DESCRIPTION
 
