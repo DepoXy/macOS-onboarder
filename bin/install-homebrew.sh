@@ -1043,7 +1043,20 @@ brew_app_macos "macdown"
 
 # Pandoc "a universal document converter"
 # https://pandoc.org/
+# https://formulae.brew.sh/formula/pandoc
 brew_app_macos "pandoc"
+
+# Include `--pdf-engine=xelatex` support, etc.
+# - ONBRD: Restart terminal, or reload PATH:
+#     eval "$(/usr/libexec/path_helper)"
+#     # BWARE: Updating PATH may break some command paths, e.g.,
+#     #   # before
+#     #   type sed
+#     #   sed is /Users/user/.local/bin/sed # -> /opt/homebrew/bin/gsed
+#     #   # after
+#     #   type sed
+#     #   sed is /usr/bin/sed
+brew_app_macos "--cask basictex"
 
 # --------------------------
 
