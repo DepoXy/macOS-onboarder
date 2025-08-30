@@ -49,6 +49,7 @@
 #   BREW_INCLUDE_P4MERGE=true         # File diff — opt-in b/c author prefers Meld.
 #   BREW_INCLUDE_TRANSMISSION=true    # BitTorrent client
 #   BREW_INCLUDE_WIRESHARK
+#   BREW_INCLUDE_FINICKY              # ISOFF/2025-08-30: Finicky v4 has issues...
 #
 #   # Editors
 #   BREW_INCLUDE_LICLIPSE
@@ -1237,7 +1238,13 @@ brew_app_macos "--cask arc"
 
 # "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
-brew_app_macos "--cask finicky"
+# ISOFF/2025-08-30: I downgraded to manual Finicky v3 because latest v4
+# builds have --args regression.
+# - TRACK/2025-08-30: *Args [--args] not working on latest version*
+#   https://github.com/johnste/finicky/issues/431
+if ${BREW_INCLUDE_FINICKY:-false}; then
+  brew_app_macos "--cask finicky"
+fi
 
 # --------------------------
 
