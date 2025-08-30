@@ -865,6 +865,16 @@ brew_app_both "fx"
 #     https://github.com/jamesmunns/tomlq
 brew_app_macos "python-yq"
 
+# fzy - Fuzzy finder menu-izer
+# https://github.com/jhawthorn/fzy
+# - E.g.,
+#     declare -a options=(foo bar baz)
+#     chosen="$(printf "%s\n" "${options[@]}" | fzy)"
+# BEGET:
+# https://unix.stackexchange.com/questions/715893/bash-completely-cli-interactive-menu
+# - On author's Linux (Debian) hosts, installed via apt.
+brew_app_macos "fzy"
+
 # --------------------------
 
 #  # "Perl-powered file rename script with many helpful built-ins"
