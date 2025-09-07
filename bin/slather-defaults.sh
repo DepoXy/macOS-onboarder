@@ -84,10 +84,10 @@ CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts...: App Shortcuts"
 #   - MAYBE: Ideally I'll version this project after each macOS update.
 #            I could even version this project to track macOS versions.
 
-insist_is_latest_macos_version_unless_dry_run () {
+insist_is_latest_macos_version_unless_dry_run() {
   local dry_run=$1
 
-  os_is_macos () {
+  os_is_macos() {
     [ "$(uname)" = 'Darwin' ]
   }
 
@@ -104,7 +104,7 @@ insist_is_latest_macos_version_unless_dry_run () {
   insist_is_latest_macos_version
 }
 
-insist_is_latest_macos_version () {
+insist_is_latest_macos_version() {
   local major_vers=""
 
   # `sw_vers -productVersion` prints, e.g., '13.0.1'.
@@ -122,12 +122,13 @@ insist_is_latest_macos_version () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-check_deps () {
+check_deps() {
   local dry_run=$1
 
-  ( true \
-    && command -v defaults > /dev/null \
-    && command -v osascript > /dev/null \
+  (
+    true &&
+      command -v defaults >/dev/null &&
+      command -v osascript >/dev/null
   ) && return 0 || true
 
   local fiver="ERROR"
@@ -147,22 +148,27 @@ check_deps () {
   exit_1
 }
 
-fake_it () {
-  fg_skyblue () { printf "\033[38;2;135;175;255m"; }
-  attr_reset () { printf "\033[0m"; }
-  highlight () { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
+fake_it() {
+  fg_skyblue() { printf "\033[38;2;135;175;255m"; }
+  attr_reset() { printf "\033[0m"; }
+  highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
 
-  defaults () {
-    echo "  $(highlight "defaults") $@"; }
-  killall () {
-    echo "  $(highlight "killall") $@"; }
+  defaults() {
+    echo "  $(highlight "defaults") $@"
+  }
+  killall() {
+    echo "  $(highlight "killall") $@"
+  }
   # CRUMB: OPENERS
-  open () {
-    echo "  $(highlight "open") $@"; }
-  osascript () {
-    echo "  $(highlight "osascript") $@"; }
-  rm_rf_target () {
-    echo "  $(highlight "command rm -rf --") $@"; }
+  open() {
+    echo "  $(highlight "open") $@"
+  }
+  osascript() {
+    echo "  $(highlight "osascript") $@"
+  }
+  rm_rf_target() {
+    echo "  $(highlight "command rm -rf --") $@"
+  }
 }
 
 # INPUT: ENV: Expects:
@@ -174,8 +180,8 @@ fake_it () {
 #   local cnt_killalls=0
 #   local cnt_ascripts=0
 #   local cnt_binrmrfs=0
-count_it () {
-  defaults () {
+count_it() {
+  defaults() {
     let 'cnt_defaults += 1'
 
     if [ "$1" = "write" ]; then
@@ -190,24 +196,24 @@ count_it () {
 
     echo "  defaults $@"
   }
-  killall () {
+  killall() {
     let 'cnt_killalls += 1'
 
     echo "  killall $@"
   }
-  osascript () {
+  osascript() {
     let 'cnt_ascripts += 1'
 
     echo "  osascript $@"
   }
-  rm_rf_target () {
+  rm_rf_target() {
     let 'cnt_binrmrfs += 1'
 
     echo "  command rm -rf -- $@"
   }
 }
 
-killall_and_reopen () {
+killall_and_reopen() {
   local apps_name="$1"
 
   if killall "${apps_name}"; then
@@ -247,7 +253,7 @@ killall_and_reopen () {
 #     was renamed "Quit System Preferences" → "Quit System Settings".
 # - At least it's easier to say "System Settings". The "pref" prefix
 #   in "Preferences" seems like a tougher English sound to pronounce.
-system_settings_close () {
+system_settings_close() {
   # System Settings, née System Preferences.
   echo "System Settings: Closing to prevent conflict with our settings"
   osascript -e 'tell application "System Settings" to quit'
@@ -255,7 +261,7 @@ system_settings_close () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-general_appearance_customize () {
+general_appearance_customize() {
   general_appearance_customize_dark_mode
 }
 
@@ -264,7 +270,7 @@ general_appearance_customize () {
 # well. E.g., Meld is too difficult to read in Dark mode. Also, my Vim
 # already does a great dark mode, and I set Slack to dark mode. And I'll
 # be hiding the dock and menu bar anyway, so, yeah, leave this one be.
-general_appearance_customize_dark_mode () {
+general_appearance_customize_dark_mode() {
   # No thanks, not pretty with some apps, so apply per-app as desired.
   false && (
     echo "Appearance: Dark. Use dark menu bar and dock"
@@ -273,19 +279,19 @@ general_appearance_customize_dark_mode () {
 
     defaults write NSGlobalDomain AppleInterfaceStyle 'Dark'
 
-    restart_dock=true  # Albeit doesn't change Appearance for me.
+    restart_dock=true # Albeit doesn't change Appearance for me.
   )
   print_at_end+=("🔳 System Settings: Appearance: Appearance: ✓ Dark")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-desktop_and_screen_saver_customize () {
+desktop_and_screen_saver_customize() {
   desktop_and_screen_saver_customize_desktop_black
 }
 
 # I changed the desktop to black, but I didn't see any plist change.
-desktop_and_screen_saver_customize_desktop_black () {
+desktop_and_screen_saver_customize_desktop_black() {
   print_at_end+=("🔳 System Settings: Wallpaper: *Configure to taste*
    - Author generally chooses least distracting background, usually
      solid black (#000000), but dark green (like #062013) also nice")
@@ -297,7 +303,7 @@ desktop_and_screen_saver_customize_desktop_black () {
 # then reopen System Settings to see GUI widget updated (or, toggle
 # one of the widgets, then the other widgets should update).
 
-dock_and_menu_bar_customize () {
+dock_and_menu_bar_customize() {
   dock_reset_dock
 
   dock_and_menu_bar_customize_dock_position_on_screen_left
@@ -325,31 +331,31 @@ dock_and_menu_bar_customize () {
 
 # Just FYI, how you'd reset all Dock options.
 # https://github.com/herrbischoff/awesome-macos-command-line#reset-dock
-dock_reset_dock () {
+dock_reset_dock() {
   false && (
-    defaults delete com.apple.dock 2> /dev/null || true
+    defaults delete com.apple.dock 2>/dev/null || true
   )
-  true  # Lest errexit
+  true # Lest errexit
 }
 
 # I like the Dock on the left, otherwise it interrupts my flow.
 # Specifically, when I have the browser open, and DevTools on the bottom,
 # when I mouse to the bottom of the window to access the console,
 # I don't want the Dock to pop up.
-dock_and_menu_bar_customize_dock_position_on_screen_left () {
+dock_and_menu_bar_customize_dock_position_on_screen_left() {
   echo "Dock & Menu Bar: Dock: Position on screen: Left"
   defaults write com.apple.dock orientation -string "left"
 }
 
 # ISOFF/2024-04-14: Yes, no, the author still thinks the Genie animation
 # is distracting.
-dock_and_menu_bar_customize_dock_minimize_windows_using_scale_effect () {
+dock_and_menu_bar_customize_dock_minimize_windows_using_scale_effect() {
   echo "Desktop & Dock: Dock: Minimize windows using: Scale Effect"
   defaults write com.apple.dock mineffect -string "scale"
 }
 
 # When you open an app, the dock icon bounces a few times. Whee!
-dock_and_menu_bar_customize_dock_animate_opening_applications_disable () {
+dock_and_menu_bar_customize_dock_animate_opening_applications_disable() {
   echo "Desktop & Dock: Dock: ✗ Animate opening applications"
   defaults write com.apple.dock launchanim -bool false
 }
@@ -378,7 +384,7 @@ dock_and_menu_bar_customize_dock_animate_opening_applications_disable () {
 #   I have even *less* use for the Dock.
 #   - So we'll keep it auto-hidden, on the left, and now without
 #     minimized windows cluttering it.
-dock_and_menu_bar_customize_dock_minimize_windows_into_application_icon () {
+dock_and_menu_bar_customize_dock_minimize_windows_into_application_icon() {
   echo "Desktop & Dock: Dock: ✓ Minimize windows into application icon"
   defaults write com.apple.dock minimize-to-application -bool true
 }
@@ -386,29 +392,29 @@ dock_and_menu_bar_customize_dock_minimize_windows_into_application_icon () {
 # SAVVY/2024-09-18: If not hidden, you might want to consider disabling
 # the distracting Dock app alert icon *bounce*:
 #   defaults write com.apple.dock no-bouncing -bool false
-dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock () {
+dock_and_menu_bar_customize_dock_automatically_hide_and_show_the_dock() {
   echo "Desktop & Dock: Dock: ✓ Automatically hide and show the Dock"
   defaults write com.apple.dock autohide -bool true
 }
 
-dock_and_menu_bar_customize_dock_show_indicators_for_open_applications_disable () {
+dock_and_menu_bar_customize_dock_show_indicators_for_open_applications_disable() {
   echo "Desktop & Dock: Dock: ✗ Show indicators for open applications"
   defaults write com.apple.dock show-process-indicators -bool false
 }
 
-dock_and_menu_bar_customize_dock_show_recent_application_in_dock_false () {
+dock_and_menu_bar_customize_dock_show_recent_application_in_dock_false() {
   echo "Desktop & Dock: Dock: ✗ Show suggested and recent apps in Dock"
   defaults write com.apple.dock show-recents -bool false
 }
 
-dock_and_menu_bar_customize_dock_pin_and_rearrange_apps_to_taste () {
+dock_and_menu_bar_customize_dock_pin_and_rearrange_apps_to_taste() {
   print_at_end+=("\
 🔳 Dock: Pin and rearrange apps to taste
    - Possible order: Finder / Chrome / Slack / Vim / iTerm2 / Activity Monitor
    - See also Spotlight search (Cmd-space) for apps you could add and “Keep in Dock”")
 }
 
-dock_and_menu_bar_customize_dock_remove_superfluous_dock_icons () {
+dock_and_menu_bar_customize_dock_remove_superfluous_dock_icons() {
   print_at_end+=("\
 🔳 Dock: Remove superfluous Dock icons: Control-click (or right-click) and *Options > Remove from Dock*:
    - Remove from Dock: Launchpad [don't use; can run via Spotlight]
@@ -425,7 +431,7 @@ dock_and_menu_bar_customize_dock_remove_superfluous_dock_icons () {
    - Remove from Dock: [Anything else you might not use or would access from the terminal: E.g.,: Siri, iTunes [now Music], Xcode, Self Service, Firefox]")
 }
 
-dock_and_menu_bar_customize_menu_bar_automatically_hide_and_show_the_menu_bar_on_desktop () {
+dock_and_menu_bar_customize_menu_bar_automatically_hide_and_show_the_menu_bar_on_desktop() {
   echo "Control Center: Menu Bar Only: ✓ Automatically hide and show the menu bar"
   echo "  [*Always* | On Desktop Only | In Full Screen Only | Never]"
   # These four options are controlled by two booleans:
@@ -443,20 +449,20 @@ dock_and_menu_bar_customize_menu_bar_automatically_hide_and_show_the_menu_bar_on
 # - DUNNO/2024-04-15: Was new option added? Sonoma 14.4.1 default
 #   is "Show When Active". Other 2 options: Always Show in Menu Bar,
 #   and Don't Show in Menu Bar.
-dock_and_menu_bar_customize_control_center_now_playing_show_in_menu_bar_disable () {
+dock_and_menu_bar_customize_control_center_now_playing_show_in_menu_bar_disable() {
   # echo "Dock & Menu Bar: Control Center: Now Playing: ✗ Show in Menu Bar"
   #  defaults write ??? ??? -bool false
   :
 }
 
-dock_and_menu_bar_customize_menu_bar_only_clock_use_a_24_hour_clock_enable () {
+dock_and_menu_bar_customize_menu_bar_only_clock_use_a_24_hour_clock_enable() {
   echo "General: Date & Time: ✓ 24-hour time"
   defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
 
   restart_systemuiserver=true
 }
 
-dock_and_menu_bar_customize_menu_bar_clock_customize_day_date_time_format () {
+dock_and_menu_bar_customize_menu_bar_clock_customize_day_date_time_format() {
   # Circa 2020-21 I used the DateFormat "EEE HH:mm:ss", which I probably found
   # online. The format here, "EEE MMM d  H:mm", is what I saw on defaults-read.
   # - 2022-10-17: Though now that I look at the menu bar again, those two spaces
@@ -466,7 +472,7 @@ dock_and_menu_bar_customize_menu_bar_clock_customize_day_date_time_format () {
   # - ISOFF/2024-04-15: I don't see a System Settings option for this,
   #   nor can I find an existing default for it, and if we're just setting
   #   the default value, anyway, don't bother.
-   
+
   #  echo "General: Language & Region: (Hidden option): DateFormat"
   #  defaults write com.apple.menuextra.clock DateFormat -string "EEE MMM d  H:mm"
   #
@@ -474,7 +480,7 @@ dock_and_menu_bar_customize_menu_bar_clock_customize_day_date_time_format () {
   :
 }
 
-dock_and_menu_bar_customize_menu_bar_only_spotlight_show_in_menu_bar_disable () {
+dock_and_menu_bar_customize_menu_bar_only_spotlight_show_in_menu_bar_disable() {
   # SAVVY: This settings exists in `defaults`, but it's just a mirror value.
   # - When *Show in Menu Bar* is set (the default), e.g.,
   #     Control Center: Menu Bar Only: Spotlight: ✓ Show in Menu Bar
@@ -505,7 +511,7 @@ dock_and_menu_bar_customize_menu_bar_only_spotlight_show_in_menu_bar_disable () 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-mission_control_customize () {
+mission_control_customize() {
   # System Settings > Mission Control shows three of the Keyboard shortcuts
   # we set via System Settings > Keyboard > Shortcuts: Mission Control (^⌥ ↑),
   # Application windows (^⌥ ↓), and Show Desktop (^⌥ D).
@@ -515,7 +521,7 @@ mission_control_customize () {
   mission_control_customize_hot_corners_lower_corners_mission_control
 }
 
-mission_control_customize_automatically_rearrange_spaces_based_on_most_recent_use_false () {
+mission_control_customize_automatically_rearrange_spaces_based_on_most_recent_use_false() {
   echo "Desktop & Dock: Mission Control: ✗ Automatically rearrange Spaces based on most recent use"
   defaults write com.apple.dock mru-spaces -bool false
   restart_dock=true
@@ -527,7 +533,7 @@ mission_control_customize_automatically_rearrange_spaces_based_on_most_recent_us
 #     echo "Desktop & Dock: Mission Control: Hot Corners... > Mission Control (Lower-left, and Lower-right)"
 #     defaults write com.apple.dock wvous-bl-corner -int 2
 #     ...
-mission_control_customize_hot_corners_lower_corners_mission_control () {
+mission_control_customize_hot_corners_lower_corners_mission_control() {
   echo "Desktop & Dock: Mission Control: Hot Corners... > Mission Control (Lower-right)"
   echo " - The other three corners: Disabled (No Hotness)"
   # Factory defaults: All off except Quick Note lower-right: "wvous-br-corner" = 14
@@ -557,11 +563,11 @@ mission_control_customize_hot_corners_lower_corners_mission_control () {
 # NEXTM/2022-10-31: Ya know, Slack notifications also disabled...
 # - TRACK: I wonder if the macOS update/reboot on Friday disabled Notifications?
 # - So make this a general Notifications & Focus reminder.
-notifications_ampersand_focus_customize () {
+notifications_ampersand_focus_customize() {
   print_at_end+=("🔳 System Settings: Notifications: Google Chrome: ✓✓ Allow Notifications (you may see two Google Chrome entries")
   print_at_end+=("🔳 System Settings: Notifications: Google Chrome: Style: ✓✓ Alerts [Banners timeout; Alerts persist]")
 
-  appendPAE () {
+  appendPAE() {
     local app_name="$1"
 
     print_at_end+=("🔳 System Settings: Notifications: ${app_name}: ✓ Allow Notifications")
@@ -652,14 +658,14 @@ notifications_ampersand_focus_customize () {
 # and its layout seems fine to me. (But I do like collecting all the
 # `defaults` options in this script!)
 #  https://www.makeuseof.com/tag/hidden-mac-settings-defaults-command/amp/0
-launchpad_customize () {
+launchpad_customize() {
   false && (
     # Reset Launchpad, including the arrangement of the apps:
     defaults write com.apple.dock ResetLaunchPad -bool true
 
     # Reset the rows and columns settings:
-    defaults delete com.apple.dock springboard-rows 2> /dev/null || true
-    defaults delete com.apple.dock springboard-columns 2> /dev/null || true
+    defaults delete com.apple.dock springboard-rows 2>/dev/null || true
+    defaults delete com.apple.dock springboard-columns 2>/dev/null || true
 
     # Customize Launchpad rows and columns:
     defaults write com.apple.dock springboard-rows -int {num_rows}
@@ -676,7 +682,7 @@ launchpad_customize () {
 # me it's the first time running an app, and I might have some more
 # customization to do.
 # - CXREF: https://github.com/rusty1s/dotfiles/blob/master/macos/defaults.sh
-launchservices_customize () {
+launchservices_customize() {
   false && (
     # Disable the "Are you sure you want to open this application?" dialog.
     defaults write com.apple.LaunchServices LSQuarantine -bool false
@@ -685,7 +691,7 @@ launchservices_customize () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-keyboard_customize () {
+keyboard_customize() {
   keyboard_customize_key_repeat_fastest
   keyboard_customize_delay_until_repeat__disabled
   keyboard_customize_press_and_hold_enabled_false__disabled
@@ -727,7 +733,7 @@ keyboard_customize () {
 #     responds '1'.
 #   REFER: https://github.com/herrbischoff/awesome-macos-command-line#key-repeat-rate
 # REFER: https://apple.stackexchange.com/a/83923/388088
-keyboard_customize_key_repeat_fastest () {
+keyboard_customize_key_repeat_fastest() {
   echo "Keyboard: Keyboard: Key repeat rate: 1 [Faster than Fast]"
   # Sonoma widget (8 ticks): Off | Slow | XX | XX | XX | XX | XX | Fast
   # - Values:                120    120   90   60   30   12    5     2
@@ -752,7 +758,7 @@ keyboard_customize_key_repeat_fastest () {
 #     # Don't try this!
 #     #  defaults write -g InitialKeyRepeat -int 10
 # REFER: https://apple.stackexchange.com/questions/10467/how-to-increase-keyboard-key-repeat-rate-on-os-x#comment380315_83923
-keyboard_customize_delay_until_repeat__disabled () {
+keyboard_customize_delay_until_repeat__disabled() {
   echo "Keyboard: Keyboard: Delay until repeat: 25 [5th of 6 tick stops]"
   # Sonoma widget (6 ticks): Long | XX | XX | XX | XX | Short
   # - Values:                 120   94   68   30   25     15
@@ -766,14 +772,14 @@ keyboard_customize_delay_until_repeat__disabled () {
 # operation. But I didn't record the issue more specifically than that,
 # so I'm leaving this disabled until I have a reason to try it.
 # REFER: *a GitHub issue for NyaoVim* https://github.com/rhysd/NyaoVim/issues/18
-keyboard_customize_press_and_hold_enabled_false__disabled () {
+keyboard_customize_press_and_hold_enabled_false__disabled() {
   false && (
     echo "Keyboard: Disable press-and-hold keys to increase key repeat rate"
     defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
   ) || true
 }
 
-keyboard_customize_reclaim_fkeys () {
+keyboard_customize_reclaim_fkeys() {
   # SAVVY/2024-04-15: I think this affects MacBook keyboards, and doesn't
   # have any effect on external keyboards, e.g., such as one attached to a
   # Mac mini.
@@ -813,12 +819,12 @@ keyboard_customize_reclaim_fkeys () {
 #         macOS was causing this, and not MacVim, I could swear
 #         that I'm familiar with this setting, but it's been years
 #         since I've been reminded of it!
-keyboard_customize_disable_add_period_with_double_space () {
+keyboard_customize_disable_add_period_with_double_space() {
   echo "Keyboard: Text Input > Input Sources > Edit...: ✗ Add period with double-space"
   defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 }
 
-keyboard_reminder_discourage_bluetooth_peripherals () {
+keyboard_reminder_discourage_bluetooth_peripherals() {
   print_at_end+=("🔳 Keyboard: BWARE: Author had keyboard connectivity issues over Bluetooth
    - Circa 2022-2023, author's Logitech Ergo K860 began disconnecting after 1 second idle,
      but works fine on Linux. I fiddled with macOS System Settings but eventually gave up
@@ -833,12 +839,12 @@ keyboard_reminder_discourage_bluetooth_peripherals () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-sound_preferences_customize () {
+sound_preferences_customize() {
   sound_preferences_customize_sound_effects_play_user_interface_sound_effects_false
   sound_preferences_customize_sound_effects_select_an_alert_sound_jump
 }
 
-sound_preferences_customize_sound_effects_play_user_interface_sound_effects_false () {
+sound_preferences_customize_sound_effects_play_user_interface_sound_effects_false() {
   false && (
     echo "Sound: Sound Effects: ✗ Play user interface sound effects"
     defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool false
@@ -853,20 +859,20 @@ sound_preferences_customize_sound_effects_play_user_interface_sound_effects_fals
   ) || true
 }
 
-sound_preferences_customize_sound_effects_select_an_alert_sound_jump () {
+sound_preferences_customize_sound_effects_select_an_alert_sound_jump() {
   echo "Sound: Sound Effects: Alert sound: Jump [aka Frog]"
   defaults write NSGlobalDomain com.apple.sound.beep.sound "/System/Library/Sounds/Frog.aiff"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-mouse_customize () {
+mouse_customize() {
   mouse_customize_scroll_direction_unnatural
   mouse_customize_scrolling_speed
 }
 
 # There's nothing natural about it! Feels backwards to me.
-mouse_customize_scroll_direction_unnatural () {
+mouse_customize_scroll_direction_unnatural() {
   echo "Mouse: ✗ Natural scrolling [Content tracks finger movement]"
   defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 }
@@ -876,7 +882,7 @@ mouse_customize_scroll_direction_unnatural () {
 # much further that I'd want.
 # - 3rd of 8 ticks: 0.215
 # - 4th of 8 ticks: 0.3125
-mouse_customize_scrolling_speed () {
+mouse_customize_scrolling_speed() {
   # Sonoma widget (8 ticks): Slow | XXXXX | XXXXX | XXXXXX | XXXX | XXXX | XX | Fast
   # - Values:                   0   0.125   0.215   0.3125    0.5   0.75    1    1.7
   # - GUI default (written to defaults):            0.3125
@@ -886,7 +892,7 @@ mouse_customize_scrolling_speed () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-display_customize () {
+display_customize() {
   # Each of these reminders is applicable to a laptop.
   # - Each fcn. is guarded by is_probably_a_laptop
   display_customize_external_monitor_mirror_displays
@@ -928,13 +934,13 @@ display_customize () {
 #       MacBook Air "M2" 8 CPU/8 GPU 13     Mac14,2
 #       MacBook Air "M2" 8 CPU/10 GPU 13    Mac14,2
 
-is_probably_a_laptop () {
-  system_profiler SPHardwareDataType \
-    | grep -q -e "^ *Model Identifier: " \
-    | grep -q -e "Book"
+is_probably_a_laptop() {
+  system_profiler SPHardwareDataType |
+    grep -q -e "^ *Model Identifier: " |
+    grep -q -e "Book"
 }
 
-display_customize_external_monitor_mirror_displays () {
+display_customize_external_monitor_mirror_displays() {
   is_probably_a_laptop || return 0
 
   print_at_end+=('🔳 System Settings: Displays:
@@ -956,7 +962,7 @@ display_customize_external_monitor_mirror_displays () {
          used, the external monitor received no signal.')
 }
 
-display_customize_battery_power_adapter_turn_display_off_after_never () {
+display_customize_battery_power_adapter_turn_display_off_after_never() {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🔳 System Settings: Battery: Power Adapter:
@@ -967,7 +973,7 @@ display_customize_battery_power_adapter_turn_display_off_after_never () {
 
 # UCASE: Using an external monitor, and having the laptop lid closed (and
 # perhaps switching between multiple sources on the external monitor).
-display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
+display_customize_battery_power_adapter_no_sleep_when_display_is_off() {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🔳 System Settings: Battery: Power Adapter:
@@ -987,7 +993,7 @@ display_customize_battery_power_adapter_no_sleep_when_display_is_off () {
 #
 # ALTLY: You can also use `caffeinate` to keep the machine from sleeping.
 # - UCASE: You're using a Vendor laptop, and Help Desk locks this setting.
-display_customize_energy_saver_no_sleep_when_display_is_off () {
+display_customize_energy_saver_no_sleep_when_display_is_off() {
   print_at_end+=("🤷 System Settings: Energy Saver:
    - ✓ Prevent automatic sleeping when the display is off.
      - This prompts for account password, but only once, ever.
@@ -997,12 +1003,12 @@ display_customize_energy_saver_no_sleep_when_display_is_off () {
 
 # ***
 
-display_customize_energy_saver_reboot_automatically_after_a_power_failure () {
+display_customize_energy_saver_reboot_automatically_after_a_power_failure() {
   print_at_end+=("🤷 System Settings: Energy Saver:
    - ✓ Start up automatically after a power failure")
 }
 
-display_customize_gripe_cannot_not_sleep_nor_lock_when_latched () {
+display_customize_gripe_cannot_not_sleep_nor_lock_when_latched() {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🤷 System Settings: Display Preferences: Do not Lock when Lid Closed
@@ -1013,7 +1019,7 @@ display_customize_gripe_cannot_not_sleep_nor_lock_when_latched () {
 # display is connected (though perhaps it's a privacy concern, e.g.,
 # so you don't unintentionally broadcast your notifs while screen
 # casting, which is another form of external display).
-display_customize_external_enable_notifications () {
+display_customize_external_enable_notifications() {
   # ITSOK: This setting meant for laptop, but doesn't hurt regardless:
   #  is_probably_a_laptop || return 0
 
@@ -1023,14 +1029,14 @@ display_customize_external_enable_notifications () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-accessibility_customize () {
+accessibility_customize() {
   accessibility_customize_pointer_control_ignore_built_in_trackpad_when_mouse_is_present
   accessibility_customize_spoken_content_download_voices
 }
 
 # When I use the built-in keyboard, especially the modifier keys with my
 # left hand, I often brush up against the trackpad.
-accessibility_customize_pointer_control_ignore_built_in_trackpad_when_mouse_is_present () {
+accessibility_customize_pointer_control_ignore_built_in_trackpad_when_mouse_is_present() {
   is_probably_a_laptop || return 0
 
   echo "Accessibility: Motor: Pointer Control: ✓ Ignore built-in trackpad when mouse ... is present"
@@ -1041,14 +1047,14 @@ accessibility_customize_pointer_control_ignore_built_in_trackpad_when_mouse_is_p
 # that sounds a lot less robotic.
 # - I like: Fiona (Enhanced), Scottish-English; also Matilda (Enhanced,
 #   not Premium, latter has weird inflections).
-accessibility_customize_spoken_content_download_voices () {
+accessibility_customize_spoken_content_download_voices() {
   print_at_end+=("🔳 System Settings: Accessibility: Spoken Content: System Voice: Drop-down: Manage Voices...:
    - Select and download voices (e.g., pick a few \"Enhanced\" or \"Premium\" voices you like).")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-screenshots_customize () {
+screenshots_customize() {
   screenshots_customize_location
   screenshots_customize_disable_shadow
   screenshots_customize_basename
@@ -1059,19 +1065,19 @@ screenshots_customize () {
 
 # ***
 
-screenshots_customize_location () {
+screenshots_customize_location() {
   mkdir -p "${DEPOXY_SCREENCAPS_DIR}"
 
   echo "Screencapture: Save screenshots to: ${DEPOXY_SCREENCAPS_DIR}"
   defaults write com.apple.screencapture location "${DEPOXY_SCREENCAPS_DIR}"
 }
 
-screenshots_customize_disable_shadow () {
+screenshots_customize_disable_shadow() {
   echo "Screencapture: Disable (annoyingly large, ~100px) window capture border"
   defaults write com.apple.screencapture disable-shadow -bool true
 }
 
-screenshots_customize_basename () {
+screenshots_customize_basename() {
   local screencap_basename="scrap"
 
   echo "Screencapture: Change basename 'Screen Shot YYYY-MM-DD at HH.MM.SS XM.png' → '${screencap_basename}... [datestamp] at [timestamp].[ext]'"
@@ -1079,8 +1085,8 @@ screenshots_customize_basename () {
 }
 
 # I'm fine with the default, PNG, but here's how you'd change it.
-screenshots_customize_type__disabled () {
-  defaults delete com.apple.screencapture type 2> /dev/null || true
+screenshots_customize_type__disabled() {
+  defaults delete com.apple.screencapture type 2>/dev/null || true
   false && (
     # Options: png, jpg, gif, pdf, bmp, jpeg, tiff.
     echo "Screencapture: Change image format: JPG"
@@ -1090,12 +1096,12 @@ screenshots_customize_type__disabled () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-finder_customize () {
+finder_customize() {
   finder_customize_general_show_these_items_on_desktop_hard_disks_false
   finder_customize_general_show_these_items_on_desktop_connected_servers_false
   finder_customize_sidebar_show_these_items_in_the_sidebar
   finder_customize_advanced_show_all_filename_extensions
- 
+
   finder_customize_disable_desktop_focus
   finder_customize_always_show_hidden_files
 
@@ -1120,13 +1126,13 @@ finder_customize () {
 # 2022-10-17: My latest MacBook (preconfigured from a client) already had these
 # two items deselected -- Hard disks and Connected servers -- but my previous
 # machine did not, so might as well include 'em.
-finder_customize_general_show_these_items_on_desktop_hard_disks_false () {
+finder_customize_general_show_these_items_on_desktop_hard_disks_false() {
   echo "Finder: Settings...: General > Show these items on the desktop: ✗ Hard disks"
   defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
   restart_finder=true
 }
 
-finder_customize_general_show_these_items_on_desktop_connected_servers_false () {
+finder_customize_general_show_these_items_on_desktop_connected_servers_false() {
   echo "Finder: Settings...: General > Show these items on the desktop: ✗ Connected servers"
   defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
   restart_finder=true
@@ -1134,7 +1140,7 @@ finder_customize_general_show_these_items_on_desktop_connected_servers_false () 
 
 # These names are user- and machine-dependent, and I didn't see anything
 # change under com.apple.finder, so add manually reminder.
-finder_customize_sidebar_show_these_items_in_the_sidebar () {
+finder_customize_sidebar_show_these_items_in_the_sidebar() {
   # SAVVY: $(id -un) aka ${LOGNAME}
   # - Add your user home so you can access directories you've created in your home directory.
   # - Add your host machine so you can access the root of the file system.
@@ -1144,7 +1150,7 @@ finder_customize_sidebar_show_these_items_in_the_sidebar () {
    - Locations: ✓ 💻 $(hostname)")
 }
 
-finder_customize_advanced_show_all_filename_extensions () {
+finder_customize_advanced_show_all_filename_extensions() {
   echo "Finder: Settings...: Advanced > ✓ Show all filename extensions"
   defaults write NSGlobalDomain AppleShowAllExtensions -bool true
   restart_finder=true
@@ -1159,20 +1165,20 @@ finder_customize_advanced_show_all_filename_extensions () {
 #   $ osascript -e 'tell application "Finder" to get bounds of window of desktop'
 #   33:39: execution error: Finder got an error: Can’t get bounds of window of desktop. (-1728)
 # - ALTLY: Parse `system_profiler SPDisplaysDataType` instead of get-bounds.
-finder_customize_disable_desktop_focus () {
+finder_customize_disable_desktop_focus() {
   echo "Finder: Disable Desktop so it doesn't steal focus when you click on it"
   defaults write com.apple.finder CreateDesktop -bool false
   restart_finder=true
 }
 
 # https://github.com/herrbischoff/awesome-macos-command-line#show-all-file-extensions
-finder_customize_always_show_hidden_files () {
+finder_customize_always_show_hidden_files() {
   echo "Finder: Always show hidden files (akin to always-on Shift-Command-.)"
   defaults write com.apple.finder AppleShowAllFiles -bool true
   restart_finder=true
 }
 
-finder_customize_add_quit_menu_option__disabled () {
+finder_customize_add_quit_menu_option__disabled() {
   # Circa 2020-2021, Finder would show up in AltTab, which was annoying,
   # but I had found a way to Quit the Finder (and then I'd use Alt-Cmd-Space
   # or Shift-Cmd-F to open a Finder window).
@@ -1188,7 +1194,7 @@ finder_customize_add_quit_menu_option__disabled () {
 # I've never tried this option, nor does it sound appealing, but I do
 # appreciate hidden features, and I like to document... *everything!*
 #  https://github.com/herrbischoff/awesome-macos-command-line#show-full-path-in-finder-title
-finder_customize_show_full_path_in_finder_window_title__disabled () {
+finder_customize_show_full_path_in_finder_window_title__disabled() {
   false && (
     echo "Finder: Show full path in Finder window title"
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
@@ -1196,7 +1202,7 @@ finder_customize_show_full_path_in_finder_window_title__disabled () {
   ) || true
 }
 
-finder_customize_show_path_bar () {
+finder_customize_show_path_bar() {
   echo "Finder: View > Show Path Bar (Cmd-Alt-P)"
   defaults write com.apple.finder ShowPathbar -bool true
   restart_finder=true
@@ -1206,7 +1212,7 @@ finder_customize_show_path_bar () {
 
 # https://gist.github.com/naotone/d2cbb30cd8d54d34869f
 
-finder_customize_disable_file_extension_change_warning () {
+finder_customize_disable_file_extension_change_warning() {
   # Not sure if typo, or aliased, but rusty1s/dotfiles uses pluralized name:
   #   # Disable file extension change warning.
   #   defaults write com.apple.finder FXEnableExtensionsChangeWarning -bool false
@@ -1228,20 +1234,20 @@ finder_customize_disable_file_extension_change_warning () {
 # List View   : `Nlsv`
 # Column View : `clmv`
 # Cover Flow  : `Flwv`
-finder_customize_set_preferred_view_style () {
+finder_customize_set_preferred_view_style() {
   if false; then
     echo "Finder: Set preferred view style — Column View"
     defaults write com.apple.finder FXPreferredViewStyle clmv
     restart_finder=true
   else
-    # 
+    #
     print_at_end+=("\
 🔳 Finder: Choose List view early so it applies to directories you haven't viewed yet:
      Finder > View > List (Cmd-2)")
   fi
 }
 
-finder_customize_avoid_ds_store_file_creation_on_network_volumes () {
+finder_customize_avoid_ds_store_file_creation_on_network_volumes() {
   # INERT/2022-11-18: If you have `.DS_Store` annoyances later, try:
   false && (
     echo "Finder: (Hidden?) Avoid creating .DS_Store files on network volumes"
@@ -1260,7 +1266,7 @@ finder_customize_avoid_ds_store_file_creation_on_network_volumes () {
 
 # Shows '<> items, <> GB available' in footer below Path Bar, not
 # very interesting.
-finder_customize_show_status_bar () {
+finder_customize_show_status_bar() {
   if false; then
     echo "Finder: View > Show Status Bar (Cmd-/)"
     defaults write com.apple.finder ShowStatusBar -bool true
@@ -1273,7 +1279,7 @@ finder_customize_show_status_bar () {
 #   - All Tags: also incl. Home, Important, Work
 # - I've never used tags, and rarely use finder (or any file system
 #   GUI). And I enjoy declutter. So hide the Tags group.
-finder_customize_hide_tags_in_sidebar () {
+finder_customize_hide_tags_in_sidebar() {
   # CALSO: Finder: Settings...: Tags: Show these tags inthe sidebar:
   # - And then click '-' for each tag.
   echo "Finder: Hide tags in sidebar"
@@ -1281,7 +1287,7 @@ finder_customize_hide_tags_in_sidebar () {
 }
 
 # SAVVY: Should you need to increase the sidebar width:
-finder_customize_greater_sidebar_width () {
+finder_customize_greater_sidebar_width() {
   if false; then
     echo "Finder: Increase sidebar width"
     # - macOS Sonoma 14.4.1 default SidebarWidth -int 155
@@ -1290,7 +1296,7 @@ finder_customize_greater_sidebar_width () {
 }
 
 # WHTVR: Author uses sh-rm_safe ~/.trash, not macOS Trash.
-finder_customize_empty_trash_sans_confirmation () {
+finder_customize_empty_trash_sans_confirmation() {
   if false; then
     echo "Finder: Skip confirmation prompt when emptying trash"
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
@@ -1303,7 +1309,7 @@ finder_customize_empty_trash_sans_confirmation () {
 # Previous Scope : `SCsp`
 # WHTVR: Author is sure they don't care. Uses `locate`, `fd`, and
 # other tools to search.
-finder_customize_search_scope () {
+finder_customize_search_scope() {
   if false; then
     echo "Finder: Set search scope — Current Folder"
     # - macOS Sonoma 14.4.1 default FXDefaultSearchScope <delete>
@@ -1333,7 +1339,7 @@ finder_customize_search_scope () {
 # Documents    : `PfDo`
 # All My Files : `PfAF`
 # Other…       : `PfLo`
-finder_customize_set_default_path_for_new_windows () {
+finder_customize_set_default_path_for_new_windows() {
   echo "Finder Settings: General: New Finder windows show: ${LOGNAME}"
   if false; then
     defaults write com.apple.finder NewWindowTarget PfHm
@@ -1348,7 +1354,7 @@ finder_customize_set_default_path_for_new_windows () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-macos_customize () {
+macos_customize() {
   # https://github.com/rusty1s/dotfiles/blob/master/macos/defaults.sh
   macos_customize_quit_printer_when_queue_empties
   macos_customize_disable_device_plug_opening_preview
@@ -1371,7 +1377,7 @@ macos_customize () {
 # menu bar drop-down).
 
 # "Automatically quit printer app once the print jobs complete."
-macos_customize_quit_printer_when_queue_empties () {
+macos_customize_quit_printer_when_queue_empties() {
   echo "DISABLED: macOS Misc.: Printer: Quit when finished"
   if false; then
     defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
@@ -1379,7 +1385,7 @@ macos_customize_quit_printer_when_queue_empties () {
 }
 
 # "Prevent Photos from opening automatically when devices are plugged in."
-macos_customize_disable_device_plug_opening_preview () {
+macos_customize_disable_device_plug_opening_preview() {
   echo "DISABLED: macOS Misc.: External devices: Do not launch Photos on mount"
   if false; then
     defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
@@ -1387,10 +1393,10 @@ macos_customize_disable_device_plug_opening_preview () {
 }
 
 # "Stop iTunes from responding to the keyboard media keys."
-macos_customize_disable_itunes_listening_media_keys () {
+macos_customize_disable_itunes_listening_media_keys() {
   echo "DISABLED: macOS Misc.: Media keys: Disable iTunes listening on media keys"
   if false; then
-    launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+    launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2>/dev/null
   fi
 }
 
@@ -1411,7 +1417,7 @@ macos_customize_disable_itunes_listening_media_keys () {
 #   happens (tho still annoying, and eventually all of my .gitignore
 #   files will probably have a “.DS_Store” rule).
 
-macos_customize_inhibit_create_dot_ds_store__you_wish () {
+macos_customize_inhibit_create_dot_ds_store__you_wish() {
   return 0
 
   echo "Desktop Services Store: Inhibit .DS_Store from network stores"
@@ -1431,7 +1437,7 @@ macos_customize_inhibit_create_dot_ds_store__you_wish () {
 # from Meld (python3).
 # - INERT: Though we could maybe wire from Meld accelerator file source,
 #          and rebuild.
-app_shortcuts_customize_all_apps_apple_menu_system_settings () {
+app_shortcuts_customize_all_apps_apple_menu_system_settings() {
   echo "${CRUMB_APP_SHORTCUTS}: All Applications: System Settings...: (Unset) → Shift-Ctrl-Cmd-,"
   # At least I think this is what you need to do (but if you manually
   # add the binding via System Settings, it works immediately).
@@ -1445,7 +1451,7 @@ app_shortcuts_customize_all_apps_apple_menu_system_settings () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # CXREF: app_shortcuts_customize_google_chrome
-google_chrome_customize () {
+google_chrome_customize() {
   # 2023-01-29: Using Finicky as default browser now, as intermediary.
   if false; then
     ${non_disruptive} ||
@@ -1477,7 +1483,7 @@ google_chrome_customize () {
 #   peculiar for an app I executed from the terminal! Seems more distruptive
 #   and no less automated that telling Google Chrome --make-default-browser.
 # Or better yet we can use AppleScript.
-google_chrome_customize_make_default_browser () {
+google_chrome_customize_make_default_browser() {
   echo "Google Chrome: Make default browser"
 
   echo "- Google Chrome: Closing so we can open-tell it to --make-default-browser"
@@ -1489,7 +1495,7 @@ google_chrome_customize_make_default_browser () {
   open -a "Google Chrome" --args --make-default-browser
 }
 
-google_chrome_customize_suggest_setup () {
+google_chrome_customize_suggest_setup() {
   print_at_end+=("\
 🔳 Google Chrome: Initial setup:
    - Remove New Tab shortcut(s) (e.g., Web Store)
@@ -1499,29 +1505,29 @@ google_chrome_customize_suggest_setup () {
    - Decline Chrome Sync")
 }
 
-google_chrome_customize_continue_where_you_left_off () {
+google_chrome_customize_continue_where_you_left_off() {
   print_at_end+=("🔳 Google Chrome: ⋮ > Settings (Command-,) > On startup > Continue where you left of")
 }
 
-google_chrome_customize_devtools_show_timestamps () {
+google_chrome_customize_devtools_show_timestamps() {
   print_at_end+=("🔳 Google Chrome: DevTools: [Gear icon]: Preferences > Console > ✓ Timestamps")
 }
 
 # REFER: https://css-tricks.com/sliding-nightmare-understanding-range-input/
-google_chrome_customize_devtools_show_user_agent_shadow_dom () {
+google_chrome_customize_devtools_show_user_agent_shadow_dom() {
   print_at_end+=("🔳 Google Chrome: DevTools: [Gear icon]: Preferences > Elements > ✓ Show user agent shadow DOM")
 }
 
 # ***
 
-google_chrome_customize_add_extension_react_developer_tools () {
+google_chrome_customize_add_extension_react_developer_tools() {
   print_at_end+=("\
 🔳 Google Chrome: Add extenstion: React Developer Tool
      sensible-open https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
      sensible-open https://github.com/facebook/react/tree/master/packages/react-devtools-extensions")
 }
 
-google_chrome_customize_add_extension_redux_devtools () {
+google_chrome_customize_add_extension_redux_devtools() {
   print_at_end+=("\
 🔳 Google Chrome: Add extenstion: Redux DevTools::
      sensible-open https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related?hl=en
@@ -1533,7 +1539,7 @@ google_chrome_customize_add_extension_redux_devtools () {
 
 # Clear Cache is helpful where Shift-F5 not clearing what you need cleared
 # (e.g., temporary access tokens).
-google_chrome_customize_add_extension_clear_cache () {
+google_chrome_customize_add_extension_clear_cache() {
   print_at_end+=("\
 🔳 Google Chrome: Add extenstion: Clear Cache::
      sensible-open https://chrome.google.com/webstore/detail/clear-cache/cppjkneekbjaeellbfkmgnhonkkjfpdn/RK%3D2/RS%3DzwqaryCReNAACSfd_oYYPpX0_tw-
@@ -1547,7 +1553,7 @@ google_chrome_customize_add_extension_clear_cache () {
 # What I said 2021-02-02: I'm just tossing this in the mix, as recommended
 # by co-workers, but not something I've used or for which I can vouch.
 # - Looks like mostly for developing/debugging UI components, CSS and related.
-google_chrome_customize_add_extension_visbug () {
+google_chrome_customize_add_extension_visbug() {
   print_at_end+=("\
 🔳 Google Chrome: Add extenstion: VisBug
      sensible-open https://chrome.google.com/webstore/detail/visbug/cdockenadnadldjbbgcallicgledbeoc?hl=en")
@@ -1559,7 +1565,7 @@ google_chrome_customize_add_extension_visbug () {
 # - FIXME: Ya know, you could make bookmarks for all the Google Chrome extensions
 #          you want to install!
 #          - Then update this item with a filepath to said bookmarks file.
-google_chrome_customize_import_bookmarks () {
+google_chrome_customize_import_bookmarks() {
   print_at_end+=("🔳 Google Chrome: Bookmarks manager (Ctrl-Shift-O): ⋮ > Import bookmarks")
 }
 
@@ -1572,13 +1578,13 @@ mozilla_firefox_customize() {
 }
 
 # REFER: https://css-tricks.com/sliding-nightmare-understanding-range-input/
-mozilla_firefox_customize_devtools_show_user_agent_shadow_dom () {
+mozilla_firefox_customize_devtools_show_user_agent_shadow_dom() {
   print_at_end+=("\
 🔳 Mozilla Firefox: DevTools: Verify \`devtools.inspector.showAllAnonymousContent\` is true::
     firefox about:config")
 }
 
-mozilla_firefox_customize_customize_add_extension_redux_devtools () {
+mozilla_firefox_customize_customize_add_extension_redux_devtools() {
   print_at_end+=("\
 🔳 Mozilla Firefox: Add extenstion: Redux DevTools::
      sensible-open https://github.com/zalmoxisus/redux-devtools-extension")
@@ -1586,7 +1592,7 @@ mozilla_firefox_customize_customize_add_extension_redux_devtools () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-alttab_customize () {
+alttab_customize() {
   alttab_customize_shortcut_1
   alttab_customize_shortcut_3
   alttab_customize_additional_controls
@@ -1616,7 +1622,7 @@ alttab_customize () {
 #   one window for the app, and I have all my most used applications hotkeyed
 #   via Hammyspoony accelerators, so I can quickly front them without AltTab.
 #     https://github.com/DepoXy/macOS-Hammyspoony/blob/release/.hammerspoon/init.lua
-alttab_customize_shortcut_1 () {
+alttab_customize_shortcut_1() {
   alttab_customize_shortcut_1_show_minimized_windows__hide
   alttab_customize_shortcut_1_show_hidden_windows__hide
 }
@@ -1629,7 +1635,7 @@ alttab_customize_shortcut_1 () {
 #   - SAVVY: This means you cannot <Ctrl-`> and then use <Shift> to reverse
 #     the selection. Because of the macOS binding, pressing <Shift> will
 #     immediately focus the next application window.
-alttab_customize_shortcut_3 () {
+alttab_customize_shortcut_3() {
   alttab_customize_shortcut_3_trigger_shortcut
   alttab_customize_shortcut_3_show_windows_from_applications__active_app
   alttab_customize_shortcut_3_show_windows_from_spaces__visible_spaces
@@ -1639,11 +1645,11 @@ alttab_customize_shortcut_3 () {
   alttab_customize_shortcut_3_show_fullscreen_windows__hide
 }
 
-alttab_customize_additional_controls () {
+alttab_customize_additional_controls() {
   alttab_customize_additional_controls_select_windows_on_mouse_hover__off
 }
 
-alttab_customize_shortcuts_when_active () {
+alttab_customize_shortcuts_when_active() {
   alttab_customize_shortcuts_when_active_quit_select_previous_window__q
   alttab_customize_shortcuts_when_active_quit_app__noop
   alttab_customize_shortcuts_when_active_close_window_noop
@@ -1651,7 +1657,7 @@ alttab_customize_shortcuts_when_active () {
 
 # ***
 
-alttab_customize_shortcut_1_show_minimized_windows__hide () {
+alttab_customize_shortcut_1_show_minimized_windows__hide() {
   echo "AltTab: Preferences... > Controls > Shortcut 1
     > Show minimized windows: Hide"
   defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 1
@@ -1668,7 +1674,7 @@ alttab_customize_shortcut_1_show_minimized_windows__hide () {
 # like Activity Monitor, and Pulse Secure. Doesn't seem to change
 # a thing for me. But I can hide them using the blocklist. Though
 # we'll still set this option to show our intent, to hide hiddens.
-alttab_customize_shortcut_1_show_hidden_windows__hide () {
+alttab_customize_shortcut_1_show_hidden_windows__hide() {
   echo "AltTab: Preferences... > Controls > Shortcut 1
     > Show hidden windows: Hide"
   defaults write com.lwouis.alt-tab-macos showHiddenWindows -int 1
@@ -1678,7 +1684,7 @@ alttab_customize_shortcut_1_show_hidden_windows__hide () {
 
 # HSTRY/2025-02-24: Was <Ctrl-Backtick>, now <Shift-Ctrl-Backtick>.
 # - I never use this binding, and I want to map a new Neovim binding.
-alttab_customize_shortcut_3_trigger_shortcut () {
+alttab_customize_shortcut_3_trigger_shortcut() {
   # echo "AltTab: Preferences... > Controls > Shortcut 3
   #   > Trigger shortcut: Hold: ^"
   # defaults write com.lwouis.alt-tab-macos holdShortcut3 '\U2303'
@@ -1691,37 +1697,37 @@ alttab_customize_shortcut_3_trigger_shortcut () {
   defaults write com.lwouis.alt-tab-macos nextWindowShortcut3 '\`'
 }
 
-alttab_customize_shortcut_3_show_windows_from_applications__active_app () {
+alttab_customize_shortcut_3_show_windows_from_applications__active_app() {
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Show windows from applications: Active app"
   defaults write com.lwouis.alt-tab-macos appsToShow3 -int 1
 }
 
-alttab_customize_shortcut_3_show_windows_from_spaces__visible_spaces () {
+alttab_customize_shortcut_3_show_windows_from_spaces__visible_spaces() {
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Show windows from Spaces: Visible Spaces"
   defaults write com.lwouis.alt-tab-macos spacesToShow3 -int 1
 }
 
-alttab_customize_shortcut_3_show_windows_from_screens__screen_showing_alttab () {
+alttab_customize_shortcut_3_show_windows_from_screens__screen_showing_alttab() {
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Show windows from screens: Screen showing AltTab"
   defaults write com.lwouis.alt-tab-macos screensToShow3 -int 1
 }
 
-alttab_customize_shortcut_3_show_minimized_windows__hide () {
+alttab_customize_shortcut_3_show_minimized_windows__hide() {
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Show minimized windows: Hide"
   defaults write com.lwouis.alt-tab-macos showMinimizedWindows3 -int 1
 }
 
-alttab_customize_shortcut_3_show_hidden_windows__hide () {
+alttab_customize_shortcut_3_show_hidden_windows__hide() {
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Show hidden windows: Hide"
   defaults write com.lwouis.alt-tab-macos showHiddenWindows3 -int 1
 }
 
-alttab_customize_shortcut_3_show_fullscreen_windows__hide () {
+alttab_customize_shortcut_3_show_fullscreen_windows__hide() {
   echo "AltTab: Preferences... > Controls > Shortcut 3
     > Show fullscreen windows: Hide"
   defaults write com.lwouis.alt-tab-macos showFullscreenWindows3 -int 1
@@ -1783,7 +1789,7 @@ alttab_customize_shortcut_3_show_fullscreen_windows__hide () {
 #       Ctrl-Alt-Up, and you can click MC windows, so maybe I just need
 #       to remember to use Mission Control if I'm looking for an app
 #       window to click.
-alttab_customize_additional_controls_select_windows_on_mouse_hover__off () {
+alttab_customize_additional_controls_select_windows_on_mouse_hover__off() {
   echo "AltTab: Preferences... > Controls > Shortcut X > Additional controls...
     > Select windows on mouse hover: ✓"
   defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -string "true"
@@ -1791,7 +1797,7 @@ alttab_customize_additional_controls_select_windows_on_mouse_hover__off () {
 
 # ***
 
-alttab_customize_shortcuts_when_active_quit_select_previous_window__q () {
+alttab_customize_shortcuts_when_active_quit_select_previous_window__q() {
   echo "AltTab: Preferences... > Controls > Shortcut X > Shortcuts when active...
     > Select previous window: 'Q' (default: ⇧ Shift)"
   defaults write com.lwouis.alt-tab-macos previousWindowShortcut "Q"
@@ -1800,14 +1806,14 @@ alttab_customize_shortcuts_when_active_quit_select_previous_window__q () {
 # My brain is hard-wired to Alt-tab and then press 'q' to reverse direction
 # in the list, but that keeps closing the app!
 # Default: *Removed*.
-alttab_customize_shortcuts_when_active_quit_app__noop () {
+alttab_customize_shortcuts_when_active_quit_app__noop() {
   echo "AltTab: Preferences... > Controls > Shortcut X > Shortcuts when active...
     > Quit app: <Unset> (default: 'Q')"
   defaults write com.lwouis.alt-tab-macos quitAppShortcut ''
 }
 
 # Might as well nix the Close window action, too.
-alttab_customize_shortcuts_when_active_close_window_noop () {
+alttab_customize_shortcuts_when_active_close_window_noop() {
   echo "AltTab: Preferences... > Controls > Shortcut X > Shortcuts when active...
     > Close window: <Unset> (default: 'W')"
   defaults write com.lwouis.alt-tab-macos closeWindowShortcut ''
@@ -1825,7 +1831,7 @@ alttab_customize_shortcuts_when_active_close_window_noop () {
 #   too bright, too contrasty. But within days I found it a struggle to
 #   find what I'm looking for with the default "macOS" theme. So another
 #   vote to keep the "Windows 10" theme (and the noticeable white border).
-alttab_customize_appearance_theme_windows_10 () {
+alttab_customize_appearance_theme_windows_10() {
   echo "AltTab: Preferences... > Appearance
     > Theme: “Windows 10” (easier to see selected window; default: macOS)"
   defaults write com.lwouis.alt-tab-macos theme -string "1"
@@ -1836,7 +1842,7 @@ alttab_customize_appearance_theme_windows_10 () {
 # have to use Alt-Tab again to pick next window, and release keypress to
 # recover.) Adding a short timeout seems to inhibit the race condition
 # from happening.
-alttab_customize_appearance_apparition_delay () {
+alttab_customize_appearance_apparition_delay() {
   # DUNNO/2024-10-19: Perhaps it's my Hammerspoon config, but AltTab
   # started misbehaving again, after months of working fine.
   # - Changing 169 → 200 msec. so far has fixed it...
@@ -1873,8 +1879,9 @@ alttab_customize_appearance_apparition_delay () {
 #
 # ISOFF/2024-04-16: I don't see Activity Monitor in Alt-tab list unless it's open.
 #   - /System/Applications/Utilities/Activity Monitor.app
-alttab_customize_blocklist_hide_in_alttab () {
-  print_at_end+=("$(cat << 'EOF'
+alttab_customize_blocklist_hide_in_alttab() {
+  print_at_end+=("$(
+    cat <<'EOF'
 🔳 AltTab: Preferences...: Blacklists: +: [Select app] / Hide in AltTab: Always
    - Hide apps that appear in AltTab even when not open, e.g.,::
        /Applications/Pulse Secure.app
@@ -1889,20 +1896,20 @@ EOF
 # a completely generic and non-compliant plist domain, "userPrefs", ha!
 # Someone should open a pull request to fix this... aka "someone not me".
 # - Aka easy-move-plus-resize
-easy_move_plus_resize_customize () {
+easy_move_plus_resize_customize() {
   easy_move_plus_resize_customize_drag_modifier
 
   killall_and_reopen "Easy Move+Resize"
 }
 
-easy_move_plus_resize_customize_drag_modifier () {
+easy_move_plus_resize_customize_drag_modifier() {
   echo "Easy Move+Resize: Click window and drag modifiers: CTRL,CMD → ALT"
   defaults write userPrefs ModifierFlags -string "ALT"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-karabiner_elements_customize () {
+karabiner_elements_customize() {
   karabiner_elements_customize_devices_devices_modify_events
   karabiner_elements_customize_complex_modifications_add_rule_all
 }
@@ -1910,14 +1917,14 @@ karabiner_elements_customize () {
 # NOTED/2024-04-16: I see two listings each for my kb and mouse, one each
 # active, one each not; and the two inactive, when activated, offer diff-
 # erent checkbox options than the other two devices. But all 4 must be on.
-karabiner_elements_customize_devices_devices_modify_events () {
+karabiner_elements_customize_devices_devices_modify_events() {
   print_at_end+=("🔳 Karabiner Elements: Settings...: Devices:
    - Verify *Modify events* enabled on all keyboards")
   print_at_end+=("🔳 Karabiner Elements: Settings...: Devices:
    - Verify *Modify events* enabled on all mouse")
 }
 
-karabiner_elements_customize_complex_modifications_add_rule_all () {
+karabiner_elements_customize_complex_modifications_add_rule_all() {
   print_at_end+=("🔳 Karabiner Elements: Settings...: Complex Modifications:
    - Click (+) “Add predefined rule” and *Enable All* for each set of rules you want)")
   print_at_end+=("🔳 Karabiner Elements: Restart some apps for changes to take effect, e.g., MacVim")
@@ -1954,7 +1961,7 @@ karabiner_elements_customize_complex_modifications_add_rule_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-hammerspoon_customize () {
+hammerspoon_customize() {
   local restart_hammerspoon=false
 
   hammerspoon_customize_setup_reminder
@@ -1968,19 +1975,19 @@ hammerspoon_customize () {
   fi
 }
 
-hammerspoon_customize_setup_reminder () {
+hammerspoon_customize_setup_reminder() {
   print_at_end+=("🔳 Hammerspoon: Run Hammerspoon.app (e.g., via <Cmd+Space> Spotlight)
    - 🔳 Choose *Check Automatically* from *Check for updates automatically?* popup
    - See following reminders for *Hammerspoon Preferences* window that pops up")
 }
 
 # No `defaults` option for auto-start.
-hammerspoon_customize_launch_at_login () {
+hammerspoon_customize_launch_at_login() {
   print_at_end+=("🔳 Hammerspoon: Hammerspoon Preferences:
    - Enable option: ✓ *Launch Hammerspoon at login*")
 }
 
-hammerspoon_customize_enable_accessibility () {
+hammerspoon_customize_enable_accessibility() {
   print_at_end+=("🔳 Hammerspoon: Hammerspoon Preferences:
    - Set privilege: Click *Enable Accessibility* and allow Hammerspoon")
 }
@@ -2000,7 +2007,7 @@ hammerspoon_customize_enable_accessibility () {
 # keybinding manually via Rectangle GUI, otherwise you might just run
 # the existing keybinding.
 
-rectangle_customize () {
+rectangle_customize() {
   echo "Rectangle: ✓ Check for updates automatically"
   defaults write com.knollsoft.Rectangle SUEnableAutomaticChecks -bool true
 
@@ -2012,7 +2019,7 @@ rectangle_customize () {
 
   # ***
 
-  log () {
+  log() {
     printf "Rectangle: %13s: %19s: %s → %s\n" "$1" "$2" "$3" "${4:-(Unset)}"
     # This doesn't align because wide characters:
     #  printf "Rectangle: %13s: %19s: %30s → %s\n" "$1" "$2" "$3" "${4:-(Unset)}"
@@ -2100,7 +2107,6 @@ rectangle_customize () {
   log "Thirds" "Last Two Thirds" "(^⌥  T) Ctrl-Alt-T              " "(Unset) [SAVVY: Find via repeated Right Half]"
   defaults write com.knollsoft.Rectangle lastTwoThirds "{ }"
 
-
   # ***
 
   log "Fourths" "First Fourth" "(Unset)                         " "(Leave unset)"
@@ -2109,7 +2115,6 @@ rectangle_customize () {
   log "Fourths" "Last Fourth" "(Unset)                         " "(Leave unset)"
   log "Fourths" "First Three Fourths" "(Unset)                         " "(Leave unset)"
   log "Fourths" "Last Three Fourths" "(Unset)                         " "(Leave unset)"
-
 
   # ***
 
@@ -2138,7 +2143,7 @@ rectangle_customize () {
 
 # ***
 
-_rectangle_customize_circa_2022_macbook () {
+_rectangle_customize_circa_2022_macbook() {
   echo "Rectangle: Miscellany: Maximize: Ctrl-Alt-Enter (^⌥ ⏎ ) → Shift-Ctrl-Cmd-* (^⇧⌘ *)"
   defaults write com.knollsoft.Rectangle maximize "{ keyCode = 67; modifierFlags = 917504; }"
   echo "Rectangle: Miscellany: Almost Maximize: (Unset) → Shift-Ctrl-Cmd-? (^⇧⌘ ?)"
@@ -2243,7 +2248,7 @@ _rectangle_customize_circa_2022_macbook () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-contexts_customize () {
+contexts_customize() {
   local restart_contexts=false
 
   contexts_customize_setup_reminder
@@ -2255,7 +2260,7 @@ contexts_customize () {
   fi
 }
 
-contexts_customize_setup_reminder () {
+contexts_customize_setup_reminder() {
   print_at_end+=("🔳 Contexts: Run Contexts.app (e.g., via <Cmd+Space> Spotlight)
    - 🔳 Click through to open Privacy & Security > Accessibility
         to enable privileges for Contexts
@@ -2264,7 +2269,7 @@ contexts_customize_setup_reminder () {
         - You can recover focus via <Cmd+Space> Contexts menu, or via Spotlight")
 }
 
-contexts_customize_when_cursor_not_over_hide () {
+contexts_customize_when_cursor_not_over_hide() {
   # Defaults: Show Icons (1) / Other options: Show Icons & Title Start, Keep Expanded
   echo "Contexts: Sidebar > When cursor not over: ✓ Hide"
   defaults write com.contextsformac.Contexts CTSidebarInactiveMaximumWidth -int 0
@@ -2274,11 +2279,11 @@ contexts_customize_when_cursor_not_over_hide () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-activity_monitor_customize () {
+activity_monitor_customize() {
   activity_monitor_customize_dock_icon_show_cpu_history
 }
 
-activity_monitor_customize_dock_icon_show_cpu_history () {
+activity_monitor_customize_dock_icon_show_cpu_history() {
   false && (
     echo "Activity Monitor: Right-click Dock Icon: Dock Icon > ✓ Show CPU Usage"
     defaults write com.apple.ActivityMonitor IconType -int 5
@@ -2290,7 +2295,7 @@ activity_monitor_customize_dock_icon_show_cpu_history () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # CXREF: app_shortcuts_customize_iterm2
-iterm2_customize () {
+iterm2_customize() {
   iterm2_customize_general_selection_copied_text_includes_trailing_newline_on
   iterm2_customize_general_selection_copy_to_pasteboard_on_selection_on
 
@@ -2371,7 +2376,7 @@ iterm2_customize () {
 
 # ***
 
-iterm2_customize_general_selection_copied_text_includes_trailing_newline_on () {
+iterm2_customize_general_selection_copied_text_includes_trailing_newline_on() {
   echo "iTerm2: General > Selection > ✓ Copied text includes trailing newline"
   defaults write com.googlecode.iterm2 CopyLastNewline -bool true
 }
@@ -2381,7 +2386,7 @@ iterm2_customize_general_selection_copied_text_includes_trailing_newline_on () {
 # HSTRY/2024-12-03: For many years as a terminal junkie, I had never liked
 # copy-on-selection. But for some reason, when I started using Alacritty
 # on macOS this year, I've immensely enjoyed it.
-iterm2_customize_general_selection_copy_to_pasteboard_on_selection_on () {
+iterm2_customize_general_selection_copy_to_pasteboard_on_selection_on() {
   echo "iTerm2: General > Selection > ✗ Copy to pasteboard on selection"
   defaults write com.googlecode.iterm2 CopySelection -bool true
 }
@@ -2416,7 +2421,7 @@ iterm2_customize_general_selection_copy_to_pasteboard_on_selection_on () {
 # While I like how Pastel looks in tig, terminal colors are washed out (e.g.,
 # PS1 prompt appears white). But Tango looks great.
 
-iterm2_customize_profiles_color_scheme () {
+iterm2_customize_profiles_color_scheme() {
   # Note this changes a log of different "Ansi <n> Color" dicts under
   #   defaults read com.googlecode.iterm2 "New Bookmarks"
   # And not something that seems worth anyone's time to try to automate.
@@ -2430,9 +2435,9 @@ iterm2_customize_profiles_color_scheme () {
 # Default Foreground: 0xc7c7c7 / Dark Background
 # Default Foreground: 0xc7c7c7 / Pastel (Dark Background)
 # Default Foreground: 0xfffeff / Tango Dark
-# ALTLY: c7c7c7 → e3e3e3, for something a titch more muted than fffeff 
-iterm2_customize_profiles_color_foreground_color () {
-  print_at_end+=(\
+# ALTLY: c7c7c7 → e3e3e3, for something a titch more muted than fffeff
+iterm2_customize_profiles_color_foreground_color() {
+  print_at_end+=(
     "🔳 iTerm2: Preferences: Profiles: Colors: Basic Colors: Foreground: c7c7c7 → fffeff"
   )
   # This appears to be a setting under "New Bookmarks", and I'm not sure if I'd
@@ -2454,11 +2459,11 @@ iterm2_customize_profiles_color_foreground_color () {
   #  } )
 }
 
-iterm2_customize_profiles_text_font_hack_nerd_font () {
+iterm2_customize_profiles_text_font_hack_nerd_font() {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Text: Font: Hack Nerd Font Mono")
 }
 
-iterm2_customize_profiles_window_settings_for_new_windows_columns_rows () {
+iterm2_customize_profiles_window_settings_for_new_windows_columns_rows() {
   # Well, I tried:
   #   $ defaults write com.googlecode.iterm2 "New Bookmarks" -dict-add Columns 141
   #   Value for key New Bookmarks is not a dictionary; cannot append.  Leaving defaults unchanged.
@@ -2477,26 +2482,26 @@ iterm2_customize_profiles_window_settings_for_new_windows_columns_rows () {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Window: Settings for New Windows: Rows: 47")
 }
 
-iterm2_customize_profiles_terminal_scrollback_buffer_scrollback_lines () {
+iterm2_customize_profiles_terminal_scrollback_buffer_scrollback_lines() {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Terminal: Scrollback lines: ✓ Unlimited scrollback")
 }
 
-iterm2_customize_profiles_terminal_notifications_silence_bell_true () {
+iterm2_customize_profiles_terminal_notifications_silence_bell_true() {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Terminal: Notifications: ✓ Silence bell")
 }
 
-iterm2_customize_profiles_terminal_notifications_show_bell_icon_in_tabs_false () {
+iterm2_customize_profiles_terminal_notifications_show_bell_icon_in_tabs_false() {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Terminal: Notifications: ✗ Show bell icon in tabs")
 }
 
 # Make Option behave like Alt (e.g., type Alt-. to print last word of last commands).
-iterm2_customize_profiles_keys_left_option_key_escape_plus () {
+iterm2_customize_profiles_keys_left_option_key_escape_plus() {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: General: Left Option key: Esc+")
 }
 
 # ***
 
-iterm2_customize_keys_key_bindings_register_inputrc_bindings () {
+iterm2_customize_keys_key_bindings_register_inputrc_bindings() {
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: +: Action: Send Escape Sequence / Keyboard Shortcut: Alt-Left / Esc+: [1;3D")
   print_at_end+=("🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: +: Action: Send Escape Sequence / Keyboard Shortcut: Alt-Right / Esc+: [1;3C")
 }
@@ -2526,13 +2531,13 @@ iterm2_customize_keys_key_bindings_register_inputrc_bindings () {
 #         };
 
 # Prevent Ctrl-Shift-C from sending Ctrl-C when nothing is selected.
-iterm2_customize_keys_key_bindings_add__ctrl_shift_c_remap_mods_in_iTerm2_only () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_c_remap_mods_in_iTerm2_only() {
   # This adds a big section to GlobalKeyMap that I don't want to mess with.
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Remap Modifiers in iTerm2 Only / Shortcut: Ctrl-Shift-C")
 }
 
 # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
-iterm2_customize_keys_key_bindings_add__ctrl_command_f_toggle_fullscreen () {
+iterm2_customize_keys_key_bindings_add__ctrl_command_f_toggle_fullscreen() {
   :
   # - Already the default:
   #  print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Toggle Fullscreen / Shortcut: Ctrl-Cmd-F")
@@ -2540,7 +2545,7 @@ iterm2_customize_keys_key_bindings_add__ctrl_command_f_toggle_fullscreen () {
 
 # ***
 
-iterm2_customize_keys_key_bindings_add__ctrl_shift_up__scroll_one_line_up () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_up__scroll_one_line_up() {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Line Up / Shortcut: Ctrl-Shift-Up
    - Note this conflicts with a profile key binding, and the profile
      shortcut overrides the global keyboard shortcut.
@@ -2552,39 +2557,39 @@ iterm2_customize_keys_key_bindings_add__ctrl_shift_up__scroll_one_line_up () {
   #    but nothing to worry about if you mostly use the Default profile.
 }
 
-iterm2_customize_keys_key_bindings_add__ctrl_shift_down__scroll_one_line_down () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_down__scroll_one_line_down() {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Line Down / Shortcut: Ctrl-Shift-Down
    - Ditto delete the profile key mapping first from the Default profile:
      - 🔳 iTerm2: Preferences: Profiles: Keys: Key Mappings: - (Del): “Send ^[[1;6B”
           ^⇧↓ (Ctrl-Shift-Down) / Action: Send Escape Sequence / Esc+: [1;6B")
 }
 
-iterm2_customize_keys_key_bindings_add__ctrl_shift_pageup__scroll_one_page_up () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_pageup__scroll_one_page_up() {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Page Up / Shortcut: Ctrl-Shift-PageUp")
 }
 
-iterm2_customize_keys_key_bindings_add__ctrl_shift_pagedown__scroll_one_page_down () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_pagedown__scroll_one_page_down() {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll One Page Down / Shortcut: Ctrl-Shift-PageDown")
 }
 
-iterm2_customize_keys_key_bindings_add__ctrl_shift_home__scroll_to_top () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_home__scroll_to_top() {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll to Top / Shortcut: Ctrl-Shift-Home")
 }
 
-iterm2_customize_keys_key_bindings_add__ctrl_shift_end__scroll_to_bottom () {
+iterm2_customize_keys_key_bindings_add__ctrl_shift_end__scroll_to_bottom() {
   print_at_end+=("🔳 iTerm2: Preferences: Keys: Key Bindings: + (Add): Action: Scroll to Bottom / Shortcut: Ctrl-Shift-End")
 }
 
 # ***
 
 # Ensure that what you've selected stays selected as you type a command.
-iterm2_customize_advanced_pasteboard_pressing_a_key_will_remove_the_selection_no () {
+iterm2_customize_advanced_pasteboard_pressing_a_key_will_remove_the_selection_no() {
   echo "iTerm2: Advanced > Pasteboard > Pressing a key will remove the selection: No"
   defaults write com.googlecode.iterm2 TypingClearsSelection -bool false
 }
 
 # Be like Gnome terminal, and copy verbotim whatever is selected.
-iterm2_customize_advanced_pasteboard_trim_whitespace_when_copying_to_pasteboard_no () {
+iterm2_customize_advanced_pasteboard_trim_whitespace_when_copying_to_pasteboard_no() {
   echo "iTerm2: Advanced > Pasteboard > Trim whitespace when copying to pasteboard: No"
   defaults write com.googlecode.iterm2 TrimWhitespaceOnCopy -bool false
 }
@@ -2708,7 +2713,7 @@ iterm2_customize_advanced_pasteboard_trim_whitespace_when_copying_to_pasteboard_
 #     At least 667b w/ 0.5s delay works, and output looks normal, nothing
 #     echoed.
 
-iterm2_customize_increase_paste_buffer_size () {
+iterm2_customize_increase_paste_buffer_size() {
   echo "iTerm2: Increase paste \"speed\" (chunk size and interchunk delay)"
   defaults write com.googlecode.iterm2 QuickPasteBytesPerCall -int 1024
   defaults write com.googlecode.iterm2 QuickPasteDelayBetweenCalls -float 0.4
@@ -2719,7 +2724,7 @@ iterm2_customize_increase_paste_buffer_size () {
 # ***
 
 # Give iTerm2 permissions to access the trash, e.g., `ls ~/.Trash`.
-iterm2_customize_permission_full_disk_access () {
+iterm2_customize_permission_full_disk_access() {
   # So you can `ls` anything, and the like.
   print_at_end+=("🔳 iTerm2: System Settings... > Privacy & Security: Privacy: Full Disk Access: ✓ Alacritty")
   # For `gupdatedb`, if you index your whole system.
@@ -2739,7 +2744,7 @@ iterm2_customize_permission_full_disk_access () {
 #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash")
 # Homefries with loading dots, which might be nice because Homebrew is so slow to load Homefries!
 #   print_at_end+=("   /bin/bash -c 'eval \"\$(/opt/homebrew/bin/brew shellenv)\" && /bin/bash -c 'HOMEFRIES_LOADINGDOTS=true /bin/bash")
-iterm2_customize_profiles_general_command () {
+iterm2_customize_profiles_general_command() {
   # ISOFF/2024-04-16: Previously, iTerm2 profile would load Homebrew.
   # But nowadays, the Bashrc script does it (specifically, DepoXy's
   # brewskies.sh, which is wired into Homefries (2 separate projects)).
@@ -2756,29 +2761,29 @@ iterm2_customize_profiles_general_command () {
   ) || true
 }
 
-iterm2_customize_profiles_rename_profile_bash_3x () {
+iterm2_customize_profiles_rename_profile_bash_3x() {
   print_at_end+=("\
   🔳 iTerm2: Preferences: Profiles: General: Basics: Name: “Default” → “Bash 3.x”")
 }
 
-iterm2_customize_profiles_add_profile_bash_5x () {
+iterm2_customize_profiles_add_profile_bash_5x() {
   print_at_end+=("\
 🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “Bash 5.x”
    - Command: /opt/homebrew/bin/bash")
 }
 
-iterm2_customize_profiles_set_profile_bash_5x_default () {
+iterm2_customize_profiles_set_profile_bash_5x_default() {
   print_at_end+=("\
   🔳 iTerm2: Preferences: Profiles: (Select) Bash 5.x: Other Actions...: ✓ Set as Default")
 }
 
-iterm2_customize_profiles_add_profile_norc_3x () {
+iterm2_customize_profiles_add_profile_norc_3x() {
   print_at_end+=("\
 🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “NORC-3.x”
    - Command: /bin/bash --noprofile --norc")
 }
 
-iterm2_customize_profiles_add_profile_norc_5x () {
+iterm2_customize_profiles_add_profile_norc_5x() {
   # CPYST: eval "$(/opt/homebrew/bin/brew shellenv)"
   print_at_end+=("\
 🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “NORC-5.x”
@@ -2789,7 +2794,7 @@ iterm2_customize_profiles_add_profile_norc_5x () {
          the other profiles and recreate them fresh from the default")
 }
 
-iterm2_customize_profiles_add_profile_norc_5x_lite () {
+iterm2_customize_profiles_add_profile_norc_5x_lite() {
   print_at_end+=("\
 🔳 iTerm2: Preferences: Profiles: General: + New Profile: Name: “NORC-5.x--no-HB”
    - Command: /opt/homebrew/bin/bash --noprofile --norc")
@@ -2797,12 +2802,12 @@ iterm2_customize_profiles_add_profile_norc_5x_lite () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-macvim_customize () {
+macvim_customize() {
   macvim_customize_general_after_last_window_closes_quit_macvim
 }
 
 # TRYME: How does this setting affect windows from another --servername?
-macvim_customize_general_after_last_window_closes_quit_macvim () {
+macvim_customize_general_after_last_window_closes_quit_macvim() {
   echo "MacVim: Settings...: General > After last window closes > Keep MacVim Running → ✓ Quit MacVim"
   defaults write org.vim.MacVim MMLastWindowClosedBehavior -int 2
 }
@@ -2820,7 +2825,7 @@ macvim_customize_general_after_last_window_closes_quit_macvim () {
 # - Editor > Display > ✓ Use syntax highlighting
 #   - ... "/org/gnome/meld/highlight-syntax" -int 1
 
-meld_customize () {
+meld_customize() {
   meld_customize_disable_use_the_system_fixed_width_font
   meld_customize_editor_font
   meld_customize_tab_width
@@ -2833,7 +2838,7 @@ meld_customize () {
 }
 
 # On macOS Sonoma 14.4.1, this setting already disabled.
-meld_customize_disable_use_the_system_fixed_width_font () {
+meld_customize_disable_use_the_system_fixed_width_font() {
   echo "Meld: Settings...: Editor > Font > ✗ Use the system fixed width font"
   defaults write org.gnome.meld /org/gnome/meld/use-system-font -int 0
 }
@@ -2841,27 +2846,27 @@ meld_customize_disable_use_the_system_fixed_width_font () {
 # On macOS Sonoma 14.4.1, this setting already Hack (but seems weird,
 # 'cause I don't remember changing anything manually; but maybe I did?).
 # - Note that DepoXy on @Linux uses Hack 10.
-meld_customize_editor_font () {
+meld_customize_editor_font() {
   echo "Meld: Settings...: Editor > Font > Editor font: Hack Nerd Font Regular 14"
   defaults write org.gnome.meld /org/gnome/meld/custom-font "Hack Nerd Font 14"
 }
 
-meld_customize_tab_width () {
+meld_customize_tab_width() {
   echo "Meld: Settings...: Editor > Display > Tab width: 4"
   defaults write org.gnome.meld /org/gnome/meld/indent-width -int 4
 }
 
-meld_customize_insert_spaces_instead_of_tabs () {
+meld_customize_insert_spaces_instead_of_tabs() {
   echo "Meld: Settings...: Editor > Display > ✓ Insert spaces instead of tabs"
   defaults write org.gnome.meld /org/gnome/meld/insert-spaces-instead-of-tabs -int 1
 }
 
-meld_customize_highlight_current_line () {
+meld_customize_highlight_current_line() {
   echo "Meld: Settings...: Editor > Display > ✓ Highlight current line"
   defaults write org.gnome.meld /org/gnome/meld/highlight-current-line -int 1
 }
 
-meld_customize_show_line_numbers () {
+meld_customize_show_line_numbers() {
   echo "Meld: Settings...: Editor > Display > ✓ Show line numbers"
   defaults write org.gnome.meld /org/gnome/meld/show-line-numbers -int 1
 }
@@ -2874,7 +2879,7 @@ meld_customize_show_line_numbers () {
 # uses a dark blue bg, less dark blue highlight, and whiter foreground.
 # Meld dark scheme aka Solarized Dark is real hard to read, aqua bg and med.
 # gray fg. Finally, Oblivion is an all-around gray theme w/ blue highlights.
-meld_customize_syntax_highlighting_color_scheme () {
+meld_customize_syntax_highlighting_color_scheme() {
   echo "Meld: Settings...: Editor > Display > Syntax highlighting color scheme: Kate"
   defaults write org.gnome.meld /org/gnome/meld/style-scheme "kate"
 }
@@ -2905,7 +2910,7 @@ meld_customize_syntax_highlighting_color_scheme () {
 #
 #   ~/Library/Preferences/org.gnome.meld.plist
 
-meld_customize_filename_filters () {
+meld_customize_filename_filters() {
   print_at_end+=("\
 🔳 Meld: Settings: File Filters: Filename filters: (Press +)::
    - Developer cruft: TBD*
@@ -2921,31 +2926,31 @@ meld_customize_filename_filters () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-pinentry_mac_customize () {
+pinentry_mac_customize() {
   pinentry_mac_customize_opt_out_save_in_keychain
 }
 
 # Re: Default "✓ Save in Keychain" option:
 #  https://superuser.com/questions/1626005/pinentry-mac-completely-disables-prompt-for-gpg-passphrase/1644574#1644574
 #  https://github.com/olebedev/pinentry-mac-keychain
-pinentry_mac_customize_opt_out_save_in_keychain () {
+pinentry_mac_customize_opt_out_save_in_keychain() {
   echo "Pinentry Mac: Opt-out: ✗ Save in Keychain [popup default]"
   defaults write org.gpgtools.pinentry-mac UseKeychain -bool NO
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-outlook_customize () {
+outlook_customize() {
   outlook_customize_notifications
   outlook_customize_style
 }
 
-outlook_customize_notifications () {
+outlook_customize_notifications() {
   print_at_end+=("🔳 Outlook Mail (via Web): Settings: ✓ Desktop notifications")
   print_at_end+=("🔳 Outlook Calendar (via Web): Settings: ✓ Desktop notifications")
 }
 
-outlook_customize_style () {
+outlook_customize_style() {
   print_at_end+=("🔳 Outlook Mail (via Web): Settings: ? Dark mode [not the best impl]")
   print_at_end+=("🔳 Outlook Calendar (via Web): Settings: ? Dark mode [not the best impl]")
   print_at_end+=("🔳 Outlook Calendar (via Web): Settings: ? Bold event colors [pairs well with Dark mode?]")
@@ -2953,18 +2958,18 @@ outlook_customize_style () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-slack_customize () {
+slack_customize() {
   slack_customize_notifications_sound_and_appearance
 
   slack_customize_find_and_group_channels
 }
 
-slack_customize_notifications_sound_and_appearance () {
+slack_customize_notifications_sound_and_appearance() {
   print_at_end+=("🔳 Slack: Preferences: Notifications: Sound & appearance: Notification sound (messages): *Hummus*")
   print_at_end+=("🔳 Slack: Preferences: Notifications: Sound & appearance: Notification sound (huddles): *Here you go*")
 }
 
-slack_customize_find_and_group_channels () {
+slack_customize_find_and_group_channels() {
   print_at_end+=("🔳 Slack: Look for Channels to join: Channels > + Add Channels > Browse Channels > Sort: Most members")
   print_at_end+=("🔳 Slack: Group Channels and DMs by Importance: Channels > ⋮ > Create a section")
   print_at_end+=("- E.g., “🔖 Priority”, “[Dr. Evil] Devops & Corp”, “💤 Irregular DMs”, “[Proj logo] <Work project>”, “🔩 Tech”, “🌺 Social”")
@@ -2972,17 +2977,17 @@ slack_customize_find_and_group_channels () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-dbeaver_customize () {
+dbeaver_customize() {
   dbeaver_customize_text_editors_word_wrap
 }
 
-dbeaver_customize_text_editors_word_wrap () {
+dbeaver_customize_text_editors_word_wrap() {
   print_at_end+=("🔳 DBeaver: Window > Preferences > Editors > Text Editors: ✓ *Enable word wrap when opening an editor* > Apply and Close")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-gnucash_customize () {
+gnucash_customize() {
   gnucash_customize_ledger_default_style
   gnucash_customize_only_display_leaf_account_names
   gnucash_customize_retain_log_backup_files
@@ -2991,12 +2996,12 @@ gnucash_customize () {
   gnucash_customize_qif_import_show_documentation
 }
 
-_SLATHER_GNC_PREFS="Gnucash: Settings...: GnuCash Preferences"  # [sic]
+_SLATHER_GNC_PREFS="Gnucash: Settings...: GnuCash Preferences" # [sic]
 
 # Register Defaults > Default Style > ✓ Auto-split ledger
 # - One of: Basic ledger / Auto-split ledger / Transaction Journal
 # - Set one of these 'true' (1) and the other two 'false' (0).
-gnucash_customize_ledger_default_style () {
+gnucash_customize_ledger_default_style() {
   echo "${_SLATHER_GNC_PREFS}: Register Defaults > Default Style > ✓ *Auto-split ledger*"
   # Disable *Basic ledger*
   defaults write org.gnucash.Gnucash \
@@ -3015,7 +3020,7 @@ gnucash_customize_ledger_default_style () {
 # - ALTLY: I tried using a different separator (defaults 'colon'):
 #     Accounts > Separator Character > Character: »
 #   which helped a little, but the short name works better, I think.
-gnucash_customize_only_display_leaf_account_names () {
+gnucash_customize_only_display_leaf_account_names() {
   echo "${_SLATHER_GNC_PREFS}: Register Defaults > Other Defaults > ✓ *Only display leaf account names*"
   # Enable *Only display leaf account names*
   defaults write org.gnucash.Gnucash \
@@ -3031,7 +3036,7 @@ gnucash_customize_only_display_leaf_account_names () {
 # - REFER: general/retain-type-days pairs with general/retain-days, e.g.:
 #     "/org/gnucash/GnuCash/general/retain-days" = 30;
 # - CALSO: GnuCash.app > File > Import > Replay GnuCash .log file...
-gnucash_customize_retain_log_backup_files () {
+gnucash_customize_retain_log_backup_files() {
   # ISOFF/2024-10-02: I have backups disabled on Linux Mint, but I also have
   # dozens of hours of GnuCash usage (and confidence) thereon.
   # - But on macOS, I've only been using GnuCash for a handful of hours, so
@@ -3055,7 +3060,7 @@ gnucash_customize_retain_log_backup_files () {
 
 # Numbers, Date, Time > Date Format: *ISO 2013-07-31*
 # - Defaults "4", aka *Locale 07/31/2013*
-gnucash_customize_date_format () {
+gnucash_customize_date_format() {
   echo "${_SLATHER_GNC_PREFS}: Numbers, Date, Time > Date Format: ✓ *ISO 2013-07-31*"
   # Enable *ISO* dates
   defaults write org.gnucash.Gnucash \
@@ -3072,7 +3077,7 @@ gnucash_customize_date_format () {
 #   date. So the GnuCash alert — to me — only serves to remind me to
 #   update my books (import recent bank transactions into GnuCash, and
 #   assign payments to invoices).
-gnucash_customize_invoices_notify_when_due () {
+gnucash_customize_invoices_notify_when_due() {
   echo "${_SLATHER_GNC_PREFS}: Business > Invoices > Notify when due > Days in advance: *1*"
   # Update *Notify when due*
   defaults write org.gnucash.Gnucash \
@@ -3081,7 +3086,7 @@ gnucash_customize_invoices_notify_when_due () {
 
 # Import > QIF Import > ✗ Show documentation
 # - SPIKE/2021-03-13: Will this cut down on Wizard screens?
-gnucash_customize_qif_import_show_documentation () {
+gnucash_customize_qif_import_show_documentation() {
   echo "${_SLATHER_GNC_PREFS}: Import > QIF Import > ✗ *Show documentation*"
   # Disable *Show documentation*
   defaults write org.gnucash.Gnucash \
@@ -3113,7 +3118,7 @@ gnucash_customize_qif_import_show_documentation () {
 #     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 73 \
 #       "{enabled = 0; value = { parameters = (65535, 53, 1048576); type = 'standard'; }; }"
 #
-#   THNKS: https://krypted.com/mac-os-x/defaults-symbolichotkeys/ 
+#   THNKS: https://krypted.com/mac-os-x/defaults-symbolichotkeys/
 #
 # FAILD: I tried the shorter command version, but it didn't work.
 # - The `defaults read` output looked fine, but neither `/.../activateSettings -u`
@@ -3140,7 +3145,7 @@ gnucash_customize_qif_import_show_documentation () {
 # - BWARE: Obviously, this won't be an issue for me anymore, but it might
 #          be a problem when setting up a fresh Mac again.
 
-shortcuts_customize_macos () {
+shortcuts_customize_macos() {
   local rewire_shortcuts=false
 
   # The function order and naming reflects what you see in System Preferences > Keyboard > Shortcuts.
@@ -3169,13 +3174,13 @@ shortcuts_customize_macos () {
 
 # ***
 
-rewire_symbolichotkeys () {
+rewire_symbolichotkeys() {
   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 }
 
 # ***
 
-shortcuts_launchpad_ampersand_dock_remap () {
+shortcuts_launchpad_ampersand_dock_remap() {
   # Nothing to change here:
   #
   #   ✓ Turn Dock Hiding On/Off: Opt-Cmd-D
@@ -3185,7 +3190,7 @@ shortcuts_launchpad_ampersand_dock_remap () {
 
 # ***
 
-shortcuts_display_remap () {
+shortcuts_display_remap() {
   # Nothing to change here, and neither the MacBook keyboard
   # nor my (loves it!) Logi Ergo K860 goes above F12 (which
   # is one more than Spinal Tap's These-go-to-eleven):
@@ -3197,7 +3202,7 @@ shortcuts_display_remap () {
 
 # ***
 
-shortcuts_mission_control_remap () {
+shortcuts_mission_control_remap() {
   # ✓ Mission Control: F12 (or was it ^↑) → Ctrl-Opt-↑
   shortcuts_mission_control_remap_mission_control
   #
@@ -3237,7 +3242,7 @@ shortcuts_mission_control_remap () {
 #   then it changed to ^↑. (Same with another setting, don't remember
 #   which now, but I feel like, well, maybe my client set some
 #   non-standard defauts, who knows.)
-shortcuts_mission_control_remap_mission_control () {
+shortcuts_mission_control_remap_mission_control() {
   echo "Keyboard Shortcuts: Mission Control: Mission Control: Ctrl-Up (^↑) → Ctrl-Alt-Up (^⌥ ↑)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 32 \
     "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>126</integer><integer>11272192</integer></array><key>type</key><string>standard</string></dict></dict>"
@@ -3258,7 +3263,7 @@ shortcuts_mission_control_remap_mission_control () {
 # - REFER: Note that it's not easy to see past notifications, but it's
 #   sorta possible via files:
 #     https://www.reddit.com/r/MacOS/comments/azhj1m/view_past_notifications/
-shortcuts_mission_control_remap_show_notification_center () {
+shortcuts_mission_control_remap_show_notification_center() {
   # BNDNG: <Shift-Ctrl-Alt-C>
   # # echo "Keyboard Shortcuts: Mission Control: Show Notification Center: (Unset) → Shift-Ctrl-Alt-C (⇧^⌥ C)"
   # # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 163 \
@@ -3273,7 +3278,7 @@ shortcuts_mission_control_remap_show_notification_center () {
 }
 
 # ✓ Application windows: ^↓ → Ctrl-Opt-↓
-shortcuts_mission_control_remap_application_windows () {
+shortcuts_mission_control_remap_application_windows() {
   # BNDNG: <Ctrl-Alt-Down>
   echo "Keyboard Shortcuts: Mission Control: Application windows: Ctrl-Down (^↓) → Ctrl-Alt-Down (^⌥ ↓)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 33 \
@@ -3285,7 +3290,7 @@ shortcuts_mission_control_remap_application_windows () {
 }
 
 # ✓ Show Desktop: F11 → Ctrl+Alt+d
-shortcuts_mission_control_remap_show_desktop () {
+shortcuts_mission_control_remap_show_desktop() {
   # My original instinct was to just disable Show Desktop:
   false && (
     echo "Keyboard Shortcuts: Mission Control: Show Desktop: F11 → (Unset)"
@@ -3342,7 +3347,7 @@ shortcuts_mission_control_remap_show_desktop () {
 }
 
 # ✓ Mission Control: Move left a space: ^← → Ctrl-Opt-←
-shortcuts_mission_control_remap_move_left_a_space () {
+shortcuts_mission_control_remap_move_left_a_space() {
   # # BNDNG: <Ctrl-Alt-Left>
   # echo "Keyboard Shortcuts: Mission Control: Move left a space: Ctrl-left (^←) → Ctrl-Alt-left (^⌥ ←)"
   # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 \
@@ -3361,7 +3366,7 @@ shortcuts_mission_control_remap_move_left_a_space () {
 }
 
 # ✓ Mission Control: Move right a space: ^→ → Ctrl-Opt-→
-shortcuts_mission_control_remap_move_right_a_space () {
+shortcuts_mission_control_remap_move_right_a_space() {
   # # BNDNG: <Ctrl-Alt-Right>
   # echo "Keyboard Shortcuts: Mission Control: Move right a space: Ctrl-right (^←) → Ctrl-Alt-right (^⌥ ←)"
   # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 \
@@ -3381,7 +3386,7 @@ shortcuts_mission_control_remap_move_right_a_space () {
 
 # ✓ Mission Control: Switch to Desktop 1: ^1 → (Unset)
 #   - I rarely use multiple desktops.
-shortcuts_mission_control_remap_switch_to_desktop () {
+shortcuts_mission_control_remap_switch_to_desktop() {
   echo "Keyboard Shortcuts: Mission Control: Switch to Desktop 1: Ctrl-1 (^1) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 118 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>18</integer><integer>262144</integer></array><key>type</key><string>standard</string></dict></dict>"
@@ -3391,7 +3396,7 @@ shortcuts_mission_control_remap_switch_to_desktop () {
 
 # ✓ Quick Note: 🌐 q aka Fn+q → (Unset)
 #   - My non-Apple (mechanical) keyboard doesn't have a Function/Globe key.
-shortcuts_mission_control_remap_quick_note () {
+shortcuts_mission_control_remap_quick_note() {
   echo "Keyboard Shortcuts: Mission Control: Quick Note: Web-q (🌐 q) → (Unset)"
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 190 \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>113</integer><integer>12</integer><integer>8388608</integer></array><key>type</key><string>standard</string></dict></dict>"
@@ -3401,7 +3406,7 @@ shortcuts_mission_control_remap_quick_note () {
 
 # ***
 
-shortcuts_keyboard_remap () {
+shortcuts_keyboard_remap() {
   # ✓ Keyboard: Change the way Tab moves focus: ^F7 → (Leave it)
   # ✓ Keyboard: Turn keyboard access on or off: ^F1 → (Leave it)
   # ✓ Keyboard: Move focus to the menu bar: ^F2 → (Leave it)
@@ -3430,12 +3435,12 @@ shortcuts_keyboard_remap () {
 # - SAVVY: <Ctrl-`> is wired in AltTab to switch between all windows
 #   of the active app, excluding hidden and minimized windows.
 #   - CXREF: alttab_customize_shortcut_3
-shortcuts_keyboard_remap_move_focus_to_next_window () {
+shortcuts_keyboard_remap_move_focus_to_next_window() {
   if false; then
     echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`) → (Unset)"
     # Disabled (<Cmd-`>)
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 27 \
-    "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+      "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>96</integer><integer>50</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
   elif false; then
     echo "Keyboard Shortcuts: Keyboard: Move focus to next window: Cmd-tilde (⌘ \`)"
     # Enabled (<Cmd-`>)
@@ -3453,7 +3458,7 @@ shortcuts_keyboard_remap_move_focus_to_next_window () {
 
 # ***
 
-shortcuts_screenshots_remap () {
+shortcuts_screenshots_remap() {
   # ✓ Screenshots: Save picture of screen as a file: ⇧⌘ 3
   # ✓ Screenshots: Copy picture of screen to the clipboard: ^⇧⌘ 3
   # ✓ Screenshots: Save picture of selected area as a file: ⇧⌘ 4
@@ -3468,7 +3473,7 @@ shortcuts_screenshots_remap () {
 # ***
 
 # Note there are a bunch of Services shortcuts that are (✓) enabled but have no mapping ("none").
-shortcuts_services_remap () {
+shortcuts_services_remap() {
   # ✓ Services: Pictures: Set Desktop Picture: (none)
   # ✓ Services: Internet: Add to Reading List: (none)
   # ✓ Services: Internet: Open URL: (none)
@@ -3521,7 +3526,7 @@ shortcuts_services_remap () {
   shortcuts_services_remap_pbs_unmap_all
 }
 
-shortcuts_services_remap_searching_search_with_google_unmap () {
+shortcuts_services_remap_searching_search_with_google_unmap() {
   # - If you re-enable the option, you'll see NSServicesStatus = { }, i.e., it
   #   removes (zeroes?) the dictionary.
   # - It doesn't seem `/System/.../activateSettings -u` works: I closed System Preferences,
@@ -3548,7 +3553,7 @@ shortcuts_services_remap_searching_search_with_google_unmap () {
   echo "Keyboard Shortcuts: Services: Searching: Search With Google: Shift-Cmd-L (⇧⌘ L) → (✗ Off) [Does nothing for me anyway]"
 }
 
-shortcuts_services_remap_text_convert_to_simplified_chinese_unmap () {
+shortcuts_services_remap_text_convert_to_simplified_chinese_unmap() {
   # See note above, for the function:
   #   shortcuts_services_remap_searching_search_with_google_unmap,
   # Apparently a number of settings are combined in the same key-value.
@@ -3557,28 +3562,28 @@ shortcuts_services_remap_text_convert_to_simplified_chinese_unmap () {
   echo "Keyboard Shortcuts: Services: Text: Convert Text from Traditional to Simplified Chinese: Shift-Ctrl-Cmd-Alt-C (^⌥ ⇧⌘ C) → (✗ Off)"
 }
 
-shortcuts_services_remap_text_convert_to_traditional_chinese_unmap () {
+shortcuts_services_remap_text_convert_to_traditional_chinese_unmap() {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
   echo "Keyboard Shortcuts: Services: Text: Convert Text from Simplified to Traditional Chinese: Shift-Ctrl-Cmd-C (^⇧⌘ C) → (✗ Off)"
 }
 
-shortcuts_services_remap_text_make_new_sticky_note_unmap () {
+shortcuts_services_remap_text_make_new_sticky_note_unmap() {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
   echo "Keyboard Shortcuts: Services: Text: Make New Sticky Note: Shift-Cmd-Y (⇧⌘ Y) → (✗ Off)"
 
 }
 
-shortcuts_services_remap_text_open_man_page_in_terminal_unmap () {
+shortcuts_services_remap_text_open_man_page_in_terminal_unmap() {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
   echo "Keyboard Shortcuts: Services: Text: Open man Page in terminal: Shift-Cmd-M (⇧⌘ M) → (✗ Off)"
 }
 
-shortcuts_services_remap_text_search_man_pag_ndex_in_terminal_unmap () {
+shortcuts_services_remap_text_search_man_pag_ndex_in_terminal_unmap() {
   # See previous comments, and shortcuts_services_remap_pbs_unmap_all.
   echo "Keyboard Shortcuts: Services: Text: Search map Page...ndex in Terminal: Shift-Cmd-A (⇧⌘ A) → ✗ Off)"
 }
 
-shortcuts_services_remap_pbs_unmap_all () {
+shortcuts_services_remap_pbs_unmap_all() {
   # 2022-10-16: Whatever. This `defaults write` seems to have the opposite effect:
   # When I run this script, it seems like all these options are enabled again...
   # - So we'll just tell user to do this manually.
@@ -3656,7 +3661,7 @@ shortcuts_services_remap_pbs_unmap_all () {
 
 # ***
 
-shortcuts_spotlight_remap () {
+shortcuts_spotlight_remap() {
   # ✓ Spotlight: Show Spotlight search: ⌘ Space
   # ✓ Spotlight: Show Finder search window: ⌥ ⌘ Space
   #   - This is sorta like Alt-Cmd-F I have mapped via Karabiner-Elements
@@ -3670,7 +3675,7 @@ shortcuts_spotlight_remap () {
 
 # ***
 
-shortcuts_accessibility_remap () {
+shortcuts_accessibility_remap() {
   # ✗ Accessibility: Zoom: Turn zoom on or off: ⌥ ⌘ 8
   # ✗ Accessibility: Zoom: Turn image smoothing on or off: ⌥ ⌘ \
   # ✗ Accessibility: Zoom: Zoom out: ⌥ ⌘ -
@@ -3703,7 +3708,7 @@ shortcuts_accessibility_remap () {
 #
 #     NSUserKeyEquivalents      # To find each app's set of new shortcuts
 #
-shortcuts_app_shortcuts_remap () {
+shortcuts_app_shortcuts_remap() {
   # ✓ App Shortcuts: All Applications: Show Help menu: ⇧⌘ / → (✗ Off, or maybe I don't care)
   :
 }
@@ -3711,7 +3716,7 @@ shortcuts_app_shortcuts_remap () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # I use Cmd-t to open new browser window (Cmd-t: Chromium, Cmd-y: Chrome).
-app_shortcuts_reclaim_cmd_t () {
+app_shortcuts_reclaim_cmd_t() {
   # Because each app's App Shortcuts are recorded in a single key-value,
   # NSUserKeyEquivalents, we won't remap all the Cmd-T shortcuts from the
   # different apps here, but will do so in their app-specific functions.
@@ -3752,7 +3757,7 @@ app_shortcuts_reclaim_cmd_t () {
 #            "com.googlecode.iterm2"
 #        );
 
-app_shortcuts_update_universalaccess () {
+app_shortcuts_update_universalaccess() {
   echo
   echo "FIXME: Do you need to update com.apple.universalaccess for shortcuts to work?"
   echo
@@ -3776,7 +3781,7 @@ app_shortcuts_update_universalaccess () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++ Application NSUserKeyEquivalents settings
 
-app_shortcuts_customize_finder () {
+app_shortcuts_customize_finder() {
   app_shortcuts_customize_finder_new_finder_window
   app_shortcuts_customize_finder_new_folder
   app_shortcuts_customize_finder_new_tab
@@ -3790,35 +3795,35 @@ app_shortcuts_customize_finder () {
   app_shortcuts_customize_finder_all
 }
 
-app_shortcuts_customize_finder_new_finder_window () {
+app_shortcuts_customize_finder_new_finder_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: New Finder Window: Cmd-N → Ctrl-N"
 }
 
-app_shortcuts_customize_finder_new_folder () {
+app_shortcuts_customize_finder_new_folder() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: New Folder: Cmd-Shift-N → Ctrl-Shift-N"
 }
 
-app_shortcuts_customize_finder_new_tab () {
+app_shortcuts_customize_finder_new_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: New Tab: Cmd-T → Ctrl-T"
 }
 
-app_shortcuts_customize_finder_open () {
+app_shortcuts_customize_finder_open() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Open: Cmd-O → Ctrl-O"
 }
 
-app_shortcuts_customize_finder_close_window () {
+app_shortcuts_customize_finder_close_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Close Window: Cmd-W → Ctrl-W"
 }
 
-app_shortcuts_customize_finder_rename () {
+app_shortcuts_customize_finder_rename() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Rename: <n/a> → F2"
 }
 
-app_shortcuts_customize_finder_find () {
+app_shortcuts_customize_finder_find() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Find: Cmd-F → Ctrl-F"
 }
 
-app_shortcuts_customize_finder_close_quick_look () {
+app_shortcuts_customize_finder_close_quick_look() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Close Quick Look: Cmd-Y → Ctrl-Shift-W"
 }
 
@@ -3836,12 +3841,12 @@ app_shortcuts_customize_finder_close_quick_look () {
 # their keyboard, so I'm always amazed when I see default Fn bindings).
 #
 # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
-app_shortcuts_customize_finder_enter_exit_full_screen () {
+app_shortcuts_customize_finder_enter_exit_full_screen() {
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Enter Full Screen: Cmd-Shift-F → Ctrl-Cmd-F"
   echo "${CRUMB_APP_SHORTCUTS}: Finder: Exit Full Screen: Cmd-Shift-F → Ctrl-Cmd-F"
 }
 
-app_shortcuts_customize_finder_all () {
+app_shortcuts_customize_finder_all() {
   defaults write com.apple.finder NSUserKeyEquivalents '{
     "Close Quick Look" = "^$w";
     "Close Window" = "^w";
@@ -3860,7 +3865,7 @@ app_shortcuts_customize_finder_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_preview () {
+app_shortcuts_customize_preview() {
   app_shortcuts_customize_preview_close_window
   app_shortcuts_customize_preview_quit_preview
   # app_shortcuts_customize_preview_minimize
@@ -3868,11 +3873,11 @@ app_shortcuts_customize_preview () {
   app_shortcuts_customize_preview_all
 }
 
-app_shortcuts_customize_preview_close_window () {
+app_shortcuts_customize_preview_close_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Preview: Close Window: Cmd-W → Ctrl-W"
 }
 
-app_shortcuts_customize_preview_quit_preview () {
+app_shortcuts_customize_preview_quit_preview() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #   echo "${CRUMB_APP_SHORTCUTS}: Preview: Quit Preview: Cmd-Q → Ctrl-Q"
   :
@@ -3887,7 +3892,7 @@ app_shortcuts_customize_preview_quit_preview () {
 #   echo "${CRUMB_APP_SHORTCUTS}: Preview: Minimize: Cmd-M → Cmd-N"
 # }
 
-app_shortcuts_customize_preview_all () {
+app_shortcuts_customize_preview_all() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #   "Quit Preview" = "^q";
   defaults write com.apple.Preview NSUserKeyEquivalents '{
@@ -3911,19 +3916,19 @@ app_shortcuts_customize_preview_all () {
 # for the rest of us who try to automate our environments atop yours.
 false && (
   # This worked in macOS 12/Monteray, but no longer in macOS 13/(Jesse) Ventura.
-  app_shortcuts_customize_system_preferences () {
+  app_shortcuts_customize_system_preferences() {
     app_shortcuts_customize_system_preferences_quit_system_preferences
 
     app_shortcuts_customize_system_preferences_all
   }
 
-  app_shortcuts_customize_system_preferences_quit_system_preferences () {
+  app_shortcuts_customize_system_preferences_quit_system_preferences() {
     # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
     #   echo "${CRUMB_APP_SHORTCUTS}: System Settings.app: Quit System Settings: Cmd-Q → Ctrl-Q"
     :
   }
 
-  app_shortcuts_customize_system_preferences_all () {
+  app_shortcuts_customize_system_preferences_all() {
     # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
     #   defaults write com.apple.systempreferences NSUserKeyEquivalents '{
     #     "Quit System Settings" = "^q";
@@ -3936,7 +3941,7 @@ false && (
   }
 ) || true
 
-app_shortcuts_customize_system_preferences () {
+app_shortcuts_customize_system_preferences() {
   # Requires restarting System Settings to take effect.
 
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
@@ -3946,7 +3951,7 @@ app_shortcuts_customize_system_preferences () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_macvim () {
+app_shortcuts_customize_macvim() {
   app_shortcuts_customize_macvim_new_tab
   app_shortcuts_customize_macvim_open_tab
   app_shortcuts_customize_macvim_close_window
@@ -3963,35 +3968,35 @@ app_shortcuts_customize_macvim () {
   app_shortcuts_customize_macvim_all
 }
 
-app_shortcuts_customize_macvim_new_tab () {
+app_shortcuts_customize_macvim_new_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: New Tab: Cmd-T → Ctrl-Opt-Cmd-T"
 }
 
-app_shortcuts_customize_macvim_open_tab () {
+app_shortcuts_customize_macvim_open_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Open Tab...: Shift-Cmd-T → Shift-Ctrl-Opt-Cmd-T"
 }
 
-app_shortcuts_customize_macvim_close_window () {
+app_shortcuts_customize_macvim_close_window() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Close Window: Shift-Cmd-W → Shift-Ctrl-Opt-Cmd-W"
 }
 
-app_shortcuts_customize_macvim_use_selection_for_find () {
+app_shortcuts_customize_macvim_use_selection_for_find() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Use Selection for Find: Cmd-E → Ctrl-Opt-Cmd-E"
 }
 
-app_shortcuts_customize_macvim_next_error () {
+app_shortcuts_customize_macvim_next_error() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Next Error: ^⌘ → → Ctrl-Opt-Shift-Cmd-Right"
 }
 
-app_shortcuts_customize_macvim_previous_error () {
+app_shortcuts_customize_macvim_previous_error() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Previous Error: ^⌘ ← → Ctrl-Opt-Shift-Cmd-Left"
 }
 
-app_shortcuts_customize_macvim_older_list () {
+app_shortcuts_customize_macvim_older_list() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Older List: ^⌘ ↑ → Ctrl-Opt-Shift-Cmd-Up"
 }
 
-app_shortcuts_customize_macvim_newer_list () {
+app_shortcuts_customize_macvim_newer_list() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Newer List: ^⌘ ↓ → Ctrl-Opt-Shift-Cmd-Down"
 }
 
@@ -4007,17 +4012,17 @@ app_shortcuts_customize_macvim_newer_list () {
 # single modifier plus key combination? These should be "buried"
 # somewhat, as in, they should be at least two modifiers plus a key.)
 
-app_shortcuts_customize_macvim_edit_font_bigger () {
+app_shortcuts_customize_macvim_edit_font_bigger() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Edit > Font > Bigger: ⌘ + → Ctrl-Shift-="
   # CXREF: app_shortcuts_customize_macvim_all: "Bigger"
 }
 
-app_shortcuts_customize_macvim_edit_font_smaller () {
+app_shortcuts_customize_macvim_edit_font_smaller() {
   echo "${CRUMB_APP_SHORTCUTS}: MacVim.app: Edit > Font > Smaller: ⌘ _ → Ctrl-Shift--"
   # CXREF: app_shortcuts_customize_macvim_all: "Smaller"
 }
 
-app_shortcuts_customize_macvim_edit_font_reset () {
+app_shortcuts_customize_macvim_edit_font_reset() {
   : # Who knows! Doesn't appear to be an option.
 }
 
@@ -4043,7 +4048,7 @@ app_shortcuts_customize_macvim_edit_font_reset () {
 #     anyway.
 # - If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
 #     defaults read org.vim.MacVim NSUserKeyEquivalents
-app_shortcuts_customize_macvim_all () {
+app_shortcuts_customize_macvim_all() {
   defaults write org.vim.MacVim NSUserKeyEquivalents '{
     Bigger = "^$=";
     "Close Window" = "@~^$w";
@@ -4061,7 +4066,7 @@ app_shortcuts_customize_macvim_all () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # CXREF: iterm2_customize
-app_shortcuts_customize_iterm2 () {
+app_shortcuts_customize_iterm2() {
   app_shortcuts_customize_iterm2_new_window
   app_shortcuts_customize_iterm2_new_tab
   app_shortcuts_customize_iterm2_close
@@ -4078,51 +4083,51 @@ app_shortcuts_customize_iterm2 () {
   app_shortcuts_customize_iterm2_all
 }
 
-app_shortcuts_customize_iterm2_new_window () {
+app_shortcuts_customize_iterm2_new_window() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Shell > New Window: Cmd-N → Ctrl-N"
 }
 
-app_shortcuts_customize_iterm2_new_tab () {
+app_shortcuts_customize_iterm2_new_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: New Tab: Cmd-T → Ctrl-Opt-Cmd-T"
 }
 
-app_shortcuts_customize_iterm2_close () {
+app_shortcuts_customize_iterm2_close() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Close: Cmd-W → Shift-Cmd-Alt-W"
 }
 
-app_shortcuts_customize_iterm2_copy () {
+app_shortcuts_customize_iterm2_copy() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Copy: Cmd-C → Ctrl-Shift-C"
 }
 
-app_shortcuts_customize_iterm2_paste () {
+app_shortcuts_customize_iterm2_paste() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Paste: Cmd-V → Ctrl-Shift-V"
 }
 
-app_shortcuts_customize_iterm2_use_selection_for_find () {
+app_shortcuts_customize_iterm2_use_selection_for_find() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Use Selection for Find: Cmd-E → Ctrl-Opt-Cmd-E"
 }
 
-app_shortcuts_customize_iterm2_show_tabs_in_fullscreen () {
+app_shortcuts_customize_iterm2_show_tabs_in_fullscreen() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Show Tabs in Fullscreen: Shift-Cmd-T → Shift-Ctrl-Cmd-Alt-T"
 }
 
-app_shortcuts_customize_iterm2_view_make_text_bigger () {
+app_shortcuts_customize_iterm2_view_make_text_bigger() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: View > Make Text Bigger: Cmd-= → Ctrl-Shift-="
   # CXREF: app_shortcuts_customize_iterm2_all: "Make Text Bigger"
 }
 
-app_shortcuts_customize_iterm2_view_make_text_smaller () {
+app_shortcuts_customize_iterm2_view_make_text_smaller() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: View > Make Text Smaller: Cmd-_ → Ctrl-Shift--"
   # CXREF: app_shortcuts_customize_iterm2_all: "Make Text Smaller"
 }
 
 # View > "Make Text Normal Size" reads very ableist.
-app_shortcuts_customize_iterm2_view_make_text_reset () {
+app_shortcuts_customize_iterm2_view_make_text_reset() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Restore Text and Session Size aka Make Text Normal Size: Cmd-0 → Ctrl-Shift-0"
   # CXREF: app_shortcuts_customize_iterm2_all: "Make Text Normal Size"
 }
 
-app_shortcuts_customize_iterm2_reset () {
+app_shortcuts_customize_iterm2_reset() {
   echo "${CRUMB_APP_SHORTCUTS}: iTerm.app: Reset: Cmd-R → Ctrl-Opt-Cmd-R"
 }
 
@@ -4139,7 +4144,7 @@ app_shortcuts_customize_iterm2_reset () {
 
 # If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
 #   defaults read com.googlecode.iterm2 NSUserKeyEquivalents
-app_shortcuts_customize_iterm2_all () {
+app_shortcuts_customize_iterm2_all() {
   defaults write com.googlecode.iterm2 NSUserKeyEquivalents '{
     Close = "@~$w";
     Copy = "^$c";
@@ -4157,17 +4162,17 @@ app_shortcuts_customize_iterm2_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_alacritty () {
+app_shortcuts_customize_alacritty() {
   app_shortcuts_customize_alacritty_quit_alacritty
 
   app_shortcuts_customize_alacritty_all
 }
 
-app_shortcuts_customize_alacritty_quit_alacritty () {
+app_shortcuts_customize_alacritty_quit_alacritty() {
   echo "${CRUMB_APP_SHORTCUTS}: Alacritty.app: Quit alacritty: Cmd-Q → Ctrl-Shift-Q"
 }
 
-app_shortcuts_customize_alacritty_all () {
+app_shortcuts_customize_alacritty_all() {
   defaults write org.alacritty NSUserKeyEquivalents '{
     "Quit alacritty" = "^$q";
   }'
@@ -4176,7 +4181,7 @@ app_shortcuts_customize_alacritty_all () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # 31 mappings!
-app_shortcuts_customize_google_chrome () {
+app_shortcuts_customize_google_chrome() {
   app_shortcuts_customize_google_chrome_new_tab
   app_shortcuts_customize_google_chrome_new_window
   app_shortcuts_customize_google_chrome_new_incognito_window
@@ -4216,51 +4221,51 @@ app_shortcuts_customize_google_chrome () {
   app_shortcuts_customize_google_chrome_all
 }
 
-app_shortcuts_customize_google_chrome_new_tab () {
+app_shortcuts_customize_google_chrome_new_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: New Tab: Cmd-T → Ctrl-T"
 }
 
-app_shortcuts_customize_google_chrome_new_window () {
+app_shortcuts_customize_google_chrome_new_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: New Window: Cmd-N → Ctrl-N"
 }
 
-app_shortcuts_customize_google_chrome_new_incognito_window () {
+app_shortcuts_customize_google_chrome_new_incognito_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: New Incognito Window: Cmd-Shift-N → Ctrl-Shift-N"
 }
 
-app_shortcuts_customize_google_chrome_reopen_closed_tab () {
+app_shortcuts_customize_google_chrome_reopen_closed_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Reopen Closed Tab: Cmd-Shift-T → Ctrl-Shift-T"
 }
 
-app_shortcuts_customize_google_chrome_open_file () {
+app_shortcuts_customize_google_chrome_open_file() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Open File...: Cmd-O → Ctrl-O"
 }
 
-app_shortcuts_customize_google_chrome_open_location () {
+app_shortcuts_customize_google_chrome_open_location() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Open Location...: Cmd-L → Ctrl-L"
 }
 
-app_shortcuts_customize_google_chrome_close_window () {
+app_shortcuts_customize_google_chrome_close_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Close Window: Cmd-Shift-W → Ctrl-Shift-W"
 }
 
-app_shortcuts_customize_google_chrome_close_tab () {
+app_shortcuts_customize_google_chrome_close_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Close Tab: Cmd-W → Alt-W"
 }
 
-app_shortcuts_customize_google_chrome_save_page_as () {
+app_shortcuts_customize_google_chrome_save_page_as() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Save Page As...: Cmd-S → Ctrl-S"
 }
 
-app_shortcuts_customize_google_chrome_print () {
+app_shortcuts_customize_google_chrome_print() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Print...: Cmd-P → Ctrl-P"
 }
 
-app_shortcuts_customize_google_chrome_undo () {
+app_shortcuts_customize_google_chrome_undo() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Undo: Cmd-Z → Ctrl-Z"
 }
 
-app_shortcuts_customize_google_chrome_redo () {
+app_shortcuts_customize_google_chrome_redo() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
 }
 
@@ -4276,49 +4281,49 @@ app_shortcuts_customize_google_chrome_redo () {
 #    "Find..." = "~$f";
 #    "Find..." = "@~^$f"; # didn't try
 # - So we'll use <Cmd-F>, no choice!
-app_shortcuts_customize_google_chrome_find () {
+app_shortcuts_customize_google_chrome_find() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Find...: Cmd-F → Cmd-F"
 }
 
-app_shortcuts_customize_google_chrome_find_next () {
+app_shortcuts_customize_google_chrome_find_next() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Find Next: Cmd-G → F3"
 }
 
-app_shortcuts_customize_google_chrome_find_previous () {
+app_shortcuts_customize_google_chrome_find_previous() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Find Previous: Cmd-Shift-G → Shift-F3"
 }
 
-app_shortcuts_customize_google_chrome_use_selection_for_find () {
+app_shortcuts_customize_google_chrome_use_selection_for_find() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Use Selection for Find: Cmd-E → F1"
 }
 
-app_shortcuts_customize_google_chrome_reload_this_page () {
+app_shortcuts_customize_google_chrome_reload_this_page() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Reload This Page: Cmd-R → Ctrl-R"
 }
 
-app_shortcuts_customize_google_chrome_force_reload_this_page () {
+app_shortcuts_customize_google_chrome_force_reload_this_page() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Force Reload This Page: Cmd-Shift-R → Ctrl-Shift-R"
 }
 
 # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
-app_shortcuts_customize_google_chrome_enter_exit_full_screen () {
+app_shortcuts_customize_google_chrome_enter_exit_full_screen() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Enter Full Screen: Globe-F → Ctrl-Cmd-F"
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Exit Full Screen: Globe-F → Ctrl-Cmd-F"
 }
 
-app_shortcuts_customize_google_chrome_view_source () {
+app_shortcuts_customize_google_chrome_view_source() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View Source: Opt-Cmd-U → Ctrl-Shift-U"
 }
 
-app_shortcuts_customize_google_chrome_developer_tools () {
+app_shortcuts_customize_google_chrome_developer_tools() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Developer Tools: Opt-Cmd-I → Ctrl-Shift-I"
 }
 
-app_shortcuts_customize_google_chrome_inspect_elements () {
+app_shortcuts_customize_google_chrome_inspect_elements() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Inspect Elements: Opt-Cmd-C → Ctrl-Shift-C"
 }
 
-app_shortcuts_customize_google_chrome_javascript_console () {
+app_shortcuts_customize_google_chrome_javascript_console() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: JavaScript Console: Opt-Cmd-J → Ctrl-Shift-J"
 }
 
@@ -4368,28 +4373,28 @@ app_shortcuts_customize_google_chrome_javascript_console () {
 #     ...
 #   }
 
-app_shortcuts_customize_google_chrome_show_full_history () {
+app_shortcuts_customize_google_chrome_show_full_history() {
   # <Ctrl-H> is Linux binding. Mnemonic: H, like History. But macOS <Cmd-H> is Hide.
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Show Full History: Cmd-Y → Ctrl-H"
 }
 
-app_shortcuts_customize_google_chrome_bookmark_manager () {
+app_shortcuts_customize_google_chrome_bookmark_manager() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Bookmark Manager: Opt-Cmd-B → Ctrl-Shift-O"
 }
 
-app_shortcuts_customize_google_chrome_bookmark_this_tab () {
+app_shortcuts_customize_google_chrome_bookmark_this_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Bookmark This Tab...: Cmd-D → Ctrl-D"
 }
 
-app_shortcuts_customize_google_chrome_bookmark_all_tabs () {
+app_shortcuts_customize_google_chrome_bookmark_all_tabs() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Bookmark All Tabs...: Cmd-Shift-D → Ctrl-Shift-D"
 }
 
-app_shortcuts_customize_google_chrome_zoom () {
+app_shortcuts_customize_google_chrome_zoom() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Zoom: (Unset) → F11"
 }
 
-app_shortcuts_customize_google_chrome_quit_and_keep_windows () {
+app_shortcuts_customize_google_chrome_quit_and_keep_windows() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Quit and Keep Windows: Cmd-Q → Ctrl-Shift-Q"
 }
 
@@ -4406,15 +4411,15 @@ app_shortcuts_customize_google_chrome_quit_and_keep_windows () {
 #                              seems like a lack of parity]
 # - View > Actual Size: Cmd-0 → Ctrl-Shift-0
 
-app_shortcuts_customize_google_chrome_zoom_in_bigger () {
+app_shortcuts_customize_google_chrome_zoom_in_bigger() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Zoom In: Cmd-= → Ctrl-="
 }
 
-app_shortcuts_customize_google_chrome_zoom_out_smaller () {
+app_shortcuts_customize_google_chrome_zoom_out_smaller() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Zoom Out: Cmd-- → Ctrl--"
 }
 
-app_shortcuts_customize_google_chrome_zoom_actual_size_reset () {
+app_shortcuts_customize_google_chrome_zoom_actual_size_reset() {
   echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: View: Actual Size: Cmd-0 → Ctrl-0"
 }
 
@@ -4432,19 +4437,19 @@ app_shortcuts_customize_google_chrome_zoom_actual_size_reset () {
 # The edit keys are remapped globally courtesy Karabiner-Elements, so skip this
 # (but here for notoriety):
 false && (
-  app_shortcuts_customize_google_chrome_cut () {
+  app_shortcuts_customize_google_chrome_cut() {
     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Cut: Cmd-X → Ctrl-X"
   }
 
-  app_shortcuts_customize_google_chrome_copy () {
+  app_shortcuts_customize_google_chrome_copy() {
     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Copy: Cmd-C → Ctrl-C"
   }
 
-  app_shortcuts_customize_google_chrome_paste () {
+  app_shortcuts_customize_google_chrome_paste() {
     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Paste: Cmd-V → Ctrl-V"
   }
 
-  app_shortcuts_customize_google_chrome_select_all () {
+  app_shortcuts_customize_google_chrome_select_all() {
     echo "${CRUMB_APP_SHORTCUTS}: Google Chrome.app: Select All: Cmd-A → Ctrl-A"
   }
 ) || true
@@ -4453,7 +4458,7 @@ false && (
 
 # If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
 #   defaults read com.google.Chrome NSUserKeyEquivalents
-app_shortcuts_customize_google_chrome_all () {
+app_shortcuts_customize_google_chrome_all() {
   defaults write com.google.Chrome NSUserKeyEquivalents '{
     "Actual Size" = "^0";
     "Bookmark All Tabs..." = "^$d";
@@ -4493,7 +4498,7 @@ app_shortcuts_customize_google_chrome_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_firefox () {
+app_shortcuts_customize_firefox() {
   app_shortcuts_customize_firefox_menu_firefox
   app_shortcuts_customize_firefox_menu_file
   app_shortcuts_customize_firefox_menu_edit
@@ -4507,12 +4512,12 @@ app_shortcuts_customize_firefox () {
   app_shortcuts_customize_firefox_all
 }
 
-app_shortcuts_customize_firefox_menu_firefox () {
+app_shortcuts_customize_firefox_menu_firefox() {
   # FTREQ/2024-11-07: Use long-press, like Chrome.
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Quit Firefox: Cmd-Q → Ctrl-Shift-Q"
 }
 
-app_shortcuts_customize_firefox_menu_file () {
+app_shortcuts_customize_firefox_menu_file() {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: New Tab: Cmd-T → Ctrl-T"
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: New Window: Cmd-N → Ctrl-N"
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: New Private Window: Shift-Cmd-P → Shift-Ctrl-P"
@@ -4528,12 +4533,12 @@ app_shortcuts_customize_firefox_menu_file () {
   # echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Close Tab: Cmd-W → Alt-W"
 }
 
-app_shortcuts_customize_firefox_menu_edit () {
+app_shortcuts_customize_firefox_menu_edit() {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Find in This Page...: Cmd-F → Ctrl-F"
   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Find Again: Cmd-G → Ctrl-G"
 }
 
-app_shortcuts_customize_firefox_menu_view () {
+app_shortcuts_customize_firefox_menu_view() {
   :
   # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
   # - Already the default:
@@ -4541,27 +4546,27 @@ app_shortcuts_customize_firefox_menu_view () {
   #   echo "${CRUMB_APP_SHORTCUTS}: Firefox.app: Exit Full Screen: Ctrl-Cmd-F → Ctrl-Cmd-F"
 }
 
-app_shortcuts_customize_firefox_menu_history () {
+app_shortcuts_customize_firefox_menu_history() {
   :
 }
 
-app_shortcuts_customize_firefox_menu_bookmarks () {
+app_shortcuts_customize_firefox_menu_bookmarks() {
   :
 }
 
-app_shortcuts_customize_firefox_menu_tools () {
+app_shortcuts_customize_firefox_menu_tools() {
   :
 }
 
-app_shortcuts_customize_firefox_menu_window () {
+app_shortcuts_customize_firefox_menu_window() {
   :
 }
 
-app_shortcuts_customize_firefox_menu_help () {
+app_shortcuts_customize_firefox_menu_help() {
   :
 }
 
-app_shortcuts_customize_firefox_all () {
+app_shortcuts_customize_firefox_all() {
   defaults write org.mozilla.firefox NSUserKeyEquivalents '{
     "Settings..." = "^,";
     "Quit Firefox" = "^$q";
@@ -4605,14 +4610,14 @@ app_shortcuts_customize_firefox_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_firefox_developer_edition () {
+app_shortcuts_customize_firefox_developer_edition() {
   app_shortcuts_customize_firefox_developer_edition_web_developer_tools
   # FIXME/2022-10-19: Add Minimize.
 
   app_shortcuts_customize_firefox_developer_edition_all
 }
 
-app_shortcuts_customize_firefox_developer_edition_web_developer_tools () {
+app_shortcuts_customize_firefox_developer_edition_web_developer_tools() {
   echo "${CRUMB_APP_SHORTCUTS}: Firefox Developer Edition.app: Web Developer Tools: Opt-Cmd-I → Ctrl-Shift-J"
 }
 
@@ -4620,7 +4625,7 @@ app_shortcuts_customize_firefox_developer_edition_web_developer_tools () {
 #   defaults read com.mozilla.firefoxXXXXX NSUserKeyEquivalents
 # If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
 #   defaults read com.mozilla.firefoxXXXXX NSUserKeyEquivalents
-app_shortcuts_customize_firefox_developer_edition_all () {
+app_shortcuts_customize_firefox_developer_edition_all() {
   echo
   echo "FIXME: Complete the Firefox Developer Edition customization."
   echo
@@ -4630,7 +4635,7 @@ app_shortcuts_customize_firefox_developer_edition_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_safari () {
+app_shortcuts_customize_safari() {
   app_shortcuts_customize_safari_quit_safari
   app_shortcuts_customize_safari_new_window
   app_shortcuts_customize_safari_new_private_window
@@ -4650,67 +4655,67 @@ app_shortcuts_customize_safari () {
   app_shortcuts_customize_safari_all
 }
 
-app_shortcuts_customize_safari_quit_safari () {
+app_shortcuts_customize_safari_quit_safari() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #  echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Quit Safari: Cmd-Q → Ctrl-Shift-Q"
   :
 }
 
-app_shortcuts_customize_safari_new_window () {
+app_shortcuts_customize_safari_new_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: New Window: Cmd-N → Ctrl-N"
 }
 
-app_shortcuts_customize_safari_new_private_window () {
+app_shortcuts_customize_safari_new_private_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: New Private Window: Cmd-Shift-N → Ctrl-Shift-N"
 }
 
-app_shortcuts_customize_safari_new_tab () {
+app_shortcuts_customize_safari_new_tab() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: New Tab: Cmd-T → Ctrl-T"
 }
 
-app_shortcuts_customize_safari_new_tab_at_end () {
+app_shortcuts_customize_safari_new_tab_at_end() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: New Tab at End: Opt-Cmd-T → Ctrl-Shift-T"
 }
 
-app_shortcuts_customize_safari_close_window () {
+app_shortcuts_customize_safari_close_window() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Close Window: Cmd-W → Alt-W"
 }
 
-app_shortcuts_customize_safari_undo () {
+app_shortcuts_customize_safari_undo() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Undo: Cmd-Z → Ctrl-Z"
 }
 
-app_shortcuts_customize_safari_redo () {
+app_shortcuts_customize_safari_redo() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
 }
 
-app_shortcuts_customize_safari_find () {
+app_shortcuts_customize_safari_find() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Find...: Cmd-F → Ctrl-F"
 }
 
-app_shortcuts_customize_safari_find_next () {
+app_shortcuts_customize_safari_find_next() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Find Next: Cmd-G → Ctrl-G"
 }
 
-app_shortcuts_customize_safari_find_previous () {
+app_shortcuts_customize_safari_find_previous() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Find Previous: Cmd-Shift-G → Ctrl-Shift-G"
 }
 
-app_shortcuts_customize_safari_reload_page () {
+app_shortcuts_customize_safari_reload_page() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Reload Page: Cmd-R → Ctrl-R"
 }
 
-app_shortcuts_customize_safari_show_web_inspector () {
+app_shortcuts_customize_safari_show_web_inspector() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Show Web Inspector: Opt-Cmd-I → Ctrl-Shift-I"
 }
 
-app_shortcuts_customize_safari_show_javascript_console () {
+app_shortcuts_customize_safari_show_javascript_console() {
   echo "${CRUMB_APP_SHORTCUTS}: Safari.app: Show JavaScript Console: Opt-Cmd-C → Ctrl-Shift-J"
 }
 
 # If you make changes via System Preferences > Keyboard > Shortcuts, grab the new dict:
 #   defaults read com.apple.Safari NSUserKeyEquivalents
-app_shortcuts_customize_safari_all () {
+app_shortcuts_customize_safari_all() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #  "Quit Safari" = "^$q";
   defaults write com.apple.Safari NSUserKeyEquivalents '{
@@ -4764,13 +4769,13 @@ app_shortcuts_customize_safari_all () {
 # OWELL: Meld has no *Minimize* menu item, which is another common
 #        menu item we like to remap.
 
-app_shortcuts_customize_meld () {
+app_shortcuts_customize_meld() {
   :
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_slack () {
+app_shortcuts_customize_slack() {
   app_shortcuts_customize_slack_menu_slack
   app_shortcuts_customize_slack_menu_file
   app_shortcuts_customize_slack_menu_edit
@@ -4785,7 +4790,7 @@ app_shortcuts_customize_slack () {
 # These shortcuts are reflected in menus only, but app ignores them.
 # - See Hammerspoon config (and/or Karabiner Elements) for working bindings.
 
-app_shortcuts_customize_slack_menu_slack () {
+app_shortcuts_customize_slack_menu_slack() {
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Settings...: Cmd-, → Cmd-,"
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Hide Slack: Cmd-H → Cmd-H"
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Slack > Hide Others: Cmd-Alt-H → Cmd-Alt-H"
@@ -4795,7 +4800,7 @@ app_shortcuts_customize_slack_menu_slack () {
   :
 }
 
-app_shortcuts_customize_slack_menu_file () {
+app_shortcuts_customize_slack_menu_file() {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > New Message: Cmd-N → Ctrl-N"
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > New Canvas: Shift-Cmd-N → Shift-Ctrl-N"
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > Workspace > <Workspace 1>: Cmd-1 → Ctrl-1"
@@ -4804,7 +4809,7 @@ app_shortcuts_customize_slack_menu_file () {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: File > Close Window: Cmd-W → Ctrl-W"
 }
 
-app_shortcuts_customize_slack_menu_edit () {
+app_shortcuts_customize_slack_menu_edit() {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Undo: Cmd-Z → Ctrl-Z"
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Cut: Cmd-X → Ctrl-X"
@@ -4817,7 +4822,7 @@ app_shortcuts_customize_slack_menu_edit () {
   # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Edit > Emoji & Symbols: Globe → (meh)"
 }
 
-app_shortcuts_customize_slack_menu_view () {
+app_shortcuts_customize_slack_menu_view() {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Reload: Cmd-R → Ctrl-R"
   # DUNNO/2024-08-17: "Force Reload" menu item still shows ⇧⌘ R
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Force Reload: Shift-Cmd-R → Shift-Ctrl-R"
@@ -4831,7 +4836,7 @@ app_shortcuts_customize_slack_menu_view () {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: View > Zoom Out: Cmd-- → Ctrl--"
 }
 
-app_shortcuts_customize_slack_menu_go () {
+app_shortcuts_customize_slack_menu_go() {
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > Switch to Channel: Cmd-K → Ctrl-K"
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > History > Back: Cmd-[ → Ctrl-["
   echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Go > History > Forward: Cmd-] → Ctrl-]"
@@ -4850,15 +4855,15 @@ app_shortcuts_customize_slack_menu_go () {
 #    Minimize = "@m";
 # - I think I had this wired for parity w/ Linux <Alt-Space> + <N>
 #    Minimize = "@n";
-app_shortcuts_customize_slack_menu_window () {
+app_shortcuts_customize_slack_menu_window() {
   : # echo "${CRUMB_APP_SHORTCUTS}: Slack.app: Window > Minimize: Cmd-M → Cmd-M"
 }
 
-app_shortcuts_customize_slack_menu_help () {
+app_shortcuts_customize_slack_menu_help() {
   : # <None>
 }
 
-app_shortcuts_customize_slack_all () {
+app_shortcuts_customize_slack_all() {
   # DUNNO/2024-08-17: Setting these appears to interfere with Hammerspoon.
   #   defaults delete com.tinyspeck.slackmacgap NSUserKeyEquivalents
   return 0
@@ -4902,19 +4907,19 @@ app_shortcuts_customize_slack_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_teams () {
+app_shortcuts_customize_teams() {
   app_shortcuts_customize_teams_quit_microsoft_teams
 
   app_shortcuts_customize_teams_all
 }
 
-app_shortcuts_customize_teams_quit_microsoft_teams () {
+app_shortcuts_customize_teams_quit_microsoft_teams() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #   echo "${CRUMB_APP_SHORTCUTS}: Microsoft Teams.app: Quit Microsoft Teams: Cmd-Q → Ctrl-q"
   :
 }
 
-app_shortcuts_customize_teams_all () {
+app_shortcuts_customize_teams_all() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #   defaults write com.microsoft.teams NSUserKeyEquivalents '{
   #     "Quit Microsoft Teams" = "^q";
@@ -4931,7 +4936,7 @@ app_shortcuts_customize_teams_all () {
 #     Cisco Webex Meetings.app
 #
 # However, if you Show Path Bar (under Finder > View, or <Cmd-Alt-p>), you'll
-# see a different application name if you right-click the app name in the path 
+# see a different application name if you right-click the app name in the path
 # line and select *Copy “Cisco Webex Meetings.app” as Pathname*, e.g.,
 #
 #   $HOME/Library/Application Support/WebEx Folder/MC_42.11.3.14/
@@ -4941,7 +4946,7 @@ app_shortcuts_customize_teams_all () {
 # property list, e.g., if you view Contents/Info.plist, you'll see that
 # "Meeting Center" is <value> for the CFBundleExecutable and CFBundleName
 # <key>s (and com.webex.meetingmanager is the CFBundleIndentifier, FYI).
-app_shortcuts_customize_webex () {
+app_shortcuts_customize_webex() {
   app_shortcuts_customize_webex_leave_meeting
   app_shortcuts_customize_webex_end_meeting
   app_shortcuts_customize_webex_undo
@@ -4954,27 +4959,27 @@ app_shortcuts_customize_webex () {
   app_shortcuts_customize_webex_all
 }
 
-app_shortcuts_customize_webex_leave_meeting () {
+app_shortcuts_customize_webex_leave_meeting() {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Leave Meeting: Cmd-L → Ctrl-L"
 }
 
-app_shortcuts_customize_webex_end_meeting () {
+app_shortcuts_customize_webex_end_meeting() {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: End Meeting: Cmd-L → Ctrl-L"
 }
 
-app_shortcuts_customize_webex_undo () {
+app_shortcuts_customize_webex_undo() {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Undo: Cmd-Z → Ctrl-Z"
 }
 
-app_shortcuts_customize_webex_redo () {
+app_shortcuts_customize_webex_redo() {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Redo: Cmd-Shift-Z → Ctrl-Shift-Z"
 }
 
-app_shortcuts_customize_webex_mute_me () {
+app_shortcuts_customize_webex_mute_me() {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Mute Me: Cmd-Shift-M → Ctrl-Shift-M"
 }
 
-app_shortcuts_customize_webex_unmute_me () {
+app_shortcuts_customize_webex_unmute_me() {
   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Unmute Me: Cmd-Shift-M → Ctrl-Shift-M"
 }
 
@@ -4987,7 +4992,7 @@ app_shortcuts_customize_webex_unmute_me () {
 #   echo "${CRUMB_APP_SHORTCUTS}: Cisco Webex Meetings.app: Window: Minimize: Cmd-M → Cmd-N"
 # }
 
-app_shortcuts_customize_webex_all () {
+app_shortcuts_customize_webex_all() {
   defaults write com.webex.meetingmanager NSUserKeyEquivalents '{
     "End Meeting" = "^l";
     "Leave Meeting" = "^l";
@@ -5000,17 +5005,17 @@ app_shortcuts_customize_webex_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_dbeaver () {
+app_shortcuts_customize_dbeaver() {
   app_shortcuts_customize_dbeaver_quit_dbeaver
 
   app_shortcuts_customize_dbeaver_all
 }
 
-app_shortcuts_customize_dbeaver_quit_dbeaver () {
+app_shortcuts_customize_dbeaver_quit_dbeaver() {
   echo "${CRUMB_APP_SHORTCUTS}: DBeaver.app: Quit DBeaver: Cmd-Q → Ctrl-Q"
 }
 
-app_shortcuts_customize_dbeaver_all () {
+app_shortcuts_customize_dbeaver_all() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #   defaults write org.jkiss.dbeaver.core.product NSUserKeyEquivalents '{
   #     "Quit DBeaver" = "^q";
@@ -5020,17 +5025,17 @@ app_shortcuts_customize_dbeaver_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_macdown () {
+app_shortcuts_customize_macdown() {
   app_shortcuts_customize_macdown_quit_macdown
 
   app_shortcuts_customize_macdown_all
 }
 
-app_shortcuts_customize_macdown_quit_macdown () {
+app_shortcuts_customize_macdown_quit_macdown() {
   echo "${CRUMB_APP_SHORTCUTS}: MacDown.app: “Quit MacDown”: Cmd-Q → Ctrl-Q"
 }
 
-app_shortcuts_customize_macdown_all () {
+app_shortcuts_customize_macdown_all() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all macOS apps.
   #   defaults write com.uranusjr.macdown NSUserKeyEquivalents '{
   #     "Quit MacDown" = "^q";
@@ -5040,7 +5045,7 @@ app_shortcuts_customize_macdown_all () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-app_shortcuts_customize_libreoffice () {
+app_shortcuts_customize_libreoffice() {
   app_shortcuts_customize_libreoffice_menu_libreoffice
   app_shortcuts_customize_libreoffice_menu_file
   app_shortcuts_customize_libreoffice_menu_edit
@@ -5056,13 +5061,13 @@ app_shortcuts_customize_libreoffice () {
   app_shortcuts_customize_libreoffice_all
 }
 
-app_shortcuts_customize_libreoffice_menu_libreoffice () {
+app_shortcuts_customize_libreoffice_menu_libreoffice() {
   # ISOFF/2024-10-08: Maintain Quit binding parity across all apps.
   #   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “LibreOffice > Quit LibreOffice”: Cmd-Q → Ctrl-Q"
   :
 }
 
-app_shortcuts_customize_libreoffice_menu_file () {
+app_shortcuts_customize_libreoffice_menu_file() {
   # Note that <Ctrl-N> mapping works, but <Cmd-N> also continues to work.
   # - Also there's no Minimize menu item for LibreOffice, so use <Cmd-H> Hide.
   #   - Which means <Cmd-N> is different in LibreOffice than the other apps
@@ -5087,7 +5092,7 @@ app_shortcuts_customize_libreoffice_menu_file () {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “File > Print Preview”: Shift-Cmd-O → Shift-Ctrl-O"
 }
 
-app_shortcuts_customize_libreoffice_menu_edit () {
+app_shortcuts_customize_libreoffice_menu_edit() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Find...”: Cmd-F → Ctrl-F"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Find and Replace...”: Shift-Cmd-F → Shift-Ctrl-F"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Edit Mode”: Shift-Cmd-M → Shift-Ctrl-M"
@@ -5095,21 +5100,21 @@ app_shortcuts_customize_libreoffice_menu_edit () {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Edit > Paste Special > Paste Special...”: Shift-Cmd-V → Shift-Ctrl-V"
 }
 
-app_shortcuts_customize_libreoffice_menu_view () {
+app_shortcuts_customize_libreoffice_menu_view() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Styles”: Cmd-T → Ctrl-T"
   # REFER: #normalize_full_screen: Use <Ctrl-Cmd-F> for Full Screen/Fullscreen.
   # - Already the default:
   #   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “View > Full Screen”: Ctrl-Cmd-F → Ctrl-Cmd-F"
 }
 
-app_shortcuts_customize_libreoffice_menu_insert () {
+app_shortcuts_customize_libreoffice_menu_insert() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Comment”: Cmd-Alt-C → Ctrl-Alt-C"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Hyperlink”: Cmd-K → Ctrl-K"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Date”: Cmd-; → Ctrl-;"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Insert > Time”: Shift-Cmd-; → Shift-Ctrl-;"
 }
 
-app_shortcuts_customize_libreoffice_menu_format () {
+app_shortcuts_customize_libreoffice_menu_format() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Bold”: Cmd-B → Ctrl-B"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Text > Italic”: Cmd-I → Ctrl-I"
   # The docs suggest that Underline is mapped from <Cmd-U>, but I see no mapping assigned.
@@ -5125,29 +5130,29 @@ app_shortcuts_customize_libreoffice_menu_format () {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Format > Cells...”: Cmd-1 → Ctrl-1"
 }
 
-app_shortcuts_customize_libreoffice_menu_styles () {
+app_shortcuts_customize_libreoffice_menu_styles() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Style > Manage Styles”: Cmd-T → Ctrl-T"
 }
 
-app_shortcuts_customize_libreoffice_menu_sheet () {
+app_shortcuts_customize_libreoffice_menu_sheet() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Sheet > Insert Cells...”: Cmd-+ → Ctrl-+"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Sheet > Delete Cells...”: Cmd-- → Ctrl--"
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Sheet > Fill Cells > Fill Down”: Cmd-D → Ctrl-D"
 }
 
-app_shortcuts_customize_libreoffice_menu_data () {
+app_shortcuts_customize_libreoffice_menu_data() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Data > AutoFilter”: Shift-Cmd-L → Shift-Ctrl-L"
 }
 
-app_shortcuts_customize_libreoffice_menu_tools () {
+app_shortcuts_customize_libreoffice_menu_tools() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Tools > Extensions...”: Cmd-Alt-E → Ctrl-Alt-E"
 }
 
-app_shortcuts_customize_libreoffice_menu_window () {
+app_shortcuts_customize_libreoffice_menu_window() {
   echo "${CRUMB_APP_SHORTCUTS}: LibreOffice.app: “Window > Close Window”: Cmd-W → Ctrl-W"
 }
 
-app_shortcuts_customize_libreoffice_all () {
+app_shortcuts_customize_libreoffice_all() {
   # ISOFF/2024-07-15: These two appear changed in the menu,
   # but the bindings don't change. So omit menu change until/
   # unless we figure out why the bindings don't change.
@@ -5198,7 +5203,7 @@ app_shortcuts_customize_libreoffice_all () {
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-locatedb_configure () {
+locatedb_configure() {
   print_at_end+=("\
 🔳 CLI: Create \`locate\` database:
    \`sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist\`
@@ -5212,8 +5217,9 @@ locatedb_configure () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-pass_configure () {
-  print_at_end+=("$(cat << 'EOF'
+pass_configure() {
+  print_at_end+=("$(
+    cat <<'EOF'
 🔳 Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`:
 
    - Generate a new key:
@@ -5245,7 +5251,7 @@ EOF
 #   don't like seeing these popup in Spotlight, or seeing them elsewhere,
 #   so I like them gone. I also don't run macOS personally (Linux here)
 #   so don't see myself wanting to try either app (never opened either).
-macos_remove_bloatware () {
+macos_remove_bloatware() {
   if ! ${SLATHER_REMOVE_BLOATWARE:-false}; then
     echo "✗ Skipping bloatware removal"
 
@@ -5257,7 +5263,7 @@ macos_remove_bloatware () {
   macos_remove_bloatware_app "/Applications/iMovie.app"
 }
 
-macos_remove_bloatware_app () {
+macos_remove_bloatware_app() {
   local appdir="$1"
 
   if [ -d "${appdir}" ]; then
@@ -5269,7 +5275,7 @@ macos_remove_bloatware_app () {
   fi
 }
 
-rm_rf_target () {
+rm_rf_target() {
   local target="$1"
 
   [ -n "${target}" ] || return 1
@@ -5281,7 +5287,7 @@ rm_rf_target () {
 
 # These GRIPEs merely exist so I don't waste time trying to solve
 # these again in the future, having forgot that I already tried.
-macos_uncustomizable_gripes () {
+macos_uncustomizable_gripes() {
   gripe_macos_cannot_customize_disable_notch_aka_camera_housing
   gripe_macos_cannot_customize_command_tab_disable_q_quit
 }
@@ -5307,7 +5313,7 @@ macos_uncustomizable_gripes () {
 #   is black):
 #   - Forehead: https://goodsnooze.gumroad.com/l/nASbe
 #   - TopNotch: https://topnotch.app/
-gripe_macos_cannot_customize_disable_notch_aka_camera_housing () {
+gripe_macos_cannot_customize_disable_notch_aka_camera_housing() {
   is_probably_a_laptop || return 0
 
   print_at_end+=("🤷 GRIPE: MacBook Camera Housing aka Notch Preferences: AFAIK you’re stuck with it")
@@ -5315,13 +5321,13 @@ gripe_macos_cannot_customize_disable_notch_aka_camera_housing () {
 
 # GRIPE/2022-11-04: macOS Command-Tab not customizable, and I haven't
 # found any apps to tweak it. Fortunately, you shouldn't need to use Cmd-Tab!
-gripe_macos_cannot_customize_command_tab_disable_q_quit () {
+gripe_macos_cannot_customize_command_tab_disable_q_quit() {
   print_at_end+=("🤷 GRIPE: macOS Command-Tab: Cannot disable Quit app on <Cmd-tab q> (whereas <Alt-tab q> selects backward; fortunately <Cmd-Tab> usage is rare)")
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-slather_macos_defaults () {
+slather_macos_defaults() {
   local dry_run=false
   local cnt_run=false
   local non_disruptive=false
@@ -5330,10 +5336,21 @@ slather_macos_defaults () {
 
   while [ "$1" != '' ]; do
     case $1 in
-      --dry-run) dry_run=true; shift; ;;
-      --cnt-run) cnt_run=true; shift; ;;
-      --tame) non_disruptive=true; shift; ;;
-      *) shift; ;;
+    --dry-run)
+      dry_run=true
+      shift
+      ;;
+    --cnt-run)
+      cnt_run=true
+      shift
+      ;;
+    --tame)
+      non_disruptive=true
+      shift
+      ;;
+    *)
+      shift
+      ;;
     esac
   done
 
@@ -5370,7 +5387,7 @@ slather_macos_defaults () {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  local print_at_end=()  # 🔳 ◻
+  local print_at_end=() # 🔳 ◻
   # Killallers
   local restart_dock=false
   local restart_finder=false
@@ -5380,9 +5397,9 @@ slather_macos_defaults () {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  ${non_disruptive} || ( ${restart_dock} && killall Dock )
+  ${non_disruptive} || (${restart_dock} && killall Dock)
 
-  ${non_disruptive} || ( ${restart_finder} && killall Finder )
+  ${non_disruptive} || (${restart_finder} && killall Finder)
 
   ${restart_systemuiserver} && killall SystemUIServer
 
@@ -5407,7 +5424,7 @@ slather_macos_defaults () {
 
 # ***
 
-domains_customize () {
+domains_customize() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -5632,7 +5649,7 @@ domains_customize () {
 
 # ***
 
-print_cnt_run_report () {
+print_cnt_run_report() {
   if ! ${cnt_run}; then
 
     return 0
@@ -5668,16 +5685,16 @@ print_cnt_run_report () {
 #     - So Homebrew bash is available, but it's not #!/bin/bash nor
 #       #!/usr/bin/env bash. Rather, it's findable at a known location.
 
-_promote_homebrew_bash () {
-  source_dep_local "lib/promote-homebrew-bash.sh" \
-    || return 1
+_promote_homebrew_bash() {
+  source_dep_local "lib/promote-homebrew-bash.sh" ||
+    return 1
 
   promote_homebrew_bash "$@"
 }
 
 # ***
 
-source_dep_local () {
+source_dep_local() {
   local rel_path="$1"
 
   local bin_dir="$(dirname -- "$(realpath -- "$0")")"
@@ -5686,7 +5703,7 @@ source_dep_local () {
 
     return 0
   fi
-  
+
   >&2 echo "ERROR: Could not locate dependency: ${rel_path}"
   >&2 echo "- It should be relative parent dir: ${base_dir}"
 
@@ -5695,28 +5712,28 @@ source_dep_local () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-clear_traps () {
+clear_traps() {
   trap - EXIT INT
 }
 
-set_traps () {
+set_traps() {
   trap -- trap_exit EXIT
   trap -- trap_int INT
 }
 
-exit_0 () {
+exit_0() {
   clear_traps
 
   exit 0
 }
 
-exit_1 () {
+exit_1() {
   clear_traps
 
   exit 1
 }
 
-trap_exit () {
+trap_exit() {
   clear_traps
 
   # USAGE: Alert on unexpected error path, so you can add happy path.
@@ -5726,7 +5743,7 @@ trap_exit () {
   exit 2
 }
 
-trap_int () {
+trap_int() {
   clear_traps
 
   exit 3
@@ -5734,7 +5751,7 @@ trap_int () {
 
 # ***
 
-main () {
+main() {
   set -e
 
   set_traps
@@ -5750,4 +5767,3 @@ if [ "$0" = "${BASH_SOURCE[0]}" ]; then
     main "$@"
   fi
 fi
-
