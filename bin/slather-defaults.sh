@@ -3175,6 +3175,11 @@ shortcuts_customize_macos() {
 # ***
 
 rewire_symbolichotkeys() {
+  if ! os_is_macos; then
+
+    return
+  fi
+
   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 }
 
