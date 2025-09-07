@@ -935,9 +935,19 @@ display_customize() {
 #       MacBook Air "M2" 8 CPU/10 GPU 13    Mac14,2
 
 is_probably_a_laptop() {
-  system_profiler SPHardwareDataType |
-    grep -q -e "^ *Model Identifier: " |
-    grep -q -e "Book"
+  if command -v system_profiler >/dev/null; then
+    # macOS
+    system_profiler SPHardwareDataType |
+      grep -q -e "^ *Model Identifier: " |
+      grep -q -e "Book"
+  elif command -v hostnamectl >/dev/null; then
+    # Linux (at least Debian)
+    test "$(hostnamectl chassis)" = "laptop"
+  else
+    >&2 echo "Cannot accurately suss if host is a laptop, so no"
+
+    false
+  fi
 }
 
 display_customize_external_monitor_mirror_displays() {
