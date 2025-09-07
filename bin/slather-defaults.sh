@@ -5419,7 +5419,11 @@ slather_macos_defaults() {
       echo -e "${print_ln}"
     done
 
-    echo "Good luck!"
+    if [ "$(basename -- "${0#-}")" = "bash" ]; then
+      # Being executed from shell, i.e., not being called from
+      # another script (kinda hacky, but hey).
+      echo "Good luck!"
+    fi
   )
 
   # ***
