@@ -50,6 +50,7 @@
 #   BREW_INCLUDE_TRANSMISSION=true    # BitTorrent client
 #   BREW_INCLUDE_WIRESHARK
 #   BREW_INCLUDE_FINICKY              # ISOFF/2025-08-30: Finicky v4 has issues...
+#   BREW_INCLUDE_GEEKBENCH=true
 #
 #   # Editors
 #   BREW_INCLUDE_LICLIPSE
@@ -1900,6 +1901,14 @@ fi
 #   https://github.com/Handfish/confetty_rs
 # - Or `countdown 17:00`, `countdown -up 30s`.
 brew_app_both "countdown"
+
+# --------------------------
+
+# https://www.geekbench.com/
+# https://formulae.brew.sh/cask/geekbench
+if ${BREW_INCLUDE_GEEKBENCH:-false}; then
+  brew_app_macos "--cask geekbench"
+fi
 
 # --------------------------
 
