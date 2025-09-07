@@ -91,7 +91,9 @@ insist_is_latest_macos_version_unless_dry_run() {
     [ "$(uname)" = 'Darwin' ]
   }
 
-  if ! os_is_macos; then
+  if os_is_macos; then
+    insist_is_latest_macos_version
+  else
     if ${dry_run}; then
       >&2 echo "ALERT: Running dry-run, but not on macOS!"
     else
@@ -100,8 +102,6 @@ insist_is_latest_macos_version_unless_dry_run() {
       exit_1
     fi
   fi
-
-  insist_is_latest_macos_version
 }
 
 insist_is_latest_macos_version() {
