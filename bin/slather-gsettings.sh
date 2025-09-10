@@ -103,7 +103,7 @@
 #       debian: 13
 #       linuxmint: 21.3
 #     "
-reset_linux_onboarder_distro_ids () {
+reset_linux_onboarder_distro_ids() {
   LINUX_ONBOARDER_DISTROS="
     debian: 12
   "
@@ -180,10 +180,10 @@ CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts: View and Customize Shortcuts"
 # verified works with it. Not that it won't work, but it might not
 # work as intended.
 
-insist_is_supported_distro_unless_dry_run () {
+insist_is_supported_distro_unless_dry_run() {
   local dry_run=$1
 
-  os_is_linux () {
+  os_is_linux() {
     [ "$(uname)" = 'Linux' ]
   }
 
@@ -200,7 +200,7 @@ insist_is_supported_distro_unless_dry_run () {
   insist_is_supported_linux_version
 }
 
-insist_is_supported_linux_version () {
+insist_is_supported_linux_version() {
   local osrel="/etc/os-release"
 
   if ! [ -f "${osrel}" ]; then
@@ -244,12 +244,13 @@ insist_is_supported_linux_version () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-check_deps () {
+check_deps() {
   local dry_run=$1
 
   # Instead of checking, e.g., `os_is_linux`, check what really matters.
-  ( true \
-    && command -v gsettings > /dev/null \
+  (
+    true &&
+      command -v gsettings >/dev/null
   ) && return 0 || true
 
   local fiver="ERROR"
@@ -269,20 +270,24 @@ check_deps () {
   exit_1
 }
 
-fake_it () {
-  fg_skyblue () { printf "\033[38;2;135;175;255m"; }
-  attr_reset () { printf "\033[0m"; }
-  highlight () { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
+fake_it() {
+  fg_skyblue() { printf "\033[38;2;135;175;255m"; }
+  attr_reset() { printf "\033[0m"; }
+  highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
 
-  defaults () {
-    echo "  $(highlight "defaults") $@"; }
-  killall () {
-    echo "  $(highlight "killall") $@"; }
+  defaults() {
+    echo "  $(highlight "defaults") $@"
+  }
+  killall() {
+    echo "  $(highlight "killall") $@"
+  }
   # CRUMB: OPENERS
-  open () {
-    echo "  $(highlight "open") $@"; }
-  osascript () {
-    echo "  $(highlight "osascript") $@"; }
+  open() {
+    echo "  $(highlight "open") $@"
+  }
+  osascript() {
+    echo "  $(highlight "osascript") $@"
+  }
 }
 
 # INPUT: ENV: Expects:
@@ -294,8 +299,8 @@ fake_it () {
 #   local cnt_killalls=0
 #   local cnt_ascripts=0
 #   local cnt_binrmrfs=0
-count_it () {
-  defaults () {
+count_it() {
+  defaults() {
     let 'cnt_defaults += 1'
 
     if [ "$1" = "write" ]; then
@@ -310,19 +315,19 @@ count_it () {
 
     echo "  defaults $@"
   }
-  killall () {
+  killall() {
     let 'cnt_killalls += 1'
 
     echo "  killall $@"
   }
-  osascript () {
+  osascript() {
     let 'cnt_ascripts += 1'
 
     echo "  osascript $@"
   }
 }
 
-killall_and_reopen () {
+killall_and_reopen() {
   local apps_name="$1"
 
   if killall "${apps_name}"; then
@@ -343,15 +348,15 @@ killall_and_reopen () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-gnome_settings_close () {
+gnome_settings_close() {
   echo "Closing GNOME Settings..."
-  killall gnome-control-center 2>/dev/null \
-    || true
+  killall gnome-control-center 2>/dev/null ||
+    true
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-dconf_write () {
+dconf_write() {
   local description="$1"
   local _dconf_cmd="$2"
   local _dconf_write="$3"
@@ -363,7 +368,7 @@ dconf_write () {
   dconf write "${dconf_key}" "${dconf_value}"
 }
 
-gsettings_set () {
+gsettings_set() {
   local description="$1"
   local _gsettings_cmd="$2"
   local _gsettings_get="$3"
@@ -371,14 +376,14 @@ gsettings_set () {
   local gsettings_key="$5"
   local gsettings_value="$6"
 
-  echo "${description}: $( \
+  echo "${description}: $(
     gsettings get "${gsettings_schema}" "${gsettings_key}"
   ) → '${gsettings_value}'"
 
   gsettings set "${gsettings_schema}" "${gsettings_key}" "${gsettings_value}"
 }
 
-is_hack_font_installed () {
+is_hack_font_installed() {
   # REFER:
   #   fc-list :family=HackNerdFont
   # SAVVY: 'fontconfig' installed by default on Debian 12 [AFAIK].
@@ -400,7 +405,7 @@ is_hack_font_installed () {
 # ░░░ The functions and settings align with The GNOME Project *Settings* GUI on Debian 12.
 #
 
-gnome_settings_customize () {
+gnome_settings_customize() {
   # Nothing to configure:
   #   gnome_settings_customize_wifi
   #   gnome_settings_customize_network
@@ -428,15 +433,15 @@ gnome_settings_customize () {
 
 # ***
 
-gnome_settings_customize_appearance () {
+gnome_settings_customize_appearance() {
   gnome_settings_customize_appearance_style
   gnome_settings_customize_appearance_background
 }
 
-gnome_settings_customize_appearance_style () {
+gnome_settings_customize_appearance_style() {
   # Default: 'default'
   gsettings_set "Settings > Appearance > Style" \
-  gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 }
 
 # The GUI lets you select from 26 different background images
@@ -453,7 +458,7 @@ gnome_settings_customize_appearance_style () {
 # changes the screensaver:
 #   org.gnome.desktop.screensaver
 
-gnome_settings_customize_appearance_background () {
+gnome_settings_customize_appearance_background() {
   # Other org.gnome.desktop.background options:
   #   picture-opacity 100
   #   picture-uri 'file:///usr/share/images/desktop-base/desktop-background.xml'
@@ -462,58 +467,58 @@ gnome_settings_customize_appearance_background () {
 
   # Default: 'solid', but using GUI may change, e.g., to 'horizontal'
   gsettings_set "Settings > Appearance > Background > Color Shading Type" \
-  gsettings set org.gnome.desktop.background color-shading-type 'solid'
+    gsettings set org.gnome.desktop.background color-shading-type 'solid'
 
   # Default: 'zoom', but using GUI may change, e.g., to 'zoom'
   gsettings_set "Settings > Appearance > Background > Picture Options" \
-  gsettings set org.gnome.desktop.background picture-options 'none'
+    gsettings set org.gnome.desktop.background picture-options 'none'
 
   gsettings_set "Settings > Appearance > Background > Primary Color" \
-  gsettings set org.gnome.desktop.background primary-color '#000000'
+    gsettings set org.gnome.desktop.background primary-color '#000000'
 
   gsettings_set "Settings > Appearance > Background > Secondary Color" \
-  gsettings set org.gnome.desktop.background secondary-color '#000000'
+    gsettings set org.gnome.desktop.background secondary-color '#000000'
 }
 
 # ***
 
 # MAYBE/2025-01-12: Disable Lock Screen Notifications?
 #   org.gnome.desktop.notifications show-in-lock-screen true|false
-gnome_settings_customize_notifications () {
+gnome_settings_customize_notifications() {
   :
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_search () {
+gnome_settings_customize_search() {
   :
 }
 
 # ***
 
-gnome_settings_customize_multitasking () {
+gnome_settings_customize_multitasking() {
   # Disable the top-left hot corner, which I'd trigger inadvertently too often.
   # - I like to use <Cmd> to open Activities Overview.
   # - Default: true
   gsettings_set "Settings > Multitasking > General > Hot Corner" \
-  gsettings set org.gnome.desktop.interface enable-hot-corners false
+    gsettings set org.gnome.desktop.interface enable-hot-corners false
 
   # Default: true (Include applications from all workspaces)
   gsettings_set "Settings > Multitasking > Application Switching > Include applications from the current workspace only" \
-  gsettings set org.gnome.shell.app-switcher current-workspace-only true
+    gsettings set org.gnome.shell.app-switcher current-workspace-only true
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_applications () {
+gnome_settings_customize_applications() {
   :
 }
 
 # ***
 
-gnome_settings_customize_privacy () {
+gnome_settings_customize_privacy() {
   gnome_settings_customize_privacy_screen
   gnome_settings_customize_privacy_location_services
   gnome_settings_customize_privacy_camera
@@ -523,14 +528,14 @@ gnome_settings_customize_privacy () {
 }
 
 # CALSO: Settings > Power > Power Saving Options also shows Screen Blank setting.
-gnome_settings_customize_privacy_screen () {
+gnome_settings_customize_privacy_screen() {
   # Default: 5 minutes (uint32 3000)
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Blank Screen Delay: 8 mins" \
-  gsettings set org.gnome.desktop.session idle-delay 480
+    gsettings set org.gnome.desktop.session idle-delay 480
 
   # Default: Enabled (true)
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock" \
-  gsettings set org.gnome.desktop.screensaver lock-enabled true
+    gsettings set org.gnome.desktop.screensaver lock-enabled true
 
   # Note the GUI only lets you set up 1 hour
   # - When it's unrecognized, drop-down shows "Screen Turns Off"
@@ -540,7 +545,7 @@ gnome_settings_customize_privacy_screen () {
   #   gsettings set org.gnome.desktop.screensaver lock-delay 3600
   # 4 hours:
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock Delay: 4 hours" \
-  gsettings set org.gnome.desktop.screensaver lock-delay 14400
+    gsettings set org.gnome.desktop.screensaver lock-delay 14400
   # TRACK/2025-01-12: Something is causing Settings to become unresponsive...
   # BWARE: Or not: Using custom lock-delay makes Settings unresponsive within
   # seconds of starting Settings app, e.g., if you run this manually:
@@ -549,26 +554,26 @@ gnome_settings_customize_privacy_screen () {
 
   # Default: Disabled (false)
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Lock Screen Notifications" \
-  gsettings set org.gnome.desktop.notifications show-in-lock-screen true
+    gsettings set org.gnome.desktop.notifications show-in-lock-screen true
 }
 
 # Nothing to change.
-gnome_settings_customize_privacy_location_services () {
+gnome_settings_customize_privacy_location_services() {
   :
 }
 
 # Nothing to change.
-gnome_settings_customize_privacy_camera () {
+gnome_settings_customize_privacy_camera() {
   :
 }
 
 # Nothing to change.
-gnome_settings_customize_privacy_microphone () {
+gnome_settings_customize_privacy_microphone() {
   :
 }
 
 # Nothing to change.
-gnome_settings_customize_privacy_thunderbolt () {
+gnome_settings_customize_privacy_thunderbolt() {
   :
 }
 
@@ -578,7 +583,7 @@ gnome_settings_customize_privacy_thunderbolt () {
 #   ✗ Automatically Delete Temporarily Files
 #   Automatically Delete Period: 30 days
 # - Does this mean that /tmp files are *never* cleared??
-gnome_settings_customize_privacy_file_history_and_trash () {
+gnome_settings_customize_privacy_file_history_and_trash() {
   :
 }
 
@@ -586,7 +591,7 @@ gnome_settings_customize_privacy_file_history_and_trash () {
 
 # Nothing to change.
 # FIXME/2025-01-12: Try wiring Google Account.
-gnome_settings_customize_online_accounts () {
+gnome_settings_customize_online_accounts() {
   print_at_end+=("\
 🔳 Settings > Online Accounts > Add an account
    - Wire a cloud account to enable, e.g., GNOME Calendar & Email apps
@@ -605,7 +610,7 @@ gnome_settings_customize_online_accounts () {
 # - Changing at least Remote Login requires privileges,
 #   and the change is not through `gsettings` (probably
 #   starts SSHd server).
-gnome_settings_customize_sharing () {
+gnome_settings_customize_sharing() {
   print_at_end+=("\
 🔳 Settings > Sharing > Remote Login > Enable")
 }
@@ -613,7 +618,7 @@ gnome_settings_customize_sharing () {
 # ***
 
 # Nothing to change.
-gnome_settings_customize_sound () {
+gnome_settings_customize_sound() {
   # DUNNO: Where's this setting maintained?
   print_at_end+=("\
 🔳 Settings > Sound > Alert Sound > Click|String|Swing|Hum (maybe Click?)")
@@ -622,7 +627,7 @@ gnome_settings_customize_sound () {
 # ***
 
 # CALSO: Settings > Privacy > Screen > Screen Lock also shows Screen Blank setting.
-gnome_settings_customize_power () {
+gnome_settings_customize_power() {
   # Other schema options:
   #   org.gnome.settings-daemon.plugins.power ambient-enabled true
   #   org.gnome.settings-daemon.plugins.power idle-brightness 30
@@ -630,7 +635,7 @@ gnome_settings_customize_power () {
   # MAYBE/2025-01-12: Disable Dim Screen
   # Default: Enabled (true)
   gsettings_set "Settings > Power > Power Saving Options > Dim Screen" \
-  gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
+    gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
 
   # Default: 5 minutes (uint32 3000)
   # - Maintained above: gnome_settings_customize_privacy_screen
@@ -639,20 +644,20 @@ gnome_settings_customize_power () {
 
   # Default: Enabled (true)
   gsettings_set "Settings > Power > Power Saving Options > Automatic Power Saver" \
-  gsettings set org.gnome.settings-daemon.plugins.power power-saver-profile-on-low-battery true
+    gsettings set org.gnome.settings-daemon.plugins.power power-saver-profile-on-low-battery true
 
   # Default: Enabled: 20 mins. (1200, 'suspend')
   gsettings_set \
     "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: 30 mins." \
-  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
   gsettings_set "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: Enabled" \
-  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
 
   # Default: Enabled: 20 mins. (1200, 'suspend')
   #   gsettings_set "Power: Power Saving Options: Automatic Suspend: Plugged In: 20 mins." \
   #   gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1200
   gsettings_set "Settings > Power > Power Saving Options > Automatic Suspend > Plugged In: Disabled" \
-  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
   # FIXME/2025-01-12: Demo each option and pick one.
   # Power Button Behavior:
@@ -661,20 +666,20 @@ gnome_settings_customize_power () {
   #   - SPIKE: Is it interactive?
   # - Nothing: 'nothing'
   gsettings_set "Settings > Power > Power Button Behavior > Power Off" \
-  gsettings set org.gnome.settings-daemon.plugins.power power-button-action 'suspend'
+    gsettings set org.gnome.settings-daemon.plugins.power power-button-action 'suspend'
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_displays () {
+gnome_settings_customize_displays() {
   :
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_mouse_and_touchpad () {
+gnome_settings_customize_mouse_and_touchpad() {
   # Other Mouse & Touchpad settings:
   #   org.gnome.desktop.peripherals.mouse drag-threshold 8
   #   # CALSO: Tweaks > Keyboard & Mouse > Mouse Click Emulation
@@ -697,7 +702,7 @@ gnome_settings_customize_mouse_and_touchpad () {
 
 # ***
 
-gnome_settings_customize_keyboard () {
+gnome_settings_customize_keyboard() {
   gnome_settings_customize_keyboard_accessibility
   gnome_settings_customize_keyboard_launchers
   gnome_settings_customize_keyboard_navigation
@@ -709,7 +714,7 @@ gnome_settings_customize_keyboard () {
   gnome_settings_customize_keyboard_custom_shortcuts
 }
 
-gnome_settings_customize_keyboard_accessibility () {
+gnome_settings_customize_keyboard_accessibility() {
   # Bindings:
   #   "Keyboard Shortcuts > Accessibility > Decrease text size: Disabled"
   #   "Keyboard Shortcuts > Accessibility > High contrast on or off: Disabled"
@@ -733,18 +738,18 @@ gnome_settings_customize_keyboard_accessibility () {
 #     Launch web browser
 #     Search
 #     Settings
-gnome_settings_customize_keyboard_launchers () {
+gnome_settings_customize_keyboard_launchers() {
   # Keyboard > Keyboard Shortcuts > View and Customize Shortcuts
   #   Keyboard Shortcuts > Launchers > Launch help browser: Disabled
   # - Defaults <Cmd-F1>:
   #   /org/gnome/settings-daemon/plugins/media-keys/help ['<Super>F1']
   dconf_write "Keyboard Shortcuts > Launchers > Launch help browser: Disabled" \
-  dconf write /org/gnome/settings-daemon/plugins/media-keys/help '@as []'
+    dconf write /org/gnome/settings-daemon/plugins/media-keys/help '@as []'
 }
 
 # FIXME/2025-01-13: Normalize against macOS/Rectangle bindings,
 # and disable ones you don't need.
-gnome_settings_customize_keyboard_navigation () {
+gnome_settings_customize_keyboard_navigation() {
   # Bindings:
   #   "Keyboard Shortcuts > Navigation > Hide all normal windows: Disabled"
   #   "Keyboard Shortcuts > Navigation > Move to workspace on the left: <Super>PageUp"
@@ -774,24 +779,24 @@ gnome_settings_customize_keyboard_navigation () {
   :
 }
 
-gnome_settings_customize_keyboard_screenshots () {
+gnome_settings_customize_keyboard_screenshots() {
   # FIXME/2025-01-13: Change to match macOS bindings (or close to it)
   #
   # - Default: ['<Shift><Control><Alt>r']
   dconf_write "Keyboard Shortcuts > Screenshots > Record a screencast interactively: Shift-Cmd-4" \
-  dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Super>4']"
+    dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Super>4']"
 
   # - Default: ['<Shift>Print']
   dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot: ???" \
-  dconf write /org/gnome/shell/keybindings/screenshot '@as []'
+    dconf write /org/gnome/shell/keybindings/screenshot '@as []'
 
   # - Default: ['Print']
   dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot interactively: ???" \
-  dconf write /org/gnome/shell/keybindings/screenshot '@as []'
+    dconf write /org/gnome/shell/keybindings/screenshot '@as []'
 
   # - Default: ['<Alt>Print']
   dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot of a window: ???" \
-  dconf write /org/gnome/shell/keybindings/screenshot '@as []'
+    dconf write /org/gnome/shell/keybindings/screenshot '@as []'
 }
 
 # All settings default disabled.
@@ -807,18 +812,18 @@ gnome_settings_customize_keyboard_screenshots () {
 #     Volume down
 #     Volume mute/unmute
 #     Volume up
-gnome_settings_customize_keyboard_sound_and_media () {
+gnome_settings_customize_keyboard_sound_and_media() {
   :
 }
 
-gnome_settings_customize_keyboard_system () {
+gnome_settings_customize_keyboard_system() {
   # - Default: ['<Super>n']
   # dconf_write "Keyboard Shortcuts > System > Focus the active notification: Disabled:" \
   # dconf write /org/gnome/shell/keybindings/focus-active-notification '@as []'
 
   # - Default: ['<Super>l']
   dconf_write "Keyboard Shortcuts > System > Lock screen:" \
-  dconf write /org/gnome/settings-daemon/plugins/media-keys/screensaver "['<Control><Super>q']"
+    dconf write /org/gnome/settings-daemon/plugins/media-keys/screensaver "['<Control><Super>q']"
 
   # - Default: ['<Control><Alt>Delete']
   # dconf_write "Keyboard Shortcuts > System > Log out: Disabled" \
@@ -836,7 +841,7 @@ gnome_settings_customize_keyboard_system () {
 
   # - Default: ['<Super>a']
   dconf_write "Keyboard Shortcuts > System > Show all applications: Disabled:" \
-  dconf write /org/gnome/shell/keybindings/toggle-application-view '@as []'
+    dconf write /org/gnome/shell/keybindings/toggle-application-view '@as []'
 
   # - Default: ['<Super>v']
   # If no notifications, doesn't do anything.
@@ -844,12 +849,12 @@ gnome_settings_customize_keyboard_system () {
   # - Author's macOS ONBRD doc suggests using <Shift-Ctrl-Cmd-C>
   #   to Show Notification Center.
   dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled:" \
-  dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
+    dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
 
   # Same behavior as pressing <Super>
   # - Default: ['<Super>s']
   dconf_write "Keyboard Shortcuts > System > Show the overview: Disabled:" \
-  dconf write /org/gnome/shell/keybindings/toggle-overview '@as []'
+    dconf write /org/gnome/shell/keybindings/toggle-overview '@as []'
 
   # - Default: ['<Alt>F2']
   # dconf_write "Keyboard Shortcuts > System > Show the run command prompt: Disabled:" \
@@ -859,18 +864,18 @@ gnome_settings_customize_keyboard_system () {
 
 # Disable all Typing bindings.
 # - SAVVY: If you disable Switch-to-next via GUI, it also disables Switch-to-previous.
-gnome_settings_customize_keyboard_typing () {
+gnome_settings_customize_keyboard_typing() {
   # - Default: ['<Super>Space']
   dconf_write "Keyboard Shortcuts > Typing > Switch to next input source: Disabled" \
-  dconf write /org/gnome/desktop/wm/keybindings/switch-input-source '@as []'
+    dconf write /org/gnome/desktop/wm/keybindings/switch-input-source '@as []'
 
   # - Default: ['<Shift><Super>Space']
   dconf_write "Keyboard Shortcuts > Typing > Switch to previous input source: Disabled" \
-  dconf write /org/gnome/desktop/wm/keybindings/switch-input-source-backward '@as []'
+    dconf write /org/gnome/desktop/wm/keybindings/switch-input-source-backward '@as []'
 }
 
 # FIXME/2025-01-13: Revisit these:
-gnome_settings_customize_keyboard_windows () {
+gnome_settings_customize_keyboard_windows() {
   # Bindings:
   #   "Keyboard Shortcuts > Windows > Activates the window menu: <Alt>Space"
   #   "Keyboard Shortcuts > Windows > Close window: <Alt>F4"
@@ -896,28 +901,28 @@ gnome_settings_customize_keyboard_windows () {
 #     ~/.kit/ansible/roles/zoidy_matecocido/defaults/main/keybindings.yml
 #     ~/.kit/ansible/roles/zoidy_matecocido/tasks/keybinding-circus.yml
 #     ~/.kit/ansible/roles/zoidy_matecocido/filter_plugins/to_gvim_keybinding_action.py
-gnome_settings_customize_keyboard_custom_shortcuts () {
+gnome_settings_customize_keyboard_custom_shortcuts() {
   :
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_printers () {
+gnome_settings_customize_printers() {
   :
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_removable_media () {
+gnome_settings_customize_removable_media() {
   :
 }
 
 # ***
 
 # Nothing to change.
-gnome_settings_customize_color () {
+gnome_settings_customize_color() {
   :
 }
 
@@ -928,7 +933,7 @@ gnome_settings_customize_color () {
 # +++ GNOME Tweaks GUI settings
 
 # /usr/bin/python3 /usr/bin/gnome-tweaks
-gnome_tweaks_customize () {
+gnome_tweaks_customize() {
   gnome_tweaks_customize_general
   gnome_tweaks_customize_appearance
   gnome_tweaks_customize_fonts
@@ -941,7 +946,7 @@ gnome_tweaks_customize () {
 
 # ***
 
-gnome_tweaks_customize_general () {
+gnome_tweaks_customize_general() {
   # NTRST: When you disable Suspend-when-lid-closed, starts this daemon:
   #   python3 /usr/libexec/gnome-tweak-tool-lid-inhibitor
   # - Which you'll see listed under Tweaks > Startup Applications as
@@ -952,20 +957,20 @@ gnome_tweaks_customize_general () {
 
 # ***
 
-gnome_tweaks_customize_appearance () {
+gnome_tweaks_customize_appearance() {
   # So that GVim, etc., window titlebars match dark theme.
   # Default: "Adwaita (default)" ('Adwaita')
   gsettings_set "Tweaks > Appearance > Themes > Legacy Applications: " \
-  gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 }
 
 # ***
 
-gnome_tweaks_customize_fonts () {
+gnome_tweaks_customize_fonts() {
   if is_hack_font_installed; then
     # Default: Unset (org.gnome.desktop.interface monospace-font-name 'Monospace 11')
     gsettings_set "Tweaks > Fonts > Monospace Text: Hack Nerd Font" \
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
+      gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
   else
     >&2 echo "ALERT: Skipping: Tweaks > Fonts > Monospace Text: Hack Nerd Font"
   fi
@@ -974,7 +979,7 @@ gnome_tweaks_customize_fonts () {
 # ***
 
 # Nothing to change.
-gnome_tweaks_customize_keyboard_and_mouse () {
+gnome_tweaks_customize_keyboard_and_mouse() {
   # This one's cute: Eminate ripples from cursor position
   #   # Tweaks > Keyboard & Mouse > Pointer Location
   #   /org/gnome/desktop/interface/locate-pointer true
@@ -991,7 +996,7 @@ gnome_tweaks_customize_keyboard_and_mouse () {
 # ***
 
 # Nothing to change.
-gnome_tweaks_customize_startup_applications () {
+gnome_tweaks_customize_startup_applications() {
   # SAVVY: When you disable Tweaks > General > Suspend when laptop lid is closed
   # you'll see this Startup Application:
   #   ignore-lid-switch-tweak
@@ -1005,13 +1010,13 @@ gnome_tweaks_customize_startup_applications () {
 # - Tweaks > Top Bar > Clock > Date: ✓
 # - Tweaks > Top Bar > Clock > Seconds: ✗
 # - Tweaks > Top Bar > Calendar > Week Numbers: ✗
-gnome_tweaks_customize_top_bar () {
+gnome_tweaks_customize_top_bar() {
   :
 }
 
 # ***
 
-gnome_tweaks_customize_window_titlebars () {
+gnome_tweaks_customize_window_titlebars() {
   # Tweaks > Window Titlebars > Titlebar Actions > Double-Click: Toggle Maximize
   # Tweaks > Window Titlebars > Titlebar Actions > Middle-Click: None
   # Tweaks > Window Titlebars > Titlebar Actions > Secondary-Click: Menu
@@ -1037,12 +1042,12 @@ gnome_tweaks_customize_window_titlebars () {
 
   # Default: Titlebar Buttons > Placement: Right ('appmenu:close')
   gsettings_set "Tweaks > Window Titlebars > Titlebar Buttons > Placement: Left (like macOS)" \
-  gsettings set /org/gnome/desktop/wm/preferences/button-layout 'close,minimize:appmenu'
+    gsettings set /org/gnome/desktop/wm/preferences/button-layout 'close,minimize:appmenu'
 }
 
 # ***
 
-gnome_tweaks_customize_windows () {
+gnome_tweaks_customize_windows() {
   # MAYBE/2025-01-12: Demo disabled Attach Modal Dialogs
   #   gsettings_set "Tweaks > Windows > Attach Modal Dialogs: Disabled" \
   #   gsettings set org.gnome.mutter attach-modal-dialogs false
@@ -1051,7 +1056,7 @@ gnome_tweaks_customize_windows () {
   # which is what author's used to/prefers.
   # - Defaults: Super ('<Alt>'|'disabled'|'<Super>')
   gsettings_set "Tweaks > Windows > Window Action Key: Disabled" \
-  gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
+    gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
 }
 
 # +++ END: GNOME Tweaks GUI settings
@@ -1060,7 +1065,7 @@ gnome_tweaks_customize_windows () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++ GNOME Terminal GUI settings
 
-gnome_terminal_customize () {
+gnome_terminal_customize() {
   gnome_terminal_customize_general
   gnome_terminal_customize_shortcuts
   gnome_terminal_customize_profiles_0_text
@@ -1072,17 +1077,17 @@ gnome_terminal_customize () {
 
 # ***
 
-gnome_terminal_customize_general () {
+gnome_terminal_customize_general() {
   # Defaults: Default ('system'), same as 'light'
   # - CALSO: GNOME Terminal: Profiles: Default: Colors: Text and Background Color
   dconf_write "GNOME Terminal > General > Theme variant: Dark" \
-  dconf write "/org/gnome/terminal/legacy/theme-variant" 'dark'
+    dconf write "/org/gnome/terminal/legacy/theme-variant" 'dark'
 }
 
 # ***
 
 # FIXME/2025-01-12: Audit gnome-terminal shortcuts
-gnome_terminal_customize_shortcuts () {
+gnome_terminal_customize_shortcuts() {
   :
 }
 
@@ -1092,7 +1097,7 @@ gnome_terminal_customize_shortcuts () {
 # org.gnome.Terminal.ProfilesList list ['b1dcc9dd-5262-4d8d-a863-c897e6d979b9']
 # org.gnome.Terminal.Legacy.Settings <key> <val>
 # org.gnome.Terminal.Legacy.Keybindings <key> <val>
-gnome_terminal_customize_profiles_0_text () {
+gnome_terminal_customize_profiles_0_text() {
   # DUNNO: No corresponding gsettings entries?
   # - I.e., no `org.gnome.Terminal.Legacy.Profiles` or `...Profiles:`
   # DUNNO: Note the trailing or leading colon, is that no different than an alphanum,
@@ -1101,7 +1106,7 @@ gnome_terminal_customize_profiles_0_text () {
   #     /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/font
   #     'Hack Nerd Font Mono 12'
   local profile_id
-  profile_id="$( \
+  profile_id="$(
     gsettings get org.gnome.Terminal.ProfilesList default | sed "s/^'\\(.*\\)'\$/\\1/"
   )"
 
@@ -1116,7 +1121,7 @@ gnome_terminal_customize_profiles_0_text () {
   if is_hack_font_installed; then
     # Default: Monospace
     dconf_write "GNOME Terminal > Profiles: Default > Text > Text Appearance > Custom font: Hack Nerd Font Mono 11" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/font" \
+      dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/font" \
       'Hack Nerd Font Mono 11'
   else
     >&2 echo "ALERT: Skipping: GNOME Terminal > Profiles: Default: Text > Text Appearance > Custom font: Hack Nerd Font"
@@ -1126,17 +1131,17 @@ gnome_terminal_customize_profiles_0_text () {
 
   # Default: 80 columns x 24 rows
   dconf_write "GNOME Terminal > Profiles: Default > Text > Text Appearance > Initial terminal size: 112 columns" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-columns" '112'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-columns" '112'
 
   # Default: 80 columns x 24 rows
   dconf_write "GNOME Terminal > Profiles: Default > Text > Text Appearance > Initial terminal size: 42 rows" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-rows" '42'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-rows" '42'
 
   # ***
 
   # Default: "Default" ('system'), same as Enabled
   dconf_write "GNOME Terminal > Profiles: Default: Cursor > Cursor blinking: Disabled" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/cursor-blink-mode" 'off'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/cursor-blink-mode" 'off'
 
   # Default: Enabled
   #   dconf_write "GNOME Terminal: Profiles: Default: Sound: Terminal Bell: Disabled" \
@@ -1145,30 +1150,30 @@ gnome_terminal_customize_profiles_0_text () {
 
 # ***
 
-gnome_terminal_customize_profiles_0_colors () {
+gnome_terminal_customize_profiles_0_colors() {
   # Default: Enabled (though with GNOME Dark mode, terminal sill black on white).
   # - CALSO: GNOME Terminal: General: Theme variant: Dark
   dconf_write "GNOME Terminal > Profiles: Default > Colors > Text and Background Color > Built-in schemes: White on black" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/use-theme-colors" 'false'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/use-theme-colors" 'false'
 
   dconf_write "GNOME Terminal > Profiles: Default > Colors > Text and Background Color > Built-in schemes: White on black" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/foreground-color" 'rgb(255,255,255)'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/foreground-color" 'rgb(255,255,255)'
 
   dconf_write "GNOME Terminal > Profiles: Default > Colors > Text and Background Color > Built-in schemes: White on black" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color" 'rgb(0,0,0)'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color" 'rgb(0,0,0)'
 
   # *** I think the XTerm color palette is a little brighter and easier to read
   # than GNOME.
 
   dconf_write "GNOME Terminal > Profiles: Default > Colors > Palette > Built-in schemes: XTerm" \
-  dconf write "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/palette" \
+    dconf write "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/palette" \
     "['rgb(0,0,0)', 'rgb(205,0,0)', 'rgb(0,205,0)', 'rgb(205,205,0)', 'rgb(0,0,238)', 'rgb(205,0,205)', 'rgb(0,205,205)', 'rgb(229,229,229)', 'rgb(127,127,127)', 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(92,92,255)', 'rgb(255,0,255)', 'rgb(0,255,255)', 'rgb(255,255,255)']"
 }
 
 # ***
 
 # Nothing to change.
-gnome_terminal_customize_profiles_0_scrolling () {
+gnome_terminal_customize_profiles_0_scrolling() {
   # Default: Enabled ('always')
   #   dconf_write "GNOME Terminal: Profiles: Default: Scrolling: Show scrollbar: Disabled" \
   #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/scrollbar-policy" 'never'
@@ -1185,14 +1190,14 @@ gnome_terminal_customize_profiles_0_scrolling () {
 # - GNOME Terminal > Profiles > Command >
 #   - ✓ Run a custom command instead of my shell
 #   - Custom command: <FIXME- Start Vanilla terminal, etc.>
-gnome_terminal_customize_profiles_0_command () {
+gnome_terminal_customize_profiles_0_command() {
   :
 }
 
 # ***
 
 # Nothing to change.
-gnome_terminal_customize_compatibility () {
+gnome_terminal_customize_compatibility() {
   :
 }
 
@@ -1201,7 +1206,7 @@ gnome_terminal_customize_compatibility () {
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-firefox_customize () {
+firefox_customize() {
   print_at_end+=("\
 🔳 Firefox > Startup > ✓ Open previous windows and tabs")
 }
@@ -1218,60 +1223,60 @@ firefox_customize () {
 #   https://extensions.gnome.org/extension/545/hide-top-bar/
 #   https://gitlab.gnome.org/tuxor1337/hidetopbar
 
-gnome_extension_hide_top_bar_customize () {
+gnome_extension_hide_top_bar_customize() {
   # DUNNO: There's no schema for org.gnome.shell.extensions.hidetopbar
   # but you can access it via dconf.
 
   dconf_write "GNOME Extension > Hide Top Bar > Sensitivity > ✓ Show panel when mouse approaches edge of the screen" \
-  dconf write /org/gnome/shell/extensions/hidetopbar/mouse-sensitive true
+    dconf write /org/gnome/shell/extensions/hidetopbar/mouse-sensitive true
 
   dconf_write "GNOME Extension > Hide Top Bar > Intellihide > ✗ Only hide panel when a window takes the space" \
-  dconf write /org/gnome/shell/extensions/hidetopbar/enable-intellihide false
+    dconf write /org/gnome/shell/extensions/hidetopbar/enable-intellihide false
 }
 
 # ***
 
-gnome_extension_just_perfection_customize () {
+gnome_extension_just_perfection_customize() {
   # The app icon next to application's menu bar dropdown.
   #   dconf_write "GNOME Extension > Just Perfection > Icons > ✓ App Menu Icon" \
   #   dconf write /org/gnome/shell/extensions/just-perfection/app-menu-icon false
 
   # Defaults: Center (0), also Right (1), Left (2)
   dconf_write "GNOME Extension > Just Perfection > Customize > Clock Menu Position: Right" \
-  dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position 1
+    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position 1
 
   # Defaults: 0, also 1..10
   dconf_write "GNOME Extension > Just Perfection > Customize > Clock Menu Position Offset: 10" \
-  dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset 10
+    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset 10
 }
 
 # ***
 
-gnome_extension_advanced_alt_tab_window_switcher_customize () {
+gnome_extension_advanced_alt_tab_window_switcher_customize() {
   # Defaults: Bottom (3), also Top (1), Center (2)
   dconf_write "GNOME Extension > AATWS > Common > Behavior > Placement: Center" \
-  dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-position 2
+    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-position 2
 
   # Defaults: Show Above/Below Item (2), also Top (1), Show Centered (3)
   dconf_write "GNOME Extension > AATWS > Common > Appearance and Content > Tooltip Titles: Disable" \
-  dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-tooltip-title 1
+    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-tooltip-title 1
 
   # Defaults: false
   dconf_write "GNOME Extension > AATWS > Window Switcher > Behavior > Skip Minimized Windows: Enable" \
-  dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/win-switch-skip-minimized true
+    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/win-switch-skip-minimized true
 
   # Defaults: true
   dconf_write "GNOME Extension > AATWS > App Switcher > Behavior > Include Favorite (Pinned) Apps: Disable" \
-  dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-fav-apps false
+    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-fav-apps false
 
   # Defaults: true
   dconf_write "GNOME Extension > AATWS > App Switcher > Behavior > Include Show Apps Icon: Disable" \
-  dconf write \
+    dconf write \
     /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-include-show-apps-icon false
 
   # Defaults: false
   dconf_write "GNOME Extension > AATWS > App Switcher > Appearance > Hide Window Count For Single-Window Apps: Enable" \
-  dconf write \
+    dconf write \
     /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-hide-win-counter-for-single-window \
     true
 }
@@ -1283,7 +1288,7 @@ gnome_extension_advanced_alt_tab_window_switcher_customize () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # FIXME/2025-03-09: Setup locatedb on Debian.
-locatedb_configure () {
+locatedb_configure() {
   print_at_end+=("\
 🔳 CLI: Create \`locate\` database:
 
@@ -1300,8 +1305,9 @@ locatedb_configure () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-pass_configure () {
-  print_at_end+=("$(cat << 'EOF'
+pass_configure() {
+  print_at_end+=("$(
+    cat <<'EOF'
 🔳 Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`:
 
    - Generate a new key:
@@ -1326,7 +1332,7 @@ EOF
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-slather_gnome_gsettings () {
+slather_gnome_gsettings() {
   local dry_run=false
   local cnt_run=false
   local non_disruptive=false
@@ -1335,11 +1341,20 @@ slather_gnome_gsettings () {
 
   while [ "$1" != '' ]; do
     case $1 in
-      --dry-run) dry_run=true; shift; ;;
-      --cnt-run) cnt_run=true; shift; ;;
-      --tame) non_disruptive=true; shift; ;;
-      # MAYBE: Do we need a help command finally?
-      *) shift; ;;
+    --dry-run)
+      dry_run=true
+      shift
+      ;;
+    --cnt-run)
+      cnt_run=true
+      shift
+      ;;
+    --tame)
+      non_disruptive=true
+      shift
+      ;;
+    # MAYBE: Do we need a help command finally?
+    *) shift ;;
     esac
   done
 
@@ -1381,7 +1396,7 @@ slather_gnome_gsettings () {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  local print_at_end=()  # 🔳 ◻
+  local print_at_end=() # 🔳 ◻
 
   schemas_customize
 
@@ -1406,7 +1421,7 @@ slather_gnome_gsettings () {
 
 # ***
 
-schemas_customize () {
+schemas_customize() {
 
   gnome_settings_customize
 
@@ -1431,7 +1446,7 @@ schemas_customize () {
 
 # ***
 
-print_cnt_run_report () {
+print_cnt_run_report() {
   if ! ${cnt_run}; then
 
     return 0
@@ -1456,7 +1471,7 @@ print_cnt_run_report () {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
-source_dep_local () {
+source_dep_local() {
   local rel_path="$1"
 
   local bin_dir="$(dirname -- "$(realpath -- "$0")")"
@@ -1465,7 +1480,7 @@ source_dep_local () {
 
     return 0
   fi
-  
+
   >&2 echo "ERROR: Could not locate dependency: ${rel_path}"
   >&2 echo "- It should be relative parent dir: ${base_dir}"
 
@@ -1474,28 +1489,28 @@ source_dep_local () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-clear_traps () {
+clear_traps() {
   trap - EXIT INT
 }
 
-set_traps () {
+set_traps() {
   trap -- trap_exit EXIT
   trap -- trap_int INT
 }
 
-exit_0 () {
+exit_0() {
   clear_traps
 
   exit 0
 }
 
-exit_1 () {
+exit_1() {
   clear_traps
 
   exit 1
 }
 
-trap_exit () {
+trap_exit() {
   clear_traps
 
   # USAGE: Alert on unexpected error path, so you can add happy path.
@@ -1505,7 +1520,7 @@ trap_exit () {
   exit 2
 }
 
-trap_int () {
+trap_int() {
   clear_traps
 
   exit 3
@@ -1513,7 +1528,7 @@ trap_int () {
 
 # ***
 
-main () {
+main() {
   set -e
 
   set_traps
@@ -1527,4 +1542,3 @@ if [ "$0" = "${BASH_SOURCE[0]}" ]; then
   # Being executed.
   main "$@"
 fi
-
