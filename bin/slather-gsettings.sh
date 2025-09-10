@@ -765,6 +765,14 @@ gnome_settings_customize_keyboard_navigation() {
   #   "Keyboard Shortcuts > Navigation > Move window to workspace 3: Disabled"
   #   "Keyboard Shortcuts > Navigation > Move window to workspace 4: Disabled"
   #   "Keyboard Shortcuts > Navigation > Switch applications: <Super>Tab"
+  # /org/gnome/desktop/wm/keybindings/switch-applications ['<Super>grave']
+  # /org/gnome/desktop/wm/keybindings/switch-applications-backward ['<Shift><Super>grave']
+  # /org/gnome/desktop/wm/keybindings/switch-applications @as []
+  # /org/gnome/desktop/wm/keybindings/switch-applications-backward @as []
+  dconf_write "Keyboard Shortcuts > Navigation > Switch applications: Disabled:" \
+    dconf write /org/gnome/desktop/wm/keybindings/switch-applications '@as []'
+  dconf_write "Keyboard Shortcuts > Navigation > Switch applications backward: Disabled:" \
+    dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward '@as []'
   #   "Keyboard Shortcuts > Navigation > Switch system controls: <Ctrl><Alt>Tab"
   #   "Keyboard Shortcuts > Navigation > Switch system controls directly: <Ctrl><Alt>Escape"
   #   "Keyboard Shortcuts > Navigation > Switch to last workspace: <Super>End"
@@ -773,10 +781,30 @@ gnome_settings_customize_keyboard_navigation() {
   #   "Keyboard Shortcuts > Navigation > Switch to workspace 3: Disabled"
   #   "Keyboard Shortcuts > Navigation > Switch to workspace 4: Disabled"
   #   "Keyboard Shortcuts > Navigation > Switch windows: Disabled"
+  # /org/gnome/desktop/wm/keybindings/switch-windows unset
+  # /org/gnome/desktop/wm/keybindings/switch-windows-backward unset
+  # /org/gnome/desktop/wm/keybindings/switch-windows @as []
+  # /org/gnome/desktop/wm/keybindings/switch-windows ['<Alt>Tab']
+  # /org/gnome/desktop/wm/keybindings/switch-windows-backward ['<Shift><Alt>Tab']
+  dconf_write "Keyboard Shortcuts > Navigation > Switch windows:" \
+    dconf write /org/gnome/desktop/wm/keybindings/switch-applications "['<Alt>Tab']"
+  # This doesn't work:
+  #   dconf_write "Keyboard Shortcuts > Navigation > Switch windows backward:" \
+  #     dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward "['<Alt>q']"
+  dconf_write "Keyboard Shortcuts > Navigation > Switch windows backward:" \
+    dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward "['<Shift><Alt>Tab']"
   #   "Keyboard Shortcuts > Navigation > Switch windows directly: <Alt>Escape"
   #   "Keyboard Shortcuts > Navigation > Switch windows of an app directly: <Alt>F6"
   #   "Keyboard Shortcuts > Navigation > Switch windows of an application: <Super>`"
-  :
+  # /org/gnome/desktop/wm/keybindings/switch-group unset
+  # /org/gnome/desktop/wm/keybindings/switch-group-backward unset
+  # /org/gnome/desktop/wm/keybindings/switch-group @as []
+  # /org/gnome/desktop/wm/keybindings/switch-group ['<Super>Tab']
+  # /org/gnome/desktop/wm/keybindings/switch-group-backward ['<Shift><Super>Tab']
+  dconf_write "Keyboard Shortcuts > Navigation > Switch windows:" \
+    dconf write /org/gnome/desktop/wm/keybindings/switch-group "['<Super>Tab']"
+  dconf_write "Keyboard Shortcuts > Navigation > Switch windows backward:" \
+    dconf write /org/gnome/desktop/wm/keybindings/switch-group-backward "['<Shift><Super>Tab']"
 }
 
 gnome_settings_customize_keyboard_screenshots() {
@@ -848,13 +876,19 @@ gnome_settings_customize_keyboard_system() {
   # FIXME/2025-01-13: Is this similar to Show Notification Center on macOS?
   # - Author's macOS ONBRD doc suggests using <Shift-Ctrl-Cmd-C>
   #   to Show Notification Center.
-  dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled:" \
-    dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
+  #  dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled:" \
+  #    dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
+  # FIXME:/2025-09-10 04:52: Verify this:
+  dconf_write "Keyboard Shortcuts > System > Show the notification list:" \
+    dconf write /org/gnome/shell/keybindings/toggle-message-tray '<Shift><Control><Super>c'
 
-  # Same behavior as pressing <Super>
+  # Same behavior as pressing <Super>.
+  # - USYNC: Similar to macOS Mission Control.
   # - Default: ['<Super>s']
-  dconf_write "Keyboard Shortcuts > System > Show the overview: Disabled:" \
-    dconf write /org/gnome/shell/keybindings/toggle-overview '@as []'
+  #  dconf_write "Keyboard Shortcuts > System > Show the overview: Disabled:" \
+  #  dconf write /org/gnome/shell/keybindings/toggle-overview '@as []'
+  dconf_write "Keyboard Shortcuts > System > Show the overview:" \
+    dconf write /org/gnome/shell/keybindings/toggle-overview "['<Control><Alt>Down']"
 
   # - Default: ['<Alt>F2']
   # dconf_write "Keyboard Shortcuts > System > Show the run command prompt: Disabled:" \
