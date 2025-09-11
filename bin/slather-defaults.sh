@@ -1448,6 +1448,7 @@ macos_customize_inhibit_create_dot_ds_store__you_wish() {
 # - INERT: Though we could maybe wire from Meld accelerator file source,
 #          and rebuild.
 app_shortcuts_customize_all_apps_apple_menu_system_settings() {
+  # BNDNG: <Shift-Ctrl-Cmd-Comma> (<Shift-Ctrl-Cmd-,>)
   echo "${CRUMB_APP_SHORTCUTS}: All Applications: System Settings...: (Unset) → Shift-Ctrl-Cmd-,"
   # At least I think this is what you need to do (but if you manually
   # add the binding via System Settings, it works immediately).

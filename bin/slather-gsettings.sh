@@ -849,6 +849,7 @@ gnome_settings_customize_keyboard_system() {
   # dconf_write "Keyboard Shortcuts > System > Focus the active notification: Disabled:" \
   # dconf write /org/gnome/shell/keybindings/focus-active-notification '@as []'
 
+  # BNDNG: <Ctrl-Cmd-Q>
   # - Default: ['<Super>l']
   dconf_write "Keyboard Shortcuts > System > Lock screen:" \
     dconf write /org/gnome/settings-daemon/plugins/media-keys/screensaver "['<Control><Super>q']"
