@@ -41,6 +41,11 @@
 #     gsettings-schemas-dump
 #     meld-last-two-dumps
 
+# CXREF: DepoXy users: See similar macOS bindings:
+#
+#   ~/.kit/mOS/macOS-onboarder/bin/slather-defaults.sh
+#   ~/.kit/mOS/macOS-Hammyspoony/.hammerspoon/init.lua
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # HINTS:
