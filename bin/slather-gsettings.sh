@@ -1186,8 +1186,8 @@ gnome_terminal_customize_profiles_0_text() {
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/cursor-blink-mode" 'off'
 
   # Default: Enabled
-  #   dconf_write "GNOME Terminal: Profiles: Default: Sound: Terminal Bell: Disabled" \
-  #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/audible-bell" 'false'
+  dconf_write "GNOME Terminal: Profiles: Default: Sound: Terminal Bell: Disabled" \
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/audible-bell" 'false'
 }
 
 # ***
