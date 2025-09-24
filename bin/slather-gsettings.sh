@@ -1577,19 +1577,9 @@ slather_gnome_gsettings() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  [ -z "${print_at_end}" ] || (
-    echo
-    echo "CPYST: Please perform the following tasks manually:"
-    echo
+  print_manual_task_reminders
 
-    for print_ln in "${print_at_end[@]}"; do
-      echo -e "${print_ln}\n"
-    done
-
-    echo "Good luck!"
-  )
-
-  # ***
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
   print_cnt_run_report
 }
@@ -1617,6 +1607,25 @@ slather_settings() {
   locatedb_configure
 
   pass_configure
+}
+
+# ***
+
+print_manual_task_reminders() {
+  if [ -z "${print_at_end}" ]; then
+
+    return
+  fi
+
+  echo
+  echo "CPYST: Please perform the following tasks manually:"
+  echo
+
+  for print_ln in "${print_at_end[@]}"; do
+    echo -e "${print_ln}\n"
+  done
+
+  echo "Good luck!"
 }
 
 # ***
