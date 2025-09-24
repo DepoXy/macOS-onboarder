@@ -663,7 +663,7 @@ gnome_settings_customize_privacy() {
 gnome_settings_customize_privacy_screen() {
   # Default: 5 minutes (uint32 3000)
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Blank Screen Delay: 8 mins" \
-    gsettings set org.gnome.desktop.session idle-delay 480
+    gsettings set org.gnome.desktop.session idle-delay 'uint32 480'
 
   # Default: Enabled (true)
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock" \
@@ -677,7 +677,7 @@ gnome_settings_customize_privacy_screen() {
   #   gsettings set org.gnome.desktop.screensaver lock-delay 3600
   # 4 hours:
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock Delay: 4 hours" \
-    gsettings set org.gnome.desktop.screensaver lock-delay 14400
+    gsettings set org.gnome.desktop.screensaver lock-delay 'uint32 14400'
   # TRACK/2025-01-12: Something is causing Settings to become unresponsive...
   # BWARE: Or not: Using custom lock-delay makes Settings unresponsive within
   # seconds of starting Settings app, e.g., if you run this manually:
