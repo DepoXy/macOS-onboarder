@@ -914,7 +914,7 @@ gnome_settings_customize_keyboard_navigation() {
   #   "Keyboard Shortcuts > Navigation > Hide all normal windows: Disabled"
   #   "Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>"
   #   "Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>"
-  #   "Keyboard Shortcuts > Navigation > Move window one monitor down: <Shift-Cmd-Left>"
+  #   "Keyboard Shortcuts > Navigation > Move window one monitor down: <Shift-Cmd-Down>"
   #   "Keyboard Shortcuts > Navigation > Move window one monitor to the left: <Shift-Cmd-Left>"
   #   "Keyboard Shortcuts > Navigation > Move window one monitor to the right: <Shift-Cmd-Right>"
   #   "Keyboard Shortcuts > Navigation > Move window one monitor up: <Shift-Cmd-Up>"
