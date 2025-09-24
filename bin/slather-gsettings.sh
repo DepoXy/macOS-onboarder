@@ -1389,7 +1389,6 @@ EOF
 slather_gnome_gsettings() {
   local dry_run=false
   local cnt_run=false
-  local non_disruptive=false
 
   # ***
 
@@ -1401,10 +1400,6 @@ slather_gnome_gsettings() {
       ;;
     --cnt-run)
       cnt_run=true
-      shift
-      ;;
-    --tame)
-      non_disruptive=true
       shift
       ;;
     *) shift ;;
