@@ -696,20 +696,21 @@ gnome_settings_customize_privacy_screen() {
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock" \
     gsettings set org.gnome.desktop.screensaver lock-enabled true
 
-  # Note the GUI only lets you set up 1 hour
+  # Note the GUI only lets you set up to 1 hour.
   # - When it's unrecognized, drop-down shows "Screen Turns Off"
   # - Default: Disabled (uint32 0)
   # - 1 hour:
   #   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock Delay: 1 hour" \
-  #   gsettings set org.gnome.desktop.screensaver lock-delay 3600
-  # 4 hours:
+  #     gsettings set org.gnome.desktop.screensaver lock-delay 3600
+  # - REFER: For hosts at home, author prefers at least 4 hours (14400).
+  #   - Sensible timeouts: 4h 14400, 4⅓h 15600, 6h 21600, 6⅔h 24000, 8h 28800.
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock Delay: 4 hours" \
-    gsettings set org.gnome.desktop.screensaver lock-delay 'uint32 14400'
+    gsettings set org.gnome.desktop.screensaver lock-delay 'uint32 24000'
   # TRACK/2025-01-12: Something is causing Settings to become unresponsive...
-  # BWARE: Or not: Using custom lock-delay makes Settings unresponsive within
-  # seconds of starting Settings app, e.g., if you run this manually:
-  #   gsettings set org.gnome.desktop.screensaver lock-delay 14400
-  # DUNNO/2025-01-12: Working again after reboot, albeit with 3600 value.
+  # - BWARE: Or not: Using custom lock-delay makes Settings unresponsive within
+  # - seconds of starting Settings app, e.g., if you run this manually:
+  #     gsettings set org.gnome.desktop.screensaver lock-delay 14400
+  # - DUNNO/2025-01-12: Working again after reboot, albeit with 3600 value.
 
   # Default: Disabled (false)
   gsettings_set "Settings > Privacy > Screen > Screen Lock > Lock Screen Notifications" \
