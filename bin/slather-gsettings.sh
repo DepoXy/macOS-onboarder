@@ -628,8 +628,12 @@ gnome_settings_customize_appearance_background() {
   gsettings_set "Settings > Appearance > Background > Picture Options" \
     gsettings set org.gnome.desktop.background picture-options 'zoom'
 
+  # SAVVY: Very dark "green", slight contrast with borderless Chrome windows.
+  # - Vs. black:
+  #   gsettings_set "Settings > Appearance > Background > Primary Color" \
+  #     gsettings set org.gnome.desktop.background primary-color '#000000'
   gsettings_set "Settings > Appearance > Background > Primary Color" \
-    gsettings set org.gnome.desktop.background primary-color '#000000'
+    gsettings set org.gnome.desktop.background primary-color '#021003'
 
   gsettings_set "Settings > Appearance > Background > Secondary Color" \
     gsettings set org.gnome.desktop.background secondary-color '#000000'
