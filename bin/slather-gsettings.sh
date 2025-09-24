@@ -938,8 +938,9 @@ gnome_settings_customize_keyboard_navigation() {
     dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward '@as []'
   #   "Keyboard Shortcuts > Navigation > Switch system controls: <Ctrl><Alt>Tab"
   #   "Keyboard Shortcuts > Navigation > Switch system controls directly: <Ctrl><Alt>Escape"
-  #   "Keyboard Shortcuts > Navigation > Switch to last workspace: <Super>End"
-  #   "Keyboard Shortcuts > Navigation > Switch to workspace 1: <Super>Home"
+
+  #   "Keyboard Shortcuts > Navigation > Switch to last workspace: <Cmd-End>"
+  #   "Keyboard Shortcuts > Navigation > Switch to workspace 1: <Cmd-Home>"
   #   "Keyboard Shortcuts > Navigation > Switch to workspace 2: Disabled"
   #   "Keyboard Shortcuts > Navigation > Switch to workspace 3: Disabled"
   #   "Keyboard Shortcuts > Navigation > Switch to workspace 4: Disabled"
