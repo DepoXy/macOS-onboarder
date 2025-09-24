@@ -1044,7 +1044,7 @@ gnome_settings_customize_keyboard_system() {
   #   to Show Notification Center.
   #  dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled" \
   #    dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
-  # FIXME:/2025-09-10 04:52: Verify this:
+  # BNDNG: <Shift-Ctrl-Cmd-C>
   dconf_write "Keyboard Shortcuts > System > Show the notification list" \
     dconf write /org/gnome/shell/keybindings/toggle-message-tray ["'<Shift><Control><Super>c'"]
 
