@@ -55,11 +55,13 @@
 #     $ gsettings describe org.gnome.Settings last-panel
 #     The identifier for the last Settings panel to be opened. ...
 #
-# - For a count of `gsettings set` commands:
+# - For a count of applied settings (using DepoXy path):
 #
-#     grep -e "^[[:space:]]*defaults write" \
-#       ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh \
-#       | wc -l
+#     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --cnt-run
+#
+# - For a preview of applied settings:
+#
+#     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --dry-run
 #
 # - LATER/2025-03-09: Record this count after the next run:
 #
@@ -87,19 +89,22 @@
 #     ⏎  - Return (Return Symbol)
 #     ⌫  - Delete (Erase to the Left) (see also: ⌦  Fwd. Del.)
 #     ⎋  - Escape (Broken Circle w/ NW Arrow; aka ISO 9995-7 ESC ch.)
-#     ⌽  - On/Off/Power symbol (maybe?) (APL Functional Symbol Circle Stile)
+#     ⌽  - On/Off/Power symbol (APL Functional Symbol Circle Stile)
 #       - Apple logo approximation (U+F8FF, try Option (⌥)-Shift (⇧)-K on a Mac)
 #          (Apple devices only: Uses last private-use codepoint.
-#           Looks like Pi symbol in a solid square on Linux/Hack Font.)
+#           Looks like Pi symbol in a solid square on GNU Linux/Hack Nerd Font)
 #     ⊞  - Windows logo approximation (Squared Plus)
-#     🐧 - Linux (Tux) approximation (Penguin).
-#        - ⇞ Page Up / ⇟ Page Down / ↖︎ Top (Home) / ↘︎ End
+#     🐧 - Linux (Tux) approximation (Penguin)
+#     …  - ⇞ Page Up / ⇟ Page Down / ↖︎ Top (Home) / ↘︎ End
 #
 #     macOS display order: Ctrl-Option-Shift-Command-<key> / ^⌥⇧⌘<key>
+#
+#     Author's/DepoXy's display order and terminology (based on English
+#     keyboard layout, top to bottom, left to right): Shift-Ctrl-Cmd-Alt-<key>
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# USAGE: Update these to reflect currently supported distros.
+# USAGE: Update this "list" to reflect currently supported distros.
 # - SAVVY: Format is `$ID: $VERSION_ID` from /etc/os-release
 # - REFER: See long comments below re: Sussing OS details.
 # - E.g.,:
@@ -108,15 +113,17 @@
 #       debian: 13
 #       linuxmint: 21.3
 #     "
+# - In reality, the author will only support one distro at a time
+#   (well, two if you include macOS, but not in this file). And
+#   I'll support how many ever versions until one of them deviates
+#   significantly. (If you need an old version, see Git tags.)
+
 reset_linux_onboarder_distro_ids() {
   LINUX_ONBOARDER_DISTROS="
     debian: 12
   "
 }
 
-# MEH: This should be distro-specific. But currently [2025-01-12] this script
-# is only gonna be used on [by the author] Debian 12 and greater [and I have
-# no plans currently to use on other distro].
 CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts: View and Customize Shortcuts"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -183,7 +190,8 @@ CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts: View and Customize Shortcuts"
 
 # This script complains if it's run on an OS that the author has not
 # verified works with it. Not that it won't work, but it might not
-# work as intended.
+# work as intended. (It'll likely run on any Debian distro, but
+# some of the gsettings keynames might be different.)
 
 insist_is_supported_distro_unless_dry_run() {
   local dry_run=$1
@@ -1395,7 +1403,6 @@ slather_gnome_gsettings() {
       non_disruptive=true
       shift
       ;;
-    # MAYBE: Do we need a help command finally?
     *) shift ;;
     esac
   done
