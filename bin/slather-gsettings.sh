@@ -406,6 +406,11 @@ count_it() {
 gnome_settings_close() {
   local dry_run=$1
 
+  if ${diff_run}; then
+
+    return
+  fi
+
   echo "Closing GNOME Settings"
 
   if ! ${dry_run}; then
@@ -474,7 +479,11 @@ print_dconf_write_setting() {
     bang_val=" 🔨"
   fi
 
-  echo -e "  $(highlight_soft "${menu_path}"):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+  if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
+    echo -e "  $(
+      highlight_soft "${menu_path}"
+    ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+  fi
 }
 
 print_gsettings_set_setting() {
@@ -502,7 +511,11 @@ print_gsettings_set_setting() {
     bang_val=" 🔨"
   fi
 
-  echo -e "  $(highlight_soft "${menu_path}"):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+  if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
+    echo -e "  $(
+      highlight_soft "${menu_path}"
+    ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+  fi
 }
 
 quote_gvariant() {
@@ -1521,6 +1534,7 @@ EOF
 slather_gnome_gsettings() {
   local dry_run=false
   local cnt_run=false
+  local diff_run=false
 
   # ***
 
@@ -1532,6 +1546,11 @@ slather_gnome_gsettings() {
       ;;
     --cnt-run)
       cnt_run=true
+      shift
+      ;;
+    --diff)
+      dry_run=true
+      diff_run=true
       shift
       ;;
     *) shift ;;
@@ -1612,6 +1631,11 @@ slather_settings() {
 # ***
 
 print_manual_task_reminders() {
+  if ${diff_run}; then
+
+    return
+  fi
+
   if [ -z "${print_at_end}" ]; then
 
     return
