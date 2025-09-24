@@ -288,18 +288,12 @@ fake_it() {
   attr_reset() { printf "\033[0m"; }
   highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
 
-  defaults() {
-    echo "  $(highlight "defaults") $@"
+  dconf_write() {
+    echo "  $(highlight "dconf write") $@"
   }
-  killall() {
-    echo "  $(highlight "killall") $@"
-  }
-  # CRUMB: OPENERS
-  open() {
-    echo "  $(highlight "open") $@"
-  }
-  osascript() {
-    echo "  $(highlight "osascript") $@"
+  gsettings_set() {
+
+    echo "  $(highlight "gsettings set") $@"
   }
 }
 
@@ -330,25 +324,6 @@ count_it() {
 
     echo "  gsett: ${gsettings_schema} ${gsettings_key} ${gsettings_value}"
   }
-}
-
-killall_and_reopen() {
-  local apps_name="$1"
-
-  if killall "${apps_name}"; then
-    # Don't open too soon, lest:
-    #   _LSOpenURLsWithCompletionHandler() failed with error -600.
-    sleep 0.5
-  else
-    >&2 echo "ALERT: Failed to kill app: ${apps_name}"
-  fi
-
-  # CRUMB: OPENERS
-  if open -a "/Applications/${apps_name}.app/"; then
-    >&2 echo "Restarted app: ${apps_name}"
-  else
-    >&2 echo "ERROR: Failed to restart app: ${apps_name}"
-  fi
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
