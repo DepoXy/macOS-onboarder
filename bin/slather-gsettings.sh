@@ -617,7 +617,7 @@ gnome_settings_customize_appearance_background() {
   #   picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.webp'
   #   show-desktop-icons false
 
-  # Default: 'solid', but using GUI may change, e.g., to 'horizontal'
+  # Default: 'solid', but using GUI may change, e.g., to 'horizontal'.
   gsettings_set "Settings > Appearance > Background > Color Shading Type" \
     gsettings set org.gnome.desktop.background color-shading-type 'solid'
 
