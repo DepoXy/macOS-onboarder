@@ -1207,11 +1207,11 @@ gnome_tweaks_customize_window_titlebars() {
   # Just close button on left:
   #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
   # Close and minimize on left:
-  #   gsettings set /org/gnome/desktop/wm/preferences/button-layout 'close,minimize:appmenu'
+  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
 
   # Default: Titlebar Buttons > Placement: Right ('appmenu:close')
   gsettings_set "Tweaks > Window Titlebars > Titlebar Buttons > Placement: Left (like macOS)" \
-    gsettings set /org/gnome/desktop/wm/preferences/button-layout 'close,minimize:appmenu'
+    gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
 }
 
 # ***
