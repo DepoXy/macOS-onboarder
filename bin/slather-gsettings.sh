@@ -621,9 +621,12 @@ gnome_settings_customize_appearance_background() {
   gsettings_set "Settings > Appearance > Background > Color Shading Type" \
     gsettings set org.gnome.desktop.background color-shading-type 'solid'
 
-  # Default: 'zoom', but using GUI may change, e.g., to 'zoom'
+  # Default: 'zoom', but using GUI may change, e.g., to 'zoom'.
+  # - Doesn't matter when used with solid color, so leave
+  #   at 'zoom', which is what Settings changes it to, so
+  #   that ./slather-gsettings.sh --dry-run doesn't diff.
   gsettings_set "Settings > Appearance > Background > Picture Options" \
-    gsettings set org.gnome.desktop.background picture-options 'none'
+    gsettings set org.gnome.desktop.background picture-options 'zoom'
 
   gsettings_set "Settings > Appearance > Background > Primary Color" \
     gsettings set org.gnome.desktop.background primary-color '#000000'
