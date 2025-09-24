@@ -124,6 +124,12 @@ reset_linux_onboarder_distro_ids() {
   "
 }
 
+reset_linux_onboarder_desktop_ids() {
+  LINUX_ONBOARDER_DESKTOPS="
+    GNOME: 48
+  "
+}
+
 CRUMB_APP_SHORTCUTS="Keyboard > Keyboard Shortcuts > View and Customize Shortcuts"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -211,6 +217,8 @@ insist_is_supported_distro_unless_dry_run() {
   fi
 
   insist_is_supported_linux_version
+
+  insist_is_supported_desktop_environment
 }
 
 insist_is_supported_linux_version() {
@@ -251,6 +259,33 @@ insist_is_supported_linux_version() {
       exit_1
     fi
   )
+  return 0
+}
+
+# Checks XDG_CURRENT_DESKTOP (CALSO: XDG_SESSION_DESKTOP).
+insist_is_supported_desktop_environment() {
+  local desktop="${XDG_CURRENT_DESKTOP}"
+
+  local verified=true
+
+  local fiver="ERROR"
+  if ${LINUX_ONBOARDER_VOUCH:-false}; then
+    fiver="ALERT"
+  fi
+
+  if ! echo "${LINUX_ONBOARDER_DESKTOPS}" | grep -q -e "^[[:space:]]*${desktop}:[[:space:]]*$"; then
+    verified=false
+
+    >&2 echo "${fiver}: Unrecognized desktop: “${desktop}”"
+    >&2 echo "- HINT: Expected “${desktop}” from XDG_CURRENT_DESKTOP to match one of:"
+    >&2 echo "${LINUX_ONBOARDER_DESKTOPS}"
+  fi
+
+  if ! ${verified} && ! ${LINUX_ONBOARDER_VOUCH:-false}; then
+    >&2 echo "- HINT: Set LINUX_ONBOARDER_VOUCH=true to continue anyway"
+
+    exit_1
+  fi
 
   return 0
 }
@@ -1383,6 +1418,10 @@ slather_gnome_gsettings() {
 
   if [ -z "${LINUX_ONBOARDER_DISTROS}" ]; then
     reset_linux_onboarder_distro_ids
+  fi
+
+  if [ -z "${LINUX_ONBOARDER_DESKTOPS}" ]; then
+    reset_linux_onboarder_desktop_ids
   fi
 
   # ***
