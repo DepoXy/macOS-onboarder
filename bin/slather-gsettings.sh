@@ -912,8 +912,10 @@ gnome_settings_customize_keyboard_launchers() {
 gnome_settings_customize_keyboard_navigation() {
   # Bindings:
   #   "Keyboard Shortcuts > Navigation > Hide all normal windows: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>"
-  #   "Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>"
+  #   - HSTRY/2025-09-12: As seen in GNOME Shell 43 (Debian 12) (I think),
+  #     but (definitely not) GNOME Shell 48 (Debian 13):
+  #       "Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>"
+  #       "Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>"
   #   "Keyboard Shortcuts > Navigation > Move window one monitor down: <Shift-Cmd-Down>"
   #   "Keyboard Shortcuts > Navigation > Move window one monitor to the left: <Shift-Cmd-Left>"
   #   "Keyboard Shortcuts > Navigation > Move window one monitor to the right: <Shift-Cmd-Right>"
