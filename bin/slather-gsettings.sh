@@ -1598,7 +1598,7 @@ slather_gnome_gsettings() {
 
   print_manual_task_reminders
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+  # ***
 
   print_cnt_run_report
 }
