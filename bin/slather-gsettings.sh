@@ -1021,7 +1021,7 @@ gnome_settings_customize_keyboard_system() {
   #    dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
   # FIXME:/2025-09-10 04:52: Verify this:
   dconf_write "Keyboard Shortcuts > System > Show the notification list" \
-    dconf write /org/gnome/shell/keybindings/toggle-message-tray '<Shift><Control><Super>c'
+    dconf write /org/gnome/shell/keybindings/toggle-message-tray ["'<Shift><Control><Super>c'"]
 
   # Same behavior as pressing <Super>.
   # - USYNC: Similar to macOS Mission Control.
