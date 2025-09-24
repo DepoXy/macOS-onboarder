@@ -1459,7 +1459,7 @@ slather_gnome_gsettings() {
 
   local print_at_end=() # 🔳 ◻
 
-  schemas_customize
+  slather_settings
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -1482,7 +1482,7 @@ slather_gnome_gsettings() {
 
 # ***
 
-schemas_customize() {
+slather_settings() {
 
   gnome_settings_customize
 
