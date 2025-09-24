@@ -338,16 +338,17 @@ check_deps() {
 fake_it() {
   fg_skyblue() { printf "\033[38;2;135;175;255m"; }
   fg_lightgray() { printf "\033[37m"; }
+  attr_underline() { printf "\033[4m"; }
   attr_reset() { printf "\033[0m"; }
   highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
   highlight_soft() { printf "%s" "$(fg_lightgray)$1$(attr_reset)"; }
+  highlight_diff() { printf "%s" "$(attr_underline)$1$(attr_reset)"; }
 
   dconf_write() {
-    echo "  $(highlight "dconf write") $@"
+    print_dconf_write_setting "$@"
   }
   gsettings_set() {
-
-    echo "  $(highlight "gsettings set") $@"
+    print_gsettings_set_setting "$@"
   }
 }
 
@@ -427,6 +428,91 @@ gsettings_set() {
   ) → '${gsettings_value}'"
 
   gsettings set "${gsettings_schema}" "${gsettings_key}" "${gsettings_value}"
+}
+
+print_dconf_write_setting() {
+  local menu_path="$1"
+  local _dconf_cmd="$2"
+  local _dconf_write="$3"
+  local dconf_key="$4"
+  local dconf_val="$5"
+
+  local curr_val
+  curr_val="$(dconf read "${dconf_key}")"
+
+  if [ -z "${curr_val}" ]; then
+    curr_val="(unset?)❗"
+  fi
+
+  local quoted_val
+  quoted_val="$(quote_gvariant "${dconf_val}")"
+
+  local high_val="echo"
+  local bang_val=""
+  if [ "${curr_val}" != "${quoted_val}" ]; then
+    high_val="highlight_diff"
+    # 📌⛏️🪓⚠️🪚🔨📍❗
+    bang_val=" 🔨"
+  fi
+
+  echo -e "  $(highlight_soft "${menu_path}"):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+}
+
+print_gsettings_set_setting() {
+  local menu_path="$1"
+  local _gsettings_cmd="$2"
+  local _gsettings_get="$3"
+  local gsettings_schema="$4"
+  local gsettings_key="$5"
+  local gsettings_val="$6"
+
+  local curr_val
+  curr_val="$(gsettings get "${gsettings_schema}" "${gsettings_key}")"
+
+  if [ -z "${curr_val}" ]; then
+    curr_val="(unset?)❗"
+  fi
+
+  local quoted_val
+  quoted_val="$(quote_gvariant "${gsettings_val}")"
+
+  local high_val="echo"
+  local bang_val=""
+  if [ "${curr_val}" != "${quoted_val}" ]; then
+    high_val="highlight_diff"
+    bang_val=" 🔨"
+  fi
+
+  echo -e "  $(highlight_soft "${menu_path}"):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+}
+
+quote_gvariant() {
+  local val="$1"
+
+  # This is not perfect, but currently works with our dataset.
+  # - See also `printf "%q`, but not quite what we need.
+  if echo "${val}" | grep -q -e "^\-\?[0-9\.]\+$" ||
+    [ "${val}" = "true" ] || [ "${val}" = "false" ] \
+    ; then
+    printf "%s" "${val}"
+  elif echo "${val}" | grep -q -e "^#[0-9]\{6\}$" ||
+    [ "${val}" = "true" ] || [ "${val}" = "false" ] \
+    ; then
+    printf "%s" "'${val}'"
+  elif echo "${val}" | grep -q -e "^uint32 [0-9]\+$" ||
+    [ "${val}" = "true" ] || [ "${val}" = "false" ] \
+    ; then
+    printf "%s" "${val}"
+  elif [ "${val}" = "@as []" ]; then
+    printf "%s" "${val}"
+  elif echo "${val}" | grep -q -e "^\['"; then
+    printf "%s" "${val}"
+  elif echo "${val}" | grep -q -e "'"; then
+    >&2 echo "UNCLASSIFIED: ${val}"
+    exit_1
+  else
+    printf "'%s'" "${val}"
+  fi
 }
 
 is_hack_font_installed() {
