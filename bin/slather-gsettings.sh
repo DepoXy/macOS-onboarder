@@ -104,6 +104,10 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# ISOFF/2025-09-24: Author no longer uses these extensions.
+LINUX_ONBOARDER_INCLUDE_AATWS=${LINUX_ONBOARDER_INCLUDE_AATWS:-false}
+LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION=${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}
+
 # USAGE: Update this "list" to reflect currently supported distros.
 # - SAVVY: Format is `$ID: $VERSION_ID` from /etc/os-release
 # - REFER: See long comments below re: Sussing OS details.
@@ -1409,6 +1413,11 @@ gnome_extension_hide_top_bar_customize() {
 # ***
 
 gnome_extension_just_perfection_customize() {
+  if ! ${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}; then
+
+    return
+  fi
+
   # The app icon next to application's menu bar dropdown.
   #   dconf_write "GNOME Extension > Just Perfection > Icons > ✓ App Menu Icon" \
   #   dconf write /org/gnome/shell/extensions/just-perfection/app-menu-icon false
@@ -1425,6 +1434,11 @@ gnome_extension_just_perfection_customize() {
 # ***
 
 gnome_extension_advanced_alt_tab_window_switcher_customize() {
+  if ! ${LINUX_ONBOARDER_INCLUDE_AATWS:-false}; then
+
+    return
+  fi
+
   # Defaults: Bottom (3), also Top (1), Center (2)
   dconf_write "GNOME Extension > AATWS > Common > Behavior > Placement: Center" \
     dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-position 2
