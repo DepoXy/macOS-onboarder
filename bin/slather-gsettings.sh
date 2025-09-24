@@ -982,12 +982,12 @@ gnome_settings_customize_keyboard_sound_and_media() {
 
 gnome_settings_customize_keyboard_system() {
   # - Default: ['<Super>n']
-  # dconf_write "Keyboard Shortcuts > System > Focus the active notification: Disabled:" \
+  # dconf_write "Keyboard Shortcuts > System > Focus the active notification: Disabled" \
   # dconf write /org/gnome/shell/keybindings/focus-active-notification '@as []'
 
   # BNDNG: <Ctrl-Cmd-Q>
   # - Default: ['<Super>l']
-  dconf_write "Keyboard Shortcuts > System > Lock screen:" \
+  dconf_write "Keyboard Shortcuts > System > Lock screen" \
     dconf write /org/gnome/settings-daemon/plugins/media-keys/screensaver "['<Control><Super>q']"
 
   # - Default: ['<Control><Alt>Delete']
@@ -996,16 +996,16 @@ gnome_settings_customize_keyboard_system() {
 
   # DUNNO/2025-01-13: Pressing <Cmd-F10> has no effect.
   # - Default: ['<Super>F10']
-  # dconf_write "Keyboard Shortcuts > System > Open the application menu: Disabled:" \
+  # dconf_write "Keyboard Shortcuts > System > Open the application menu: Disabled" \
   # dconf write /org/gnome/shell/keybindings/open-application-menu '@as []'
 
   # FIXME/2025-01-13: What's this do?
   # - Default: ['<Super>Escape']
-  # dconf_write "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled:" \
+  # dconf_write "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled" \
   # dconf write /org/gnome/mutter/wayland/keybindings/restore-shortcuts '@as []'
 
   # - Default: ['<Super>a']
-  dconf_write "Keyboard Shortcuts > System > Show all applications: Disabled:" \
+  dconf_write "Keyboard Shortcuts > System > Show all applications: Disabled" \
     dconf write /org/gnome/shell/keybindings/toggle-application-view '@as []'
 
   # - Default: ['<Super>v']
@@ -1013,22 +1013,22 @@ gnome_settings_customize_keyboard_system() {
   # FIXME/2025-01-13: Is this similar to Show Notification Center on macOS?
   # - Author's macOS ONBRD doc suggests using <Shift-Ctrl-Cmd-C>
   #   to Show Notification Center.
-  #  dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled:" \
+  #  dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled" \
   #    dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
   # FIXME:/2025-09-10 04:52: Verify this:
-  dconf_write "Keyboard Shortcuts > System > Show the notification list:" \
+  dconf_write "Keyboard Shortcuts > System > Show the notification list" \
     dconf write /org/gnome/shell/keybindings/toggle-message-tray '<Shift><Control><Super>c'
 
   # Same behavior as pressing <Super>.
   # - USYNC: Similar to macOS Mission Control.
   # - Default: ['<Super>s']
-  #  dconf_write "Keyboard Shortcuts > System > Show the overview: Disabled:" \
+  #  dconf_write "Keyboard Shortcuts > System > Show the overview: Disabled" \
   #  dconf write /org/gnome/shell/keybindings/toggle-overview '@as []'
-  dconf_write "Keyboard Shortcuts > System > Show the overview:" \
+  dconf_write "Keyboard Shortcuts > System > Show the overview" \
     dconf write /org/gnome/shell/keybindings/toggle-overview "['<Control><Alt>Down']"
 
   # - Default: ['<Alt>F2']
-  # dconf_write "Keyboard Shortcuts > System > Show the run command prompt: Disabled:" \
+  # dconf_write "Keyboard Shortcuts > System > Show the run command prompt: Disabled" \
   # dconf write /org/gnome/mutter/wayland/keybindings/restore-shortcuts '@as []'
 
 }
