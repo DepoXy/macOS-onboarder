@@ -337,8 +337,10 @@ check_deps() {
 
 fake_it() {
   fg_skyblue() { printf "\033[38;2;135;175;255m"; }
+  fg_lightgray() { printf "\033[37m"; }
   attr_reset() { printf "\033[0m"; }
   highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
+  highlight_soft() { printf "%s" "$(fg_lightgray)$1$(attr_reset)"; }
 
   dconf_write() {
     echo "  $(highlight "dconf write") $@"
@@ -392,10 +394,10 @@ gnome_settings_close() {
       true
   fi
 
-  echo "- Reopen with:"
-  echo "    gnome-control-center &"
-  echo "- Most Keyboard Shortcuts changed by this script can be found in Settings at:"
-  echo "    ${CRUMB_APP_SHORTCUTS}"
+  echo "$(highlight_soft "- Reopen with:")"
+  echo "$(highlight_soft "    gnome-control-center &")"
+  echo "$(highlight_soft "- Most Keyboard Shortcuts changed by this script can be found in Settings at:")"
+  echo "$(highlight_soft "    ${CRUMB_APP_SHORTCUTS}")"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
