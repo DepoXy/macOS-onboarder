@@ -308,6 +308,20 @@ insist_is_supported_desktop_environment() {
   return 0
 }
 
+# ***
+
+is_hack_font_installed() {
+  # REFER:
+  #   fc-list :family=HackNerdFont
+  # SAVVY: 'fontconfig' installed by default on Debian 12 [AFAIK].
+  # CPYST:
+  # - Reload fonts:
+  #   sudo fc-cache -frv
+  # - List font paths:
+  #   fc-list -f '%{file}\n' | sort
+  [ -n "$(fc-list :family=HackNerdFont:style=Regular)" ]
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 check_deps() {
@@ -514,18 +528,6 @@ quote_gvariant() {
   else
     printf "'%s'" "${val}"
   fi
-}
-
-is_hack_font_installed() {
-  # REFER:
-  #   fc-list :family=HackNerdFont
-  # SAVVY: 'fontconfig' installed by default on Debian 12 [AFAIK].
-  # CPYST:
-  # - Reload fonts:
-  #   sudo fc-cache -frv
-  # - List font paths:
-  #   fc-list -f '%{file}\n' | sort
-  [ -n "$(fc-list :family=HackNerdFont:style=Regular)" ]
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
