@@ -124,7 +124,7 @@ reset_linux_onboarder_distro_ids() {
   "
 }
 
-CRUMB_APP_SHORTCUTS="Keyboard: Keyboard Shortcuts: View and Customize Shortcuts"
+CRUMB_APP_SHORTCUTS="Keyboard > Keyboard Shortcuts > View and Customize Shortcuts"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -278,7 +278,7 @@ check_deps() {
     return 0
   fi
 
-  >&2 echo "- Hint: On macOS or not a Debian distro? Try --dry-run"
+  >&2 echo "- Hint: Are you running from macOS or not Debian? Try --dry-run"
 
   exit_1
 }
@@ -361,10 +361,22 @@ killall_and_reopen() {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# Ha, this probably isn't necessary in GNOME like it is in (on?) Darwin.
 gnome_settings_close() {
-  echo "Closing GNOME Settings..."
-  killall gnome-control-center 2>/dev/null ||
-    true
+  local dry_run=$1
+
+  echo "Closing GNOME Settings"
+
+  if ! ${dry_run}; then
+
+    killall gnome-control-center 2>/dev/null ||
+      true
+  fi
+
+  echo "- Reopen with:"
+  echo "    gnome-control-center &"
+  echo "- Most Keyboard Shortcuts changed by this script can be found in Settings at:"
+  echo "    ${CRUMB_APP_SHORTCUTS}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -1439,11 +1451,11 @@ slather_gnome_gsettings() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  echo "Slathering gsettings..."
-
-  gnome_settings_close
+  gnome_settings_close ${dry_run}
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+  echo "Slathering gsettings..."
 
   local print_at_end=() # 🔳 ◻
 
@@ -1457,7 +1469,7 @@ slather_gnome_gsettings() {
     echo
 
     for print_ln in "${print_at_end[@]}"; do
-      echo -e "${print_ln}"
+      echo -e "${print_ln}\n"
     done
 
     echo "Good luck!"
