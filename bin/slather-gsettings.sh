@@ -304,39 +304,31 @@ fake_it() {
 }
 
 # INPUT: ENV: Expects:
-#   local cnt_defaults=0
-#   local cnt_defaults_write=0
-#   local cnt_defaults_delete=0
-#   local cnt_defaults_other=0
-#   declare -A cnt_defaults_domain
-#   local cnt_killalls=0
-#   local cnt_ascripts=0
-#   local cnt_binrmrfs=0
+#   local cnt_dconf_write=0
+#   local cnt_gsettings_set=0
 count_it() {
-  defaults() {
-    let 'cnt_defaults += 1'
+  dconf_write() {
+    local _description="$1"
+    local _dconf_cmd="$2"
+    local _dconf_write="$3"
+    local dconf_key="$4"
+    local dconf_value="$5"
 
-    if [ "$1" = "write" ]; then
-      let 'cnt_defaults_write += 1'
-    elif [ "$1" = "delete" ]; then
-      let 'cnt_defaults_delete += 1'
-    else
-      let 'cnt_defaults_other += 1'
-    fi
+    let 'cnt_dconf_write += 1'
 
-    let "cnt_defaults_domain[$2] += 1"
-
-    echo "  defaults $@"
+    echo "  dconf: ${dconf_key} ${dconf_value}"
   }
-  killall() {
-    let 'cnt_killalls += 1'
+  gsettings_set() {
+    local _description="$1"
+    local _gsettings_cmd="$2"
+    local _gsettings_get="$3"
+    local gsettings_schema="$4"
+    local gsettings_key="$5"
+    local gsettings_value="$6"
 
-    echo "  killall $@"
-  }
-  osascript() {
-    let 'cnt_ascripts += 1'
+    let 'cnt_gsettings_set += 1'
 
-    echo "  osascript $@"
+    echo "  gsett: ${gsettings_schema} ${gsettings_key} ${gsettings_value}"
   }
 }
 
@@ -1426,17 +1418,8 @@ slather_gnome_gsettings() {
   # ***
 
   if ${cnt_run}; then
-    local cnt_defaults=0
-    local cnt_defaults_write=0
-    local cnt_defaults_delete=0
-    local cnt_defaults_other=0
-    # SAVVY: `declare -A` requires Bash v4. See:
-    #   _promote_homebrew_bash
-    # - Which is an issue on macOS, but not Debian.
-    declare -A cnt_defaults_domain
-    local cnt_killalls=0
-    local cnt_ascripts=0
-    local cnt_binrmrfs=0
+    local cnt_dconf_write=0
+    local cnt_gsettings_set=0
 
     count_it
   elif ${dry_run}; then
@@ -1513,20 +1496,10 @@ print_cnt_run_report() {
     return 0
   fi
 
-  echo "Counts report:"
-  echo "- \`defaults\` calls   : ${cnt_defaults}"
-  echo "  - 'write'   $(printf "%4d" "${cnt_defaults_write}")"
-  echo "  - 'delete'  $(printf "%4d" "${cnt_defaults_delete}")"
-  echo "  -  other    $(printf "%4d" "${cnt_defaults_other}")"
-  echo "- no. domains        : ${#cnt_defaults_domain[@]}"
-  # USAGE: Use this list to audit lib/defaults-domains-block.list
-  for domain in "${!cnt_defaults_domain[@]}"; do
-    printf "  - %3d : %s\n" "${cnt_defaults_domain[$domain]}" "${domain}"
-  done
-  echo "- \`killall\`   calls  : ${cnt_killalls}"
-  echo "- \`osascript\` calls  : ${cnt_ascripts}"
-  echo "- \`rm -rf --\` calls  : ${cnt_binrmrfs}"
-  echo "- No. reminders      : ${#print_at_end[@]}"
+  echo "Settings counts:"
+  printf "%-22s%2s\n" "- # dconf write's:" "${cnt_dconf_write}"
+  printf "%-22s%2s\n" "- # gsettings set's:" "${cnt_gsettings_set}"
+  printf "%-22s%2s\n" "- # Manual tasks:" "${#print_at_end[@]}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
