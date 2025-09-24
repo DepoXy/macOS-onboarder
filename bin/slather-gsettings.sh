@@ -121,6 +121,7 @@
 reset_linux_onboarder_distro_ids() {
   LINUX_ONBOARDER_DISTROS="
     debian: 12
+    debian: 13
   "
 }
 
