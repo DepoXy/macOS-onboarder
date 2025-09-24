@@ -596,8 +596,8 @@ gnome_settings_customize_appearance_style() {
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 }
 
-# The GUI lets you select from 26 different background images
-# and color settings, or you can set your own image.
+# The GNOME Shell 43 GUI lets you select from 26 different background
+# images and color settings, or you can set your own image.
 # - There are no GUI options to set a solid color.
 # - THANX: For the gsettings hints to use a solid background:
 #     https://www.reddit.com/r/debian/comments/3kl3s7/how_do_i_change_the_background_to_a_plain_black/
@@ -606,8 +606,8 @@ gnome_settings_customize_appearance_style() {
 #   - RESET:
 #     gsettings reset-recursively org.gnome.desktop.background
 
-# SAVVY: Using the Background GUI to pick a new background also
-# changes the screensaver:
+# SAVVY: When you pick a new background using the
+# Background GUI, it also changes the screensaver:
 #   org.gnome.desktop.screensaver
 
 gnome_settings_customize_appearance_background() {
@@ -657,8 +657,8 @@ gnome_settings_customize_search() {
 # ***
 
 gnome_settings_customize_multitasking() {
-  # Disable the top-left hot corner, which I'd trigger inadvertently too often.
-  # - I like to use <Cmd> to open Activities Overview.
+  # Disable the top-left hot corner, which author triggers inadvertently too often.
+  # - Using <Cmd> to open Activities Overview is a much better mechanism.
   # - Default: true
   gsettings_set "Settings > Multitasking > General > Hot Corner" \
     gsettings set org.gnome.desktop.interface enable-hot-corners false
