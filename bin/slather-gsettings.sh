@@ -818,14 +818,15 @@ gnome_settings_customize_power() {
   gsettings_set "Settings > Power > Power Saving Options > Automatic Suspend > Plugged In: Disabled" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
-  # FIXME/2025-01-12: Demo each option and pick one.
   # Power Button Behavior:
   # - Suspend: 'suspend' [Default]
   # - Power Off: 'interactive'
-  #   - SPIKE: Is it interactive?
   # - Nothing: 'nothing'
+  # SPIKE/2025-01-12: Demo each option and pick one.
+  # - For now, 'interactive' (I almost always have laptop lid closed,
+  #   so don't expect any traction on this SPIKE).
   gsettings_set "Settings > Power > Power Button Behavior > Power Off" \
-    gsettings set org.gnome.settings-daemon.plugins.power power-button-action 'suspend'
+    gsettings set org.gnome.settings-daemon.plugins.power power-button-action 'interactive'
 }
 
 # ***
