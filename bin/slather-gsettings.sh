@@ -776,6 +776,17 @@ gnome_settings_customize_search() {
 
 # ***
 
+# Nothing to change.
+gnome_settings_customize_online_accounts() {
+  print_at_end+=("\
+🔳 Settings > Online Accounts > Add an account
+   - Wire a cloud account to enable, e.g., GNOME Calendar & Email apps
+   - Providers: Google, Nextcloud, Microsoft, Microsoft Exchange,
+                Last.fm, IMAP and SMTP, Enterprise Login (Kerberos)")
+}
+
+# ***
+
 gnome_settings_customize_privacy() {
   gnome_settings_customize_privacy_screen
   gnome_settings_customize_privacy_location_services
@@ -869,18 +880,6 @@ gnome_settings_customize_privacy_file_history_and_trash() {
   # Default: 30 days (30) / Other GUI: 1 hour (0), 1 day..7 days (1..7), 14 days (14)
   gsettings_set "${menu_path} > Trash & Temporary Files > Automatic Deletion Period" \
     gsettings set org.gnome.desktop.privacy old-files-age 'uint32 30'
-}
-
-# ***
-
-# Nothing to change.
-# FIXME/2025-01-12: Try wiring Google Account.
-gnome_settings_customize_online_accounts() {
-  print_at_end+=("\
-🔳 Settings > Online Accounts > Add an account
-   - Wire a cloud account to enable, e.g., GNOME Calendar & Email apps
-   - Providers: Google, Nextcloud, Microsoft, Microsoft Exchange,
-                Last.fm, IMAP and SMTP, Enterprise Login (Kerberos)")
 }
 
 # ***
