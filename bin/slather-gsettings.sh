@@ -1989,14 +1989,41 @@ firefox_customize() {
 gnome_extension_hide_top_bar_customize() {
   local menu_path="GNOME Extension > Hide Top Bar"
 
-  # DUNNO: There's no schema for org.gnome.shell.extensions.hidetopbar
-  # but you can access it via dconf.
+  # SAVVY: There's no schema for org.gnome.shell.extensions.hidetopbar:
+  #   $ gsettings list-recursively org.gnome.shell.extensions.hidetopbar
+  #   No such schema “org.gnome.shell.extensions.hidetopbar”
+  #   $ gsettings get org.gnome.shell.extensions.hidetopbar mouse-sensitive
+  #   No such schema “org.gnome.shell.extensions.hidetopbar”
+  # so you much access it via dconf.
 
   dconf_write "${menu_path} > Sensitivity > ✓ Show panel when mouse approaches edge of the screen" \
     dconf write /org/gnome/shell/extensions/hidetopbar/mouse-sensitive true
 
+  # "Sensitivity > In the above case, also show panel when fullscreen: Enabled"
+  # "Sensitivity > Show panel in overview: Enabled"
+  # "Sensitivity > Keep hot corner sensitive, even in hidden state: Disabled"
+  # "Sensitivity > In the above case show overview, too: Disabled"
+  # "Sensitivity > Keep round corners when top bar is hidden: Disabled"
+  # "Sensitivity > Pressure barrier's threshold: 100 [ -/+ ]"
+  # "Sensitivity > Pressure barrier's timeout: 100 [ -/+ ]"
+
+  # "Animation > Slide animation time when entering/leaving overview: 0.4 [ -/+ ]"
+  # "Animation > Slide animation time when mouse approaches edge of the screen: 0.2 [ -/+ ]"
+
+  # "Keyboard shortcuts > Key that triggers the bar to be shown: Disabled" ('@as []')
+  # - "(press backspace to deactivate the shortcut)"
+  dconf_write "${menu_path} > Keyboard shortcuts > Key that triggers the bar to be shown" \
+    dconf reset /org/gnome/shell/extensions/hidetopbar/shortcut-keybind
+
+  # "Keyboard shortcuts > Delay before the bar rehides after key press: 1.0 [ -/+ ]"
+  # - "(a value of 0 disables the hiding)"
+
+  # "Keyboard shortcuts > Pressing the shortcut again rehides the panel: Enabled"
+
   dconf_write "${menu_path} > Intellihide > Only hide panel when a window takes the space: ∅" \
     dconf write /org/gnome/shell/extensions/hidetopbar/enable-intellihide false
+
+  # "Intellihide > Only when the active window takes the space: Enabled"
 }
 
 # ***
