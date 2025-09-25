@@ -589,6 +589,7 @@ gnome_settings_customize() {
 
   gnome_settings_customize_accessibility
   gnome_settings_customize_privacy
+  gnome_settings_customize_system
 }
 
 # ***
@@ -1403,6 +1404,82 @@ gnome_settings_customize_accessibility() {
     gsettings set org.gnome.desktop.a11y always-show-universal-access-status false
 
   # And then lots on interesting options, seems very robust.
+}
+
+# ***
+
+gnome_settings_customize_system() {
+  # Settings > System > Region & Language
+  # - Settings > System > Region & Language > Language: English (US)
+  # - Settings > System > Region & Language > Formats: US (English)
+
+  # "Requires location services enabled and internet access" [Default disabled]
+  gsettings_set "Settings > System > Date & Time > ✓ Automatic Time Zone" \
+    gsettings set org.gnome.desktop.datetime automatic-timezone true
+
+  # Default: 12-hour ('12h') / 24-hour ('24h')
+  gsettings_set "Settings > System > Date & Time > Time Format: 24-hour" \
+    gsettings set org.gnome.desktop.interface clock-format '24h'
+  #
+  # SAVVY: (For reasons unknown) Use dconf here, not gsettings.
+  #   $ dconf read /org/gtk/settings/file-chooser/clock-format
+  #   '24h'
+  #   $ gsettings get org.gtk.settings.file-chooser clock-format
+  #   No such schema “org.gtk.settings.file-chooser”
+  #   $ gsettings_set "Settings > System > Date & Time > Time Format: 24-hour" \
+  #       gsettings set org.gtk.settings.file-chooser clock-format '24h'
+  #   $ No such schema “org.gtk.settings.file-chooser”
+  dconf_write "Settings > System > Date & Time > Time Format: 24-hour" \
+    dconf write /org/gtk/settings/file-chooser/clock-format '24h'
+
+  # Default: Disabled
+  gsettings_set "Settings > System > Date & Time > Clock & Calendar > ✓ Week Day" \
+    gsettings set org.gnome.desktop.interface clock-show-weekday true
+
+  # Default: Enabled
+  gsettings_set "Settings > System > Date & Time > Clock & Calendar > ✓ Date" \
+    gsettings set org.gnome.desktop.interface clock-show-date true
+
+  # Default: Disabled
+  gsettings_set "Settings > System > Date & Time > Clock & Calendar > ∅ Seconds" \
+    gsettings set org.gnome.desktop.interface clock-show-seconds false
+
+  # "Show in the dropdown calendar"
+  # - Default: Disabled
+  # - OYEAH: Just like Noname Notes and the TBLLC Invoice Generator!
+  gsettings_set "Settings > System > Date & Time > Clock & Calendar > ✓ Week Numbers" \
+    gsettings set org.gnome.desktop.calendar show-weekdate true
+
+  # Settings > System > Users
+  #   - User > Name [You!]
+  #   - User > Password
+  #   - User > Automatic Login [disabled]
+  #   - User > Language
+  #   [ Add User > ] [ Add Enterprise Login > ]
+
+  # Settings > System > Remote Desktop
+  # - Desktop Sharing
+  #   - Desktop Sharing [disabled]
+  #   - Remote Control [disabled]
+  #   - How to Connect, Login Details, etc.
+  # - Remote Login
+  #   - Remote Login [disabled]
+  #   - How to Connect, Login Details, etc.
+
+  # Settings > System > Secure Shell
+  # - Secure Shell [enabled]
+  #   - Prompts for password to disable
+  # - SSH Login Command: `ssh $(hostname)`
+
+  # Settings > System > About
+  # - Device Name: $(hostname)
+  # - Operating System
+  # - Hardward Model
+  # - Processor
+  # - Memory
+  # - Disk Capacity
+  # - System Details
+  #   - Popup w/ [ Copy to Cliboard ]
 }
 
 # +++ END: GNOME Settings GUI settings
