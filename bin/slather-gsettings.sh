@@ -273,11 +273,28 @@ insist_is_supported_desktop_environment() {
     fiver="ALERT"
   fi
 
-  if ! echo "${LINUX_ONBOARDER_DESKTOPS}" | grep -q -e "^[[:space:]]*${desktop}:[[:space:]]*$"; then
+  if ! echo "${LINUX_ONBOARDER_DESKTOPS}" | grep -q -e "^[[:space:]]*${desktop}: "; then
     verified=false
 
     >&2 echo "${fiver}: Unrecognized desktop: “${desktop}”"
     >&2 echo "- HINT: Expected “${desktop}” from XDG_CURRENT_DESKTOP to match one of:"
+    echo "${LINUX_ONBOARDER_DESKTOPS}" | >&2 sed 's/: .*$//'
+  fi
+
+  local major_version="$(
+    command -v gnome-shell >/dev/null &&
+      gnome-shell --version |
+      sed 's/^GNOME Shell \+\([0-9]\+\).*/\1/'
+  )"
+  if ${verified} &&
+    ! echo "${LINUX_ONBOARDER_DESKTOPS}" |
+    grep -q -e "^[[:space:]]*${desktop}: ${major_version}[[:space:]]*$" \
+    ; then
+
+    verified=false
+
+    >&2 echo "${fiver}: Unrecognized desktop version: “${major_version}”"
+    >&2 echo "- HINT: Expected \`gnome-shell --version\` to match one of:"
     >&2 echo "${LINUX_ONBOARDER_DESKTOPS}"
   fi
 
