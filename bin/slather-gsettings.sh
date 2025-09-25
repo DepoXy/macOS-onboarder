@@ -593,6 +593,18 @@ gnome_settings_customize() {
 
 # ***
 
+# Nothing to change.
+# - Orientation
+# - Resolution
+# - Refresh Rate
+# - Scale
+# - Night Light
+gnome_settings_customize_displays() {
+  :
+}
+
+# ***
+
 gnome_settings_customize_appearance() {
   # Appearance > Style: Default ('default') or Dark ('prefer-dark')
   # - Default: 'default' (at least in GNOME Shell 43).
@@ -1110,18 +1122,6 @@ gnome_settings_customize_power_hidden() {
   # Default: Enabled (true)
   gsettings_set "${menu_path} > Dim Screen" \
     gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
-}
-
-# ***
-
-# Nothing to change.
-# - Orientation
-# - Resolution
-# - Refresh Rate
-# - Scale
-# - Night Light
-gnome_settings_customize_displays() {
-  :
 }
 
 # ***
