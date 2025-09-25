@@ -352,15 +352,17 @@ check_deps() {
   exit_1
 }
 
-fake_it() {
-  fg_skyblue() { printf "\033[38;2;135;175;255m"; }
-  fg_lightgray() { printf "\033[37m"; }
-  attr_underline() { printf "\033[4m"; }
-  attr_reset() { printf "\033[0m"; }
-  highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
-  highlight_soft() { printf "%s" "$(fg_lightgray)$1$(attr_reset)"; }
-  highlight_diff() { printf "%s" "$(attr_underline)$1$(attr_reset)"; }
+fg_skyblue() { printf "\033[38;2;135;175;255m"; }
+fg_lightgray() { printf "\033[37m"; }
+attr_underline() { printf "\033[4m"; }
+attr_reset() { printf "\033[0m"; }
+highlight() { printf "%s" "$(fg_skyblue)$1$(attr_reset)"; }
+highlight_soft() { printf "%s" "$(fg_lightgray)$1$(attr_reset)"; }
+highlight_diff() { printf "%s" "$(attr_underline)$1$(attr_reset)"; }
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+fake_it() {
   dconf_write() {
     print_dconf_write_setting "$@"
   }
