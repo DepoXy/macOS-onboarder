@@ -1443,7 +1443,15 @@ gnome_settings_customize_keyboard_windows() {
   :
 }
 
-# CXREF: See Ansible task for adding custom keybindings:
+# CXREF: See run-or-raise/shortcuts.conf in DepoXy:
+#   https://github.com/DepoXy/depoxy#🍯
+#     ~/.depoxy/ambers/home/.config/run-or-raise/shortcuts-depoxy
+# - Which is utilizes the stellar run-or-raise extension:
+#   https://extensions.gnome.org/extension/1336/run-or-raise/
+# CXREF: See also Ansible task for adding custom keybindings:
+# - (This is my legacy approach for keybindings; run-or-raise
+#    is a much more elegant, simpler approach than this
+#    complicated gobbledygook):
 #   https://github.com/landonb/zoidy_matecocido#🖥️
 #     ~/.kit/ansible/roles/zoidy_matecocido/defaults/main/keybindings.yml
 #     ~/.kit/ansible/roles/zoidy_matecocido/tasks/keybinding-circus.yml
