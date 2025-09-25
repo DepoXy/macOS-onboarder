@@ -744,13 +744,31 @@ gnome_settings_customize_privacy_thunderbolt() {
 }
 
 # Nothing to change.
-# FIXME/2025-01-12: Considering these options:
-#   ✗ Automatically Delete Trash Content
-#   ✗ Automatically Delete Temporarily Files
-#   Automatically Delete Period: 30 days
-# - Does this mean that /tmp files are *never* cleared??
+# SAVVY: Debian 13 enables auto-delete /tmp and /var/tmp by default.
 gnome_settings_customize_privacy_file_history_and_trash() {
-  :
+  local menu_path="Settings > Privacy & Security > System > File History & Trash"
+
+  # Default: Enabled (true)
+  gsettings_set "${menu_path} > File History > File History" \
+    gsettings set org.gnome.desktop.privacy remember-recent-files true
+
+  # Default: Forever (-1) / Other GUI opts: 1 day (1), 7 days (7), 30 days (30)
+  gsettings_set "${menu_path} > File History > File History Duration" \
+    gsettings set org.gnome.desktop.privacy recent-files-max-age -1
+
+  # ***
+
+  # Default: Disabled
+  gsettings_set "${menu_path} > Trash & Temporary Files > Automatically Empty Trash" \
+    gsettings set org.gnome.desktop.privacy remove-old-trash-files false
+
+  # Default: Disabled
+  gsettings_set "${menu_path} > Trash & Temporary Files > Automatically Delete Temporary Files" \
+    gsettings set org.gnome.desktop.privacy remove-old-temp-files false
+
+  # Default: 30 days (30) / Other GUI: 1 hour (0), 1 day..7 days (1..7), 14 days (14)
+  gsettings_set "${menu_path} > Trash & Temporary Files > Automatic Deletion Period" \
+    gsettings set org.gnome.desktop.privacy old-files-age 'uint32 30'
 }
 
 # ***
