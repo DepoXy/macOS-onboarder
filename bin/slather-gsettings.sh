@@ -575,7 +575,7 @@ gnome_settings_customize() {
   gnome_settings_customize_multitasking
   gnome_settings_customize_appearance
 
-  gnome_settings_customize_applications
+  gnome_settings_customize_apps
   gnome_settings_customize_notifications
   gnome_settings_customize_search
   gnome_settings_customize_online_accounts
@@ -709,7 +709,33 @@ gnome_settings_customize_multitasking() {
 # ***
 
 # Nothing to change.
-gnome_settings_customize_applications() {
+# - Default Apps / "Set which apps open links, files, and media"
+#   - Default Apps
+#     - Default Apps
+#       - Web: Fussy
+#       - Mail: Evolution Mail and Calendar
+#       - Calendar: Calendar
+#       - Music: Videos
+#       - Video: Videos
+#       - Photos: Image Viewer
+#     - Removable Media
+#       - Media Autostart: Disabled
+#         - "Start apps or prompt when media is connected"
+#         - /org/gnome/desktop/media-handling/autorun-never true
+#       - CD Audio: Ask what to do
+#       - DVD Video: Ask what to do
+#       - Music Player: Ask what to do
+#       - Photos: Ask what to do
+#       - Software: Ask what to do
+#       - Other Media Types
+# - 2048
+#   - [ Open] / [ App Details ]
+#   - Permissions > Notifications "Show system notifications" > ✓ Enabled
+# - Advanced Network Configuration
+#   - Etc.
+# - AisleRiot Solitaire
+# - (Etc.; List of Apps)
+gnome_settings_customize_apps() {
   :
 }
 
