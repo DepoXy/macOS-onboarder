@@ -1216,6 +1216,10 @@ gnome_settings_customize_keyboard() {
   gnome_settings_customize_keyboard_custom_shortcuts
 }
 
+#      ++++++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > ACCESSIBILITY
+#      ++++++++++++++++++++++++++++++++++
+
 gnome_settings_customize_keyboard_accessibility() {
   # Bindings:
   #   "Keyboard Shortcuts > Accessibility > Decrease text size: Disabled"
@@ -1235,6 +1239,10 @@ gnome_settings_customize_keyboard_accessibility() {
   :
 }
 
+#      ++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > LAUNCHERS
+#      ++++++++++++++++++++++++++++++
+
 # These all default disabled except for Launch help browser.
 # - Bindings:
 #     Home folder
@@ -1249,6 +1257,10 @@ gnome_settings_customize_keyboard_launchers() {
   gsettings_set "Keyboard Shortcuts > Launchers > Launch help browser: Disabled" \
     gsettings set org.gnome.settings-daemon.plugins.media-keys help '@as []'
 }
+
+#      +++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > NAVIGATION
+#      +++++++++++++++++++++++++++++++
 
 # FIXME/2025-01-13: Normalize against macOS/Rectangle bindings,
 # and disable ones you don't need.
@@ -1314,6 +1326,10 @@ gnome_settings_customize_keyboard_navigation() {
     dconf write /org/gnome/desktop/wm/keybindings/switch-group-backward "['<Shift><Super>Tab']"
 }
 
+#      ++++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > SCREENSHOTS
+#      ++++++++++++++++++++++++++++++++
+
 gnome_settings_customize_keyboard_screenshots() {
   # FIXME/2025-01-13: Change to match macOS bindings (or close to it)
   #
@@ -1336,6 +1352,10 @@ gnome_settings_customize_keyboard_screenshots() {
     gsettings set org.gnome.shell.keybindings screenshot-window '@as []'
 }
 
+#      ++++++++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > SOUND AND MEDIA
+#      ++++++++++++++++++++++++++++++++++++
+
 # All settings default disabled.
 # - Includes:
 #     Eject
@@ -1352,6 +1372,10 @@ gnome_settings_customize_keyboard_screenshots() {
 gnome_settings_customize_keyboard_sound_and_media() {
   :
 }
+
+#      +++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > SYSTEM
+#      +++++++++++++++++++++++++++
 
 gnome_settings_customize_keyboard_system() {
   # Focus the active notification
@@ -1436,6 +1460,10 @@ gnome_settings_customize_keyboard_system() {
   # gsettings_set "Keyboard Shortcuts > System > Show the run command prompt: Disabled" \
   #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
 }
+
+#      +++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > TYPING
+#      +++++++++++++++++++++++++++
 
 # Disable all Typing bindings.
 # - SAVVY: If you disable Switch-to-next via GUI, it also disables Switch-to-previous.
@@ -1967,6 +1995,10 @@ gnome_terminal_customize_compatibility() {
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+#     ============
+# *** APP: FIREFOX
+#     ============
+
 firefox_customize() {
   print_at_end+=("\
 🔳 Firefox > Startup > ✓ Open previous windows and tabs")
@@ -2038,7 +2070,9 @@ gnome_extension_hide_top_bar_customize() {
   # "Intellihide > Only when the active window takes the space: Enabled"
 }
 
-# ***
+#     ==========================
+# *** EXTENSION: JUST PERFECTION
+#     ==========================
 
 gnome_extension_just_perfection_customize() {
   if ! ${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}; then
@@ -2061,7 +2095,9 @@ gnome_extension_just_perfection_customize() {
     dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset 10
 }
 
-# ***
+#     ===============================================
+# *** EXTENSION: (AN) ALT TAB WINDOW SWITCHER (AATWS)
+#     ===============================================
 
 gnome_extension_advanced_alt_tab_window_switcher_customize() {
   if ! ${LINUX_ONBOARDER_INCLUDE_AATWS:-false}; then
