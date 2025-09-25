@@ -580,6 +580,7 @@ gnome_settings_customize() {
   gnome_settings_customize_search
   gnome_settings_customize_online_accounts
   gnome_settings_customize_sharing
+  gnome_settings_customize_wellbeing
 
   gnome_settings_customize_mouse_and_touchpad
   gnome_settings_customize_keyboard
@@ -801,6 +802,63 @@ gnome_settings_customize_sharing() {
   #
   # By GNOME Shell 48, Remote Desktop and Remote Login
   # options were move to Settings > System.
+}
+
+# ***
+
+gnome_settings_customize_wellbeing() {
+  # Settings > Wellbeing > Screen Time
+  # - Shows screen time for today and this wee,
+  #   and a bar chart for the week.
+  #   - DUNNO: Author sees full, 24h bars for each day.
+
+  # ***
+
+  gsettings_set "Settings > Wellbeing > Screen Limits: Screen Time Limit: Disabled" \
+    gsettings set org.gnome.desktop.screen-time-limits daily-limit-enabled false
+  # Enabling Screen Time Limit also sets application-children, possibly
+  # like this, but not necessarily exactly the same "application-children"
+  # (so we won't futz with it):
+  if false; then
+    gsettings_set "Settings > Wellbeing > Screen Limits > Screen Time Limit: application-children" \
+      gsettings set org.gnome.desktop.notifications application-children "['gnome-initial-setup', 'org-gnome-software', 'gnome-network-panel', 'firefox-esr', 'alacritty', 'google-chrome', 'gvim', 'org-gnome-settings', 'org-gnome-nautilus', 'libreoffice-startcenter', 'com-github-lyude-neovim-gtk', 'spotify', 'org-gnome-terminal', 'slack-slack', 'org-gnome-extensions', 'gnome-wellbeing-panel', 'io-snapcraft-sessionagent']"
+  fi
+
+  # Defaults: 8 hours (28800) / Widget: +/- 1 hr. (3600) and +/- 15 min. (+/- 900)
+  gsettings_set "Settings > Wellbeing > Screen Limits > Daily Limit: 8 hours" \
+    gsettings set org.gnome.desktop.screen-time-limits daily-limit-seconds 28800
+
+  # "Black and white screen for screen limits"
+  # - Default: Enabled (if Screem Time Limit enabled)
+  gsettings_set "Settings > Wellbeing > Screen Limits > Grayscale: Enabled" \
+    gsettings set org.gnome.desktop.screen-time-limits grayscale true
+
+  # ***
+
+  # "Reminders to look away from the screen" / Default: Disabled
+  gsettings_set "Settings > Wellbeing > Break Reminders > Eyesight Reminders: Disabled" \
+    gsettings set org.gnome.desktop.break-reminders selected-breaks '@as []'
+  # gsettings set org.gnome.desktop.break-reminders selected-breaks "['eyesight']"
+
+  # "Reminders to move around" / Default: Disabled
+  gsettings_set "Settings > Wellbeing > Break Reminders > Movement Reminders: Disabled" \
+    gsettings set org.gnome.desktop.break-reminders selected-breaks '@as []'
+  # gsettings set org.gnome.desktop.break-reminders selected-breaks "['movement']"
+
+  # Default: "5 minutes / 30 minutes"
+  # - Opts:
+  #   - 1 min / 20 mins (60 / 1200)
+  #   - 2 mins / 20 mins (120 / 1200)
+  #   - 3 mins / 30 mins (180 / 1800)
+  #   - 5 mins / 30 mins (300 / 1800) [default]
+  gsettings_set "Settings > Wellbeing > Break Reminders > Movement Break Schedule: 5 mins / 30 mins" \
+    gsettings set org.gnome.desktop.break-reminders.movement duration-seconds 'uint32 300'
+  gsettings_set "Settings > Wellbeing > Break Reminders > Movement Break Schedule: 5 mins / 30 mins" \
+    gsettings set org.gnome.desktop.break-reminders.movement interval-seconds 'uint32 1800'
+
+  # "Play a sound when a break ends" / Default: Enabled (if a Reminder enabled)
+  gsettings_set "Settings > Wellbeing > Break Reminders > Sounds: Enabled" \
+    gsettings set org.gnome.desktop.break-reminders.movement play-sound true
 }
 
 # ***
