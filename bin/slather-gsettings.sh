@@ -1196,9 +1196,13 @@ gnome_settings_customize_keyboard_accessibility() {
   #   "Keyboard Shortcuts > Accessibility > Turn on-screen keyboard on or off: Disabled"
 
   # MAYBE/2025-01-13: Disable these:
+  #   # BNDNG: <Cmd-Alt-S>
   #   "Keyboard Shortcuts > Accessibility > Turn screen-reader on or off: ['<Super><Alt>s']
-  #   "Keyboard Shortcuts > Accessibility > Turn zoom on or off: ['<Super><Alt>s']
+  #   # BNDNG: <Cmd-Alt-8>
+  #   "Keyboard Shortcuts > Accessibility > Turn zoom on or off: ['<Super><Alt>8']
+  #   # BNDNG: <Cmd-Alt-=>
   #   "Keyboard Shortcuts > Accessibility > Zoom in: ['<Super><Alt>=']
+  #   # BNDNG: <Cmd-Alt-->
   #   "Keyboard Shortcuts > Accessibility > Zoom out: ['<Super><Alt>-']
   :
 }
