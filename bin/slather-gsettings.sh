@@ -777,9 +777,9 @@ gnome_settings_customize_apps() {
 #     =============
 
 gnome_settings_customize_notifications() {
-  # Default: false
-  gsettings_set "Settings > Notifications > Do Not Disturb: Disabled" \
-    gsettings set org.gnome.desktop.notifications show-banners false
+  # Default: Disabled (true)
+  gsettings_set "Settings > Notifications > ∅ Do Not Disturb" \
+    gsettings set org.gnome.desktop.notifications show-banners true
 
   # Default: true
   # - Off. It's not like it's a mobile phone. Either I'm logged on,
