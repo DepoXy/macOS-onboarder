@@ -593,31 +593,36 @@ gnome_settings_customize() {
 # ***
 
 gnome_settings_customize_appearance() {
-  gnome_settings_customize_appearance_style
-  gnome_settings_customize_appearance_background
-}
-
-gnome_settings_customize_appearance_style() {
-  # Default: 'default'
+  # Appearance > Style: Default ('default') or Dark ('prefer-dark')
+  # - Default: 'default' (at least in GNOME Shell 43).
   gsettings_set "Settings > Appearance > Style" \
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-}
 
-# The GNOME Shell 43 GUI lets you select from 26 different background
-# images and color settings, or you can set your own image.
-# - There are no GUI options to set a solid color.
-# - THANX: For the gsettings hints to use a solid background:
-#     https://www.reddit.com/r/debian/comments/3kl3s7/how_do_i_change_the_background_to_a_plain_black/
-# - REFER:
-#   gsettings list-recursively org.gnome.desktop.background
-#   - RESET:
-#     gsettings reset-recursively org.gnome.desktop.background
+  # Appearance > Accent Color
+  # - GUI: Blue, Teal, Green, Yellow, Orange, Red, Pink, Purple, Slate
+  #   - Setting value is lowercased color name.
+  gsettings_set "Settings > Appearance > Accent Color" \
+    gsettings set org.gnome.desktop.interface accent-color 'blue'
 
-# SAVVY: When you pick a new background using the
-# Background GUI, it also changes the screensaver:
-#   org.gnome.desktop.screensaver
+  # ***
 
-gnome_settings_customize_appearance_background() {
+  local menu_path="Settings > Appearance > Background [Hidden]"
+
+  # The GNOME Shell 43 GUI lets you select from 26 different background
+  # images and color settings, or you can set your own image.
+  # - GNOME Shell 48 shows 38 images.
+  # - There are no GUI options to set a solid color.
+  # - THANX: For the gsettings hints to use a solid background:
+  #     https://www.reddit.com/r/debian/comments/3kl3s7/how_do_i_change_the_background_to_a_plain_black/
+  # - REFER:
+  #   gsettings list-recursively org.gnome.desktop.background
+  #   - RESET:
+  #     gsettings reset-recursively org.gnome.desktop.background
+
+  # SAVVY: When you pick a new background using the
+  # Background GUI, it also changes the screensaver:
+  #   org.gnome.desktop.screensaver
+
   # Other org.gnome.desktop.background options:
   #   picture-opacity 100
   #   picture-uri 'file:///usr/share/images/desktop-base/desktop-background.xml'
@@ -625,24 +630,24 @@ gnome_settings_customize_appearance_background() {
   #   show-desktop-icons false
 
   # Default: 'solid', but using GUI may change, e.g., to 'horizontal'.
-  gsettings_set "Settings > Appearance > Background > Color Shading Type" \
+  gsettings_set "${menu_path} > Color Shading Type" \
     gsettings set org.gnome.desktop.background color-shading-type 'solid'
 
   # Default: 'zoom', but using GUI may change, e.g., to 'zoom'.
   # - Doesn't matter when used with solid color, so leave
   #   at 'zoom', which is what Settings changes it to, so
   #   that ./slather-gsettings.sh --dry-run doesn't diff.
-  gsettings_set "Settings > Appearance > Background > Picture Options" \
+  gsettings_set "${menu_path} > Picture Options" \
     gsettings set org.gnome.desktop.background picture-options 'zoom'
 
   # SAVVY: Very dark "green", slight contrast with borderless Chrome windows.
   # - Vs. black:
   #   gsettings_set "Settings > Appearance > Background > Primary Color" \
   #     gsettings set org.gnome.desktop.background primary-color '#000000'
-  gsettings_set "Settings > Appearance > Background > Primary Color" \
+  gsettings_set "${menu_path} > Primary Color" \
     gsettings set org.gnome.desktop.background primary-color '#021003'
 
-  gsettings_set "Settings > Appearance > Background > Secondary Color" \
+  gsettings_set "${menu_path} > Secondary Color" \
     gsettings set org.gnome.desktop.background secondary-color '#000000'
 }
 
