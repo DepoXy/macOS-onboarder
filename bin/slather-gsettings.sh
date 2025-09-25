@@ -665,13 +665,39 @@ gnome_settings_customize_search() {
 
 gnome_settings_customize_multitasking() {
   # Disable the top-left hot corner, which author triggers inadvertently too often.
-  # - Using <Cmd> to open Activities Overview is a much better mechanism.
+  # - A better mechanism (IMO) is the (innovative, IMO) <Cmd> keybinding.
+  # "Touch the top-left corner to open the Activies Overview"
   # - Default: true
   gsettings_set "Settings > Multitasking > General > Hot Corner" \
     gsettings set org.gnome.desktop.interface enable-hot-corners false
 
-  # Default: true (Include applications from all workspaces)
-  gsettings_set "Settings > Multitasking > Application Switching > Include applications from the current workspace only" \
+  # "Drag windows against the top, left, and right screen edges to resize them"
+  # - Default: true
+  gsettings_set "Settings > Multitasking > General > Active Screen Edges" \
+    gsettings set org.gnome.mutter edge-tiling true
+
+  # Workspaces options:
+  # - Dynamic Workspaces [default]
+  #   "Automatically removes empty workspaces"
+  # - Fixed Number of Workspaces
+  #   "Specify a number of permanent workspaces"
+  #   - Number of Workspaces [default: 4]
+  gsettings_set "Settings > Multitasking > General > Dynamic Workspaces" \
+    gsettings set org.gnome.mutter dynamic-workspaces true
+  gsettings_set "Settings > Multitasking > General > Number of Workspaces" \
+    gsettings set org.gnome.desktop.wm.preferences num-workspaces 4
+
+  # Multi-Monitor options:
+  # - Workspaces on primary display only [default]
+  # - Workspaces on all displays
+  gsettings_set "Settings > Multitasking > General > Number of Workspaces" \
+    gsettings set org.gnome.mutter workspaces-only-on-primary true
+
+  # App Switching options:
+  # - Include apps from all workspaces [default]
+  # - Include apps from the current workspace only
+  local widget_path="Settings > Multitasking > App Switching"
+  gsettings_set "${widget_path} > Include apps from the current workspace only" \
     gsettings set org.gnome.shell.app-switcher current-workspace-only true
 }
 
