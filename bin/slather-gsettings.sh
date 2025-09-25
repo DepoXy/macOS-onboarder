@@ -1379,13 +1379,6 @@ gnome_settings_customize_keyboard_custom_shortcuts() {
 # ***
 
 # Nothing to change.
-gnome_settings_customize_printers() {
-  :
-}
-
-# ***
-
-# Nothing to change.
 gnome_settings_customize_removable_media() {
   :
 }
@@ -1394,6 +1387,13 @@ gnome_settings_customize_removable_media() {
 
 # Nothing to change.
 gnome_settings_customize_color() {
+  :
+}
+
+# ***
+
+# Nothing to change.
+gnome_settings_customize_printers() {
   :
 }
 
