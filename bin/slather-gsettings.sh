@@ -2452,28 +2452,19 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
-
-locatedb_configure() {
-  print_at_end+=("\
-🔳 CLI: Create \`locate\` database:
-
-   - FIXME/2025-03-09: This command untested on Debian:
-
-     \`sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist\`
-
-   - AWAIT: This command takes a moment
-
-     - TRACK: \`ps aux | grep locate.updatedb\`
-
-     - NTHEN: Test: \`locate something\`")
-}
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
-
 pass_configure() {
-  print_at_end+=("$(
-    cat <<'EOF'
+  local passid="${HOME}/.password-store/.gpg-id"
+
+  if test -s "${passid}"; then
+    print_at_end+=("$(
+      cat <<'EOF'
+✅ Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`
+
+EOF
+    )")
+  else
+    print_at_end+=("$(
+      cat <<'EOF'
 🔳 Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`:
 
    - Generate a new key:
@@ -2491,6 +2482,28 @@ pass_configure() {
    - Use the key to initialize `~/.password-store/.gpg-id`:
 
        pass init ${GPG_ID}
+
+EOF
+    )")
+  fi
+}
+
+# ***
+
+depoxy_configure() {
+  print_at_end+=("$(
+    cat <<'EOF'
+🔳 The Rest: If you're a DepoXy user, you can now install apps from
+   sources and perform deeper customization and configuration.
+
+   Run the myrepos 'echoInstallHelp' action to print a checklist of
+   remaining tasks:
+
+      mr -d / echoInstallHelp
+
+   Or run its DepoXy alias:
+
+      echoInstallHelp
 
 EOF
   )")
@@ -2592,9 +2605,9 @@ slather_settings() {
 
   # ***
 
-  locatedb_configure
-
   pass_configure
+
+  depoxy_configure
 }
 
 # ***
