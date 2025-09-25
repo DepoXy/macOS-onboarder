@@ -778,6 +778,8 @@ gnome_settings_customize_search() {
 
 # Nothing to change.
 gnome_settings_customize_online_accounts() {
+  # Settings > Online Accounts > Conntect an Account
+  # - List of services: Nextcloud, Google, Microsoft, etc.
   print_at_end+=("\
 🔳 Settings > Online Accounts > Add an account
    - Wire a cloud account to enable, e.g., GNOME Calendar & Email apps
