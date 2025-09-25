@@ -589,7 +589,6 @@ gnome_settings_customize() {
 
   gnome_settings_customize_accessibility
   gnome_settings_customize_privacy
-  gnome_settings_customize_removable_media
 }
 
 # ***
@@ -1374,13 +1373,6 @@ gnome_settings_customize_keyboard_windows() {
 #     ~/.kit/ansible/roles/zoidy_matecocido/tasks/keybinding-circus.yml
 #     ~/.kit/ansible/roles/zoidy_matecocido/filter_plugins/to_gvim_keybinding_action.py
 gnome_settings_customize_keyboard_custom_shortcuts() {
-  :
-}
-
-# ***
-
-# Nothing to change.
-gnome_settings_customize_removable_media() {
   :
 }
 
