@@ -883,7 +883,7 @@ gnome_settings_customize_wellbeing() {
 
   # Defaults: 8 hours (28800) / Widget: +/- 1 hr. (3600) and +/- 15 min. (+/- 900)
   gsettings_set "Settings > Wellbeing > Screen Limits > Daily Limit: 8 hours" \
-    gsettings set org.gnome.desktop.screen-time-limits daily-limit-seconds 28800
+    gsettings set org.gnome.desktop.screen-time-limits daily-limit-seconds 'uint32 28800'
 
   # "Black and white screen for screen limits"
   # - Default: Enabled (if Screem Time Limit enabled)
