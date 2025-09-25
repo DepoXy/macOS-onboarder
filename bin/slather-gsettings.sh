@@ -692,12 +692,14 @@ gnome_settings_customize_privacy() {
 
 # CALSO: Settings > Power > Power Saving Options also shows Screen Blank setting.
 gnome_settings_customize_privacy_screen() {
+  local menu_path="Settings > Privacy & Security > System > Screen Lock"
+
   # Default: 5 minutes (uint32 3000)
-  gsettings_set "Settings > Privacy > Screen > Screen Lock > Blank Screen Delay: 8 mins" \
+  gsettings_set "${menu_path} > Blank Screen Delay: 8 mins" \
     gsettings set org.gnome.desktop.session idle-delay 'uint32 480'
 
   # Default: Enabled (true)
-  gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock" \
+  gsettings_set "${menu_path} > Automatic Screen Lock" \
     gsettings set org.gnome.desktop.screensaver lock-enabled true
 
   # Note the GUI only lets you set up to 1 hour.
@@ -708,7 +710,7 @@ gnome_settings_customize_privacy_screen() {
   #     gsettings set org.gnome.desktop.screensaver lock-delay 3600
   # - REFER: For hosts at home, author prefers at least 4 hours (14400).
   #   - Sensible timeouts: 4h 14400, 4⅓h 15600, 6h 21600, 6⅔h 24000, 8h 28800.
-  gsettings_set "Settings > Privacy > Screen > Screen Lock > Automatic Screen Lock Delay: 4 hours" \
+  gsettings_set "${menu_path} > Automatic Screen Lock Delay: 4 hours" \
     gsettings set org.gnome.desktop.screensaver lock-delay 'uint32 24000'
   # TRACK/2025-01-12: Something is causing Settings to become unresponsive...
   # - BWARE: Or not: Using custom lock-delay makes Settings unresponsive within
@@ -717,7 +719,7 @@ gnome_settings_customize_privacy_screen() {
   # - DUNNO/2025-01-12: Working again after reboot, albeit with 3600 value.
 
   # Default: Disabled (false)
-  gsettings_set "Settings > Privacy > Screen > Screen Lock > Lock Screen Notifications" \
+  gsettings_set "${menu_path} > Lock Screen Notifications" \
     gsettings set org.gnome.desktop.notifications show-in-lock-screen true
 }
 
