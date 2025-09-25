@@ -704,12 +704,12 @@ gnome_settings_customize_multitasking() {
   # - A better mechanism (IMO) is the (innovative, IMO) <Cmd> keybinding.
   # "Touch the top-left corner to open the Activies Overview"
   # - Default: true
-  gsettings_set "Settings > Multitasking > General > Hot Corner" \
+  gsettings_set "Settings > Multitasking > General > ∅ Hot Corner" \
     gsettings set org.gnome.desktop.interface enable-hot-corners false
 
   # "Drag windows against the top, left, and right screen edges to resize them"
   # - Default: true
-  gsettings_set "Settings > Multitasking > General > Active Screen Edges" \
+  gsettings_set "Settings > Multitasking > General > ✓ Active Screen Edges" \
     gsettings set org.gnome.mutter edge-tiling true
 
   # Workspaces options:
@@ -718,9 +718,9 @@ gnome_settings_customize_multitasking() {
   # - Fixed Number of Workspaces
   #   "Specify a number of permanent workspaces"
   #   - Number of Workspaces [default: 4]
-  gsettings_set "Settings > Multitasking > General > Dynamic Workspaces" \
+  gsettings_set "Settings > Multitasking > General > ✓ Dynamic Workspaces" \
     gsettings set org.gnome.mutter dynamic-workspaces true
-  gsettings_set "Settings > Multitasking > General > Number of Workspaces" \
+  gsettings_set "Settings > Multitasking > General > Number of Workspaces: 4" \
     gsettings set org.gnome.desktop.wm.preferences num-workspaces 4
 
   # Multi-Monitor options:
@@ -785,7 +785,7 @@ gnome_settings_customize_notifications() {
   # - Off. It's not like it's a mobile phone. Either I'm logged on,
   #   or I'm not in front of the display. Also, I don't like a noisy
   #   lock screen.
-  gsettings_set "Settings > Notifications > Lock Screen Notifications: Disabled" \
+  gsettings_set "Settings > Notifications > ∅ Lock Screen Notifications" \
     gsettings set org.gnome.desktop.notifications show-in-lock-screen false
 
   # Settings > Notifications > App Notifications
@@ -807,7 +807,7 @@ gnome_settings_customize_notifications() {
 gnome_settings_customize_search() {
   # "Include app-provided search results"
   # - Default: Enabled (false)
-  gsettings_set "Settings > Search > App Search: Enabled" \
+  gsettings_set "Settings > Search > ✓ App Search" \
     gsettings set org.gnome.desktop.search-providers disable-external false
 
   # Search > Search Locations
@@ -871,7 +871,7 @@ gnome_settings_customize_wellbeing() {
 
   # ***
 
-  gsettings_set "Settings > Wellbeing > Screen Limits: Screen Time Limit: Disabled" \
+  gsettings_set "Settings > Wellbeing > Screen Limits: ∅ Screen Time Limit" \
     gsettings set org.gnome.desktop.screen-time-limits daily-limit-enabled false
   # Enabling Screen Time Limit also sets application-children, possibly
   # like this, but not necessarily exactly the same "application-children"
@@ -887,18 +887,18 @@ gnome_settings_customize_wellbeing() {
 
   # "Black and white screen for screen limits"
   # - Default: Enabled (if Screem Time Limit enabled)
-  gsettings_set "Settings > Wellbeing > Screen Limits > Grayscale: Enabled" \
+  gsettings_set "Settings > Wellbeing > Screen Limits > ✓ Grayscale" \
     gsettings set org.gnome.desktop.screen-time-limits grayscale true
 
   # ***
 
   # "Reminders to look away from the screen" / Default: Disabled
-  gsettings_set "Settings > Wellbeing > Break Reminders > Eyesight Reminders: Disabled" \
+  gsettings_set "Settings > Wellbeing > Break Reminders > ∅ Eyesight Reminders" \
     gsettings set org.gnome.desktop.break-reminders selected-breaks '@as []'
   # gsettings set org.gnome.desktop.break-reminders selected-breaks "['eyesight']"
 
   # "Reminders to move around" / Default: Disabled
-  gsettings_set "Settings > Wellbeing > Break Reminders > Movement Reminders: Disabled" \
+  gsettings_set "Settings > Wellbeing > Break Reminders > ∅ Movement Reminders" \
     gsettings set org.gnome.desktop.break-reminders selected-breaks '@as []'
   # gsettings set org.gnome.desktop.break-reminders selected-breaks "['movement']"
 
@@ -914,7 +914,7 @@ gnome_settings_customize_wellbeing() {
     gsettings set org.gnome.desktop.break-reminders.movement interval-seconds 'uint32 1800'
 
   # "Play a sound when a break ends" / Default: Enabled (if a Reminder enabled)
-  gsettings_set "Settings > Wellbeing > Break Reminders > Sounds: Enabled" \
+  gsettings_set "Settings > Wellbeing > Break Reminders > ✓ Sounds" \
     gsettings set org.gnome.desktop.break-reminders.movement play-sound true
 }
 
@@ -933,7 +933,7 @@ gnome_settings_customize_mouse_and_touchpad() {
     gsettings set org.gnome.desktop.peripherals.mouse speed -0.396396396396396
 
   # Default: Enabled ('default') / Disabled ('flat')
-  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Mouse Acceleration: Enabled" \
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > ✓ Mouse Acceleration" \
     gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'default'
 
   # Default: Traditional "Scrolling moves the view" / Natural "Scrolling moves the content"
@@ -988,7 +988,7 @@ gnome_settings_customize_privacy_screen() {
   #     gsettings set org.gnome.desktop.screensaver lock-delay 3600
   # - REFER: For hosts at home, author prefers at least 4 hours (14400).
   #   - Sensible timeouts: 4h 14400, 4⅓h 15600, 6h 21600, 6⅔h 24000, 8h 28800.
-  gsettings_set "${menu_path} > Automatic Screen Lock Delay: 4 hours" \
+  gsettings_set "${menu_path} > Automatic Screen Lock Delay: 6⅔ hours" \
     gsettings set org.gnome.desktop.screensaver lock-delay 'uint32 24000'
   # TRACK/2025-01-12: Something is causing Settings to become unresponsive...
   # - BWARE: Or not: Using custom lock-delay makes Settings unresponsive within
@@ -1145,7 +1145,7 @@ gnome_settings_customize_power_power_saving() {
   # - "Delay" dropdown: 15/20/25/30/45 minutes (900/1200/1500/1800/2700),
   #   1 hour (3600), 1 hour 20/30/40 mins (4800/5400/6000), 2 hrs (7200)
   # - Default: Enabled, 20 minutes ('suspend', 1200)
-  gsettings_set "${menu_path} > Automatic Suspend > On Battery Power: Enabled" \
+  gsettings_set "${menu_path} > Automatic Suspend > ✓ On Battery Power" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
   gsettings_set "${menu_path} > Automatic Suspend > (On Battery Power) Delay: 30 mins." \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
@@ -1154,7 +1154,7 @@ gnome_settings_customize_power_power_saving() {
   # - Enabled ('suspend') / Disabled: 'nothing'
   # - Same "Delay" dropdown options as "On Battery Power > Delay".
   # - Default: Enabled, 20 minutes ('suspend', 1200) [I think?]
-  gsettings_set "${menu_path} > Automatic Suspend > When Plugged In: Disabled" \
+  gsettings_set "${menu_path} > Automatic Suspend > ∅ When Plugged In" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
   gsettings_set "${menu_path} > Automatic Suspend > (When Plugged In) Delay: 15 mins." \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 900
@@ -1887,7 +1887,9 @@ firefox_customize() {
 🔳 Firefox > Startup > ✓ Open previous windows and tabs")
 }
 
-# ***
+#     =======================
+# *** EXTENSION: HIDE TOP BAR
+#     =======================
 
 # gsettings get org.gnome.shell enabled-extensions
 # ['hidetopbar@mathieu.bidon.ca', 'vim-altTab@kokong.info', 'just-perfection-desktop@just-perfection', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'browser-tabs@com.github.harshadgavali', 'window-switcher@tbepdb']
@@ -1908,7 +1910,7 @@ gnome_extension_hide_top_bar_customize() {
   dconf_write "${menu_path} > Sensitivity > ✓ Show panel when mouse approaches edge of the screen" \
     dconf write /org/gnome/shell/extensions/hidetopbar/mouse-sensitive true
 
-  dconf_write "${menu_path} > Intellihide > ✗ Only hide panel when a window takes the space" \
+  dconf_write "${menu_path} > Intellihide > Only hide panel when a window takes the space: ∅" \
     dconf write /org/gnome/shell/extensions/hidetopbar/enable-intellihide false
 }
 
