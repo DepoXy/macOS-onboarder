@@ -789,6 +789,22 @@ gnome_settings_customize_online_accounts() {
 
 # ***
 
+# Nothing to change.
+# - Includes toggles for:
+#     File Sharing
+#     Remote Desktop
+#     Media Sharing
+#     Remote Login
+# - Changing at least Remote Login requires privileges,
+#   and the change is not through `gsettings` (probably
+#   starts SSHd server).
+gnome_settings_customize_sharing() {
+  print_at_end+=("\
+🔳 Settings > Sharing > Remote Login > Enable")
+}
+
+# ***
+
 gnome_settings_customize_privacy() {
   gnome_settings_customize_privacy_screen
   gnome_settings_customize_privacy_location_services
@@ -882,22 +898,6 @@ gnome_settings_customize_privacy_file_history_and_trash() {
   # Default: 30 days (30) / Other GUI: 1 hour (0), 1 day..7 days (1..7), 14 days (14)
   gsettings_set "${menu_path} > Trash & Temporary Files > Automatic Deletion Period" \
     gsettings set org.gnome.desktop.privacy old-files-age 'uint32 30'
-}
-
-# ***
-
-# Nothing to change.
-# - Includes toggles for:
-#     File Sharing
-#     Remote Desktop
-#     Media Sharing
-#     Remote Login
-# - Changing at least Remote Login requires privileges,
-#   and the change is not through `gsettings` (probably
-#   starts SSHd server).
-gnome_settings_customize_sharing() {
-  print_at_end+=("\
-🔳 Settings > Sharing > Remote Login > Enable")
 }
 
 # ***
