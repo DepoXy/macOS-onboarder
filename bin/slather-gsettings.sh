@@ -2515,6 +2515,7 @@ slather_gnome_gsettings() {
   local dry_run=false
   local cnt_run=false
   local diff_run=false
+  local skip_at_end=false
 
   # ***
 
@@ -2531,6 +2532,10 @@ slather_gnome_gsettings() {
     --diff)
       dry_run=true
       diff_run=true
+      shift
+      ;;
+    -S | --no-reminders)
+      skip_at_end=true
       shift
       ;;
     *) shift ;;
@@ -2613,7 +2618,7 @@ slather_settings() {
 # ***
 
 print_manual_task_reminders() {
-  if ${diff_run}; then
+  if ${diff_run} || ${skip_at_end}; then
 
     return
   fi
