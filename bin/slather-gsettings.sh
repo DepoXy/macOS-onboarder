@@ -429,6 +429,9 @@ gnome_settings_close() {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# ALTLY: 📌⛏️🪓⚠️🪚🔨📍❗
+LINUX_ONBOARDER_DIFF_ALERT="${LINUX_ONBOARDER_DIFF_ALERT:- 🔨}"
+
 dconf_write() {
   local description="$1"
   local _dconf_cmd="$2"
@@ -489,8 +492,7 @@ print_dconf_write_setting() {
   local bang_val=""
   if [ "${curr_val}" != "${quoted_val}" ]; then
     high_val="highlight_diff"
-    # 📌⛏️🪓⚠️🪚🔨📍❗
-    bang_val=" 🔨"
+    bang_val="${LINUX_ONBOARDER_DIFF_ALERT}"
   fi
 
   if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
@@ -534,7 +536,7 @@ print_gsettings_set_setting() {
   local bang_val=""
   if [ "${curr_val}" != "${quoted_val}" ]; then
     high_val="highlight_diff"
-    bang_val=" 🔨"
+    bang_val="${LINUX_ONBOARDER_DIFF_ALERT}"
   fi
 
   if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
