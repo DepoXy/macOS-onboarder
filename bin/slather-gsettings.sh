@@ -803,10 +803,20 @@ gnome_settings_customize_sharing() {
 # ***
 
 # Nothing to change.
+# - Output
+#   - Output Device
+#   - Output Volume
+#   - Balance
+# - Input
+#   - Input Device
+#   - Input Volume
+# - Sounds
+#   - Volume Levels
+#   - Alert Sound
 gnome_settings_customize_sound() {
-  # DUNNO: Where's this setting maintained?
+  # SAVVY: Not stored in gsettings (`dconf watch /` doesn't report on it).
   print_at_end+=("\
-🔳 Settings > Sound > Alert Sound > Click|String|Swing|Hum (maybe Click?)")
+🔳 Settings > Sound > Sounds > Alert Sound > Click|String|Swing|Hum (maybe Click?)")
 }
 
 # ***
