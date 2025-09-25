@@ -458,10 +458,22 @@ gsettings_set() {
 
 print_dconf_write_setting() {
   local menu_path="$1"
-  local _dconf_cmd="$2"
-  local _dconf_write="$3"
+  local dconf_command="$2"
+  local dconf_action="$3"
   local dconf_key="$4"
   local dconf_val="$5"
+
+  if [ "${dconf_command}" != "dconf" ]; then
+    >&2 echo "GAFFE: Unknown dconf command: ${dconf_command}"
+
+    exit_1
+  fi
+
+  if [ "${dconf_action}" != "write" ]; then
+    >&2 echo "GAFFE: Unknown dconf action: ${dconf_action}"
+
+    exit_1
+  fi
 
   local curr_val
   curr_val="$(dconf read "${dconf_key}")"
@@ -490,11 +502,23 @@ print_dconf_write_setting() {
 
 print_gsettings_set_setting() {
   local menu_path="$1"
-  local _gsettings_cmd="$2"
-  local _gsettings_get="$3"
+  local gsettings_command="$2"
+  local gsettings_action="$3"
   local gsettings_schema="$4"
   local gsettings_key="$5"
   local gsettings_val="$6"
+
+  if [ "${gsettings_command}" != "gsettings" ]; then
+    >&2 echo "GAFFE: Unknown gsettings command: ${gsettings_command}"
+
+    exit_1
+  fi
+
+  if [ "${gsettings_action}" != "set" ] && [ "${gsettings_action}" != "reset" ]; then
+    >&2 echo "GAFFE: Unknown gsettings action: ${gsettings_action}"
+
+    exit_1
+  fi
 
   local curr_val
   curr_val="$(gsettings get "${gsettings_schema}" "${gsettings_key}")"
