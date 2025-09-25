@@ -814,13 +814,15 @@ gnome_settings_customize_power() {
   gsettings_set \
     "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: 30 mins." \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
-  gsettings_set "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: Enabled" \
+  gsettings_set \
+    "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: Enabled" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
 
   # Default: Enabled: 20 mins. (1200, 'suspend')
   #   gsettings_set "Power: Power Saving Options: Automatic Suspend: Plugged In: 20 mins." \
   #   gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1200
-  gsettings_set "Settings > Power > Power Saving Options > Automatic Suspend > Plugged In: Disabled" \
+  gsettings_set \
+    "Settings > Power > Power Saving Options > Automatic Suspend > Plugged In: Disabled" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
   # Power Button Behavior:
