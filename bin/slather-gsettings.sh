@@ -789,18 +789,18 @@ gnome_settings_customize_online_accounts() {
 
 # ***
 
-# Nothing to change.
-# - Includes toggles for:
-#     File Sharing
-#     Remote Desktop
-#     Media Sharing
-#     Remote Login
-# - Changing at least Remote Login requires privileges,
-#   and the change is not through `gsettings` (probably
-#   starts SSHd server).
 gnome_settings_customize_sharing() {
-  print_at_end+=("\
-🔳 Settings > Sharing > Remote Login > Enable")
+  # Nothing to change.
+  :
+
+  # Settings > Sharing > Device Name: (Lets you edit hostname)
+
+  # Settings > Sharing > File Sharing > Off
+  #
+  # Settings > Sharing > Media Sharing > Off
+  #
+  # By GNOME Shell 48, Remote Desktop and Remote Login
+  # options were move to Settings > System.
 }
 
 # ***
