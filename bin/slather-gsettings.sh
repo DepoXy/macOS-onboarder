@@ -135,8 +135,6 @@ reset_linux_onboarder_desktop_ids() {
   "
 }
 
-CRUMB_APP_SHORTCUTS="Keyboard > Keyboard Shortcuts > View and Customize Shortcuts"
-
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # REFER: Any system based on systemd has an /etc/os-release file,
@@ -411,6 +409,11 @@ gnome_settings_close() {
     return
   fi
 
+  if ! ps aux | grep -q -e " gnome-control-center$"; then
+
+    return
+  fi
+
   echo "Closing GNOME Settings"
 
   if ! ${dry_run}; then
@@ -421,8 +424,7 @@ gnome_settings_close() {
 
   echo "$(highlight_soft "- Reopen with:")"
   echo "$(highlight_soft "    gnome-control-center &")"
-  echo "$(highlight_soft "- Most Keyboard Shortcuts changed by this script can be found in Settings at:")"
-  echo "$(highlight_soft "    ${CRUMB_APP_SHORTCUTS}")"
+  echo
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -558,6 +560,8 @@ quote_gvariant() {
 #
 
 gnome_settings_customize() {
+  echo -e "\n$(highlight_soft "*** GNOME Settings")\n"
+
   # Nothing to configure:
   #   gnome_settings_customize_wifi
   #   gnome_settings_customize_network
@@ -864,6 +868,11 @@ gnome_settings_customize_mouse_and_touchpad() {
 # ***
 
 gnome_settings_customize_keyboard() {
+  echo -e "\n$(
+    highlight_soft \
+      "**** GNOME Settings > Keyboard > Keyboard Shortcuts > View and Customize Shortcuts"
+  )\n"
+
   gnome_settings_customize_keyboard_accessibility
   gnome_settings_customize_keyboard_launchers
   gnome_settings_customize_keyboard_navigation
@@ -1137,6 +1146,8 @@ gnome_settings_customize_color() {
 
 # /usr/bin/python3 /usr/bin/gnome-tweaks
 gnome_tweaks_customize() {
+  echo -e "\n$(highlight_soft "*** GNOME Tweaks")\n"
+
   gnome_tweaks_customize_general
   gnome_tweaks_customize_appearance
   gnome_tweaks_customize_fonts
@@ -1269,6 +1280,8 @@ gnome_tweaks_customize_windows() {
 # +++ GNOME Terminal GUI settings
 
 gnome_terminal_customize() {
+  echo -e "\n$(highlight_soft "*** gnome-terminal")\n"
+
   gnome_terminal_customize_general
   gnome_terminal_customize_shortcuts
   gnome_terminal_customize_profiles_0_text
@@ -1628,6 +1641,8 @@ slather_settings() {
   gnome_terminal_customize
 
   firefox_customize
+
+  echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
 
   gnome_extension_hide_top_bar_customize
 
