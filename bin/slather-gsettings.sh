@@ -1529,6 +1529,10 @@ gnome_settings_customize_keyboard_windows() {
     "['<Shift><Control><Super>Right']"
 }
 
+#      +++++++++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > CUSTOM SHORTCUTS
+#      +++++++++++++++++++++++++++++++++++++
+
 # CXREF: See run-or-raise/shortcuts.conf in DepoXy:
 #   https://github.com/DepoXy/depoxy#🍯
 #     ~/.depoxy/ambers/home/.config/run-or-raise/shortcuts-depoxy
@@ -1800,12 +1804,44 @@ gnome_tweaks_customize_windows() {
 gnome_terminal_customize() {
   echo -e "\n$(highlight_soft "*** gnome-terminal")\n"
 
+  # ***
+
+  # SAVVY: Use dconf to access org.gnome.Terminal, not gsettings:
+  #   $ gsettings list-recursively org.gnome.Terminal
+  #   No such schema “org.gnome.Terminal”
+  # - Obstensibly because gnome-terminal hasn't defined or
+  #   registered a schema, or your author has not installed
+  #   whatever provides it.
+  #
+  # ASIDE: Note the trailing and leading colons.
+  # - It that a special gsettings construct, or (more likely?) is
+  #   it just part of the key name, and gsettings treats ':' no
+  #   different than an alphanum? [I'm just curious, no biggee.]
+  # - E.g.:
+  #     dconf read \                         ↓ ↓
+  #       /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/font
+  #     'Hack Nerd Font Mono 11'             ↑ ↑
+  local profile_id
+  profile_id="$(
+    gsettings get org.gnome.Terminal.ProfilesList default | sed "s/^'\\(.*\\)'\$/\\1/"
+  )"
+
+  if [ -z "${profile_id}" ]; then
+    >&2 echo
+    >&2 echo "ERROR: Skipping GNOME Terminal config: Could not suss Profile ID"
+    >&2 echo
+
+    return
+  fi
+
+  # ***
+
   gnome_terminal_customize_general
   gnome_terminal_customize_shortcuts
-  gnome_terminal_customize_profiles_0_text
-  gnome_terminal_customize_profiles_0_colors
-  gnome_terminal_customize_profiles_0_scrolling
-  gnome_terminal_customize_profiles_0_command
+  gnome_terminal_customize_profiles_0_text "${profile_id}"
+  gnome_terminal_customize_profiles_0_colors "${profile_id}"
+  gnome_terminal_customize_profiles_0_scrolling "${profile_id}"
+  gnome_terminal_customize_profiles_0_command "${profile_id}"
   gnome_terminal_customize_compatibility
 }
 
@@ -1832,27 +1868,9 @@ gnome_terminal_customize_shortcuts() {
 # org.gnome.Terminal.Legacy.Settings <key> <val>
 # org.gnome.Terminal.Legacy.Keybindings <key> <val>
 gnome_terminal_customize_profiles_0_text() {
+  local profile_id="$1"
+
   local menu_path="GNOME Terminal > Profiles: Default"
-
-  # DUNNO: No corresponding gsettings entries?
-  # - I.e., no `org.gnome.Terminal.Legacy.Profiles` or `...Profiles:`
-  # DUNNO: Note the trailing or leading colon, is that no different than an alphanum,
-  # or does it do something special?
-  # - E.g.:
-  #     /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/font
-  #     'Hack Nerd Font Mono 12'
-  local profile_id
-  profile_id="$(
-    gsettings get org.gnome.Terminal.ProfilesList default | sed "s/^'\\(.*\\)'\$/\\1/"
-  )"
-
-  if [ -z "${profile_id}" ]; then
-    >&2 echo "ERROR: Skipping: ${menu_path}: Could not suss Profile ID"
-
-    exit_1
-  fi
-
-  # ***
 
   if is_hack_font_installed; then
     # Default: Monospace
@@ -1887,6 +1905,10 @@ gnome_terminal_customize_profiles_0_text() {
 # ***
 
 gnome_terminal_customize_profiles_0_colors() {
+  local profile_id="$1"
+
+  local menu_path="GNOME Terminal > Profiles: Default"
+
   # Default: Enabled (though with GNOME Dark mode, terminal sill black on white).
   # - CALSO: GNOME Terminal: General: Theme variant: Dark
   dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
@@ -1898,11 +1920,10 @@ gnome_terminal_customize_profiles_0_colors() {
   dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color" 'rgb(0,0,0)'
 
-  # *** I think the XTerm color palette is a little brighter and easier to read
-  # than GNOME.
+  # Author: IMO, XTerm color palette is a titch brighter, easier to read than GNOME's.
 
   dconf_write "${menu_path} > Colors > Palette > Built-in schemes: XTerm" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/palette" \
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/palette" \
     "['rgb(0,0,0)', 'rgb(205,0,0)', 'rgb(0,205,0)', 'rgb(205,205,0)', 'rgb(0,0,238)', 'rgb(205,0,205)', 'rgb(0,205,205)', 'rgb(229,229,229)', 'rgb(127,127,127)', 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(92,92,255)', 'rgb(255,0,255)', 'rgb(0,255,255)', 'rgb(255,255,255)']"
 }
 
@@ -1910,6 +1931,8 @@ gnome_terminal_customize_profiles_0_colors() {
 
 # Nothing to change.
 gnome_terminal_customize_profiles_0_scrolling() {
+  local profile_id="$1"
+
   # Default: Enabled ('always')
   #   dconf_write "GNOME Terminal: Profiles: Default: Scrolling: Show scrollbar: Disabled" \
   #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/scrollbar-policy" 'never'
@@ -1922,11 +1945,13 @@ gnome_terminal_customize_profiles_0_scrolling() {
 
 # ***
 
-# FIXME/2025-01-12: Add Profiles.
+# INERT/2025-01-12: Add Profiles.
 # - GNOME Terminal > Profiles > Command >
 #   - ✓ Run a custom command instead of my shell
-#   - Custom command: <FIXME- Start Vanilla terminal, etc.>
+#   - Custom command: <E.g., Start Vanilla terminal, etc.>
 gnome_terminal_customize_profiles_0_command() {
+  local profile_id="$1"
+
   :
 }
 
