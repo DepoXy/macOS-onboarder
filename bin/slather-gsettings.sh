@@ -2623,8 +2623,9 @@ print_manual_task_reminders() {
     return
   fi
 
-  echo
-  echo "CPYST: Please perform the following tasks manually:"
+  echo -e "\n$(highlight_soft "*** Manual task reminders")\n"
+
+  echo "💡 STEPS: Please perform the following tasks manually:"
   echo
 
   for print_ln in "${print_at_end[@]}"; do
