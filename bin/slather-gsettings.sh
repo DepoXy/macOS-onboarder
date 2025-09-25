@@ -569,7 +569,9 @@ gnome_settings_customize() {
 
   gnome_settings_customize_displays
   gnome_settings_customize_sound
-  gnome_settings_customize_power
+  gnome_settings_customize_power_general
+  gnome_settings_customize_power_power_saving
+  gnome_settings_customize_power_hidden
   gnome_settings_customize_multitasking
   gnome_settings_customize_appearance
 
@@ -695,7 +697,12 @@ gnome_settings_customize_privacy() {
 gnome_settings_customize_privacy_screen() {
   local menu_path="Settings > Privacy & Security > System > Screen Lock"
 
-  # Default: 5 minutes (uint32 3000)
+  # Blank Screen Delay / "Period of inactivity until screen blanks"
+  # - Default: 5 minutes (uint32 300)
+  # - GUI dropdown: 1..5 minutes (60..300), 8/10/12/15 minutes
+  #   (480/600/720/900) [default: 5 minutes (uint32 300)]
+  # - CALSO: #_idle_delay: Same settings under:
+  #   - Power > Power Saving > Automatic Screen Blank > Delay
   gsettings_set "${menu_path} > Blank Screen Delay: 8 mins" \
     gsettings set org.gnome.desktop.session idle-delay 'uint32 480'
 
@@ -821,49 +828,107 @@ gnome_settings_customize_sound() {
 
 # ***
 
-# CALSO: Settings > Privacy > Screen > Screen Lock also shows Screen Blank setting.
-gnome_settings_customize_power() {
-  local menu_path="Settings > Power > Power Saving Options"
+gnome_settings_customize_power_general() {
+  # GUI: Battery Levels shows horizontal level meters:
+  #   Battery Levels > Fully charged
+  #   Battery Levels > Main 🔋
+  #   Battery Levels > Extra 🔋
 
-  # Other schema options:
-  #   org.gnome.settings-daemon.plugins.power ambient-enabled true
-  #   org.gnome.settings-daemon.plugins.power idle-brightness 30
+  # Battery Charging options:
+  # - Maximize Charge [default]
+  #   - "Uses all battery capacity. Degrades batteries more quickly."
+  # - Preserve Battery Health
+  #   - "Increases battery longetivity by maintaining lower charge levels"
+  print_at_end+=("\
+🔳 Settings > Power > General > Battery Charging > ✓ Preserve Battery Health")
 
-  # MAYBE/2025-01-12: Disable Dim Screen
-  # Default: Enabled (true)
-  gsettings_set "${menu_path} > Dim Screen" \
-    gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
+  # GUI: Connected Devices shows horizontal device battery level meters,
+  # e.g.,
+  #   Connected Devices > Logitech Wireless Mouse 🌡️
 
-  # Default: 5 minutes (uint32 3000)
-  # - Maintained above: gnome_settings_customize_privacy_screen
-  #   gsettings_set "Power: Power Saving Options: Screen Blank: 8 mins" \
-  #   gsettings set org.gnome.desktop.session idle-delay 480
-
-  # Default: Enabled (true)
-  gsettings_set "${menu_path} > Automatic Power Saver" \
-    gsettings set org.gnome.settings-daemon.plugins.power power-saver-profile-on-low-battery true
-
-  # Default: Enabled: 20 mins. (1200, 'suspend')
-  gsettings_set "${menu_path} > Automatic Suspend > On Battery Power: 30 mins." \
-    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
-  gsettings_set "${menu_path} > Automatic Suspend > On Battery Power: Enabled" \
-    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
-
-  # Default: Enabled: 20 mins. (1200, 'suspend')
-  #   gsettings_set "Power: Power Saving Options: Automatic Suspend: Plugged In: 20 mins." \
-  #   gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1200
-  gsettings_set "${menu_path} > Automatic Suspend > Plugged In: Disabled" \
-    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+  # GUI: Power Mode options:
+  # - Performance
+  #   - "High performance and power usage"
+  # - Balanced [default]
+  #   - "Standard performance and power usage"
+  # - Power Saver
+  #   - "Reduced performance and power usage"
+  #
+  # Changing this changes /org/gnome/shell/last-selected-power-profile
+  # but I only saw it change to 'performance' and 'power-saver', not
+  # 'balanced' (or whatever); plus the key name suggests that setting
+  # is not this setting.
+  print_at_end+=("\
+🔳 Settings > Power > General > Power Mode > ✓ Balanced")
 
   # Power Button Behavior:
   # - Suspend: 'suspend' [Default]
   # - Power Off: 'interactive'
   # - Nothing: 'nothing'
-  # SPIKE/2025-01-12: Demo each option and pick one.
-  # - For now, 'interactive' (I almost always have laptop lid closed,
-  #   so don't expect any traction on this SPIKE).
-  gsettings_set "Settings > Power > Power Button Behavior > Power Off" \
+  # Author almost never uses power button, so might as well prompt,
+  # so nothing too jarring happens.
+  gsettings_set "Settings > Power > General > General > Power Button Behavior > Power Off" \
     gsettings set org.gnome.settings-daemon.plugins.power power-button-action 'interactive'
+
+  # "Show exact charge level in the top bar"
+  # - Author uses Hide Top Bar extension, so this adds information
+  #   without cluttering the display or trying to steal my attention.
+  gsettings_set "Settings > Power > General > General > ✓ Show Battery Percentage" \
+    gsettings set org.gnome.desktop.interface show-battery-percentage true
+}
+
+gnome_settings_customize_power_power_saving() {
+  local menu_path="Settings > Powers > Power Saving"
+
+  # "Turn on power saver mode when battery power is low"
+  # Default: Enabled (true)
+  gsettings_set "${menu_path} > Automatic Power Saver" \
+    gsettings set org.gnome.settings-daemon.plugins.power power-saver-profile-on-low-battery true
+
+  # "Turn the screen off after a period of inactivity"
+  # - Toggle default: Enabled (uint32 300) / Disabled: uint32 0
+  # - "Delay" dropdown: 1..5 minutes (60..300), 8/10/12/15
+  #   minutes (480/600/720/900) [default: 5 minutes (uint32 300)]
+  # - CALSO: #_idle_delay: Same setting under:
+  #   - Privacy > Screen Lock #_idle_delay
+  gsettings_set "${menu_path} > Automatic Screen Blank" \
+    gsettings set org.gnome.desktop.session idle-delay 'uint32 480'
+
+  # Automatic Suspend > On Batter Power:
+  # - Enabled ('suspend') / Disabled: 'nothing'
+  # - "Delay" dropdown: 15/20/25/30/45 minutes (900/1200/1500/1800/2700),
+  #   1 hour (3600), 1 hour 20/30/40 mins (4800/5400/6000), 2 hrs (7200)
+  # - Default: Enabled, 20 minutes ('suspend', 1200)
+  gsettings_set "${menu_path} > Automatic Suspend > On Battery Power: Enabled" \
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+  gsettings_set "${menu_path} > Automatic Suspend > (On Battery Power) Delay: 30 mins." \
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
+
+  # Automatic Suspend > When Plugged In:
+  # - Enabled ('suspend') / Disabled: 'nothing'
+  # - Same "Delay" dropdown options as "On Battery Power > Delay".
+  # - Default: Enabled, 20 minutes ('suspend', 1200) [I think?]
+  gsettings_set "${menu_path} > Automatic Suspend > When Plugged In: Disabled" \
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+  gsettings_set "${menu_path} > Automatic Suspend > (When Plugged In) Delay: 15 mins." \
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 900
+}
+
+# Hidden Power settings.
+#
+#   $ gsettings list-recursively org.gnome.settings-daemon.plugins.power
+#   org.gnome.settings-daemon.plugins.power ambient-enabled true
+#   org.gnome.settings-daemon.plugins.power idle-brightness 30
+#   org.gnome.settings-daemon.plugins.power idle-dim true
+#   ...
+#
+gnome_settings_customize_power_hidden() {
+  local menu_path="Settings > Powers > [Hidden]"
+
+  # DUNNO: Author doesn't seen screen dim in GNOME Shell 48, it's just out.
+  # Default: Enabled (true)
+  gsettings_set "${menu_path} > Dim Screen" \
+    gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
 }
 
 # ***
