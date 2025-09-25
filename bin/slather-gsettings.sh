@@ -1865,7 +1865,6 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# FIXME/2025-03-09: Setup locatedb on Debian.
 locatedb_configure() {
   print_at_end+=("\
 🔳 CLI: Create \`locate\` database:
