@@ -1161,6 +1161,22 @@ gnome_settings_customize_keyboard() {
       "**** GNOME Settings > Keyboard > Keyboard Shortcuts > View and Customize Shortcuts"
   )\n"
 
+  # Settings > Keyboard > Input Sources
+  # - English
+  # - [ + Add Input Source ]
+
+  # Settings > Keyboard > Input Source Switching
+  # - ✓ Use the source source for all windows [default]
+  # -   Switch input sources individually for each window
+
+  # Settings > Keyboard > Special Character Entry
+  # - Alternate Characters Key: ✓ Default
+  #   - Other opts: None, Left|Right Alt, Left|Right Super, Menu key, Right Ctrl
+  # - Compose Key: Disabled
+  #   - Other opts: None, Left|Right Super, Menu key, Left|Right Ctrl,
+  #     Caps|Scroll Lock, Print Screen, Insert
+
+  # Settings > Keyboard > Keyboard Shortcuts > View and Customize Shortcuts
   gnome_settings_customize_keyboard_accessibility
   gnome_settings_customize_keyboard_launchers
   gnome_settings_customize_keyboard_navigation
