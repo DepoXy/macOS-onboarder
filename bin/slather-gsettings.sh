@@ -1293,17 +1293,19 @@ gnome_settings_customize_keyboard_screenshots() {
   dconf_write "Keyboard Shortcuts > Screenshots > Record a screencast interactively: Shift-Cmd-4" \
     dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Super>4']"
 
+  # Author doesn't assign Print to any key on my keyboard,
+  # so the screenshot defaults are not useful.
   # - Default: ['<Shift>Print']
-  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot: ???" \
+  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot: Disabled" \
     dconf write /org/gnome/shell/keybindings/screenshot '@as []'
 
   # - Default: ['Print']
-  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot interactively: ???" \
-    dconf write /org/gnome/shell/keybindings/screenshot '@as []'
+  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot interactively: Disabled" \
+    dconf write /org/gnome/shell/keybindings/show-screenshot-ui '@as []'
 
   # - Default: ['<Alt>Print']
-  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot of a window: ???" \
-    dconf write /org/gnome/shell/keybindings/screenshot '@as []'
+  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot of a window: Disabled" \
+    dconf write /org/gnome/shell/keybindings/screenshot-window '@as []'
 }
 
 # All settings default disabled.
