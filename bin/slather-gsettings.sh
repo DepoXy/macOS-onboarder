@@ -2013,10 +2013,22 @@ gnome_extension_hide_top_bar_customize() {
   # "Keyboard shortcuts > Key that triggers the bar to be shown: Disabled" ('@as []')
   # - "(press backspace to deactivate the shortcut)"
   dconf_write "${menu_path} > Keyboard shortcuts > Key that triggers the bar to be shown" \
-    dconf reset /org/gnome/shell/extensions/hidetopbar/shortcut-keybind
+    dconf write /org/gnome/shell/extensions/hidetopbar/shortcut-keybind "['<Control><Alt>c']"
 
   # "Keyboard shortcuts > Delay before the bar rehides after key press: 1.0 [ -/+ ]"
   # - "(a value of 0 disables the hiding)"
+  # - Ha, because floating point, `dconf watch /` shows the tenths
+  #   of a second the buttons adjust are reported inexactly, e.g.:
+  #     /org/gnome/shell/extensions/hidetopbar/shortcut-delay
+  #       0.10000000000000014
+  #   or even for 0:
+  #     /org/gnome/shell/extensions/hidetopbar/shortcut-delay
+  #       1.3877787807814457e-16
+  #   Although when we dconf-write 0.0, it is reported exactly:
+  #     /org/gnome/shell/extensions/hidetopbar/shortcut-delay
+  #       0.0
+  dconf_write "${menu_path} > Keyboard shortcuts > Delay before the bar rehides after key press" \
+    dconf write /org/gnome/shell/extensions/hidetopbar/shortcut-delay 0.0
 
   # "Keyboard shortcuts > Pressing the shortcut again rehides the panel: Enabled"
 
