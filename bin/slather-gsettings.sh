@@ -752,9 +752,26 @@ gnome_settings_customize_notifications() {
 
 # ***
 
-# Nothing to change.
 gnome_settings_customize_search() {
-  :
+  # "Include app-provided search results"
+  # - Default: Enabled (false)
+  gsettings_set "Settings > Search > App Search: Enabled" \
+    gsettings set org.gnome.desktop.search-providers disable-external false
+
+  # Search > Search Locations
+  # - "Filesystem locations which are searched by system apps"
+  #   - Search > Search Locations:
+  #   - Default Locations
+  #     - ✓ Home, ✓ Documents, ✓ Downloads, ✓ Music, ✓ Pictures, ✓ Videos
+  #   - Bookmarked Locations
+  #     - List of ~/.config/gtk-3.0/bookmarks [each disabled by default]
+  #   - Custom Locations
+  #     - Desktop
+  #     - [ + Add Location ]
+
+  # Search > Search Results
+  # - Ordered list of sources: Contacts, Files, Calculator, etc.
+  #   - Each enabled by default except Weather.
 }
 
 # ***
