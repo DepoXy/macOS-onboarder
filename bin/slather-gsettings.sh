@@ -592,7 +592,9 @@ gnome_settings_customize() {
   gnome_settings_customize_system
 }
 
-# ***
+#     ========
+# *** DISPLAYS
+#     ========
 
 # Nothing to change.
 # - Orientation
@@ -604,7 +606,9 @@ gnome_settings_customize_displays() {
   :
 }
 
-# ***
+#     ==========
+# *** APPEARANCE
+#     ==========
 
 gnome_settings_customize_appearance() {
   # Appearance > Style: Default ('default') or Dark ('prefer-dark')
@@ -665,7 +669,9 @@ gnome_settings_customize_appearance() {
     gsettings set org.gnome.desktop.background secondary-color '#000000'
 }
 
-# ***
+#     ============
+# *** MULTITASKING
+#     ============
 
 gnome_settings_customize_multitasking() {
   # Disable the top-left hot corner, which author triggers inadvertently too often.
@@ -705,7 +711,9 @@ gnome_settings_customize_multitasking() {
     gsettings set org.gnome.shell.app-switcher current-workspace-only true
 }
 
-# ***
+#     ====
+# *** APPS
+#     ====
 
 # Nothing to change.
 # - Default Apps / "Set which apps open links, files, and media"
@@ -738,7 +746,9 @@ gnome_settings_customize_apps() {
   :
 }
 
-# ***
+#     =============
+# *** NOTIFICATIONS
+#     =============
 
 gnome_settings_customize_notifications() {
   # Default: false
@@ -764,7 +774,9 @@ gnome_settings_customize_notifications() {
   #     - Lock Screen > Show Content / "Include message details on lock screen": Disabled
 }
 
-# ***
+#     ======
+# *** SEARCH
+#     ======
 
 gnome_settings_customize_search() {
   # "Include app-provided search results"
@@ -788,7 +800,9 @@ gnome_settings_customize_search() {
   #   - Each enabled by default except Weather.
 }
 
-# ***
+#     ===============
+# *** ONLINE ACCOUNTS
+#     ===============
 
 # Nothing to change.
 gnome_settings_customize_online_accounts() {
@@ -801,7 +815,9 @@ gnome_settings_customize_online_accounts() {
                 Last.fm, IMAP and SMTP, Enterprise Login (Kerberos)")
 }
 
-# ***
+#     =======
+# *** SHARING
+#     =======
 
 gnome_settings_customize_sharing() {
   # Nothing to change.
@@ -817,7 +833,9 @@ gnome_settings_customize_sharing() {
   # options were move to Settings > System.
 }
 
-# ***
+#     =========
+# *** WELLBEING
+#     =========
 
 gnome_settings_customize_wellbeing() {
   # Settings > Wellbeing > Screen Time
@@ -874,7 +892,9 @@ gnome_settings_customize_wellbeing() {
     gsettings set org.gnome.desktop.break-reminders.movement play-sound true
 }
 
-# ***
+#     ================
+# *** MOUSE & TOUCHPAD
+#     ================
 
 gnome_settings_customize_mouse_and_touchpad() {
   # Mouse & Touchpad > Mouse > General > Primary Button: Left (default) | Right
@@ -904,6 +924,7 @@ gnome_settings_customize_mouse_and_touchpad() {
   #   org.gnome.desktop.peripherals.mouse middle-click-emulation false
 }
 
+#     ==================
 # *** PRIVACY & SECURITY
 #     ==================
 
@@ -1002,7 +1023,9 @@ gnome_settings_customize_privacy_file_history_and_trash() {
     gsettings set org.gnome.desktop.privacy old-files-age 'uint32 30'
 }
 
-# ***
+#     =====
+# *** SOUND
+#     =====
 
 # Nothing to change.
 # - Output
@@ -1021,7 +1044,9 @@ gnome_settings_customize_sound() {
 🔳 Settings > Sound > Sounds > Alert Sound > Click|String|Swing|Hum (maybe Click?)")
 }
 
-# ***
+#     =====
+# *** POWER
+#     =====
 
 gnome_settings_customize_power_general() {
   # GUI: Battery Levels shows horizontal level meters:
@@ -1126,8 +1151,9 @@ gnome_settings_customize_power_hidden() {
     gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
 }
 
-# *** KEYBOARD
-#     ========
+#     ==================
+# *** KEYBOARD SHORTCUTS
+#     ==================
 
 gnome_settings_customize_keyboard() {
   echo -e "\n$(
@@ -1379,22 +1405,27 @@ gnome_settings_customize_keyboard_custom_shortcuts() {
   :
 }
 
-# *** MISCELLANEOUS
-#     =============
+#     ================
+# *** COLOR MANAGEMENT
+#     ================
 
 # Nothing to change.
 gnome_settings_customize_color() {
   :
 }
 
-# ***
+#     ========
+# *** PRINTERS
+#     ========
 
 # Nothing to change.
 gnome_settings_customize_printers() {
   :
 }
 
-# ***
+#     ====
+# *** A11Y
+#     ====
 
 # Nothing to change.
 gnome_settings_customize_accessibility() {
@@ -1406,7 +1437,9 @@ gnome_settings_customize_accessibility() {
   # And then lots on interesting options, seems very robust.
 }
 
-# ***
+#     ======
+# *** SYSTEM
+#     ======
 
 gnome_settings_customize_system() {
   # Settings > System > Region & Language
