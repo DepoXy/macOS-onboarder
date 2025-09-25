@@ -653,14 +653,6 @@ gnome_settings_customize_appearance() {
 
 # ***
 
-# MAYBE/2025-01-12: Disable Lock Screen Notifications?
-#   org.gnome.desktop.notifications show-in-lock-screen true|false
-gnome_settings_customize_notifications() {
-  :
-}
-
-# ***
-
 # Nothing to change.
 gnome_settings_customize_search() {
   :
@@ -736,6 +728,12 @@ gnome_settings_customize_multitasking() {
 # - AisleRiot Solitaire
 # - (Etc.; List of Apps)
 gnome_settings_customize_apps() {
+  :
+}
+
+# ***
+
+gnome_settings_customize_notifications() {
   :
 }
 
