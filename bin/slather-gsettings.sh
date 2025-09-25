@@ -863,6 +863,30 @@ gnome_settings_customize_wellbeing() {
 
 # ***
 
+# Nothing to change.
+gnome_settings_customize_mouse_and_touchpad() {
+  # Other Mouse & Touchpad settings:
+  #   org.gnome.desktop.peripherals.mouse drag-threshold 8
+  #   # CALSO: Tweaks > Keyboard & Mouse > Mouse Click Emulation
+  #   org.gnome.desktop.peripherals.mouse middle-click-emulation false
+  #
+  # What you'll see in the GUI:
+  #   # Mouse & Touchpad > General > Primary Button: Left|Right
+  #   org.gnome.desktop.peripherals.mouse left-handed false
+  #
+  #   # Mouse & Touchpad > Mouse > Mouse Speed: (Slider)
+  #   org.gnome.desktop.peripherals.mouse speed 0.0
+  #   # - CALSO: Tweaks > Keyboard & Mouse > Mouse > Acceleration Profile
+  #   org.gnome.desktop.peripherals.mouse accel-profile 'default'
+  #   org.gnome.desktop.peripherals.mouse double-click 400
+  #
+  #   # Mouse & Touchpad > Mouse > Natural Scrolling
+  #   org.gnome.desktop.peripherals.mouse natural-scroll false
+  :
+}
+
+# ***
+
 gnome_settings_customize_privacy() {
   gnome_settings_customize_privacy_screen
   gnome_settings_customize_privacy_location_services
@@ -1091,30 +1115,6 @@ gnome_settings_customize_power_hidden() {
 # - Scale
 # - Night Light
 gnome_settings_customize_displays() {
-  :
-}
-
-# ***
-
-# Nothing to change.
-gnome_settings_customize_mouse_and_touchpad() {
-  # Other Mouse & Touchpad settings:
-  #   org.gnome.desktop.peripherals.mouse drag-threshold 8
-  #   # CALSO: Tweaks > Keyboard & Mouse > Mouse Click Emulation
-  #   org.gnome.desktop.peripherals.mouse middle-click-emulation false
-  #
-  # What you'll see in the GUI:
-  #   # Mouse & Touchpad > General > Primary Button: Left|Right
-  #   org.gnome.desktop.peripherals.mouse left-handed false
-  #
-  #   # Mouse & Touchpad > Mouse > Mouse Speed: (Slider)
-  #   org.gnome.desktop.peripherals.mouse speed 0.0
-  #   # - CALSO: Tweaks > Keyboard & Mouse > Mouse > Acceleration Profile
-  #   org.gnome.desktop.peripherals.mouse accel-profile 'default'
-  #   org.gnome.desktop.peripherals.mouse double-click 400
-  #
-  #   # Mouse & Touchpad > Mouse > Natural Scrolling
-  #   org.gnome.desktop.peripherals.mouse natural-scroll false
   :
 }
 
