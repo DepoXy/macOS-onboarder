@@ -858,6 +858,11 @@ gnome_settings_customize_power() {
 # ***
 
 # Nothing to change.
+# - Orientation
+# - Resolution
+# - Refresh Rate
+# - Scale
+# - Night Light
 gnome_settings_customize_displays() {
   :
 }
