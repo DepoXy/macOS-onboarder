@@ -567,24 +567,25 @@ gnome_settings_customize() {
   #   gnome_settings_customize_network
   #   gnome_settings_customize_bluetooth
 
-  gnome_settings_customize_appearance
-  gnome_settings_customize_notifications
-  gnome_settings_customize_search
+  gnome_settings_customize_displays
+  gnome_settings_customize_sound
+  gnome_settings_customize_power
   gnome_settings_customize_multitasking
+  gnome_settings_customize_appearance
 
   gnome_settings_customize_applications
-  gnome_settings_customize_privacy
+  gnome_settings_customize_notifications
+  gnome_settings_customize_search
   gnome_settings_customize_online_accounts
   gnome_settings_customize_sharing
 
-  gnome_settings_customize_sound
-  gnome_settings_customize_power
-  gnome_settings_customize_displays
   gnome_settings_customize_mouse_and_touchpad
   gnome_settings_customize_keyboard
-  gnome_settings_customize_printers
-  gnome_settings_customize_removable_media
   gnome_settings_customize_color
+  gnome_settings_customize_printers
+
+  gnome_settings_customize_privacy
+  gnome_settings_customize_removable_media
 }
 
 # ***
