@@ -63,9 +63,9 @@
 #
 #     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --dry-run
 #
-# - LATER/2025-03-09: Record this count after the next run:
-#
-#   - Today's `gsettings set` + `dconf write` count: XXX.
+#   - 2025-09-24: No. of settings:
+#     - `gsettings set` + `dconf write` + Task reminders:
+#                  120            + 14               + 8.
 #
 # - NSUserKeyEquivalents characters (used for consistency):
 #
@@ -2630,9 +2630,9 @@ print_cnt_run_report() {
   fi
 
   echo "Settings counts:"
-  printf "%-22s%2s\n" "- # dconf write's:" "${cnt_dconf_write}"
-  printf "%-22s%2s\n" "- # gsettings set's:" "${cnt_gsettings_set}"
-  printf "%-22s%2s\n" "- # Manual tasks:" "${#print_at_end[@]}"
+  printf "%-22s%3s\n" "- # gsettings set's:" "${cnt_gsettings_set}"
+  printf "%-22s%3s\n" "- # dconf write's:" "${cnt_dconf_write}"
+  printf "%-22s%3s\n" "- # Manual tasks:" "${#print_at_end[@]}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
