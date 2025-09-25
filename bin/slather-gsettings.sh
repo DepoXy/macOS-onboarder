@@ -734,7 +734,27 @@ gnome_settings_customize_apps() {
 # ***
 
 gnome_settings_customize_notifications() {
-  :
+  # Default: false
+  gsettings_set "Settings > Notifications > Do Not Disturb: Disabled" \
+    gsettings set org.gnome.desktop.notifications show-banners false
+
+  # Default: true
+  # - Off. It's not like it's a mobile phone. Either I'm logged on,
+  #   or I'm not in front of the display. Also, I don't like a noisy
+  #   lock screen.
+  gsettings_set "Settings > Notifications > Lock Screen Notifications: Disabled" \
+    gsettings set org.gnome.desktop.notifications show-in-lock-screen false
+
+  # Settings > Notifications > App Notifications
+  # - A list of apps (though not as inclusive a list as the Apps menu list).
+  # - E.g.:
+  #   - Artha
+  #     - Notifications / "Show in notifications list": Enabled
+  #     - Sound / "Allow notification sounds from app": Enabled
+  #     - Banners > Show Banners / "Show notifications above apps": Enabled
+  #     - Banners > Show Content / "Include msg details in notif banners": Disabled
+  #     - Lock Screen > Show Banners / "Show notifications on lock screen": Enabled
+  #     - Lock Screen > Show Content / "Include message details on lock screen": Disabled
 }
 
 # ***
