@@ -457,7 +457,7 @@ gsettings_set() {
 }
 
 print_dconf_write_setting() {
-  local menu_path="$1"
+  local description="$1"
   local dconf_command="$2"
   local dconf_action="$3"
   local dconf_key="$4"
@@ -495,13 +495,13 @@ print_dconf_write_setting() {
 
   if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
     echo -e "  $(
-      highlight_soft "${menu_path}"
+      highlight_soft "${description}"
     ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
   fi
 }
 
 print_gsettings_set_setting() {
-  local menu_path="$1"
+  local description="$1"
   local gsettings_command="$2"
   local gsettings_action="$3"
   local gsettings_schema="$4"
@@ -539,7 +539,7 @@ print_gsettings_set_setting() {
 
   if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
     echo -e "  $(
-      highlight_soft "${menu_path}"
+      highlight_soft "${description}"
     ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
   fi
 }
