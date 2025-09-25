@@ -1449,27 +1449,84 @@ gnome_settings_customize_keyboard_typing() {
     gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward '@as []'
 }
 
-# FIXME/2025-01-13: Revisit these:
+#      ++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > WINDOWS
+#      ++++++++++++++++++++++++++++
+
 gnome_settings_customize_keyboard_windows() {
-  # Bindings:
-  #   "Keyboard Shortcuts > Windows > Activates the window menu: <Alt-Space>"
-  #   "Keyboard Shortcuts > Windows > Close window: <Alt-F4>"
-  #   "Keyboard Shortcuts > Windows > Hide window: <Cmd-h>"
-  #   "Keyboard Shortcuts > Windows > Lower window below other windows: Disabled"
-  #   "Keyboard Shortcuts > Windows > Maximize window: <Cmd-Up>"
-  #   "Keyboard Shortcuts > Windows > Maximize window horizontally: Disabled"
-  #   "Keyboard Shortcuts > Windows > Maximize window vertically: Disabled"
-  #   "Keyboard Shortcuts > Windows > Move window: <Alt-F7>"
-  #   "Keyboard Shortcuts > Windows > Raise window above other windows: Disabled"
-  #   "Keyboard Shortcuts > Windows > Raise window if covered, otherwise lower it: Disabled"
-  #   "Keyboard Shortcuts > Windows > Resize window: <Alt-F8>"
-  #   "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>"
-  #   "Keyboard Shortcuts > Windows > Toggle fullscreen mode: Disabled"
-  #   "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>"
-  #   "Keyboard Shortcuts > Windows > Toggle window on all workspaces or one: Disabled"
-  #   "Keyboard Shortcuts > Windows > View split on left: <Cmd-Left>"
-  #   "Keyboard Shortcuts > Windows > View split on right: <Cmd-Right>"
-  :
+  # Activate the window menu: <Alt-Space> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Activate the window menu: <Alt-Space>" \
+    gsettings reset org.gnome.desktop.wm.keybindings activate-window-menu
+
+  # Close window: <Alt-F4> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Close window: <Alt-F4>" \
+    gsettings reset org.gnome.desktop.wm.keybindings close
+
+  # Hide window: <Cmd-h> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Hide window: <Cmd-h>" \
+    gsettings reset org.gnome.desktop.wm.keybindings minimize
+
+  # Lower window below other windows: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Lower window below other windows: Disabled" \
+    gsettings reset org.gnome.desktop.wm.keybindings lower
+
+  # Maximize window: <Cmd-Up> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Maximize window: <Cmd-Up>" \
+    gsettings reset org.gnome.desktop.wm.keybindings maximize
+
+  # Maximize window horizontally: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Maximize window horizontally: <Shift-Ctrl-Cmd-.>" \
+    gsettings set org.gnome.desktop.wm.keybindings maximize-horizontally \
+    "['<Shift><Control><Super>period']"
+
+  # Maximize window vertically: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Maximize window vertically: <Shift-Ctrl-Cmd-\\>" \
+    gsettings set org.gnome.desktop.wm.keybindings maximize-vertically \
+    "['<Shift><Control><Super>backslash']"
+
+  # Move window: <Alt-F7> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Move window: <Alt-F7>" \
+    gsettings reset org.gnome.desktop.wm.keybindings begin-move
+
+  # Raise window above other windows: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows: Disabled" \
+    gsettings reset org.gnome.desktop.wm.keybindings raise
+
+  # Raise window if covered, otherwise lower it: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Raise window if covered, otherwise lower it: <Alt-/>" \
+    gsettings set org.gnome.desktop.wm.keybindings raise-or-lower \
+    "['<Alt>slash']"
+
+  # Resize window: <Alt-F8> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Resize window: <Alt-F8>" \
+    gsettings reset org.gnome.desktop.wm.keybindings begin-resize
+
+  # Restore window: <Cmd-Down> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>" \
+    gsettings reset org.gnome.desktop.wm.keybindings unmaximize
+
+  # Toggle fullscreen mode: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode: <Ctrl-Alt-Up>" \
+    gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen \
+    "['<Control><Alt>Up']"
+
+  # Toggle maximization state: <Alt-F10> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>" \
+    gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
+
+  # Toggle window on all workspaces or one: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle window on all workspaces or one: Disabled" \
+    gsettings reset org.gnome.desktop.wm.keybindings toggle-on-all-workspaces
+
+  # View split on left: <Cmd-Left> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > View split on left: <Shift-Ctrl-Cmd-Left>" \
+    gsettings set org.gnome.mutter.keybindings toggle-tiled-left \
+    "['<Shift><Control><Super>Left']"
+
+  # View split on right: <Cmd-Right> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > View split on right: <Shift-Ctrl-Cmd-Right>" \
+    gsettings set org.gnome.mutter.keybindings toggle-tiled-right \
+    "['<Shift><Control><Super>Right']"
 }
 
 # CXREF: See run-or-raise/shortcuts.conf in DepoXy:
