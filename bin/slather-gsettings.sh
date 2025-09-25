@@ -863,26 +863,32 @@ gnome_settings_customize_wellbeing() {
 
 # ***
 
-# Nothing to change.
 gnome_settings_customize_mouse_and_touchpad() {
-  # Other Mouse & Touchpad settings:
-  #   org.gnome.desktop.peripherals.mouse drag-threshold 8
-  #   # CALSO: Tweaks > Keyboard & Mouse > Mouse Click Emulation
+  # Mouse & Touchpad > Mouse > General > Primary Button: Left (default) | Right
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > General > Primary Button: ✓ Left | Right" \
+    gsettings set org.gnome.desktop.peripherals.mouse left-handed false
+
+  # Mouse & Touchpad > Mouse > Mouse > Pointer Speed: [Slow..Fast slider]
+  # - I mean, -0.4, really...
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Pointer Speed: [Slow..X.......Fast]" \
+    gsettings set org.gnome.desktop.peripherals.mouse speed -0.396396396396396
+
+  # Default: Enabled ('default') / Disabled ('flat')
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Mouse Acceleration: Enabled" \
+    gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'default'
+
+  # Default: Traditional "Scrolling moves the view" / Natural "Scrolling moves the content"
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Scroll Direction: Traditional" \
+    gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Double-Click Speed [Hidden]: 400" \
+    gsettings set org.gnome.desktop.peripherals.mouse double-click 400
+
+  gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Drag Threshold [Hidden]: 400" \
+    gsettings set org.gnome.desktop.peripherals.mouse drag-threshold 8
+
+  # CALSO: Tweaks > Keyboard & Mouse > Mouse Click Emulation
   #   org.gnome.desktop.peripherals.mouse middle-click-emulation false
-  #
-  # What you'll see in the GUI:
-  #   # Mouse & Touchpad > General > Primary Button: Left|Right
-  #   org.gnome.desktop.peripherals.mouse left-handed false
-  #
-  #   # Mouse & Touchpad > Mouse > Mouse Speed: (Slider)
-  #   org.gnome.desktop.peripherals.mouse speed 0.0
-  #   # - CALSO: Tweaks > Keyboard & Mouse > Mouse > Acceleration Profile
-  #   org.gnome.desktop.peripherals.mouse accel-profile 'default'
-  #   org.gnome.desktop.peripherals.mouse double-click 400
-  #
-  #   # Mouse & Touchpad > Mouse > Natural Scrolling
-  #   org.gnome.desktop.peripherals.mouse natural-scroll false
-  :
 }
 
 # ***
