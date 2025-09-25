@@ -903,7 +903,8 @@ gnome_settings_customize_mouse_and_touchpad() {
   #   org.gnome.desktop.peripherals.mouse middle-click-emulation false
 }
 
-# ***
+# *** PRIVACY & SECURITY
+#     ==================
 
 gnome_settings_customize_privacy() {
   gnome_settings_customize_privacy_screen
@@ -1124,7 +1125,8 @@ gnome_settings_customize_power_hidden() {
     gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
 }
 
-# ***
+# *** KEYBOARD
+#     ========
 
 gnome_settings_customize_keyboard() {
   echo -e "\n$(
@@ -1376,7 +1378,8 @@ gnome_settings_customize_keyboard_custom_shortcuts() {
   :
 }
 
-# ***
+# *** MISCELLANEOUS
+#     =============
 
 # Nothing to change.
 gnome_settings_customize_color() {
