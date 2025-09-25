@@ -1246,8 +1246,8 @@ gnome_settings_customize_keyboard_accessibility() {
 #     Settings
 gnome_settings_customize_keyboard_launchers() {
   # Defaults <Cmd-F1> — ['<Super>F1']
-  dconf_write "Keyboard Shortcuts > Launchers > Launch help browser: Disabled" \
-    dconf write /org/gnome/settings-daemon/plugins/media-keys/help '@as []'
+  gsettings_set "Keyboard Shortcuts > Launchers > Launch help browser: Disabled" \
+    gsettings set org.gnome.settings-daemon.plugins.media-keys help '@as []'
 }
 
 # FIXME/2025-01-13: Normalize against macOS/Rectangle bindings,
@@ -1318,22 +1318,22 @@ gnome_settings_customize_keyboard_screenshots() {
   # FIXME/2025-01-13: Change to match macOS bindings (or close to it)
   #
   # - Default: ['<Shift><Control><Alt>r']
-  dconf_write "Keyboard Shortcuts > Screenshots > Record a screencast interactively: Shift-Cmd-4" \
-    dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Super>4']"
+  gsettings_set "Keyboard Shortcuts > Screenshots > Record a screencast interactively" \
+    gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Super>4']"
 
   # Author doesn't assign Print to any key on my keyboard,
   # so the screenshot defaults are not useful.
   # - Default: ['<Shift>Print']
-  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot: Disabled" \
-    dconf write /org/gnome/shell/keybindings/screenshot '@as []'
+  gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot" \
+    gsettings set org.gnome.shell.keybindings screenshot '@as []'
 
   # - Default: ['Print']
-  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot interactively: Disabled" \
-    dconf write /org/gnome/shell/keybindings/show-screenshot-ui '@as []'
+  gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot interactively" \
+    gsettings set org.gnome.shell.keybindings show-screenshot-ui '@as []'
 
   # - Default: ['<Alt>Print']
-  dconf_write "Keyboard Shortcuts > Screenshots > Take a screenshot of a window: Disabled" \
-    dconf write /org/gnome/shell/keybindings/screenshot-window '@as []'
+  gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot of a window" \
+    gsettings set org.gnome.shell.keybindings screenshot-window '@as []'
 }
 
 # All settings default disabled.
@@ -1357,50 +1357,50 @@ gnome_settings_customize_keyboard_system() {
   # Focus the active notification
   # - Default: ['<Super>n']
   # - DUNNO: Pressing <Cmd-N> doesn't do anything for the author...
-  dconf_write "Keyboard Shortcuts > System > Focus the active notification: Disabled" \
-    dconf write /org/gnome/shell/keybindings/focus-active-notification '@as []'
+  gsettings_set "Keyboard Shortcuts > System > Focus the active notification: Disabled" \
+    gsettings set org.gnome.shell.keybindings focus-active-notification '@as []'
 
   # Lock screen
   # - Default: ['<Super>l']
   # - BNDNG: <Ctrl-Cmd-Q>
-  dconf_write "Keyboard Shortcuts > System > Lock screen" \
-    dconf write /org/gnome/settings-daemon/plugins/media-keys/screensaver "['<Control><Super>q']"
+  gsettings_set "Keyboard Shortcuts > System > Lock screen" \
+    gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control><Super>q']"
 
   # Log out
   # - Default: ['<Control><Alt>Delete']
   #
-  # dconf_write "Keyboard Shortcuts > System > Log out: Disabled" \
-  #   dconf write /org/gnome/settings-daemon/plugins/media-keys/logout "['<Control><Alt>Delete']"
+  # gsettings_set "Keyboard Shortcuts > System > Log out: Disabled" \
+  #   gsettings set org.gnome.settings-daemon.plugins.media-keys logout "['<Control><Alt>Delete']"
 
   # Open the quick settings menu
   # - Default: ['<Super>s']
   # - DUNNO: Does nothing for the author (literally, not figuratively).
   # - Prev. to GNOME Shell 48, I think this was Open the application menu, <Cmd-F10>.
-  dconf_write "Keyboard Shortcuts > System > Open the quick settings menu: Disabled" \
-    dconf write /org/gnome/shell/keybindings/toggle-quick-settings '@as []'
+  gsettings_set "Keyboard Shortcuts > System > Open the quick settings menu: Disabled" \
+    gsettings set org.gnome.shell.keybindings toggle-quick-settings '@as []'
 
   # Power off
   # - Default: Disabled
-  dconf_write "Keyboard Shortcuts > System > Power off: Disabled" \
-    dconf reset /org/gnome/settings-daemon/plugins/media-keys/shutdown
+  gsettings_set "Keyboard Shortcuts > System > Power off: Disabled" \
+    gsettings reset org.gnome.settings-daemon.plugins.media-keys shutdown
 
   # Restart
   # - Default: Disabled
-  dconf_write "Keyboard Shortcuts > System > Restart: Disabled" \
-    dconf reset /org/gnome/settings-daemon/plugins/media-keys/reboot
+  gsettings_set "Keyboard Shortcuts > System > Restart: Disabled" \
+    gsettings reset org.gnome.settings-daemon.plugins.media-keys reboot
 
   # Restore the keyboard shortcuts
   # - Default: ['<Super>Escape']
   #
-  # dconf_write "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled" \
-  #   dconf write /org/gnome/mutter/wayland/keybindings/restore-shortcuts '@as []'
+  # gsettings_set "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled" \
+  #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
 
   # Show all apps
   # - Default: ['<Super>a']
   # - ISOFF: This shows the Overview application list.
   #   - It's the same as <Cmd> to show Overview, then clicking the 3x3 dots icon (⁙).
-  dconf_write "Keyboard Shortcuts > System > Show all apps: Disabled" \
-    dconf write /org/gnome/shell/keybindings/toggle-application-view '@as []'
+  gsettings_set "Keyboard Shortcuts > System > Show all apps: Disabled" \
+    gsettings set org.gnome.shell.keybindings toggle-application-view '@as []'
 
   # Show the notification list
   # - Default: ['<Super>v']
@@ -1410,42 +1410,43 @@ gnome_settings_customize_keyboard_system() {
   #       Bar, and then this binding works. (But at that point, you
   #       could just as easily click the clock to show 'em.)
   # - To disable instead:
-  #   dconf_write "Keyboard Shortcuts > System > Show the notification list: Disabled" \
-  #     dconf write /org/gnome/shell/keybindings/toggle-message-tray '@as []'
+  #   gsettings_set "Keyboard Shortcuts > System > Show the notification list" \
+  #     gsettings set org.gnome.shell.keybindings toggle-message-tray '@as []'
   # BNDNG: <Shift-Ctrl-Cmd-C>
   # - USYNC: Same binding as author uses to Show Notification Center on macOS.
-  dconf_write "Keyboard Shortcuts > System > Show the notification list" \
-    dconf write /org/gnome/shell/keybindings/toggle-message-tray ["'<Shift><Control><Super>c'"]
+  gsettings_set "Keyboard Shortcuts > System > Show the notification list" \
+    gsettings set org.gnome.shell.keybindings toggle-message-tray \
+    ["'<Shift><Control><Super>c'"]
 
   # Show the overview
   # - Same behavior as pressing <Super>.
   #   - Or pressing the top-left button in the Top Bar.
   # - Default: ['<Super>s']
   # - To disable instead:
-  #   dconf_write "Keyboard Shortcuts > System > Show the overview: Disabled" \
-  #     dconf write /org/gnome/shell/keybindings/toggle-overview '@as []'
+  #   gsettings_set "Keyboard Shortcuts > System > Show the overview" \
+  #     gsettings set org.gnome.shell.keybindings toggle-overview '@as []'
   # - BNDNG: <Ctrl-Alt-Down>
   #   - USYNC: Same keybinding as author uses for macOS Mission Control.
-  dconf_write "Keyboard Shortcuts > System > Show the overview" \
-    dconf write /org/gnome/shell/keybindings/toggle-overview "['<Control><Alt>Down']"
+  gsettings_set "Keyboard Shortcuts > System > Show the overview" \
+    gsettings set org.gnome.shell.keybindings toggle-overview "['<Control><Alt>Down']"
 
   # Show the run command prompt
   # - Default: ['<Alt>F2']
   #
-  # dconf_write "Keyboard Shortcuts > System > Show the run command prompt: Disabled" \
-  #   dconf write /org/gnome/mutter/wayland/keybindings/restore-shortcuts '@as []'
+  # gsettings_set "Keyboard Shortcuts > System > Show the run command prompt: Disabled" \
+  #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
 }
 
 # Disable all Typing bindings.
 # - SAVVY: If you disable Switch-to-next via GUI, it also disables Switch-to-previous.
 gnome_settings_customize_keyboard_typing() {
   # - Default: ['<Super>Space']
-  dconf_write "Keyboard Shortcuts > Typing > Switch to next input source: Disabled" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-input-source '@as []'
+  gsettings_set "Keyboard Shortcuts > Typing > Switch to next input source: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-input-source '@as []'
 
   # - Default: ['<Shift><Super>Space']
-  dconf_write "Keyboard Shortcuts > Typing > Switch to previous input source: Disabled" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-input-source-backward '@as []'
+  gsettings_set "Keyboard Shortcuts > Typing > Switch to previous input source: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward '@as []'
 }
 
 # FIXME/2025-01-13: Revisit these:
