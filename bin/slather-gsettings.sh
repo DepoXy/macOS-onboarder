@@ -1208,6 +1208,7 @@ gnome_settings_customize_keyboard() {
   gnome_settings_customize_keyboard_accessibility
   gnome_settings_customize_keyboard_launchers
   gnome_settings_customize_keyboard_navigation
+  gnome_settings_customize_keyboard_navigation_switchers
   gnome_settings_customize_keyboard_screenshots
   gnome_settings_customize_keyboard_sound_and_media
   gnome_settings_customize_keyboard_system
@@ -1262,68 +1263,336 @@ gnome_settings_customize_keyboard_launchers() {
 # **** KEYBOARD SHORTCUTS > NAVIGATION
 #      +++++++++++++++++++++++++++++++
 
-# FIXME/2025-01-13: Normalize against macOS/Rectangle bindings,
-# and disable ones you don't need.
-gnome_settings_customize_keyboard_navigation() {
-  # Bindings:
-  #   "Keyboard Shortcuts > Navigation > Hide all normal windows: Disabled"
-  #   - HSTRY/2025-09-12: As seen in GNOME Shell 43 (Debian 12) (I think),
-  #     but (definitely not) GNOME Shell 48 (Debian 13):
-  #       "Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>"
-  #       "Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>"
-  #   "Keyboard Shortcuts > Navigation > Move window one monitor down: <Shift-Cmd-Down>"
-  #   "Keyboard Shortcuts > Navigation > Move window one monitor to the left: <Shift-Cmd-Left>"
-  #   "Keyboard Shortcuts > Navigation > Move window one monitor to the right: <Shift-Cmd-Right>"
-  #   "Keyboard Shortcuts > Navigation > Move window one monitor up: <Shift-Cmd-Up>"
-  #   "Keyboard Shortcuts > Navigation > Move window one workspace to the left: <Shift-Cmd-PageUp>"
-  #   "Keyboard Shortcuts > Navigation > Move window one workspace to the right: <Shift-Cmd-PageDown>"
-  #   "Keyboard Shortcuts > Navigation > Move window to last workspace: <Shift-Cmd-End>"
-  #   "Keyboard Shortcuts > Navigation > Move window to workspace 1: <Shift-Cmd-Home>"
-  #   "Keyboard Shortcuts > Navigation > Move window to workspace 2: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Move window to workspace 3: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Move window to workspace 4: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Switch applications: <Super>Tab"
-  # /org/gnome/desktop/wm/keybindings/switch-applications ['<Super>grave']
-  # /org/gnome/desktop/wm/keybindings/switch-applications-backward ['<Shift><Super>grave']
-  # /org/gnome/desktop/wm/keybindings/switch-applications @as []
-  # /org/gnome/desktop/wm/keybindings/switch-applications-backward @as []
-  dconf_write "Keyboard Shortcuts > Navigation > Switch applications: Disabled:" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-applications '@as []'
-  dconf_write "Keyboard Shortcuts > Navigation > Switch applications backward: Disabled:" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward '@as []'
-  #   "Keyboard Shortcuts > Navigation > Switch system controls: <Ctrl><Alt>Tab"
-  #   "Keyboard Shortcuts > Navigation > Switch system controls directly: <Ctrl><Alt>Escape"
+# SAVVY: Note that gsettings won't let you assign the same
+#        keybinding to more than one command.
+# - This might matter to us, especially in a fresh desktop
+#   environment, where we might not be able to assign key-
+#   bindings in GUI order unless we unassign certains key-
+#   bindings first.
+#   - This is not currently an issue, however.
+#     - There are only a few keybindings where we want to
+#       use a default keybinding for a different command.
+#     - E.g., below, we change "Switch applications" from
+#       its default, <Cmd-Tab>, to our preffered <Alt-`>,
+#       then we change "Switch windows of an application"
+#       from <Cmd-`> to <Cmd-Tab>. But if we didn't do it
+#       in that order, trying to use <Cmd-Tab> would fail.
+#     - So just be aware that we might need to change the
+#       assignment order herein to avoid conflicts. As of
+#       now, though, GUI order works unconflictingly.
+#   - Or, more robustly, a full-proof approach would be to
+#     gsettings-reset *all* keybindings before reassigning
+#     them. But then our UX wouldn't be able to inform the
+#     user which keybindings are changing (because more of
+#     them would, after being reset), at least not without
+#     overcomplicating this script. (So, as usual, an over-
+#     ly complicated comment instead.)
 
-  #   "Keyboard Shortcuts > Navigation > Switch to last workspace: <Cmd-End>"
-  #   "Keyboard Shortcuts > Navigation > Switch to workspace 1: <Cmd-Home>"
-  #   "Keyboard Shortcuts > Navigation > Switch to workspace 2: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Switch to workspace 3: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Switch to workspace 4: Disabled"
-  #   "Keyboard Shortcuts > Navigation > Switch windows: Disabled"
-  # /org/gnome/desktop/wm/keybindings/switch-windows unset
-  # /org/gnome/desktop/wm/keybindings/switch-windows-backward unset
-  # /org/gnome/desktop/wm/keybindings/switch-windows @as []
-  # /org/gnome/desktop/wm/keybindings/switch-windows ['<Alt>Tab']
-  # /org/gnome/desktop/wm/keybindings/switch-windows-backward ['<Shift><Alt>Tab']
-  dconf_write "Keyboard Shortcuts > Navigation > Switch windows:" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-applications "['<Alt>Tab']"
-  # This doesn't work:
-  #   dconf_write "Keyboard Shortcuts > Navigation > Switch windows backward:" \
-  #     dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward "['<Alt>q']"
-  dconf_write "Keyboard Shortcuts > Navigation > Switch windows backward:" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward "['<Shift><Alt>Tab']"
-  #   "Keyboard Shortcuts > Navigation > Switch windows directly: <Alt>Escape"
-  #   "Keyboard Shortcuts > Navigation > Switch windows of an app directly: <Alt>F6"
-  #   "Keyboard Shortcuts > Navigation > Switch windows of an application: <Super>`"
-  # /org/gnome/desktop/wm/keybindings/switch-group unset
-  # /org/gnome/desktop/wm/keybindings/switch-group-backward unset
-  # /org/gnome/desktop/wm/keybindings/switch-group @as []
-  # /org/gnome/desktop/wm/keybindings/switch-group ['<Super>Tab']
-  # /org/gnome/desktop/wm/keybindings/switch-group-backward ['<Shift><Super>Tab']
-  dconf_write "Keyboard Shortcuts > Navigation > Switch windows:" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-group "['<Super>Tab']"
-  dconf_write "Keyboard Shortcuts > Navigation > Switch windows backward:" \
-    dconf write /org/gnome/desktop/wm/keybindings/switch-group-backward "['<Shift><Super>Tab']"
+gnome_settings_customize_keyboard_navigation() {
+  local menu_path="Keyboard Shortcuts > Navigation"
+
+  # "Hide all normal windows" / Default: Disabled
+  gsettings_set "${menu_path} > Hide all normal windows: <Ctrl-Alt-D>" \
+    gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Control><Alt>d']"
+
+  # *** Move window to monitor bindings (4 GUI settings)
+
+  # "Move window one monitor down" / Default: <Shift-Cmd-Down>
+  gsettings_set "${menu_path} > Move window one monitor down: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-down '@as []'
+  # "Move window one monitor to the left" / Default: <Shift-Cmd-Left>
+  gsettings_set "${menu_path} > Move window one monitor to the left: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left '@as []'
+  # "Move window one monitor to the right" / Default: <Shift-Cmd-Right>
+  gsettings_set "${menu_path} > Move window one monitor to the right: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-right '@as []'
+  # "Move window one monitor up" / Default: <Shift-Cmd-Up>
+  gsettings_set "${menu_path} > Move window one monitor up: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-up '@as []'
+
+  # *** Move window to workspace bindings (7 GUI settings + 10 hidden)
+
+  # "Move window one workspace to the left" / Default: <Shift-Cmd-PageUp>
+  # - Default: When unset, gsettings-get reports three bindings (!?):
+  #   ['<Super><Shift>Page_Up',
+  #    '<Super><Shift><Alt>Left',
+  #    '<Control><Shift><Alt>Left']
+  gsettings_set "${menu_path} > Move window one workspace to the left: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left '@as []'
+  # "Move window one workspace to the right" / Default: <Shift-Cmd-PageDown>
+  # - Default: When unset, gsettings-get reports three bindings (!?):
+  #   ['<Super><Shift>Page_Down',
+  #    '<Super><Shift><Alt>Right',
+  #    '<Control><Shift><Alt>Right']
+  gsettings_set "${menu_path} > Move window one workspace to the right: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right '@as []'
+  #
+  # There are 2 related bindings in GSettings for workspaces above/below,
+  # but not exposed in the GUI.
+  # - ASIDE: And here I thought workspaces were only logically organized
+  #   left to right.
+  # - DUNNO: I am confused why these two settings are assigned keybindings
+  #   but are not exposed in the GUI — how would normal users either know
+  #   these exist so they can use them, or know they exist so they can
+  #   disable them to reclaim these two bindings?
+  #   - REFER: See the "V-Shell" ("V" as in "Variable") extension, which,
+  #     among other features, supports vertical and horizontal workspace
+  #     layouts.
+  #     https://extensions.gnome.org/extension/5177/vertical-workspaces/
+  #     - BEGET: https://askubuntu.com/questions/1419991/
+  #         switch-back-workspace-movement-to-up-down-instead-of-left-right-on-22-04
+  # "Move window one workspace to the down" / Default: ['<Control><Shift><Alt>Down']
+  gsettings_set "${menu_path} > Move window one workspace down [Hidden]: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-down '@as []'
+  # "Move window one workspace to the up" / Default: ['<Control><Shift><Alt>Up']
+  gsettings_set "${menu_path} > Move window one workspace up [Hidden]: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-up '@as []'
+  #
+  # "Move window to last workspace" / Default: <Shift-Cmd-End>
+  gsettings_set "${menu_path} > Move window to last workspace: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-last '@as []'
+  # "Move window to workspace 1" / Default: <Shift-Cmd-Home>
+  gsettings_set "${menu_path} > Move window to workspace 1: Disabled" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 '@as []'
+  # There are 3 more move-to-workspace-N options in the GUI:
+  #   Keyboard Shortcuts > Navigation > Move window to workspace 2: Disabled
+  #   Keyboard Shortcuts > Navigation > Move window to workspace 3: Disabled
+  #   Keyboard Shortcuts > Navigation > Move window to workspace 4: Disabled
+  # There are 12 total move-to-workspace-N options in GSettings (8 hidden):
+  #   move-to-workspace-1..move-to-workspace-9..move-to-workspace-10..move-to-workspace-12
+
+  # *** "Switch" Navigation keybindings (12 GUI settings + 8 hidden)
+
+  # MOVED: The "Switch applications" keybinding is set below, with
+  # the other "alt-tabbers":
+  # - "Switch applications"
+  #
+  # REFER:
+  # gnome_settings_customize_keyboard_navigation_switchers
+
+  # These switch between "Windows" and "Top Bar", but only if Top Bar is showing.
+  # - Use <Ctrl-Alt-C> or the hover the mouse (or disable Hide Top Bar) to show
+  #   the Top Bar, then "Switch system controls" shows an Alt-Tab-like popup
+  #   with "Windows" and "Top Bar" icons that lets you send focus to the
+  #   Top Bar, for a11y purposes (mouse-less Top Bar interaction).
+  # - Note that "Switch system controls directly" is like the other
+  #   "... directly" commands, and toggles focus between "Windows" and
+  #   "Top Bar" immediately, without showing the popup widget.
+  #
+  # "Switch system controls" / Default: <Ctrl><Alt>Tab
+  gsettings_set "${menu_path} > Switch system controls" \
+    gsettings reset org.gnome.desktop.wm.keybindings switch-panels
+  gsettings_set "${menu_path} > Switch system controls backward [Hidden]" \
+    gsettings reset org.gnome.desktop.wm.keybindings switch-panels-backward
+  # "Switch system controls directly" / Default: <Ctrl><Alt>Escape
+  gsettings_set "${menu_path} > Switch system controls directly" \
+    gsettings reset org.gnome.desktop.wm.keybindings cycle-panels
+  gsettings_set "${menu_path} > Switch system controls directly backward [Hidden]" \
+    gsettings reset org.gnome.desktop.wm.keybindings cycle-panels-backward
+
+  # "Switch to last workspace" / Default: <Cmd-End>
+  gsettings_set "${menu_path} > Switch to last workspace" \
+    gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-last
+  # "Switch to workspace 1" / Default: <Cmd-Home>
+  gsettings_set "${menu_path} > Switch to workspace 1" \
+    gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-1
+  # There are 3 more switch-to-workspace-N options in the GUI (same as move-to-workspace-N):
+  #   Keyboard Shortcuts > Navigation > Switch to workspace 2: Disabled
+  #   Keyboard Shortcuts > Navigation > Switch to workspace 3: Disabled
+  #   Keyboard Shortcuts > Navigation > Switch to workspace 4: Disabled
+  # There are 12 total switch-to-workspace-N options in GSettings (8 hidden):
+  #   switch-to-workspace-1..switch-to-workspace-9..switch-to-workspace-10..switch-to-workspace-12
+
+  # "Switch to workspace on the left" / Default: <Cmd-PageUp>
+  # - Default:
+  #   gsettings_set "${menu_path} > Switch to workspace on the left" \
+  #     org.gnome.desktop.wm.keybindings switch-to-workspace-left \
+  #     "['<Super>Page_Up', '<Super><Alt>Left', '<Control><Alt>Left']"
+  # - HSTRY: Prior to GNOME Shell 48, I think these were named differently, just FYI:
+  #   - Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>
+  #   - Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>
+  gsettings_set "${menu_path} > Switch to workspace on the left" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left \
+    "['<Super>Page_Up', '<Super><Alt>Left', '<Control><Alt>Left']"
+  # "Switch to workspace on the right" / Default: <Cmd-PageDown>
+  # - Default:
+  #   gsettings_set "${menu_path} > Switch to workspace on the right" \
+  #     org.gnome.desktop.wm.keybindings switch-to-workspace-right \
+  #     "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
+  gsettings_set "${menu_path} > Switch to workspace on the right" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right \
+    "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
+
+  # MOVED: The four "Switch windows*" keybindings are set below:
+  # - "Switch windows"
+  # - "Switch windows directly"
+  # - "Switch windows of an app directly"
+  # - "Switch windows of an application"
+  #
+  # REFER:
+  # gnome_settings_customize_keyboard_navigation_switchers
+}
+
+#      +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > NAVIGATION > SWITCH APPLICATIONS/WINDOWS
+#      +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#        (technically in the same GUI screen as the other Navigation
+#         features, but these five controls are probably among the
+#         most coveted keybindings any power user has, and the most
+#         likely to ignite a heated discourse about how best to set
+#         them up. Please post in the comments how you feel about my
+#         keybindings and usage examples.)
+
+# These are the 5 primary Navigation commands for switching windows:
+# - "Switch applications" (reassigned below to <Alt-`>)
+#   - This shows a row of application icons, making it easy
+#     to quickly switch between applications.
+#   - At the same time, if the highlighted application icon
+#     represents an application that has more than one window,
+#     the popup expands a row of thumbnails under its icon to
+#     show all of its window thumbnails. Then the user can use
+#     <Down> and then <Left> and <Right> to pick a different
+#     app. window than the last one that was active.
+# - "Switch windows" (reassigned below to <Alt-Tab>)
+#   - This is your typical Alt-Tab overlay which shows thumbnails
+#     for all windows from all apps. Press Tab/Shift-Tab until the
+#     desired window thumbnail is highlighted, then release.
+#     - Note the author uses the *Hide minimized* extension (by *danigm*)
+#         https://extensions.gnome.org/extension/2639/hide-minimized/
+#       so that only visible windows are included in this menu,
+#       which makes it easier to navigate for those of us prone
+#       to opening zillions of browser tabs and windows.
+# - "Switch window directly" (wired below to its default, <Alt-Esc>)
+#   - This brings the next window to the front immediately, but
+#     possibly only temporarily if you keep the keybinding pressed.
+#     While keeping the keybinding depressed, the front window is
+#     displayed with a thick white window border highlight to show
+#     you its state.
+#     - While keeping the modifier key(s) down (e.g., <Alt>), you
+#       can keep pressing the paired key (e.g., <Esc>) to bring
+#       each next window to the front, until you finally release
+#       the modifier key(s).
+#     - Then only the final, chosen window is fronted, and all the
+#       windows brought front and shown are not fronted, and the
+#       operation does not change their order in the window stack.
+# - "Switch windows of an app directly" (left at its default, <Alt-F6>)
+#   - Similar to "Switch window directly", but restricted to the
+#     windows for the current application.
+# - "Switch windows of an application" (reassigned below to <Cmd-Tab>)
+#   - Like "Switch windows", but limited to the current app's windows.
+#   - This popup pairs well with the *Hide minimized* extension,
+#     which (thankfully, IMO) is not applied to this command.
+#     - Specifically, I appreciate that "Switch windows" (<Alt-Tab>)
+#       only shows visible windows, so that it's easy to use that
+#       popup (otherwise it's cluttered, overflowing, and I'm
+#       screamed at with dozens of windows that I'm not currently
+#       using, e.g., all the browser windows I tend to leave open,
+#       including email, messaging, financial spreadsheets, etc.).
+#     - But I also like that this command, "Switch windows of an
+#       application" (<Cmd-Tab>) *does* show all windows for an
+#       application, including minimized windows.
+#       - This lets me find a minimized window easily — I bring
+#         its application to the front, and then I use <Cmd-Tab>
+#         to find the minimized window I want.
+#       - I.e., I generally use <Alt-Tab> to bop between visible
+#         windows, and I generally use <Cmd-Tab> to resurrect a
+#         previously minimized window (well, that, or I use one of
+#         the many task-specific accelerators I define, e.g., I
+#         won't <Cmd-Tab> to my email window, but I'll use a
+#         custom <Shift-Ctrl-Cmd-A> accelerator instead).
+#         - Pro tip: If said app doesn't have any visible windows,
+#           create one, then <Cmd-Tab>. E.g., if no browser windows
+#           are visible, I <Cmd-T> to create a new browser window,
+#           and then <Cmd-Tab> shows all the other browser windows.
+
+# Here's how your author enjoys their "alt-tabber" wiring,
+# compared to the default GNOME Shell binding assignments:
+#
+#   Author's    GNOME's     Description                         GSettings key
+#   =========   =========   =================================   ===================
+#   <Alt-`>   / <Cmd-Tab> / Switch applications               / switch-applications
+#   <Alt-Tab> / -Disabled / Switch windows                    / switch-windows
+#   <Alt-Esc> / <Alt-Esc> / Switch windows directly           / cycle-windows
+#   <Alt-F6>  / <Alt-F6>  / Switch windows of an app directly / cycle-group
+#   <Cmd-Tab> / <Cmd-`>   / Switch windows of an application  / switch-group
+#
+# - Note that to use <Cmd-Tab> for switch-group, we have to
+#   unset <Cmd-Tab> from switch-applications first, which is
+#   how the operations are ordered below. (Though note they
+#   are still in GUI order; it's just coincidence that GUI
+#   order is valid (avoids keybinding conflicts), otherwise
+#   we'd have to reorder these operations (or we'd have to
+#   unset some commands before reassigning their bindings).)
+#
+# - BWARE: If you're in the GUI and hit the Delete ⌫ button on
+#   "Switch applications", it'll Disable whatever command might
+#   be using <Cmd-Tab>, e.g., "Switch windows of an application"
+#   will be disabled (and GNOME Settings won't warn-tell the user).
+# - BWARE: The same applies for custom keybindings, e.g., if you
+#   have <Cmd-`> keybound to front your editor (such as Neovide),
+#   then you reset "Switch windows of an application", it will
+#   also disable your Custom Keybinding *without telling you*.
+
+gnome_settings_customize_keyboard_navigation_switchers() {
+  # "Switch applications" / Defaults: <Super>Tab, <Shift><Super>Tab
+  # - Shows app icons you can Alt-Tab or left/right between them,
+  #   then <Down> to show one app's window thumbnails.
+  # BNDNG: <Alt-`>, <Shift-Alt-`> (<Alt-grave>, <Shift-Alt-grave>)
+  gsettings_set "${menu_path} > Switch applications" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Alt>grave']"
+  gsettings_set "${menu_path} > Switch applications backward [Hidden]" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward \
+    "['<Shift><Alt>grave']"
+
+  # "Switch windows" / Defaults: Disabled ('@as []', '@as []')
+  # - Strange (to me) this defaults disabled, because
+  #   it's the author's most-used alt-tabber!
+  # BNDNG: <Alt-Tab>, <Shift-Alt-Tab> (but not <Alt-q> =( oh well)
+  gsettings_set "${menu_path} > Switch windows" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
+  gsettings_set "${menu_path} > Switch windows backward [Hidden]" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward \
+    "['<Shift><Alt>Tab']"
+  # - I tried to set <Alt-q> for switch-windows-backward (how I have it
+  #   wired on macOS), but it didn't work. Whatever, using <Left> feels
+  #   quick enough (though requires second hand; but seems easier than
+  #   <Shift>ing <Alt-Tab>).
+  #   - This doesn't work:
+  #     dconf_write "Keyboard Shortcuts > Navigation > Switch windows (backward)" \
+  #       dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Alt>q']"
+
+  # "Switch windows directly" / Defaults: <Alt>Escape, <Shift><Alt><Escape>
+  # BNDNG: <Alt-Esc>, <Shift-Alt-Esc>
+  gsettings_set "${menu_path} > Switch windows directly" \
+    gsettings reset org.gnome.desktop.wm.keybindings cycle-windows
+  gsettings_set "${menu_path} > Switch windows directly backward [Hidden]" \
+    gsettings reset org.gnome.desktop.wm.keybindings cycle-windows-backward
+
+  # "Switch windows of an app directly" / Defaults: <Alt>F6, <Shift><Alt>F6
+  # BNDNG: <Alt-F6>, <Shift-Alt-F6>
+  gsettings_set "${menu_path} > Switch windows of an app directly" \
+    gsettings reset org.gnome.desktop.wm.keybindings cycle-group
+  gsettings_set "${menu_path} > Switch windows of an app directly backward [Hidden]" \
+    gsettings reset org.gnome.desktop.wm.keybindings cycle-group-backward
+
+  # "Switch windows of an application" / Defaults: <Super>grave, <Shift><Super>grave
+  # - Shows app icons, with current app selected, and a row of its
+  #   window thumbnails below. The keybinding cycles through the
+  #   app's windows. You can also press <Up> to go to the app icon
+  #   row, and select a different app with <Left> and <Right>; then
+  #   <Down> and <Left>/<Right> to pick a window from the other app.
+  # - ASIDE: Author uses (as do default DepoXy bindings) <Cmd-`> to
+  #   front user's editor (because I use it so often, I assigned it
+  #   a prominent keybinding).
+  # - Note <Cmd-Tab> is the default binding for "Switch applications",
+  #   which must be unassigned first or this command will fail (see
+  #   gsettings-set switch-applications, above).
+  # BNDNG: <Cmd-Tab>, <Shift-Cmd-Tab>
+  gsettings_set "${menu_path} > Switch windows of an application" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Super>Tab']"
+  gsettings_set "${menu_path} > Switch windows of an app. bckwrd [Hidden]" \
+    gsettings set org.gnome.desktop.wm.keybindings switch-group-backward \
+    "['<Shift><Super>Tab']"
 }
 
 #      ++++++++++++++++++++++++++++++++
