@@ -1212,15 +1212,12 @@ gnome_settings_customize_keyboard_accessibility() {
 #     Home folder
 #     Launch calculator
 #     Launch email client
-#     Launch help browser
+#     Launch help browser [default: <Cmd-F1>]
 #     Launch web browser
 #     Search
 #     Settings
 gnome_settings_customize_keyboard_launchers() {
-  # Keyboard > Keyboard Shortcuts > View and Customize Shortcuts
-  #   Keyboard Shortcuts > Launchers > Launch help browser: Disabled
-  # - Defaults <Cmd-F1>:
-  #   /org/gnome/settings-daemon/plugins/media-keys/help ['<Super>F1']
+  # Defaults <Cmd-F1> — ['<Super>F1']
   dconf_write "Keyboard Shortcuts > Launchers > Launch help browser: Disabled" \
     dconf write /org/gnome/settings-daemon/plugins/media-keys/help '@as []'
 }
