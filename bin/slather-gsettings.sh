@@ -785,6 +785,7 @@ gnome_settings_customize_notifications() {
   # - Off. It's not like it's a mobile phone. Either I'm logged on,
   #   or I'm not in front of the display. Also, I don't like a noisy
   #   lock screen.
+  # USYNC: This option found twice in Settings.
   gsettings_set "Settings > Notifications > ∅ Lock Screen Notifications" \
     gsettings set org.gnome.desktop.notifications show-in-lock-screen false
 
@@ -997,8 +998,9 @@ gnome_settings_customize_privacy_screen() {
   # - DUNNO/2025-01-12: Working again after reboot, albeit with 3600 value.
 
   # Default: Disabled (false)
-  gsettings_set "${menu_path} > Lock Screen Notifications" \
-    gsettings set org.gnome.desktop.notifications show-in-lock-screen true
+  # USYNC: This option found twice in Settings.
+  gsettings_set "${menu_path} > ∅ Lock Screen Notifications" \
+    gsettings set org.gnome.desktop.notifications show-in-lock-screen false
 }
 
 # Nothing to change.
