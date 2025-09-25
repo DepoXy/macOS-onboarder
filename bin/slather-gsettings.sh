@@ -1033,6 +1033,8 @@ gnome_settings_customize_keyboard_system() {
   # dconf_write "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled" \
   # dconf write /org/gnome/mutter/wayland/keybindings/restore-shortcuts '@as []'
 
+  # ISOFF: This shows the Overview application list.
+  # - It's the same as <Cmd> to show Overview, then clicking the 3x3 dots icon (⁙).
   # - Default: ['<Super>a']
   dconf_write "Keyboard Shortcuts > System > Show all applications: Disabled" \
     dconf write /org/gnome/shell/keybindings/toggle-application-view '@as []'
