@@ -587,6 +587,7 @@ gnome_settings_customize() {
   gnome_settings_customize_color
   gnome_settings_customize_printers
 
+  gnome_settings_customize_accessibility
   gnome_settings_customize_privacy
   gnome_settings_customize_removable_media
 }
@@ -1395,6 +1396,18 @@ gnome_settings_customize_color() {
 # Nothing to change.
 gnome_settings_customize_printers() {
   :
+}
+
+# ***
+
+# Nothing to change.
+gnome_settings_customize_accessibility() {
+  # "Display the accessibility menu in the top bar"
+  # - Default: Disabled
+  gsettings_set "Settings > Accessibility > Always Show Accessibility Menu: Disabled" \
+    gsettings set org.gnome.desktop.a11y always-show-universal-access-status false
+
+  # And then lots on interesting options, seems very robust.
 }
 
 # +++ END: GNOME Settings GUI settings
