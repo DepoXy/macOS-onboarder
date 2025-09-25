@@ -653,13 +653,6 @@ gnome_settings_customize_appearance() {
 
 # ***
 
-# Nothing to change.
-gnome_settings_customize_search() {
-  :
-}
-
-# ***
-
 gnome_settings_customize_multitasking() {
   # Disable the top-left hot corner, which author triggers inadvertently too often.
   # - A better mechanism (IMO) is the (innovative, IMO) <Cmd> keybinding.
@@ -755,6 +748,13 @@ gnome_settings_customize_notifications() {
   #     - Banners > Show Content / "Include msg details in notif banners": Disabled
   #     - Lock Screen > Show Banners / "Show notifications on lock screen": Enabled
   #     - Lock Screen > Show Content / "Include message details on lock screen": Disabled
+}
+
+# ***
+
+# Nothing to change.
+gnome_settings_customize_search() {
+  :
 }
 
 # ***
