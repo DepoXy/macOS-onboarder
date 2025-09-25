@@ -726,7 +726,7 @@ gnome_settings_customize_multitasking() {
   # Multi-Monitor options:
   # - Workspaces on primary display only [default]
   # - Workspaces on all displays
-  gsettings_set "Settings > Multitasking > General > Number of Workspaces" \
+  gsettings_set "Settings > Multitasking > General > ✓ Workspaces on primary display only" \
     gsettings set org.gnome.mutter workspaces-only-on-primary true
 
   # App Switching options:
