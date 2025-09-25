@@ -502,6 +502,17 @@ print_dconf_write_setting() {
   fi
 }
 
+# There's a `dconf read -d` option that reads default values,
+# but it doesn't work as one might expect, e.g., consider:
+#   $ dconf reset /org/gnome/desktop/wm/keybindings/begin-move
+#   $ dconf read /org/gnome/desktop/wm/keybindings/begin-move
+#   $ dconf read -d /org/gnome/desktop/wm/keybindings/begin-move
+#   $ gsettings get org.gnome.desktop.wm.keybindings begin-move
+#   ['<Alt>F7']
+# - I.e., `dconf read -d` prints nothing, but `gsettings get`
+#   prints the effective value (and reveals what's effectively
+#   the default value).
+
 print_gsettings_set_setting() {
   local description="$1"
   local gsettings_command="$2"
@@ -522,15 +533,46 @@ print_gsettings_set_setting() {
     exit_1
   fi
 
+  # The dconf-read is the current *user* value.
+  # - It returns an empty string if the user has not customimzed
+  #   a setting.
+  local dconf_key
+  local dconf_val
+  dconf_key="/$(echo "${gsettings_schema}" | sed 's#\.#/#g')${gsettings_key}"
+  dconf_val="$(dconf read "${dconf_key}")"
+
+  # The gsettings-get is the current *active* value.
+  # - It returns the actual value for a setting, whether or not
+  #   the user has customized that setting (so that if you don't
+  #   get a value from dconf-read, you will from gsettings-get;
+  #   you could think of this as the default value).
   local curr_val
   curr_val="$(gsettings get "${gsettings_schema}" "${gsettings_key}")"
 
-  if [ -z "${curr_val}" ]; then
-    curr_val="(unset?)❗"
+  if [ -n "${dconf_val}" ]; then
+    if [ "${dconf_val}" != "${curr_val}" ]; then
+      >&2 echo "WEIRD: dconf_val != curr_val: ${dconf_val} != ${curr_val}"
+    fi
   fi
 
   local quoted_val
-  quoted_val="$(quote_gvariant "${gsettings_val}")"
+  if [ "${gsettings_action}" != "reset" ]; then
+    # The user is setting an explicit value, which they passed as an arg.
+    quoted_val="$(quote_gvariant "${gsettings_val}")"
+  elif [ -z "${dconf_val}" ]; then
+    # The user is resetting the key value, and the key is currently unset
+    # (this'll be a no-op), so the gsettings-get value is the "default".
+    quoted_val="${curr_val}"
+  else
+    # The user is resetting the key value, which is currently customized.
+    # - Note when dconf-read returns an empty string, gsettings-get
+    #   returns the default value (also that `dconf read -d` does
+    #   not also return the default value (or author is using it
+    #   wrong)).
+    # - So we don't know/can't know what the default value is,
+    #   at least not until after we reset the setting.
+    quoted_val="(reset)"
+  fi
 
   local high_val="echo"
   local bang_val=""
