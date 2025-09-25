@@ -812,13 +812,15 @@ gnome_settings_customize_sound() {
 
 # CALSO: Settings > Privacy > Screen > Screen Lock also shows Screen Blank setting.
 gnome_settings_customize_power() {
+  local menu_path="Settings > Power > Power Saving Options"
+
   # Other schema options:
   #   org.gnome.settings-daemon.plugins.power ambient-enabled true
   #   org.gnome.settings-daemon.plugins.power idle-brightness 30
 
   # MAYBE/2025-01-12: Disable Dim Screen
   # Default: Enabled (true)
-  gsettings_set "Settings > Power > Power Saving Options > Dim Screen" \
+  gsettings_set "${menu_path} > Dim Screen" \
     gsettings set org.gnome.settings-daemon.plugins.power idle-dim true
 
   # Default: 5 minutes (uint32 3000)
@@ -827,22 +829,19 @@ gnome_settings_customize_power() {
   #   gsettings set org.gnome.desktop.session idle-delay 480
 
   # Default: Enabled (true)
-  gsettings_set "Settings > Power > Power Saving Options > Automatic Power Saver" \
+  gsettings_set "${menu_path} > Automatic Power Saver" \
     gsettings set org.gnome.settings-daemon.plugins.power power-saver-profile-on-low-battery true
 
   # Default: Enabled: 20 mins. (1200, 'suspend')
-  gsettings_set \
-    "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: 30 mins." \
+  gsettings_set "${menu_path} > Automatic Suspend > On Battery Power: 30 mins." \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 1800
-  gsettings_set \
-    "Settings > Power > Power Saving Options > Automatic Suspend > On Battery Power: Enabled" \
+  gsettings_set "${menu_path} > Automatic Suspend > On Battery Power: Enabled" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
 
   # Default: Enabled: 20 mins. (1200, 'suspend')
   #   gsettings_set "Power: Power Saving Options: Automatic Suspend: Plugged In: 20 mins." \
   #   gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1200
-  gsettings_set \
-    "Settings > Power > Power Saving Options > Automatic Suspend > Plugged In: Disabled" \
+  gsettings_set "${menu_path} > Automatic Suspend > Plugged In: Disabled" \
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
   # Power Button Behavior:
@@ -1336,6 +1335,8 @@ gnome_terminal_customize_shortcuts() {
 # org.gnome.Terminal.Legacy.Settings <key> <val>
 # org.gnome.Terminal.Legacy.Keybindings <key> <val>
 gnome_terminal_customize_profiles_0_text() {
+  local menu_path="GNOME Terminal > Profiles: Default"
+
   # DUNNO: No corresponding gsettings entries?
   # - I.e., no `org.gnome.Terminal.Legacy.Profiles` or `...Profiles:`
   # DUNNO: Note the trailing or leading colon, is that no different than an alphanum,
@@ -1349,7 +1350,7 @@ gnome_terminal_customize_profiles_0_text() {
   )"
 
   if [ -z "${profile_id}" ]; then
-    >&2 echo "ERROR: Skipping: GNOME Terminal > Profiles: Default: Could not suss Profile ID"
+    >&2 echo "ERROR: Skipping: ${menu_path}: Could not suss Profile ID"
 
     exit_1
   fi
@@ -1358,27 +1359,27 @@ gnome_terminal_customize_profiles_0_text() {
 
   if is_hack_font_installed; then
     # Default: Monospace
-    dconf_write "GNOME Terminal > Profiles: Default > Text > Text Appearance > Custom font: Hack Nerd Font Mono 11" \
+    dconf_write "${menu_path} > Text > Text Appearance > Custom font: Hack Nerd Font Mono 11" \
       dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/font" \
       'Hack Nerd Font Mono 11'
   else
-    >&2 echo "ALERT: Skipping: GNOME Terminal > Profiles: Default: Text > Text Appearance > Custom font: Hack Nerd Font"
+    >&2 echo "ALERT: Skipping: ${menu_path}: Text > Text Appearance > Custom font: Hack Nerd Font"
   fi
 
   # ***
 
   # Default: 80 columns x 24 rows
-  dconf_write "GNOME Terminal > Profiles: Default > Text > Text Appearance > Initial terminal size: 112 columns" \
+  dconf_write "${menu_path} > Text > Text Appearance > Initial terminal size: 112 columns" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-columns" '112'
 
   # Default: 80 columns x 24 rows
-  dconf_write "GNOME Terminal > Profiles: Default > Text > Text Appearance > Initial terminal size: 42 rows" \
+  dconf_write "${menu_path} > Text > Text Appearance > Initial terminal size: 42 rows" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-rows" '42'
 
   # ***
 
   # Default: "Default" ('system'), same as Enabled
-  dconf_write "GNOME Terminal > Profiles: Default: Cursor > Cursor blinking: Disabled" \
+  dconf_write "${menu_path}: Cursor > Cursor blinking: Disabled" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/cursor-blink-mode" 'off'
 
   # Default: Enabled
@@ -1391,19 +1392,19 @@ gnome_terminal_customize_profiles_0_text() {
 gnome_terminal_customize_profiles_0_colors() {
   # Default: Enabled (though with GNOME Dark mode, terminal sill black on white).
   # - CALSO: GNOME Terminal: General: Theme variant: Dark
-  dconf_write "GNOME Terminal > Profiles: Default > Colors > Text and Background Color > Built-in schemes: White on black" \
+  dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/use-theme-colors" 'false'
 
-  dconf_write "GNOME Terminal > Profiles: Default > Colors > Text and Background Color > Built-in schemes: White on black" \
+  dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/foreground-color" 'rgb(255,255,255)'
 
-  dconf_write "GNOME Terminal > Profiles: Default > Colors > Text and Background Color > Built-in schemes: White on black" \
+  dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color" 'rgb(0,0,0)'
 
   # *** I think the XTerm color palette is a little brighter and easier to read
   # than GNOME.
 
-  dconf_write "GNOME Terminal > Profiles: Default > Colors > Palette > Built-in schemes: XTerm" \
+  dconf_write "${menu_path} > Colors > Palette > Built-in schemes: XTerm" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/palette" \
     "['rgb(0,0,0)', 'rgb(205,0,0)', 'rgb(0,205,0)', 'rgb(205,205,0)', 'rgb(0,0,238)', 'rgb(205,0,205)', 'rgb(0,205,205)', 'rgb(229,229,229)', 'rgb(127,127,127)', 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(92,92,255)', 'rgb(255,0,255)', 'rgb(0,255,255)', 'rgb(255,255,255)']"
 }
@@ -1462,13 +1463,15 @@ firefox_customize() {
 #   https://gitlab.gnome.org/tuxor1337/hidetopbar
 
 gnome_extension_hide_top_bar_customize() {
+  local menu_path="GNOME Extension > Hide Top Bar"
+
   # DUNNO: There's no schema for org.gnome.shell.extensions.hidetopbar
   # but you can access it via dconf.
 
-  dconf_write "GNOME Extension > Hide Top Bar > Sensitivity > ✓ Show panel when mouse approaches edge of the screen" \
+  dconf_write "${menu_path} > Sensitivity > ✓ Show panel when mouse approaches edge of the screen" \
     dconf write /org/gnome/shell/extensions/hidetopbar/mouse-sensitive true
 
-  dconf_write "GNOME Extension > Hide Top Bar > Intellihide > ✗ Only hide panel when a window takes the space" \
+  dconf_write "${menu_path} > Intellihide > ✗ Only hide panel when a window takes the space" \
     dconf write /org/gnome/shell/extensions/hidetopbar/enable-intellihide false
 }
 
@@ -1480,16 +1483,18 @@ gnome_extension_just_perfection_customize() {
     return
   fi
 
+  local menu_path="GNOME Extension > Just Perfection"
+
   # The app icon next to application's menu bar dropdown.
   #   dconf_write "GNOME Extension > Just Perfection > Icons > ✓ App Menu Icon" \
   #   dconf write /org/gnome/shell/extensions/just-perfection/app-menu-icon false
 
   # Defaults: Center (0), also Right (1), Left (2)
-  dconf_write "GNOME Extension > Just Perfection > Customize > Clock Menu Position: Right" \
+  dconf_write "${menu_path} > Customize > Clock Menu Position: Right" \
     dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position 1
 
   # Defaults: 0, also 1..10
-  dconf_write "GNOME Extension > Just Perfection > Customize > Clock Menu Position Offset: 10" \
+  dconf_write "${menu_path} > Customize > Clock Menu Position Offset: 10" \
     dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset 10
 }
 
@@ -1501,29 +1506,31 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
     return
   fi
 
+  local menu_path="GNOME Extension > AATWS"
+
   # Defaults: Bottom (3), also Top (1), Center (2)
-  dconf_write "GNOME Extension > AATWS > Common > Behavior > Placement: Center" \
+  dconf_write "${menu_path} > Common > Behavior > Placement: Center" \
     dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-position 2
 
   # Defaults: Show Above/Below Item (2), also Top (1), Show Centered (3)
-  dconf_write "GNOME Extension > AATWS > Common > Appearance and Content > Tooltip Titles: Disable" \
+  dconf_write "${menu_path} > Common > Appearance and Content > Tooltip Titles: Disable" \
     dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-tooltip-title 1
 
   # Defaults: false
-  dconf_write "GNOME Extension > AATWS > Window Switcher > Behavior > Skip Minimized Windows: Enable" \
+  dconf_write "${menu_path} > Window Switcher > Behavior > Skip Minimized Windows: Enable" \
     dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/win-switch-skip-minimized true
 
   # Defaults: true
-  dconf_write "GNOME Extension > AATWS > App Switcher > Behavior > Include Favorite (Pinned) Apps: Disable" \
+  dconf_write "${menu_path} > App Switcher > Behavior > Include Favorite (Pinned) Apps: Disable" \
     dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-fav-apps false
 
   # Defaults: true
-  dconf_write "GNOME Extension > AATWS > App Switcher > Behavior > Include Show Apps Icon: Disable" \
+  dconf_write "${menu_path} > App Switcher > Behavior > Include Show Apps Icon: Disable" \
     dconf write \
     /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-include-show-apps-icon false
 
   # Defaults: false
-  dconf_write "GNOME Extension > AATWS > App Switcher > Appearance > Hide Window Count For Single-Window Apps: Enable" \
+  dconf_write "${menu_path} > App Switcher > Appearance > Hide Window Count For Single-Window Apps: Enable" \
     dconf write \
     /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-hide-win-counter-for-single-window \
     true
