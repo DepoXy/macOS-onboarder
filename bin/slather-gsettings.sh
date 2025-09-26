@@ -2223,6 +2223,23 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # ***
 
+  # Open GNOME 2 Application menu / Default: ['<Alt>F1']
+  # - Except there is no Application menu in GNOME 3/GNOME Shell.
+  #   - In fact, even though this binding appears like it might be wired, e.g.:
+  #       $ gsettings reset org.gnome.desktop.wm.keybindings panel-main-menu
+  #       $ gsettings get org.gnome.desktop.wm.keybindings panel-main-menu
+  #       ['<Alt>F1']
+  #     pressing <Alt-F1> has the same effect as just pressing <F1>
+  #     (e.g., my <F1> search binding in Neovim is triggered).
+  #   - REFER:
+  #     https://discourse.gnome.org/t/difference-between-show-the-overview-and-show-the-activities-overview-keyboard-shortcuts/6572
+  # - CALSO: See somewhat-related "panel-run-dialog" GNOME Shell binding:
+  #   - *Show GNOME Shell "Run a command" popup / Default: ['<Alt>F2']*
+  gsettings_set "Keyboard Shortcuts > System [Hidden] > Show the main menu" \
+    gsettings set org.gnome.desktop.wm.keybindings panel-main-menu '@as []'
+
+  # ***
+
   # Release <Ctrl-Cmd-1>..<Ctrl-Cmd-9> (open-new-window-application)
   # as well as <Cmd-1>..<Cmd-9> (switch-to-application).
   # - BNDNG: <Cmd-1|2|3|4|5|6|7|8|9>, <Ctrl-Cmd-1|2|3|4|5|6|7|8|9>
