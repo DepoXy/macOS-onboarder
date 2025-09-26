@@ -1529,6 +1529,8 @@ gnome_settings_customize_keyboard_navigation() {
   #   "Top Bar" immediately, without showing the popup widget.
   #
   # "Switch system controls" / Default: <Ctrl><Alt>Tab
+  # - SAVVY: The Hide Top Bar extension inhibits switch-panels.
+  #   - See comments in the Hide Top Bar settings function.
   gsettings_set "${menu_path} > Switch system controls" \
     gsettings reset org.gnome.desktop.wm.keybindings switch-panels
   gsettings_set "${menu_path} > Switch system controls backward [Hidden]" \
@@ -2869,6 +2871,8 @@ gnome_extension_hide_top_bar_customize() {
   # controls" (switch-panels), which defaults to <Ctrl-Alt-Tab>.
   # - E.g., if you <Ctrl-Alt-C> to show the Top Bar, you cannot
   #   <Ctrl-Alt-Tab> to give the Top Bar keyboard focus.
+  #   - Nor if you hover the mouse over Top Bar to show, the
+  #     switch-panels command still doesn't work.
   # - Specifically, AFAICT, Hide Top Bar breaks Top Bar keyboard a11y.
   #
   # - BNDNG: <Ctrl-Alt-C>
