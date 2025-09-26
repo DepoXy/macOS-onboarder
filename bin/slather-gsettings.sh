@@ -390,6 +390,12 @@ count_it() {
     local dconf_val="$5"
 
     let 'cnt_dconfs += 1'
+    gsett_schemas+=("$(
+      echo "${dconf_key}" |
+        sed 's#/#\.#g' |
+        sed 's/^ *\.\(.*\)\.[^\.]\+$/\1/' |
+        sed 's/^org.gnome.terminal.legacy.profiles.*//'
+    )")
 
     echo "  dconf: ${dconf_key} ${dconf_val}"
   }
@@ -402,6 +408,7 @@ count_it() {
     local gsettings_val="$6"
 
     let 'cnt_gsetts += 1'
+    gsett_schemas+=("${gsettings_schema}")
 
     echo "  gsett: ${gsettings_schema} ${gsettings_key} ${gsettings_val}"
   }
@@ -2004,6 +2011,15 @@ gnome_settings_customize_keyboard_windows() {
 # **** KEYBOARD SHORTCUTS > WINDOWS > [HIDDEN SETTINGS]
 #      ++++++++++++++++++++++++++++
 
+# If you poke around the schemas, you'll find a number of
+# unadvertised settings. (Call 'em "hidden" if you want,
+# but technically they're visible through dconf/gsettings.)
+#
+# - CPYST: Execute a dry-run with counts to see a list of
+#   all schemas this script manages:
+#
+#   $ ./bin/slather-gsettings.sh --dry-run --force --count
+#
 # Hidden Window keybindings.
 #
 # - A subset of wm.keybindings, including all those not
@@ -2947,6 +2963,7 @@ slather_gnome_gsettings() {
 
   local cnt_dconfs=0
   local cnt_gsetts=0
+  declare -a gsett_schemas
 
   if ${cnt_run}; then
     count_it
@@ -3040,6 +3057,16 @@ print_cnt_run_report() {
 
     return 0
   fi
+
+  echo -e "\n$(highlight_soft "*** You Love Stats!")\n"
+
+  echo "Schemas managed:"
+  local gsett_schema
+  for gsett_schema in "${gsett_schemas[@]}"; do
+    echo "${gsett_schema}"
+  done |
+    sort | uniq | sed '/^$/d' | sed 's/^/  /'
+  echo
 
   echo "Settings counts:"
   printf "%-22s %3s\n" "  gsettings (re)set's:" "${cnt_gsetts}"
