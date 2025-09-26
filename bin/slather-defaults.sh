@@ -3479,9 +3479,6 @@ shortcuts_screenshots_remap() {
   # ✓ Screenshots: Copy picture of screen to the clipboard: ^⇧⌘ 3
   # ✓ Screenshots: Save picture of selected area as a file: ⇧⌘ 4
   # ✓ Screenshots: Copy picture of selected area to the clipboard: ^⇧⌘ 4
-  #   - This is actual displayed "Copy picture of se...ea to the clipboard"
-  #     but there's no way to expand the window or to see the full name, so
-  #     I only assume it's "Copy picture of selected area to the clipboard".
   # ✓ Screenshots: Screenshot and recording options: ⇧⌘ 5
   :
 }
