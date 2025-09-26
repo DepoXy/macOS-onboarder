@@ -1336,6 +1336,7 @@ gnome_settings_customize_keyboard() {
   gnome_settings_customize_keyboard_system
   gnome_settings_customize_keyboard_typing
   gnome_settings_customize_keyboard_windows
+  gnome_settings_customize_keyboard_windows_hidden
   gnome_settings_customize_keyboard_custom_shortcuts
 }
 
@@ -1544,6 +1545,12 @@ gnome_settings_customize_keyboard_navigation() {
   gsettings_set "${menu_path} > Switch to workspace on the right" \
     gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right \
     "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
+  # Just like move-to-workspace-down/move-to-workspace-up, there
+  # are 2 related bindings in GSettings for workspaces above/below,
+  # but not exposed in the GUI:
+  #
+  #   org.gnome.desktop.wm.keybindings switch-to-workspace-down @as []
+  #   org.gnome.desktop.wm.keybindings switch-to-workspace-up @as []
 
   # MOVED: The four "Switch windows*" keybindings are set below:
   # - "Switch windows"
@@ -1934,6 +1941,170 @@ gnome_settings_customize_keyboard_windows() {
   gsettings_set "Keyboard Shortcuts > Windows > View split on right" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-right \
     "['<Shift><Control><Super>bracketright']"
+}
+
+#      ++++++++++++++++++++++++++++
+# **** KEYBOARD SHORTCUTS > WINDOWS > [HIDDEN SETTINGS]
+#      ++++++++++++++++++++++++++++
+
+# Hidden Window keybindings.
+#
+# - A list of wm.keybindings not mentioned elsewhere:
+#
+#   $ gsettings list-recursively org.gnome.desktop.wm.keybindings
+#   ...
+#   # Oddly, there's no opposite to *always-on-top*.
+#   # - Use instead: *toggle-above*
+#   org.gnome.desktop.wm.keybindings always-on-top @as []
+#   ...
+#   org.gnome.desktop.wm.keybindings move-to-center @as []
+#   ...
+#   org.gnome.desktop.wm.keybindings move-to-corner-ne @as []
+#   org.gnome.desktop.wm.keybindings move-to-corner-nw @as []
+#   org.gnome.desktop.wm.keybindings move-to-corner-se @as []
+#   org.gnome.desktop.wm.keybindings move-to-corner-sw @as []
+#   ...
+#   org.gnome.desktop.wm.keybindings move-to-side-e @as []
+#   org.gnome.desktop.wm.keybindings move-to-side-n @as []
+#   org.gnome.desktop.wm.keybindings move-to-side-s @as []
+#   org.gnome.desktop.wm.keybindings move-to-side-w @as []
+#   ...
+#   org.gnome.desktop.wm.keybindings panel-main-menu ['<Alt>F1']
+#   org.gnome.desktop.wm.keybindings panel-run-dialog ['<Alt>F2']
+#   ...
+#   org.gnome.desktop.wm.keybindings set-spew-mark @as []
+#   ...
+#   org.gnome.desktop.wm.keybindings toggle-above @as []
+#
+# ***
+#
+# Hidden Preferences settings.
+#
+# - A list of wm.preferences not mentioned elsewhere, from:
+#
+#   $ gsettings list-recursively org.gnome.desktop.wm.preferences
+#   ...
+#
+# - Reveals:
+#
+#   org.gnome.desktop.wm.preferences action-double-click-titlebar 'toggle-maximize'
+#   org.gnome.desktop.wm.preferences action-middle-click-titlebar 'none'
+#   org.gnome.desktop.wm.preferences action-right-click-titlebar 'menu'
+#   org.gnome.desktop.wm.preferences audible-bell true
+#   org.gnome.desktop.wm.preferences auto-raise false
+#   org.gnome.desktop.wm.preferences auto-raise-delay 500
+#   org.gnome.desktop.wm.preferences disable-workarounds false
+#   org.gnome.desktop.wm.preferences focus-mode 'click'
+#   org.gnome.desktop.wm.preferences focus-new-windows 'smart'
+#   org.gnome.desktop.wm.preferences raise-on-click false
+#   org.gnome.desktop.wm.preferences resize-with-right-button false
+#   org.gnome.desktop.wm.preferences theme 'Adwaita'
+#   org.gnome.desktop.wm.preferences titlebar-font 'Hack Nerd Font 11'
+#   org.gnome.desktop.wm.preferences titlebar-uses-system-font true
+#   org.gnome.desktop.wm.preferences visual-bell false
+#   org.gnome.desktop.wm.preferences visual-bell-type 'fullscreen-flash'
+#   org.gnome.desktop.wm.preferences workspace-names @as []
+#
+#   # Exposed in Multitasking settings:
+#   org.gnome.desktop.wm.preferences num-workspaces 4
+#
+#   # Exposed in GNOME Tweaks:
+#   org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
+#   org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
+#
+# ***
+#
+# Hidden Mutter keybindings.
+#
+# - A list of wm.preferences not mentioned elsewhere, from:
+#
+#   $ gsettings list-recursively org.gnome.mutter.keybindings
+#   org.gnome.mutter.keybindings cancel-input-capture ['<Super><Shift>Escape']
+#   org.gnome.mutter.keybindings rotate-monitor ['XF86RotateWindows']
+#   org.gnome.mutter.keybindings switch-monitor ['<Super>p', 'XF86Display']
+#   # Exposed in Keyboard Shortcuts > Windows:
+#   org.gnome.mutter.keybindings toggle-tiled-left ['<Super>Left']
+#   org.gnome.mutter.keybindings toggle-tiled-right ['<Super>Right']
+#
+#   $ gsettings list-recursively org.gnome.mutter.wayland.keybindings
+#   # DUNNO: Pressing <Cmd-Esc> has no affect in my environment, AFAICT.
+#   org.gnome.mutter.wayland.keybindings restore-shortcuts ['<Super>Escape']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-1 ['<Primary><Alt>F1']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-2 ['<Primary><Alt>F2']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-3 ['<Primary><Alt>F3']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-4 ['<Primary><Alt>F4']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-5 ['<Primary><Alt>F5']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-6 ['<Primary><Alt>F6']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-7 ['<Primary><Alt>F7']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-8 ['<Primary><Alt>F8']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-9 ['<Primary><Alt>F9']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-10 ['<Primary><Alt>F10']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-11 ['<Primary><Alt>F11']
+#   org.gnome.mutter.wayland.keybindings switch-to-session-12 ['<Primary><Alt>F12']
+#
+# ***
+#
+#   $ gsettings list-recursively org.gnome.shell.keybindings
+#
+#   # Hidden settings:
+#   org.gnome.shell.keybindings shift-overview-down ['<Super><Alt>Down']
+#   org.gnome.shell.keybindings shift-overview-up ['<Super><Alt>Up']
+#
+#   org.gnome.shell.keybindings open-new-window-application-1 @as []
+#   ...
+#   org.gnome.shell.keybindings open-new-window-application-9 @as []
+#   org.gnome.shell.keybindings switch-to-application-1 @as []
+#   ...
+#   org.gnome.shell.keybindings switch-to-application-9 @as []
+#
+#   # Exposed in Keyboard Shortcuts > System:
+#   org.gnome.shell.keybindings focus-active-notification @as []
+#   org.gnome.shell.keybindings toggle-application-view @as []
+#   org.gnome.shell.keybindings toggle-message-tray ['<Shift><Control><Super>c']
+#   org.gnome.shell.keybindings toggle-overview ['<Control><Alt>Down']
+#   org.gnome.shell.keybindings toggle-quick-settings @as []
+#
+#   # Exposed in Keyboard Shortcuts > Screenshots:
+#   org.gnome.shell.keybindings screenshot @as []
+#   org.gnome.shell.keybindings screenshot-window @as []
+#   org.gnome.shell.keybindings show-screen-recording-ui ['<Shift><Super>4']
+#   org.gnome.shell.keybindings show-screenshot-ui @as []
+#
+# ***
+#
+#   $ gsettings list-recursively org.gnome.settings-daemon.plugins.media-keys
+#
+#   # These are mostly settings pairs, e.g.,
+#   org.gnome.settings-daemon.plugins.media-keys battery-status ['']
+#   org.gnome.settings-daemon.plugins.media-keys battery-status-static ['XF86Battery']
+#   org.gnome.settings-daemon.plugins.media-keys calculator ['']
+#   org.gnome.settings-daemon.plugins.media-keys calculator-static ['XF86Calculator']
+#   # etc. (And there are lots of 'em.)
+#
+#   # There's also the one big array that registers all the custom keybindings:
+#   org.gnome.settings-daemon.plugins.media-keys custom-keybindings
+#   # - Author currently has 83(!) custom-keybindings registered (and
+#   #   that doesn't include other keybindings managed by run-or-raise)
+#   #   which looks like this:
+#   #   ['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', ...
+#   #    '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom81/']
+#
+#   # Ignoring everything else, here are the interesting settings,
+#   # or at least those assigned keybindings:
+#   # - You'll find "logout" on Keyboard Shortcuts > System:
+#   org.gnome.settings-daemon.plugins.media-keys logout ['<Control><Alt>Delete']
+#   org.gnome.settings-daemon.plugins.media-keys magnifier ['<Alt><Super>8']
+#   org.gnome.settings-daemon.plugins.media-keys magnifier-zoom-in ['<Alt><Super>equal']
+#   org.gnome.settings-daemon.plugins.media-keys magnifier-zoom-out ['<Alt><Super>minus']
+#   org.gnome.settings-daemon.plugins.media-keys rotate-video-lock ['']
+#   org.gnome.settings-daemon.plugins.media-keys rotate-video-lock-static ['<Super>o', 'XF86RotationLockToggle']
+#   org.gnome.settings-daemon.plugins.media-keys screenreader ['<Alt><Super>s']
+#   # - You'll find "screensaver" on Keyboard Shortcuts > System:
+#   org.gnome.settings-daemon.plugins.media-keys screensaver ['<Control><Super>q']
+#   org.gnome.settings-daemon.plugins.media-keys screensaver-static ['XF86ScreenSaver']
+
+gnome_settings_customize_keyboard_windows_hidden() {
+  :
 }
 
 #      +++++++++++++++++++++++++++++++++++++
