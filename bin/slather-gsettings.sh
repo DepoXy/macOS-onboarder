@@ -2565,7 +2565,11 @@ slather_gnome_gsettings() {
       skip_at_end=true
       shift
       ;;
-    *) shift ;;
+    *)
+      >&2 echo "ERROR: Unknown arg: $1"
+
+      exit_1
+      ;;
     esac
   done
 

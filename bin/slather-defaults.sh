@@ -5365,7 +5365,9 @@ slather_macos_defaults() {
       shift
       ;;
     *)
-      shift
+      >&2 echo "ERROR: Unknown arg: $1"
+
+      exit_1
       ;;
     esac
   done
