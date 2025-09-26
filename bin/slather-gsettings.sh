@@ -1818,6 +1818,8 @@ gnome_settings_customize_keyboard_system() {
     gsettings reset org.gnome.settings-daemon.plugins.media-keys reboot
 
   # "Restore the keyboard shortcuts" / Default: ['<Super>Escape']
+  # - BNDNG: <Cmd-Esc>
+  #   - DUNNO: Pressing <Cmd-Esc> has no effect in my environment, AFAICT.
   gsettings_set "Keyboard Shortcuts > System > Restore the keyboard shortcuts" \
     gsettings reset org.gnome.mutter.wayland.keybindings restore-shortcuts
 
@@ -2004,7 +2006,8 @@ gnome_settings_customize_keyboard_windows() {
 
 # Hidden Window keybindings.
 #
-# - A list of wm.keybindings not mentioned elsewhere:
+# - A subset of wm.keybindings, including all those not
+#   settable from GNOME Settings:
 #
 #   $ gsettings list-recursively org.gnome.desktop.wm.keybindings
 #   ...
@@ -2035,7 +2038,8 @@ gnome_settings_customize_keyboard_windows() {
 #
 # Hidden Preferences settings.
 #
-# - A list of wm.preferences not mentioned elsewhere, from:
+# - A partial list of wm.preferences, including all those
+#   not settable from GNOME Settings GUI:
 #
 #   $ gsettings list-recursively org.gnome.desktop.wm.preferences
 #   ...
@@ -2071,7 +2075,7 @@ gnome_settings_customize_keyboard_windows() {
 #
 # Hidden Mutter keybindings.
 #
-# - A list of wm.preferences not mentioned elsewhere, from:
+# - A list of the 5 total wm.preferences settings:
 #
 #   $ gsettings list-recursively org.gnome.mutter.keybindings
 #   org.gnome.mutter.keybindings cancel-input-capture ['<Super><Shift>Escape']
@@ -2081,9 +2085,16 @@ gnome_settings_customize_keyboard_windows() {
 #   org.gnome.mutter.keybindings toggle-tiled-left ['<Super>Left']
 #   org.gnome.mutter.keybindings toggle-tiled-right ['<Super>Right']
 #
+# ***
+#
+# Some of the Mutter-Wayland keybindings, including all "hidden" settings.
+#
 #   $ gsettings list-recursively org.gnome.mutter.wayland.keybindings
-#   # DUNNO: Pressing <Cmd-Esc> has no affect in my environment, AFAICT.
+#
+#   # Exposed in Keyboard Shortcuts > System settings:
 #   org.gnome.mutter.wayland.keybindings restore-shortcuts ['<Super>Escape']
+#
+#   # Hidden settings:
 #   org.gnome.mutter.wayland.keybindings switch-to-session-1 ['<Primary><Alt>F1']
 #   org.gnome.mutter.wayland.keybindings switch-to-session-2 ['<Primary><Alt>F2']
 #   org.gnome.mutter.wayland.keybindings switch-to-session-3 ['<Primary><Alt>F3']
@@ -2105,8 +2116,10 @@ gnome_settings_customize_keyboard_windows() {
 #   org.gnome.shell.keybindings shift-overview-down ['<Super><Alt>Down']
 #   org.gnome.shell.keybindings shift-overview-up ['<Super><Alt>Up']
 #
-#   # These claim nice-to-have keybindings <Cmd-1>..<Cmd-9> and
-#   # <Ctrl-Cmd-1>..<Ctrl-Cmd-9>, so we'll free these below:
+#   # By default, these settings claim nice-to-have keybindings
+#   # <Cmd-1>..<Cmd-9> and <Ctrl-Cmd-1>..<Ctrl-Cmd-9>.
+#   # - We'll free these below (author uses <Cmd-1>..<Cmd-9 to
+#   #   front numbered (via their titles) Alacritty windows:
 #   org.gnome.shell.keybindings open-new-window-application-1 @as []
 #   ...
 #   org.gnome.shell.keybindings open-new-window-application-9 @as []
