@@ -2136,6 +2136,17 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # ***
 
+  # ILIKE: I love this! While it might be a little annoying while you
+  # get used to the new behavior, it enables a number of interesting
+  # workflows, like leaving your text editor fullscreen and working
+  # on code while having another window in front of it (but without
+  # focus).
+  # - This setting works well with the <Alt-/> command which'll
+  #   officially raise the window that has focus:
+  #     org.gnome.desktop.wm.keybindings raise-or-lower
+  gsettings_set "Keyboard Shortcuts > Window Prefs. [Hidden] > ∅ Raise on Click" \
+    gsettings set org.gnome.desktop.wm.preferences raise-on-click false
+
   gsettings_set "Keyboard Shortcuts > Window Prefs. [Hidden] > ∅ Titlebar Uses System Font" \
     gsettings set org.gnome.desktop.wm.preferences titlebar-uses-system-font false
 
