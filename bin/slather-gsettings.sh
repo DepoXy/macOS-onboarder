@@ -1973,31 +1973,40 @@ gnome_settings_customize_keyboard_windows() {
     gsettings reset org.gnome.desktop.wm.keybindings minimize
 
   # "Maximize window" / Default: <Cmd-Up>
-  # - BNDNG: <Cmd-Up>
-  gsettings_set "Keyboard Shortcuts > Windows > Maximize window: <Cmd-Up>" \
-    gsettings reset org.gnome.desktop.wm.keybindings maximize
+  # - SAVVY: Author prefers dual-purpose "toggle-maximized"
+  gsettings_set "Keyboard Shortcuts > Windows > Maximize window" \
+    gsettings set org.gnome.desktop.wm.keybindings maximize '@as []'
 
   # "Maximize window horizontally" / Default: Disabled
-  # - BNDNG: <Shift-Ctrl-Cmd-.>
-  gsettings_set "Keyboard Shortcuts > Windows > Maximize window horizontally: <Shift-Ctrl-Cmd-.>" \
+  # - BNDNG: <Shift-Ctrl-Alt-\> (<Shift-Ctrl-Alt-backslash>)
+  gsettings_set "Keyboard Shortcuts > Windows > Maximize window horizontally" \
     gsettings set org.gnome.desktop.wm.keybindings maximize-horizontally \
-    "['<Shift><Control><Super>period']"
+    "['<Shift><Control><Alt>slash']"
 
   # "Maximize window vertically" / Default: Disabled
-  # - BNDNG: <Shift-Ctrl-Cmd-\> (<Shift-Ctrl-Cmd-backslash>)
-  gsettings_set "Keyboard Shortcuts > Windows > Maximize window vertically: <Shift-Ctrl-Cmd-\\>" \
+  # - BNDNG: <Shift-Ctrl-Alt-.> (<Shift-Ctrl-Alt-period>)
+  gsettings_set "Keyboard Shortcuts > Windows > Maximize window vertically" \
     gsettings set org.gnome.desktop.wm.keybindings maximize-vertically \
-    "['<Shift><Control><Super>backslash']"
+    "['<Shift><Control><Alt>period']"
 
   # "Restore window" / Default: <Cmd-Down>
-  # - BNDNG: <Cmd-Down>
-  gsettings_set "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>" \
-    gsettings reset org.gnome.desktop.wm.keybindings unmaximize
+  # - The toggle-maximized binding is technically sufficient,
+  #   but it's nice to have a complementary binding to arrow key
+  #   bindings (UCASE: Pressing <Shift-Ctrl-Alt-Up> to maximize
+  #   a window, then instinctively trying <Shift-Ctrl-Alt-Down>
+  #   to unmaximize.)
+  # - BNDNG: <Shift-Ctrl-Alt-Down>
+  gsettings_set "Keyboard Shortcuts > Windows > Restore window" \
+    gsettings set org.gnome.desktop.wm.keybindings unmaximize \
+    "['<Shift><Control><Alt>Down']"
 
   # "Toggle maximization state" / Default: <Alt-F10>
-  # - BNDNG: <Alt-F10>
-  gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>" \
-    gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
+  # - BNDNG: <Alt-F10>, <Shift-Ctrl-Alt-Up>
+  #   - REFER: On macOS, this is Rectangle > Maximize Height:
+  #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state" \
+    gsettings set org.gnome.desktop.wm.keybindings toggle-maximized \
+    "['<Alt-F10>', '<Shift><Control><Alt>Up']"
 
   # "Toggle fullscreen mode" / Default: Disabled
   # - Why you might like *toggle-fullscreen*:
@@ -2021,10 +2030,13 @@ gnome_settings_customize_keyboard_windows() {
   #         other normal window; it just doesn't have a
   #         titlebar... well, it also can't be resized (and
   #         not with begin-resize (<Alt-F8> either)).
-  # - BNDNG: <Ctrl-Alt-Up>
-  gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode: <Ctrl-Alt-Up>" \
+  # - REFER: This is <Ctrl-Cmd-F> in macOS (the OS default).
+  #   - I prefer <Shift-Ctrl-F>, but we'll map both, the
+  #     latter for muscle memory/parity.
+  # - BNDNG: <Shift-Ctrl-F>, <Ctrl-Cmd-F>
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode" \
     gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen \
-    "['<Control><Alt>Up']"
+    "['<Shift><Control>f', '<Control><Super>f']"
 
   # ***
 
@@ -2072,14 +2084,18 @@ gnome_settings_customize_keyboard_windows() {
   # ***
 
   # "Move window" / Default: <Alt-F7>
-  # - BNDNG: <Alt-F7>
+  # - BNDNG: <Alt-F7>, and <Shift-Ctrl-Alt-;> aka:
+  #   - BNDNG: (<Shift-Ctrl-Alt-:>, <Shift-Ctrl-Alt-semicolon>)
   gsettings_set "Keyboard Shortcuts > Windows > Move window: <Alt-F7>" \
-    gsettings reset org.gnome.desktop.wm.keybindings begin-move
+    gsettings set org.gnome.desktop.wm.keybindings begin-move \
+    "['<Alt>F7', '<Shift><Control><Alt>semicolon']"
 
   # "Resize window" / Default: <Alt-F8>
-  # - BNDNG: <Alt-F8>
+  # - BNDNG: <Alt-F8>, and <Shift-Ctrl-Alt-'> aka:
+  #   - BNDNG: (<Shift-Ctrl-Alt-apostrophe>)
   gsettings_set "Keyboard Shortcuts > Windows > Resize window: <Alt-F8>" \
-    gsettings reset org.gnome.desktop.wm.keybindings begin-resize
+    gsettings set org.gnome.desktop.wm.keybindings begin-resize \
+    "['<Alt>F8', '<Shift><Control><Alt>apostrophe']"
 
   # ***
 
@@ -2099,16 +2115,16 @@ gnome_settings_customize_keyboard_windows() {
   # - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
 
   # "View split on left" / Default: <Cmd-Left>
-  # - BNDNG: <Shift-Ctrl-Cmd-[> (<Shift-Ctrl-Cmd-LeftBracket>)
+  # - BNDNG: <Shift-Ctrl-Alt-[> (<Shift-Ctrl-Alt-LeftBracket>)
   gsettings_set "Keyboard Shortcuts > Windows > View split on left" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-left \
-    "['<Shift><Control><Super>bracketleft']"
+    "['<Shift><Control><Alt>bracketleft']"
 
   # "View split on right" / Default: <Cmd-Right>
-  # - BNDNG: <Shift-Ctrl-Cmd-]> (<Shift-Ctrl-Cmd-RightBracket>)
+  # - BNDNG: <Shift-Ctrl-Alt-]> (<Shift-Ctrl-Alt-RightBracket>)
   gsettings_set "Keyboard Shortcuts > Windows > View split on right" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-right \
-    "['<Shift><Control><Super>bracketright']"
+    "['<Shift><Control><Alt>bracketright']"
 }
 
 #      ++++++++++++++++++++++++++++
