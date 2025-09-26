@@ -2155,6 +2155,14 @@ rectangle_customize() {
 # ***
 
 _rectangle_customize_circa_2022_macbook() {
+  >&2 echo "GAFFE: Obsolete settings"
+
+  if true; then
+    return 1
+  fi
+
+  # ***
+
   echo "Rectangle: Miscellany: Maximize: Ctrl-Alt-Enter (^⌥ ⏎ ) → Shift-Ctrl-Cmd-* (^⇧⌘ *)"
   defaults write com.knollsoft.Rectangle maximize "{ keyCode = 67; modifierFlags = 917504; }"
   echo "Rectangle: Miscellany: Almost Maximize: (Unset) → Shift-Ctrl-Cmd-? (^⇧⌘ ?)"
