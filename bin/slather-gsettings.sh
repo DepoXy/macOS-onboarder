@@ -1753,6 +1753,8 @@ gnome_settings_customize_keyboard_navigation_switchers() {
     gsettings reset org.gnome.desktop.wm.keybindings cycle-windows-backward
 
   # "Switch windows of an app directly" / Defaults: <Alt>F6, <Shift><Alt>F6
+  # - INERT: Meh, I prefer <Cmd-Tab> for switching app windows,
+  #   no need to find a more convenient keybinding for this.
   # BNDNG: <Alt-F6>, <Shift-Alt-F6>
   gsettings_set "${menu_path} > Switch windows of an app directly" \
     gsettings reset org.gnome.desktop.wm.keybindings cycle-group
@@ -1897,11 +1899,9 @@ gnome_settings_customize_keyboard_system() {
     gsettings set org.gnome.shell.keybindings toggle-application-view '@as []'
 
   # "Show the notification list" / Default: ['<Super>v']
-  # - If no notifications, doesn't do anything.
-  #   - SAVVY: If Top Bar is hidden, does nothing.
-  #     - So roll your mouse to the top of the screen to reveal Top
-  #       Bar, and then this binding works. (But at that point, you
-  #       could just as easily click the clock to show 'em.)
+  # - SAVVY: If Top Bar is hidden, does nothing.
+  #   - Use <Ctrl-Alt-C> binding to show Top Bar.
+  #   - Or roll your mouse over the Top Bar area.
   # - To disable instead:
   #   gsettings_set "Keyboard Shortcuts > System > Show the notification list" \
   #     gsettings set org.gnome.shell.keybindings toggle-message-tray '@as []'
