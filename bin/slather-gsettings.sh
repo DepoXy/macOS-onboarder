@@ -1989,18 +1989,41 @@ gnome_settings_customize_keyboard_windows() {
   # ***
 
   # Lower window below other windows: Disabled [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Lower window below other windows: Disabled" \
-    gsettings reset org.gnome.desktop.wm.keybindings lower
+  # - BNDNG: <Shift-Alt-/> (Shift-Alt-slash, Shift-Alt-forwardslash)
+  gsettings_set "Keyboard Shortcuts > Windows > Lower window below other windows" \
+    gsettings set org.gnome.desktop.wm.keybindings lower "['<Shift><Alt>slash']"
 
   # Raise window above other windows: Disabled [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows: Disabled" \
-    gsettings reset org.gnome.desktop.wm.keybindings raise
+  # - ALTLY: Wire "raise-or-lower" to <Alt-/>, and disable "raise", e.g.:
+  #     gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows" \
+  #       gsettings reset org.gnome.desktop.wm.keybindings raise
+  #   - UCASE: When "raise-on-click" is disabled, you can focus a
+  #     window that's not the frontmost window. Then you can use
+  #     "raise" or "raise-or-lower" to bring the focused window
+  #     to the front.
+  #     - The "issue" with "raise-or-lower" is that it'll minimize
+  #       the frontmost window if it's the one with focus. But I
+  #       don't think of this operation as a toggle. Rather, it's
+  #       just to ensure the focused window is frontmost.
+  #     - That said, we'll wire "lower" (to <Shift-Alt-/>) so that
+  #       you can deliberately lower the frontmost window — though
+  #       note that it'll still have focus! But this allows you to
+  #       lower a window behind another window, perhaps to peak at
+  #       something temporarily, perhaps to transcribe something
+  #       without having to rearrange windows, etc.
+  # - BNDNG: <Alt-/> (Alt-slash, Alt-forwardslash)
+  gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows" \
+    gsettings set org.gnome.desktop.wm.keybindings raise "['<Alt>slash']"
 
   # Raise window if covered, otherwise lower it: Disabled [default]
-  # - BNDNG: <Alt-/> (Alt-slash, Alt-forwardslash)
-  gsettings_set "Keyboard Shortcuts > Windows > Raise window if covered, otherwise lower it: <Alt-/>" \
-    gsettings set org.gnome.desktop.wm.keybindings raise-or-lower \
-    "['<Alt>slash']"
+  # - CALSO: raise-or-lower (<Alt-/>) is esp. useful when raise-on-click is disabled.
+  # - ALTLY: Wire "raise-or-lower" to <Alt-/>, and disable "raise", e.g.:
+  #     # - BNDNG: <Alt-/> (Alt-slash, Alt-forwardslash)
+  #     gsettings_set "Keyboard Shortcuts > Windows > Raise window if covered, otherwise lower it" \
+  #       gsettings set org.gnome.desktop.wm.keybindings raise-or-lower \
+  #       "['<Alt>slash']"
+  gsettings_set "Keyboard Shortcuts > Windows > Raise window if covered, otherwise lower it" \
+    gsettings reset org.gnome.desktop.wm.keybindings raise-or-lower
 
   # ***
 
