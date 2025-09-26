@@ -372,8 +372,8 @@ fake_it() {
 }
 
 # INPUT: ENV: Expects:
-#   local cnt_dconf_write=0
-#   local cnt_gsettings_set=0
+#   local cnt_dconfs=0
+#   local cnt_gsetts=0
 count_it() {
   dconf_write() {
     local _description="$1"
@@ -382,7 +382,7 @@ count_it() {
     local dconf_key="$4"
     local dconf_value="$5"
 
-    let 'cnt_dconf_write += 1'
+    let 'cnt_dconfs += 1'
 
     echo "  dconf: ${dconf_key} ${dconf_value}"
   }
@@ -394,7 +394,7 @@ count_it() {
     local gsettings_key="$5"
     local gsettings_value="$6"
 
-    let 'cnt_gsettings_set += 1'
+    let 'cnt_gsetts += 1'
 
     echo "  gsett: ${gsettings_schema} ${gsettings_key} ${gsettings_value}"
   }
@@ -458,6 +458,7 @@ gsettings_set() {
     gsettings get "${gsettings_schema}" "${gsettings_key}"
   ) → '${gsettings_value}'"
 
+  exit 1
   gsettings set "${gsettings_schema}" "${gsettings_key}" "${gsettings_value}"
 }
 
@@ -479,6 +480,8 @@ print_dconf_write_setting() {
 
     exit_1
   fi
+
+  let 'cnt_dconfs += 1'
 
   local curr_val
   curr_val="$(dconf read "${dconf_key}")"
@@ -534,6 +537,8 @@ print_gsettings_set_setting() {
 
     exit_1
   fi
+
+  let 'cnt_gsetts += 1'
 
   # The dconf-read is the current *user* value.
   # - It returns an empty string if the user has not customimzed
@@ -2552,10 +2557,10 @@ slather_gnome_gsettings() {
 
   # ***
 
-  if ${cnt_run}; then
-    local cnt_dconf_write=0
-    local cnt_gsettings_set=0
+  local cnt_dconfs=0
+  local cnt_gsetts=0
 
+  if ${cnt_run}; then
     count_it
   elif ${dry_run}; then
     fake_it
@@ -2649,9 +2654,9 @@ print_cnt_run_report() {
   fi
 
   echo "Settings counts:"
-  printf "%-22s%3s\n" "- # gsettings set's:" "${cnt_gsettings_set}"
-  printf "%-22s%3s\n" "- # dconf write's:" "${cnt_dconf_write}"
-  printf "%-22s%3s\n" "- # Manual tasks:" "${#print_at_end[@]}"
+  printf "%-22s%3s\n" "- # gsettings (re)set's:" "${cnt_gsetts}"
+  printf "%-22s%3s\n" "- # dconf reset/write's:" "${cnt_dconfs}"
+  printf "%-22s%3s\n" "- # User task reminders:" "${#print_at_end[@]}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
