@@ -1769,56 +1769,45 @@ gnome_settings_customize_keyboard_sound_and_media() {
 #      +++++++++++++++++++++++++++
 
 gnome_settings_customize_keyboard_system() {
-  # Focus the active notification
-  # - Default: ['<Super>n']
+  # "Focus the active notification" / Default: ['<Super>n']
   # - DUNNO: Pressing <Cmd-N> doesn't do anything for the author...
   gsettings_set "Keyboard Shortcuts > System > Focus the active notification: Disabled" \
     gsettings set org.gnome.shell.keybindings focus-active-notification '@as []'
 
-  # Lock screen
-  # - Default: ['<Super>l']
+  # "Lock screen" / Default: ['<Super>l']
   # - BNDNG: <Ctrl-Cmd-Q>
   gsettings_set "Keyboard Shortcuts > System > Lock screen" \
     gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control><Super>q']"
 
-  # Log out
-  # - Default: ['<Control><Alt>Delete']
-  #
+  # "Log out" / Default: ['<Control><Alt>Delete']
   # gsettings_set "Keyboard Shortcuts > System > Log out: Disabled" \
   #   gsettings set org.gnome.settings-daemon.plugins.media-keys logout "['<Control><Alt>Delete']"
 
-  # Open the quick settings menu
-  # - Default: ['<Super>s']
+  # "Open the quick settings menu" / Default: ['<Super>s']
   # - DUNNO: Does nothing for the author (literally, not figuratively).
-  # - Prev. to GNOME Shell 48, I think this was Open the application menu, <Cmd-F10>.
+  # - Previous to GNOME Shell 48, I think this was Open the application menu, <Cmd-F10>.
   gsettings_set "Keyboard Shortcuts > System > Open the quick settings menu: Disabled" \
     gsettings set org.gnome.shell.keybindings toggle-quick-settings '@as []'
 
-  # Power off
-  # - Default: Disabled
+  # "Power off" / Default: Disabled
   gsettings_set "Keyboard Shortcuts > System > Power off: Disabled" \
     gsettings reset org.gnome.settings-daemon.plugins.media-keys shutdown
 
-  # Restart
-  # - Default: Disabled
+  # "Restart" / Default: Disabled
   gsettings_set "Keyboard Shortcuts > System > Restart: Disabled" \
     gsettings reset org.gnome.settings-daemon.plugins.media-keys reboot
 
-  # Restore the keyboard shortcuts
-  # - Default: ['<Super>Escape']
-  #
+  # "Restore the keyboard shortcuts" / Default: ['<Super>Escape']
   # gsettings_set "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled" \
   #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
 
-  # Show all apps
-  # - Default: ['<Super>a']
+  # "Show all apps" / Default: ['<Super>a']
   # - ISOFF: This shows the Overview application list.
   #   - It's the same as <Cmd> to show Overview, then clicking the 3x3 dots icon (⁙).
   gsettings_set "Keyboard Shortcuts > System > Show all apps: Disabled" \
     gsettings set org.gnome.shell.keybindings toggle-application-view '@as []'
 
-  # Show the notification list
-  # - Default: ['<Super>v']
+  # "Show the notification list" / Default: ['<Super>v']
   # - If no notifications, doesn't do anything.
   #   - SAVVY: If Top Bar is hidden, does nothing.
   #     - So roll your mouse to the top of the screen to reveal Top
@@ -1833,10 +1822,9 @@ gnome_settings_customize_keyboard_system() {
     gsettings set org.gnome.shell.keybindings toggle-message-tray \
     ["'<Shift><Control><Super>c'"]
 
-  # Show the overview
+  # "Show the overview" / Default: ['<Super>s']
   # - Same behavior as pressing <Super>.
   #   - Or pressing the top-left button in the Top Bar.
-  # - Default: ['<Super>s']
   # - To disable instead:
   #   gsettings_set "Keyboard Shortcuts > System > Show the overview" \
   #     gsettings set org.gnome.shell.keybindings toggle-overview '@as []'
@@ -1845,9 +1833,7 @@ gnome_settings_customize_keyboard_system() {
   gsettings_set "Keyboard Shortcuts > System > Show the overview" \
     gsettings set org.gnome.shell.keybindings toggle-overview "['<Control><Alt>Down']"
 
-  # Show the run command prompt
-  # - Default: ['<Alt>F2']
-  #
+  # "Show the run command prompt" / Default: ['<Alt>F2']
   # gsettings_set "Keyboard Shortcuts > System > Show the run command prompt: Disabled" \
   #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
 }
@@ -1937,12 +1923,12 @@ gnome_settings_customize_keyboard_windows() {
   gsettings_set "Keyboard Shortcuts > Windows > Toggle window on all workspaces or one: Disabled" \
     gsettings reset org.gnome.desktop.wm.keybindings toggle-on-all-workspaces
 
-  # View split on left: <Cmd-Left> [default]
+  # "View split on left" / Default: <Cmd-Left>
   gsettings_set "Keyboard Shortcuts > Windows > View split on left: <Shift-Ctrl-Cmd-Left>" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-left \
     "['<Shift><Control><Super>Left']"
 
-  # View split on right: <Cmd-Right> [default]
+  # "View split on right" / Default: <Cmd-Right>
   gsettings_set "Keyboard Shortcuts > Windows > View split on right: <Shift-Ctrl-Cmd-Right>" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-right \
     "['<Shift><Control><Super>Right']"
