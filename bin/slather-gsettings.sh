@@ -1514,12 +1514,16 @@ gnome_settings_customize_keyboard_navigation() {
   gsettings_set "${menu_path} > Switch system controls directly backward [Hidden]" \
     gsettings reset org.gnome.desktop.wm.keybindings cycle-panels-backward
 
+  # Author rarely uses Workspaces.
+  # - I'll leave <Ctrl-Alt-Left> and <Ctrl-Alt-Right> for simple
+  #   navigation to adjacent Workspaces, and I'll disable the others.
+
   # "Switch to last workspace" / Default: <Cmd-End>
   gsettings_set "${menu_path} > Switch to last workspace" \
-    gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-last
+    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-last '@as []'
   # "Switch to workspace 1" / Default: <Cmd-Home>
   gsettings_set "${menu_path} > Switch to workspace 1" \
-    gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-1
+    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 '@as []'
   # There are 3 more switch-to-workspace-N options in the GUI (same as move-to-workspace-N):
   #   Keyboard Shortcuts > Navigation > Switch to workspace 2: Disabled
   #   Keyboard Shortcuts > Navigation > Switch to workspace 3: Disabled
