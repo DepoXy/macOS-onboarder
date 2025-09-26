@@ -62,7 +62,7 @@
 #
 # - For a count of applied settings (using DepoXy path):
 #
-#     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --cnt-run
+#     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --count
 #
 # - For a preview of applied settings:
 #
@@ -70,7 +70,7 @@
 #
 #   - 2025-09-24: No. of settings:
 #     - `gsettings set` + `dconf write` + Task reminders:
-#                  120            + 14               + 8.
+#                  150            + 15               + 8.
 #
 # - NSUserKeyEquivalents characters (used for consistency):
 #
@@ -2915,7 +2915,7 @@ slather_gnome_gsettings() {
       dry_run=true
       shift
       ;;
-    --cnt-run)
+    -C | --count)
       cnt_run=true
       shift
       ;;
