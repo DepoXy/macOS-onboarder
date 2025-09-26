@@ -14,7 +14,12 @@
 #   path/to/macOS-onboarder/bin/slather-gsettings.sh
 #
 #   # To see list of reminders, and to smoke-test this script, dry-run it:
-#   path/to/macOS-onboarder/bin/slather-gsettings.sh --dry-run
+#   path/to/macOS-onboarder/bin/slather-gsettings.sh --dry-run --force
+#   # Omit the --force if you only want to see settings that differ.
+#
+#   # This script only sets values if they're different.
+#   # - To always dconf-write or gsettings-set, --force:
+#   path/to/macOS-onboarder/bin/slather-gsettings.sh --force
 
 # SAVVY:
 #
@@ -364,10 +369,12 @@ highlight_diff() { printf "%s" "$(attr_underline)$1$(attr_reset)"; }
 
 fake_it() {
   dconf_write() {
-    print_dconf_write_setting "$@"
+    print_dconf_write_setting "$@" ||
+      true
   }
   gsettings_set() {
-    print_gsettings_set_setting "$@"
+    print_gsettings_set_setting "$@" ||
+      true
   }
 }
 
@@ -380,11 +387,11 @@ count_it() {
     local _dconf_command="$2"
     local _dconf_action="$3"
     local dconf_key="$4"
-    local dconf_value="$5"
+    local dconf_val="$5"
 
     let 'cnt_dconfs += 1'
 
-    echo "  dconf: ${dconf_key} ${dconf_value}"
+    echo "  dconf: ${dconf_key} ${dconf_val}"
   }
   gsettings_set() {
     local _description="$1"
@@ -392,11 +399,11 @@ count_it() {
     local _gsettings_action="$3"
     local gsettings_schema="$4"
     local gsettings_key="$5"
-    local gsettings_value="$6"
+    local gsettings_val="$6"
 
     let 'cnt_gsetts += 1'
 
-    echo "  gsett: ${gsettings_schema} ${gsettings_key} ${gsettings_value}"
+    echo "  gsett: ${gsettings_schema} ${gsettings_key} ${gsettings_val}"
   }
 }
 
@@ -413,7 +420,7 @@ gnome_settings_close() {
     return
   fi
 
-  if ${diff_run}; then
+  if ! ${force_run}; then
 
     return
   fi
@@ -443,30 +450,35 @@ LINUX_ONBOARDER_DIFF_ALERT="${LINUX_ONBOARDER_DIFF_ALERT:- 🔨}"
 
 dconf_write() {
   local description="$1"
-  local _dconf_cmd="$2"
-  local _dconf_write="$3"
+  local _dconf_command="$2"
+  local dconf_action="$3"
   local dconf_key="$4"
-  local dconf_value="$5"
+  local dconf_val="$5"
 
-  echo "${description}: $(dconf read "${dconf_key}") → '${dconf_value}'"
-
-  dconf write "${dconf_key}" "${dconf_value}"
+  if print_dconf_write_setting "$@"; then
+    if [ "${dconf_action}" = "reset" ]; then
+      dconf reset "${dconf_key}"
+    elif [ "${dconf_action}" = "write" ]; then
+      dconf write "${dconf_key}" "${dconf_val}"
+    fi
+  fi
 }
 
 gsettings_set() {
   local description="$1"
-  local _gsettings_cmd="$2"
-  local _gsettings_get="$3"
+  local _gsettings_command="$2"
+  local gsettings_action="$3"
   local gsettings_schema="$4"
   local gsettings_key="$5"
-  local gsettings_value="$6"
+  local gsettings_val="$6"
 
-  echo "${description}: $(
-    gsettings get "${gsettings_schema}" "${gsettings_key}"
-  ) → '${gsettings_value}'"
-
-  exit 1
-  gsettings set "${gsettings_schema}" "${gsettings_key}" "${gsettings_value}"
+  if print_gsettings_set_setting "$@"; then
+    if [ "${gsettings_action}" = "reset" ]; then
+      gsettings reset "${gsettings_schema}" "${gsettings_key}"
+    elif [ "${gsettings_action}" = "set" ]; then
+      gsettings set "${gsettings_schema}" "${gsettings_key}" "${gsettings_val}"
+    fi
+  fi
 }
 
 print_dconf_write_setting() {
@@ -507,10 +519,12 @@ print_dconf_write_setting() {
     bang_val="${LINUX_ONBOARDER_DIFF_ALERT}"
   fi
 
-  if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
+  if ${force_run} || [ "${curr_val}" != "${quoted_val}" ]; then
     echo -e "  $(
       highlight_soft "${description}"
     ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+  else
+    return 1
   fi
 }
 
@@ -595,10 +609,12 @@ print_gsettings_set_setting() {
     bang_val="${LINUX_ONBOARDER_DIFF_ALERT}"
   fi
 
-  if ! ${diff_run} || [ "${curr_val}" != "${quoted_val}" ]; then
+  if ${force_run} || [ "${curr_val}" != "${quoted_val}" ]; then
     echo -e "  $(
       highlight_soft "${description}"
     ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
+  else
+    return 1
   fi
 }
 
@@ -2526,7 +2542,7 @@ EOF
 slather_gnome_gsettings() {
   local dry_run=false
   local cnt_run=false
-  local diff_run=false
+  local force_run=false
   local skip_at_end=false
 
   # ***
@@ -2541,9 +2557,8 @@ slather_gnome_gsettings() {
       cnt_run=true
       shift
       ;;
-    --diff)
-      dry_run=true
-      diff_run=true
+    -f | --force)
+      force_run=true
       shift
       ;;
     -S | --no-reminders)
@@ -2630,7 +2645,7 @@ slather_settings() {
 # ***
 
 print_manual_task_reminders() {
-  if ${diff_run} || ${skip_at_end}; then
+  if ! ${force_run} || ${skip_at_end}; then
 
     return
   fi
