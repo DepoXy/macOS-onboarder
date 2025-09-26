@@ -1962,6 +1962,8 @@ gnome_settings_customize_keyboard_windows() {
     gsettings reset org.gnome.desktop.wm.keybindings activate-window-menu
 
   # "Close window" / Default: <Alt-F4>
+  # - NTRST: GNOME Tweaks is not <Ctrl-Q> or <Ctrl-W> closeable,
+  #   but <Alt-F4> works.
   # - BNDNG: <Alt-F4>
   gsettings_set "Keyboard Shortcuts > Windows > Close window: <Alt-F4>" \
     gsettings reset org.gnome.desktop.wm.keybindings close
