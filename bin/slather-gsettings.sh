@@ -2263,6 +2263,20 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # ***
 
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-center" \
+    gsettings reset org.gnome.desktop.wm.keybindings move-to-center
+
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-ne" \
+    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-ne
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-nw" \
+    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-nw
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-se" \
+    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-se
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-sw" \
+    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-sw
+
+  # ***
+
   # ILIKE: I love this! While it might be a little annoying while you
   # get used to the new behavior, it enables a number of interesting
   # workflows, like leaving your text editor fullscreen and working
