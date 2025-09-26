@@ -2136,6 +2136,11 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # ***
 
+  gsettings_set "Keyboard Shortcuts > Window Prefs. [Hidden] > ∅ Titlebar Uses System Font" \
+    gsettings set org.gnome.desktop.wm.preferences titlebar-uses-system-font false
+
+  # ***
+
   # Release <Ctrl-Cmd-1>..<Ctrl-Cmd-9> (open-new-window-application)
   # as well as <Cmd-1>..<Cmd-9> (switch-to-application).
   for idx in $(seq 1 9); do
