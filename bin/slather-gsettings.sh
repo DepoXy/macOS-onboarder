@@ -1878,8 +1878,15 @@ gnome_settings_customize_keyboard_system() {
     gsettings reset org.gnome.settings-daemon.plugins.media-keys reboot
 
   # "Restore the keyboard shortcuts" / Default: ['<Super>Escape']
+  # - SAVVY: This binding restore shortcuts if a shortcut inhibitor is active.
+  #   - The general use case is inhibiting shortcuts so that all keys are
+  #     delivered to the guest VM instead of the host operating system.
+  #   - Otherwise, pressing <Cmd-Esc> will have no effect (ha, it won't
+  #     reset all your keyboard shortcuts, as its name may suggest).
+  #   https://www.reddit.com/r/gnome/comments/qea9c4/
+  #     in_keyboard_shortcuts_settings_what_does_it_mean/
+  #   https://wayland.app/protocols/keyboard-shortcuts-inhibit-unstable-v1
   # - BNDNG: <Cmd-Esc>
-  #   - DUNNO: Pressing <Cmd-Esc> has no effect in my environment, AFAICT.
   gsettings_set "Keyboard Shortcuts > System > Restore the keyboard shortcuts" \
     gsettings reset org.gnome.mutter.wayland.keybindings restore-shortcuts
 
