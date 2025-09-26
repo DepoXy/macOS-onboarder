@@ -1780,8 +1780,8 @@ gnome_settings_customize_keyboard_system() {
     gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control><Super>q']"
 
   # "Log out" / Default: ['<Control><Alt>Delete']
-  # gsettings_set "Keyboard Shortcuts > System > Log out: Disabled" \
-  #   gsettings set org.gnome.settings-daemon.plugins.media-keys logout "['<Control><Alt>Delete']"
+  gsettings_set "Keyboard Shortcuts > System > Log out: Disabled" \
+    gsettings reset org.gnome.settings-daemon.plugins.media-keys logout
 
   # "Open the quick settings menu" / Default: ['<Super>s']
   # - DUNNO: Does nothing for the author (literally, not figuratively).
@@ -1798,8 +1798,8 @@ gnome_settings_customize_keyboard_system() {
     gsettings reset org.gnome.settings-daemon.plugins.media-keys reboot
 
   # "Restore the keyboard shortcuts" / Default: ['<Super>Escape']
-  # gsettings_set "Keyboard Shortcuts > System > Restore the keyboard shortcuts: Disabled" \
-  #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
+  gsettings_set "Keyboard Shortcuts > System > Restore the keyboard shortcuts" \
+    gsettings reset org.gnome.mutter.wayland.keybindings restore-shortcuts
 
   # "Show all apps" / Default: ['<Super>a']
   # - ISOFF: This shows the Overview application list.
@@ -1834,8 +1834,8 @@ gnome_settings_customize_keyboard_system() {
     gsettings set org.gnome.shell.keybindings toggle-overview "['<Control><Alt>Down']"
 
   # "Show the run command prompt" / Default: ['<Alt>F2']
-  # gsettings_set "Keyboard Shortcuts > System > Show the run command prompt: Disabled" \
-  #   gsettings set org.gnome.mutter.wayland.keybindings restore-shortcuts '@as []'
+  gsettings_set "Keyboard Shortcuts > System > Show the run command prompt" \
+    gsettings reset org.gnome.desktop.wm.keybindings panel-run-dialog
 }
 
 #      +++++++++++++++++++++++++++
