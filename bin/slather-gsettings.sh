@@ -1415,6 +1415,7 @@ gnome_settings_customize_keyboard_navigation() {
   local menu_path="Keyboard Shortcuts > Navigation"
 
   # "Hide all normal windows" / Default: Disabled
+  # - BNDNG: <Ctrl-Alt-D>
   gsettings_set "${menu_path} > Hide all normal windows: <Ctrl-Alt-D>" \
     gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Control><Alt>d']"
 
@@ -1687,6 +1688,7 @@ gnome_settings_customize_keyboard_navigation_switchers() {
   #   quick enough (though requires second hand; but seems easier than
   #   <Shift>ing <Alt-Tab>).
   #   - This doesn't work:
+  #     # - BNDNG: <Alt-Q>
   #     dconf_write "Keyboard Shortcuts > Navigation > Switch windows (backward)" \
   #       dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Alt>q']"
 
@@ -1731,21 +1733,22 @@ gnome_settings_customize_keyboard_navigation_switchers() {
 gnome_settings_customize_keyboard_screenshots() {
   # FIXME/2025-01-13: Change to match macOS bindings (or close to it)
   #
-  # - Default: ['<Shift><Control><Alt>r']
+  # "Record a screencast interactively" / Default: ['<Shift><Control><Alt>r']
+  # - BNDNG: <Shift-Cmd-4>
   gsettings_set "Keyboard Shortcuts > Screenshots > Record a screencast interactively" \
     gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Super>4']"
 
   # Author doesn't assign Print to any key on my keyboard,
   # so the screenshot defaults are not useful.
-  # - Default: ['<Shift>Print']
+  # "Take a screenshot" / Default: ['<Shift>Print']
   gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot" \
     gsettings set org.gnome.shell.keybindings screenshot '@as []'
 
-  # - Default: ['Print']
+  # "Take a screenshot interactively" / Default: ['Print']
   gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot interactively" \
     gsettings set org.gnome.shell.keybindings show-screenshot-ui '@as []'
 
-  # - Default: ['<Alt>Print']
+  # "Take a screenshot of a window" / Default: ['<Alt>Print']
   gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot of a window" \
     gsettings set org.gnome.shell.keybindings screenshot-window '@as []'
 }
@@ -1841,6 +1844,9 @@ gnome_settings_customize_keyboard_system() {
     gsettings set org.gnome.shell.keybindings toggle-overview "['<Control><Alt>Down']"
 
   # "Show the run command prompt" / Default: ['<Alt>F2']
+  # - UCASE: AFAIK, enables just one feature:
+  #   - Type `lg` then <Enter> to run Looking Glass.
+  # - BNDNG: <Alt-F2>
   gsettings_set "Keyboard Shortcuts > System > Show the run command prompt" \
     gsettings reset org.gnome.desktop.wm.keybindings panel-run-dialog
 }
@@ -1867,10 +1873,12 @@ gnome_settings_customize_keyboard_typing() {
 
 gnome_settings_customize_keyboard_windows() {
   # Activate the window menu: <Alt-Space> [default]
+  # - BNDNG: <Alt-Space>
   gsettings_set "Keyboard Shortcuts > Windows > Activate the window menu: <Alt-Space>" \
     gsettings reset org.gnome.desktop.wm.keybindings activate-window-menu
 
   # Close window: <Alt-F4> [default]
+  # - BNDNG: <Alt-F4>
   gsettings_set "Keyboard Shortcuts > Windows > Close window: <Alt-F4>" \
     gsettings reset org.gnome.desktop.wm.keybindings close
 
@@ -1881,32 +1889,39 @@ gnome_settings_customize_keyboard_windows() {
   # ***
 
   # Hide window: <Cmd-h> [default]
+  # - BNDNG: <Cmd-H>
   gsettings_set "Keyboard Shortcuts > Windows > Hide window: <Cmd-h>" \
     gsettings reset org.gnome.desktop.wm.keybindings minimize
 
   # Maximize window: <Cmd-Up> [default]
+  # - BNDNG: <Cmd-Up>
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window: <Cmd-Up>" \
     gsettings reset org.gnome.desktop.wm.keybindings maximize
 
   # Maximize window horizontally: Disabled [default]
+  # - BNDNG: <Shift-Ctrl-Cmd-.>
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window horizontally: <Shift-Ctrl-Cmd-.>" \
     gsettings set org.gnome.desktop.wm.keybindings maximize-horizontally \
     "['<Shift><Control><Super>period']"
 
   # Maximize window vertically: Disabled [default]
+  # - BNDNG: <Shift-Ctrl-Cmd-\> (<Shift-Ctrl-Cmd-backslash>)
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window vertically: <Shift-Ctrl-Cmd-\\>" \
     gsettings set org.gnome.desktop.wm.keybindings maximize-vertically \
     "['<Shift><Control><Super>backslash']"
 
   # Restore window: <Cmd-Down> [default]
+  # - BNDNG: <Cmd-Down>
   gsettings_set "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>" \
     gsettings reset org.gnome.desktop.wm.keybindings unmaximize
 
   # Toggle maximization state: <Alt-F10> [default]
+  # - BNDNG: <Alt-F10>
   gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>" \
     gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
 
   # Toggle fullscreen mode: Disabled [default]
+  # - BNDNG: <Ctrl-Alt-Up>
   gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode: <Ctrl-Alt-Up>" \
     gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen \
     "['<Control><Alt>Up']"
@@ -1926,6 +1941,7 @@ gnome_settings_customize_keyboard_windows() {
     gsettings reset org.gnome.desktop.wm.keybindings raise
 
   # Raise window if covered, otherwise lower it: Disabled [default]
+  # - BNDNG: <Alt-/> (Alt-slash, Alt-forwardslash)
   gsettings_set "Keyboard Shortcuts > Windows > Raise window if covered, otherwise lower it: <Alt-/>" \
     gsettings set org.gnome.desktop.wm.keybindings raise-or-lower \
     "['<Alt>slash']"
@@ -1933,10 +1949,12 @@ gnome_settings_customize_keyboard_windows() {
   # ***
 
   # Move window: <Alt-F7> [default]
+  # - BNDNG: <Alt-F7>
   gsettings_set "Keyboard Shortcuts > Windows > Move window: <Alt-F7>" \
     gsettings reset org.gnome.desktop.wm.keybindings begin-move
 
   # Resize window: <Alt-F8> [default]
+  # - BNDNG: <Alt-F8>
   gsettings_set "Keyboard Shortcuts > Windows > Resize window: <Alt-F8>" \
     gsettings reset org.gnome.desktop.wm.keybindings begin-resize
 
@@ -2178,6 +2196,7 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # Release <Ctrl-Cmd-1>..<Ctrl-Cmd-9> (open-new-window-application)
   # as well as <Cmd-1>..<Cmd-9> (switch-to-application).
+  # - BNDNG: <Cmd-1|2|3|4|5|6|7|8|9>, <Ctrl-Cmd-1|2|3|4|5|6|7|8|9>
   for idx in $(seq 1 9); do
     gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > ∅ Open New Window App #${idx}" \
       gsettings set org.gnome.shell.keybindings open-new-window-application-${idx} '@as []'
@@ -2190,9 +2209,11 @@ gnome_settings_customize_keyboard_windows_hidden() {
   #   except <Ctrl-Alt-Down> toggles between normal display and Overview,
   #   whereas <Cmd-Alt-Up> changes to Overview, then Apps, then no-ops.
   # "Shift Overview Up" / Default: ['<Super><Alt>Up']
+  # - BNDNG: <Cmd-Alt-Up>
   gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Up" \
     gsettings reset org.gnome.shell.keybindings shift-overview-up
   # "Shift Overview Down" / Default: ['<Super><Alt>Down']
+  # - BNDNG: <Cmd-Alt-Down>
   gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Down" \
     gsettings reset org.gnome.shell.keybindings shift-overview-down
 }
@@ -2684,6 +2705,7 @@ gnome_extension_hide_top_bar_customize() {
 
   # "Keyboard shortcuts > Key that triggers the bar to be shown: Disabled" ('@as []')
   # - "(press backspace to deactivate the shortcut)"
+  # - BNDNG: <Ctrl-Alt-C>
   dconf_write "${menu_path} > Keyboard shortcuts > Key that triggers the bar to be shown" \
     dconf write /org/gnome/shell/extensions/hidetopbar/shortcut-keybind "['<Control><Alt>c']"
 
