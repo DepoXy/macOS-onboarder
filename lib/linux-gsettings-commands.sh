@@ -143,7 +143,7 @@ apply-linux-gsettings() {
 
 gsettings-print-help() {
   cat <<-EOF
-You can now try the following commands:
+You can now use the following commands:
 
   gsettings-print-help          Print this message
 

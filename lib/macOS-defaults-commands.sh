@@ -128,7 +128,7 @@ quarantine-liberate-apps() {
 
 default-print-help() {
   cat <<-EOF
-You can now try the following commands:
+You can now use the following commands:
 
   default-print-help            Print this message
 
