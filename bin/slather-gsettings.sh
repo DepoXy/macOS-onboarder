@@ -1783,25 +1783,44 @@ gnome_settings_customize_keyboard_navigation_switchers() {
 # **** KEYBOARD SHORTCUTS > SCREENSHOTS
 #      ++++++++++++++++++++++++++++++++
 
+# REFER: See macOS screenshot keybindings:
+#   - Screenshots: Save picture of screen as a file: ⇧⌘ 3
+#   - Screenshots: Copy picture of screen to the clipboard: ^⇧⌘ 3
+#   - Screenshots: Save picture of selected area as a file: ⇧⌘ 4
+#   - Screenshots: Copy picture of selected area to the clipboard: ^⇧⌘ 4
+#   - Screenshots: Screenshot and recording options: ⇧⌘ 5
+# - As set by:
+#     shortcuts_screenshots_remap()
+#   ./bin/slather-defaults.sh
+
 gnome_settings_customize_keyboard_screenshots() {
   # "Record a screencast interactively" / Default: ['<Shift><Control><Alt>r']
-  # - BNDNG: <Shift-Cmd-4>
+  # - Saves files to:
+  #     ~/Pictures
+  #     ~/Pictures/Screencasts
+  #     ~/Videos/Screencasts
+  #   - And I don't see an option to change.
+  # - BNDNG: <Shift-Ctrl-4>
   gsettings_set "Keyboard Shortcuts > Screenshots > Record a screencast interactively" \
-    gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Super>4']"
+    gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Control>4']"
 
   # Author doesn't assign Print to any key on my keyboard,
-  # so the screenshot defaults are not useful.
+  # so the screenshot defaults are inaccessible to me.
+
   # "Take a screenshot" / Default: ['<Shift>Print']
+  # - BNDNG: <Shift-Cmd-3>
   gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot" \
-    gsettings set org.gnome.shell.keybindings screenshot '@as []'
+    gsettings set org.gnome.shell.keybindings screenshot "['<Shift><Super>3']"
 
   # "Take a screenshot interactively" / Default: ['Print']
+  # - BNDNG: <Shift-Ctrl-3>
   gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot interactively" \
-    gsettings set org.gnome.shell.keybindings show-screenshot-ui '@as []'
+    gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Shift><Control>3']"
 
   # "Take a screenshot of a window" / Default: ['<Alt>Print']
+  # - BNDNG: <Shift-Cmd-4>
   gsettings_set "Keyboard Shortcuts > Screenshots > Take a screenshot of a window" \
-    gsettings set org.gnome.shell.keybindings screenshot-window '@as []'
+    gsettings set org.gnome.shell.keybindings screenshot-window "['<Shift><Super>4']"
 }
 
 #      ++++++++++++++++++++++++++++++++++++
