@@ -106,6 +106,10 @@
 #
 #     Author's/DepoXy's display order and terminology (based on English
 #     keyboard layout, top to bottom, left to right): Shift-Ctrl-Cmd-Alt-<key>
+#
+# - Additional legend: Some settings below use "✓" in their
+#   description to indicate when a setting is set to Enabled,
+#   or "✗" or "∅" when a setting is set to Disabled.
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
