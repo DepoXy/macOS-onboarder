@@ -3042,9 +3042,9 @@ print_cnt_run_report() {
   fi
 
   echo "Settings counts:"
-  printf "%-22s%3s\n" "- # gsettings (re)set's:" "${cnt_gsetts}"
-  printf "%-22s%3s\n" "- # dconf reset/write's:" "${cnt_dconfs}"
-  printf "%-22s%3s\n" "- # User task reminders:" "${#print_at_end[@]}"
+  printf "%-22s %3s\n" "  gsettings (re)set's:" "${cnt_gsetts}"
+  printf "%-22s %3s\n" "  dconf reset/write's:" "${cnt_dconfs}"
+  printf "%-22s %3s\n" "  user task reminders:" "${#print_at_end[@]}"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
