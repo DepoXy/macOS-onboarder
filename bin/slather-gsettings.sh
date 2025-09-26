@@ -2719,6 +2719,19 @@ firefox_customize() {
 🔳 Firefox > Startup > ✓ Open previous windows and tabs")
 }
 
+#     ============
+# *** APP: GNUCASH
+#     ============
+
+# CXREF: Not configured here (but could be).
+# - See separate Ansible play for setting GnuCash settings:
+#   https://github.com/landonb/zoidy_apps_et_al 🦞
+#     https://github.com/landonb/zoidy_apps_et_al/blob/release/tasks/app-gnucash-conf.yml
+
+gnucash_customize() {
+  :
+}
+
 #     =======================
 # *** EXTENSION: HIDE TOP BAR
 #     =======================
@@ -3013,6 +3026,8 @@ slather_settings() {
   gnome_terminal_customize
 
   firefox_customize
+
+  gnucash_customize
 
   echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
 
