@@ -70,7 +70,7 @@
 #
 #   - 2025-09-24: No. of settings:
 #     - `gsettings set` + `dconf write` + Task reminders:
-#                  150            + 15               + 8.
+#                  161            + 15               + 8.
 #
 # - NSUserKeyEquivalents characters (used for consistency):
 #
@@ -2323,17 +2323,44 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # ***
 
+  # move-to-center / Default: Disabled:
+  #   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-center" \
+  #     gsettings reset org.gnome.desktop.wm.keybindings move-to-center
+  #
+  # BNDNG: <Shift-Ctrl-Cmd-'> (<Shift-Ctrl-Cmd-apostrophe>)
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-center" \
-    gsettings reset org.gnome.desktop.wm.keybindings move-to-center
+    gsettings set org.gnome.desktop.wm.keybindings move-to-center \
+    "['<Shift><Control><Super>apostrophe']"
 
+  # move-to-corner-* / Default: Disabled:
+  #   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-ne" \
+  #     gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-ne
+  #   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-nw" \
+  #     gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-nw
+  #   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-se" \
+  #     gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-se
+  #   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-sw" \
+  #     gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-sw
+  #
+  # Author's keyboard has a nice 2 x 2 grid I use for corners:
+  #    Home   PageUp
+  #    End    PageDown
+  # BNDNG: <Shift-Ctrl-Cmd-PageUp>
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-ne" \
-    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-ne
+    gsettings set org.gnome.desktop.wm.keybindings move-to-corner-ne \
+    "['<Shift><Control><Super>Page_Up']"
+  # BNDNG: <Shift-Ctrl-Cmd-Home>
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-nw" \
-    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-nw
+    gsettings set org.gnome.desktop.wm.keybindings move-to-corner-nw \
+    "['<Shift><Control><Super>Home']"
+  # BNDNG: <Shift-Ctrl-Cmd-PageDown>
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-se" \
-    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-se
+    gsettings set org.gnome.desktop.wm.keybindings move-to-corner-se \
+    "['<Shift><Control><Super>Page_Down']"
+  # BNDNG: <Shift-Ctrl-Cmd-End>
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-sw" \
-    gsettings reset org.gnome.desktop.wm.keybindings move-to-corner-sw
+    gsettings set org.gnome.desktop.wm.keybindings move-to-corner-sw \
+    "['<Shift><Control><Super>End']"
 
   # ***
 
