@@ -1517,6 +1517,8 @@ gnome_settings_customize_keyboard_navigation() {
   # Author rarely uses Workspaces.
   # - I'll leave <Ctrl-Alt-Left> and <Ctrl-Alt-Right> for simple
   #   navigation to adjacent Workspaces, and I'll disable the others.
+  #   - USYNC: These 2 keybindings match similar macOS keybindings.
+  #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
 
   # "Switch to last workspace" / Default: <Cmd-End>
   gsettings_set "${menu_path} > Switch to last workspace" \
@@ -1541,8 +1543,6 @@ gnome_settings_customize_keyboard_navigation() {
   #   - Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>
   #   - Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>
   # - BNDNG: <Ctrl-Alt-Left>
-  #   - USYNC: Matches similar macOS binding to navigate Spaces.
-  #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
   gsettings_set "${menu_path} > Switch to workspace on the left" \
     gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left \
     "['<Control><Alt>Left']"
@@ -1553,8 +1553,6 @@ gnome_settings_customize_keyboard_navigation() {
   #       gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right \
   #       "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
   # - BNDNG: <Ctrl-Alt-Right>
-  #   - USYNC: Matches similar macOS binding to navigate Spaces.
-  #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
   gsettings_set "${menu_path} > Switch to workspace on the right" \
     gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right \
     "['<Control><Alt>Right']"
@@ -2723,6 +2721,13 @@ gnome_extension_hide_top_bar_customize() {
 
   # "Keyboard shortcuts > Key that triggers the bar to be shown: Disabled" ('@as []')
   # - "(press backspace to deactivate the shortcut)"
+  #
+  # BROKN: Note that Top Bar doesn't work with built-in "Switch system
+  # controls" (switch-panels), which defaults to <Ctrl-Alt-Tab>.
+  # - E.g., if you <Ctrl-Alt-C> to show the Top Bar, you cannot
+  #   <Ctrl-Alt-Tab> to give the Top Bar keyboard focus.
+  # - Specifically, AFAICT, Hide Top Bar breaks Top Bar keyboard a11y.
+  #
   # - BNDNG: <Ctrl-Alt-C>
   dconf_write "${menu_path} > Keyboard shortcuts > Key that triggers the bar to be shown" \
     dconf write /org/gnome/shell/extensions/hidetopbar/shortcut-keybind "['<Control><Alt>c']"
