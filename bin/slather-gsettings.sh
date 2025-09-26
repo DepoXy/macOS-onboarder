@@ -2787,31 +2787,31 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
 
   local menu_path="GNOME Extension > AATWS"
 
+  local schema_path="/org/gnome/shell/extensions/advanced-alt-tab-window-switcher"
+
   # Defaults: Bottom (3), also Top (1), Center (2)
   dconf_write "${menu_path} > Common > Behavior > Placement: Center" \
-    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-position 2
+    dconf write ${schema_path}/switcher-popup-position 2
 
   # Defaults: Show Above/Below Item (2), also Top (1), Show Centered (3)
-  dconf_write "${menu_path} > Common > Appearance and Content > Tooltip Titles: Disable" \
-    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/switcher-popup-tooltip-title 1
+  dconf_write "${menu_path} > Common > Appearance and Content > Tooltip Titles" \
+    dconf write ${schema_path}/switcher-popup-tooltip-title 1
 
   # Defaults: false
-  dconf_write "${menu_path} > Window Switcher > Behavior > Skip Minimized Windows: Enable" \
-    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/win-switch-skip-minimized true
+  dconf_write "${menu_path} > Window Switcher > Behavior > Skip Minimized Windows: ✓" \
+    dconf write ${schema_path}/win-switch-skip-minimized true
 
   # Defaults: true
-  dconf_write "${menu_path} > App Switcher > Behavior > Include Favorite (Pinned) Apps: Disable" \
-    dconf write /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-fav-apps false
+  dconf_write "${menu_path} > App Switcher > Behavior > Include Favorite (Pinned) Apps: ∅" \
+    dconf write ${schema_path}/app-switcher-popup-fav-apps false
 
   # Defaults: true
-  dconf_write "${menu_path} > App Switcher > Behavior > Include Show Apps Icon: Disable" \
-    dconf write \
-    /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-include-show-apps-icon false
+  dconf_write "${menu_path} > App Switcher > Behavior > Include Show Apps Icon: ∅" \
+    dconf write ${schema_path}/app-switcher-popup-include-show-apps-icon false
 
   # Defaults: false
-  dconf_write "${menu_path} > App Switcher > Appearance > Hide Window Count For Single-Window Apps: Enable" \
-    dconf write \
-    /org/gnome/shell/extensions/advanced-alt-tab-window-switcher/app-switcher-popup-hide-win-counter-for-single-window \
+  dconf_write "${menu_path} > App Switcher > Appearance > Hide Window Count For Single-Window Apps: ✓" \
+    dconf write ${schema_path}/app-switcher-popup-hide-win-counter-for-single-window \
     true
 }
 
