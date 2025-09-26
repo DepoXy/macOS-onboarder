@@ -512,14 +512,18 @@ print_dconf_write_setting() {
   local quoted_val
   quoted_val="$(quote_gvariant "${dconf_val}")"
 
+  local is_changed=false
+  compare_gvariants "${curr_val}" "${quoted_val}" ||
+    is_changed=true
+
   local high_val="echo"
   local bang_val=""
-  if [ "${curr_val}" != "${quoted_val}" ]; then
+  if ${is_changed}; then
     high_val="highlight_diff"
     bang_val="${LINUX_ONBOARDER_DIFF_ALERT}"
   fi
 
-  if ${force_run} || [ "${curr_val}" != "${quoted_val}" ]; then
+  if ${force_run} || ${is_changed}; then
     echo -e "  $(
       highlight_soft "${description}"
     ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
@@ -602,19 +606,34 @@ print_gsettings_set_setting() {
     quoted_val="(reset)"
   fi
 
+  local is_changed=false
+  compare_gvariants "${curr_val}" "${quoted_val}" ||
+    is_changed=true
+
   local high_val="echo"
   local bang_val=""
-  if [ "${curr_val}" != "${quoted_val}" ]; then
+  if ${is_changed}; then
     high_val="highlight_diff"
     bang_val="${LINUX_ONBOARDER_DIFF_ALERT}"
   fi
 
-  if ${force_run} || [ "${curr_val}" != "${quoted_val}" ]; then
+  if ${force_run} || ${is_changed}; then
     echo -e "  $(
       highlight_soft "${description}"
     ):\n    ${curr_val} → $(${high_val} "${quoted_val}")${bang_val}"
   else
     return 1
+  fi
+}
+
+compare_gvariants() {
+  local curr_val="$1"
+  local quoted_val="$2"
+
+  if echo -e "${curr_val}\n${quoted_val}" | grep -q -e "^\-\?[0-9\.]\+$"; then
+    test "$(printf "%.2f" "${curr_val}")" = "$(printf "%.2f" "${quoted_val}")"
+  else
+    test "${curr_val}" = "${quoted_val}"
   fi
 }
 
