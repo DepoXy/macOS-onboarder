@@ -7,7 +7,7 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-defaults-domains-list () {
+defaults-domains-list() {
   if ! insist_os_is_macos; then
 
     return 1
@@ -37,7 +37,7 @@ DEFAULTS_SH_BLOCKLIST="lib/defaults-domains-block.list"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-defaults-domains-dump () {
+defaults-domains-dump() {
   if ! insist_os_is_macos; then
 
     return 1
@@ -61,7 +61,7 @@ defaults-domains-dump () {
 
     echo "Dumping domain: ${name}"
 
-    defaults read "${name}" > "${name}.plist"
+    defaults read "${name}" >"${name}.plist"
   done <<<"$(defaults-domains-list)"
   # Get Bashy with it: This also works:
   #  done < <(defaults-domains-list)
@@ -72,13 +72,13 @@ defaults-domains-dump () {
   # I assume the "NS" stands for NeXTSTEP?!)
   #  # Also works:
   #  defaults read "Apple Global Domain" > _apple_global_domain.plist
-  defaults read NSGlobalDomain > _apple_global_domain__nsglobaldomain.plist
+  defaults read NSGlobalDomain >_apple_global_domain__nsglobaldomain.plist
 
   # Also dump all settings together, in case the blocklist hid a domain for
   # a setting the user changed. This should enable `meld-last-two-dumps` to
   # always reveal the domain and key-value of what changed (unless said
   # setting is stored outside the realm of macOS-managed propertly lists).
-  defaults read > _all_defaults.plist
+  defaults read >_all_defaults.plist
 
   cd ".."
 
@@ -88,13 +88,13 @@ defaults-domains-dump () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-meld-last-two-dumps () {
+meld-last-two-dumps() {
   meld "$(command ls -1 | tail -2 | head -1)" "$(command ls -1 | tail -1)" &
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-apply-macos-defaults () {
+apply-macos-defaults() {
   ${DEFAULTS_SH_ROOT}/bin/slather-defaults.sh
 }
 
@@ -110,7 +110,7 @@ QUARANTINE_PARDONS+=("Meld.app")
 #   $ xattr -p com.apple.quarantine /Applications/Easy\ Move+Resize.app
 #   0181;6334e1ba;Homebrew\x20Cask;A30E92DD-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
-quarantine-liberate-apps () {
+quarantine-liberate-apps() {
   for pardon_me in "${QUARANTINE_PARDONS[@]}"; do
     local apps_path="/Applications/${pardon_me}"
 
@@ -126,8 +126,8 @@ quarantine-liberate-apps () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-default-print-help () {
-  cat <<- EOF
+default-print-help() {
+  cat <<-EOF
 You can now try the following commands:
 
   default-print-help            Print this message
@@ -150,7 +150,7 @@ EOF
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-insist_os_is_macos () {
+insist_os_is_macos() {
   if os_is_macos; then
 
     return
@@ -161,14 +161,14 @@ insist_os_is_macos () {
   return 1
 }
 
-os_is_macos () {
+os_is_macos() {
   [ "$(uname)" = 'Darwin' ]
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
-alert_if_executed () {
+alert_if_executed() {
   local print_usage=false
 
   unset -f alert_if_executed
@@ -192,7 +192,7 @@ alert_if_executed () {
   fi
 
   if ${print_usage}; then
-    >&2  echo "USAGE: Source this file from a Bash shell"
+    >&2 echo "USAGE: Source this file from a Bash shell"
 
     false
   fi
@@ -200,7 +200,7 @@ alert_if_executed () {
 
 # ***
 
-main () {
+main() {
   # SAVVY: Don't use errexit, because running from user's shell.
 
   unset -f main
@@ -226,4 +226,3 @@ main () {
 # ***
 
 main "$@"
-

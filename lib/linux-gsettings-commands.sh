@@ -20,7 +20,7 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-gsettings-schemas-list () {
+gsettings-schemas-list() {
   if ! insist_os_is_linux; then
 
     return 1
@@ -60,7 +60,7 @@ DEFAULTS_SH_BLOCKLIST="lib/gsettings-schemas-block.list"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-gsettings-schemas-dump () {
+gsettings-schemas-dump() {
   if ! insist_os_is_linux; then
 
     return 1
@@ -84,7 +84,7 @@ gsettings-schemas-dump () {
 
     echo "Dumping schema: ${name}"
 
-    gsettings list-recursively "${name}" > "${name}.gsettings"
+    gsettings list-recursively "${name}" >"${name}.gsettings"
   done <<<"$(gsettings-schemas-list)"
   # Get Bashy with it: This also works:
   #  done < <(gsettings-schemas-list)
@@ -93,7 +93,7 @@ gsettings-schemas-dump () {
   # a setting the user changed. This should enable `meld-last-two-dumps` to
   # always reveal the domain and key-value of what changed (unless said
   # setting is stored outside the realm of macOS-managed propertly lists).
-  gsettings list-recursively > _all_gsettings.gsettings
+  gsettings list-recursively >_all_gsettings.gsettings
 
   cd ".."
 
@@ -103,13 +103,13 @@ gsettings-schemas-dump () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-meld-last-two-dumps () {
+meld-last-two-dumps() {
   meld "$(command ls -1 | tail -2 | head -1)" "$(command ls -1 | tail -1)" &
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-apply-linux-gsettings () {
+apply-linux-gsettings() {
   ${DEFAULTS_SH_ROOT}/bin/slather-gsettings.sh
 }
 
@@ -141,8 +141,8 @@ apply-linux-gsettings () {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-gsettings-print-help () {
-  cat <<- EOF
+gsettings-print-help() {
+  cat <<-EOF
 You can now try the following commands:
 
   gsettings-print-help          Print this message
@@ -165,7 +165,7 @@ EOF
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-insist_os_is_linux () {
+insist_os_is_linux() {
   if os_is_linux; then
 
     return
@@ -176,14 +176,14 @@ insist_os_is_linux () {
   return 1
 }
 
-os_is_linux () {
+os_is_linux() {
   [ "$(uname)" = 'Linux' ]
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #
 
-alert_if_executed () {
+alert_if_executed() {
   local print_usage=false
 
   unset -f alert_if_executed
@@ -207,7 +207,7 @@ alert_if_executed () {
   fi
 
   if ${print_usage}; then
-    >&2  echo "USAGE: Source this file from a Bash shell"
+    >&2 echo "USAGE: Source this file from a Bash shell"
 
     false
   fi
@@ -215,7 +215,7 @@ alert_if_executed () {
 
 # ***
 
-main () {
+main() {
   # SAVVY: Don't use errexit, because running from user's shell.
 
   unset -f main
@@ -241,4 +241,3 @@ main () {
 # ***
 
 main "$@"
-
