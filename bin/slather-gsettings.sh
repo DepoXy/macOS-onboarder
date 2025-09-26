@@ -2106,6 +2106,36 @@ gnome_settings_customize_keyboard_windows() {
 #   org.gnome.settings-daemon.plugins.media-keys screensaver-static ['XF86ScreenSaver']
 
 gnome_settings_customize_keyboard_windows_hidden() {
+  # Note how move-to compares to toggle-tiled:
+  #   org.gnome.mutter.keybindings toggle-tiled-left
+  #   org.gnome.mutter.keybindings toggle-tiled-right
+  # - The move-to commands *snap* the window to the screen edge
+  #   without changing the window dimensions, whereas the
+  #   toggle-tiled commands *snap* and resize the window
+  #   to half the screen.
+
+  # BNDNG: <Shift-Ctrl-Cmd-Left>
+  gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Left" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-side-w \
+    "['<Shift><Control><Super>Left']"
+
+  # BNDNG: <Shift-Ctrl-Cmd-Right>
+  gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Right" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-side-e \
+    "['<Shift><Control><Super>Right']"
+
+  # BNDNG: <Shift-Ctrl-Cmd-Up>
+  gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Top" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-side-n \
+    "['<Shift><Control><Super>Up']"
+
+  # BNDNG: <Shift-Ctrl-Cmd-Down>
+  gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Bottom" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-side-s \
+    "['<Shift><Control><Super>Down']"
+
+  # ***
+
   # Release <Ctrl-Cmd-1>..<Ctrl-Cmd-9> (open-new-window-application)
   # as well as <Cmd-1>..<Cmd-9> (switch-to-application).
   for idx in $(seq 1 9); do
