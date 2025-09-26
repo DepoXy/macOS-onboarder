@@ -2380,7 +2380,6 @@ gnome_tweaks_customize() {
   gnome_tweaks_customize_fonts
   gnome_tweaks_customize_keyboard_and_mouse
   gnome_tweaks_customize_startup_applications
-  gnome_tweaks_customize_top_bar
   gnome_tweaks_customize_window_titlebars
   gnome_tweaks_customize_windows
 }
@@ -2441,17 +2440,6 @@ gnome_tweaks_customize_startup_applications() {
   # SAVVY: When you disable Tweaks > General > Suspend when laptop lid is closed
   # you'll see this Startup Application:
   #   ignore-lid-switch-tweak
-  :
-}
-
-# ***
-
-# Nothing to change.
-# - Tweaks > Top Bar > Clock > Weekday: ✗
-# - Tweaks > Top Bar > Clock > Date: ✓
-# - Tweaks > Top Bar > Clock > Seconds: ✗
-# - Tweaks > Top Bar > Calendar > Week Numbers: ✗
-gnome_tweaks_customize_top_bar() {
   :
 }
 
