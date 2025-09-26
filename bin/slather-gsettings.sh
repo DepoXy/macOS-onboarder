@@ -406,6 +406,13 @@ count_it() {
 gnome_settings_close() {
   local dry_run=$1
 
+  # I can't imagine this is necessary, like it is on macOS to
+  # close System Settings.
+  if true; then
+
+    return
+  fi
+
   if ${diff_run}; then
 
     return
