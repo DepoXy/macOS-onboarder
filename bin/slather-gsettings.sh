@@ -1984,6 +1984,9 @@ gnome_settings_customize_keyboard_windows() {
 
   # ***
 
+  # USYNC: These two keybindings match similar macOS bindings.
+  # - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
+
   # "View split on left" / Default: <Cmd-Left>
   # - BNDNG: <Shift-Ctrl-Cmd-[> (<Shift-Ctrl-Cmd-LeftBracket>)
   gsettings_set "Keyboard Shortcuts > Windows > View split on left" \
@@ -2167,6 +2170,9 @@ gnome_settings_customize_keyboard_windows_hidden() {
   #   without changing the window dimensions, whereas the
   #   toggle-tiled commands *snap* and resize the window
   #   to half the screen.
+
+  # USYNC: These 4 bindings match similar window-snaps in macOS.
+  # - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
 
   # BNDNG: <Shift-Ctrl-Cmd-Left>
   gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Left" \
