@@ -2114,6 +2114,17 @@ gnome_settings_customize_keyboard_windows_hidden() {
     gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > ∅ Switch to App #${idx}" \
       gsettings set org.gnome.shell.keybindings switch-to-application-${idx} '@as []'
   done
+
+  # These advance from normal display > Overview > Apps, and in reverse.
+  # - <Cmd-Alt-Up> is similar to <Ctrl-Alt-Down> currently,
+  #   except <Ctrl-Alt-Down> toggles between normal display and Overview,
+  #   whereas <Cmd-Alt-Up> changes to Overview, then Apps, then no-ops.
+  # "Shift Overview Up" / Default: ['<Super><Alt>Up']
+  gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Up" \
+    gsettings reset org.gnome.shell.keybindings shift-overview-up
+  # "Shift Overview Down" / Default: ['<Super><Alt>Down']
+  gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Down" \
+    gsettings reset org.gnome.shell.keybindings shift-overview-down
 }
 
 #      +++++++++++++++++++++++++++++++++++++
