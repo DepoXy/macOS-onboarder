@@ -2278,6 +2278,17 @@ gnome_settings_customize_keyboard_windows_hidden() {
   gsettings_set "Keyboard Shortcuts > Window Prefs. [Hidden] > ∅ Raise on Click" \
     gsettings set org.gnome.desktop.wm.preferences raise-on-click false
 
+  # ***
+
+  # As noted above (Oddly), there's no opposite to *always-on-top*.
+  # - But you can use *toggle-above* to unsticky such a window.
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ always-on-top" \
+    gsettings reset org.gnome.desktop.wm.keybindings always-on-top
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ toggle-above" \
+    gsettings reset org.gnome.desktop.wm.keybindings toggle-above
+
+  # ***
+
   gsettings_set "Keyboard Shortcuts > Window Prefs. [Hidden] > ∅ Titlebar Uses System Font" \
     gsettings set org.gnome.desktop.wm.preferences titlebar-uses-system-font false
 
