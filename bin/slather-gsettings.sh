@@ -2009,11 +2009,16 @@ gnome_settings_customize_keyboard_windows() {
 
   # "Toggle maximization state" / Default: <Alt-F10>
   # - BNDNG: <Alt-F10>, <Shift-Ctrl-Alt-Up>
-  #   - REFER: On macOS, this is Rectangle > Maximize Height:
+  # - ALTLY:
+  #   - BNDNG: <Ctrl-Alt-/>, (<Ctrl-Alt-slash>, <C-D-/>)
+  #   - REFER: Same binding as macOS > Rectangle > Maximize Height:
   #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
+  #   - LATER: Decide whether to change the Rectangle binding.
+  #     - Most Rect. resize bindings are <Shift-Ctrl-Alt>, but not
+  #       <Ctrl-Alt-/>. (And I don't remember why I plumbed it that way.)
   gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state" \
     gsettings set org.gnome.desktop.wm.keybindings toggle-maximized \
-    "['<Alt-F10>', '<Shift><Control><Alt>Up']"
+    "['<Alt-F10>', '<Shift><Control><Alt>Up', '<Control><Alt>slash']"
 
   # "Toggle fullscreen mode" / Default: Disabled
   # - Why you might like *toggle-fullscreen*:
