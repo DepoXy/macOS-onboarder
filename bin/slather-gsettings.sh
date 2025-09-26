@@ -1531,25 +1531,33 @@ gnome_settings_customize_keyboard_navigation() {
   # There are 12 total switch-to-workspace-N options in GSettings (8 hidden):
   #   switch-to-workspace-1..switch-to-workspace-9..switch-to-workspace-10..switch-to-workspace-12
 
-  # "Switch to workspace on the left" / Default: <Cmd-PageUp>
-  # - Default:
-  #   gsettings_set "${menu_path} > Switch to workspace on the left" \
-  #     org.gnome.desktop.wm.keybindings switch-to-workspace-left \
-  #     "['<Super>Page_Up', '<Super><Alt>Left', '<Control><Alt>Left']"
+  # "Switch to workspace on the left"
+  # - Default: <Cmd-PageUp>, <Cmd-Alt-Left>, and <Ctrl-Alt-Left>
+  #   - E.g.:
+  #     gsettings_set "${menu_path} > Switch to workspace on the left" \
+  #       gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left \
+  #       "['<Super>Page_Up', '<Super><Alt>Left', '<Control><Alt>Left']"
   # - HSTRY: Prior to GNOME Shell 48, I think these were named differently, just FYI:
   #   - Keyboard Shortcuts > Navigation > Move to workspace on the left: <Cmd-PageUp>
   #   - Keyboard Shortcuts > Navigation > Move to workspace on the right: <Cmd-PageDown>
+  # - BNDNG: <Ctrl-Alt-Left>
+  #   - USYNC: Matches similar macOS binding to navigate Spaces.
+  #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
   gsettings_set "${menu_path} > Switch to workspace on the left" \
     gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left \
-    "['<Super>Page_Up', '<Super><Alt>Left', '<Control><Alt>Left']"
+    "['<Control><Alt>Left']"
   # "Switch to workspace on the right" / Default: <Cmd-PageDown>
-  # - Default:
-  #   gsettings_set "${menu_path} > Switch to workspace on the right" \
-  #     org.gnome.desktop.wm.keybindings switch-to-workspace-right \
-  #     "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
+  # - Default: <Cmd-PageDown>, <Cmd-Alt-Right>, and <Ctrl-Alt-Right>
+  #   - E.g.:
+  #     gsettings_set "${menu_path} > Switch to workspace on the right" \
+  #       gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right \
+  #       "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
+  # - BNDNG: <Ctrl-Alt-Right>
+  #   - USYNC: Matches similar macOS binding to navigate Spaces.
+  #     - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
   gsettings_set "${menu_path} > Switch to workspace on the right" \
     gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right \
-    "['<Super>Page_Down', '<Super><Alt>Right', '<Control><Alt>Right']"
+    "['<Control><Alt>Right']"
   # Just like move-to-workspace-down/move-to-workspace-up, there
   # are 2 related bindings in GSettings for workspaces above/below,
   # but not exposed in the GUI:
