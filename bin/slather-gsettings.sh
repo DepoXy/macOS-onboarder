@@ -448,6 +448,25 @@ gnome_settings_close() {
 # ALTLY: 📌⛏️🪓⚠️🪚🔨📍❗
 LINUX_ONBOARDER_DIFF_ALERT="${LINUX_ONBOARDER_DIFF_ALERT:- 🔨}"
 
+# DEVEL: Something like this if you to monkey-path dconf and gsettings:
+#
+#   dconf() {
+#     if [ "$1" != "read" ]; then
+#       >&2 echo "BREAK: dconf $1"
+#       exit 1
+#     fi
+#     /usr/bin/dconf "$@"
+#   }
+#
+#   gsettings() {
+#     if [ "$1" != "get" ]; then
+#       >&2 echo "BREAK: gsettings $1"
+#       exit 1
+#     fi
+#     /usr/bin/gsettings "$@"
+#   }
+LINUX_ONBOARDER_VERBOSE="${LINUX_ONBOARDER_VERBOSE:-false}"
+
 dconf_write() {
   local description="$1"
   local _dconf_command="$2"
@@ -457,8 +476,14 @@ dconf_write() {
 
   if print_dconf_write_setting "$@"; then
     if [ "${dconf_action}" = "reset" ]; then
+      ! ${LINUX_ONBOARDER_VERBOSE} ||
+        echo "dconf reset \"${dconf_key}\""
+
       dconf reset "${dconf_key}"
     elif [ "${dconf_action}" = "write" ]; then
+      ! ${LINUX_ONBOARDER_VERBOSE} ||
+        echo "dconf write \"${dconf_key}\" \"${dconf_val}\""
+
       dconf write "${dconf_key}" "${dconf_val}"
     fi
   fi
@@ -474,8 +499,14 @@ gsettings_set() {
 
   if print_gsettings_set_setting "$@"; then
     if [ "${gsettings_action}" = "reset" ]; then
+      ! ${LINUX_ONBOARDER_VERBOSE} ||
+        echo "gsettings reset \"${gsettings_schema}\" \"${gsettings_key}\""
+
       gsettings reset "${gsettings_schema}" "${gsettings_key}"
     elif [ "${gsettings_action}" = "set" ]; then
+      ! ${LINUX_ONBOARDER_VERBOSE} ||
+        echo "gsettings set \"${gsettings_schema}\" \"${gsettings_key}\" \"${gsettings_val}\""
+
       gsettings set "${gsettings_schema}" "${gsettings_key}" "${gsettings_val}"
     fi
   fi
