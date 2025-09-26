@@ -1535,6 +1535,11 @@ gnome_settings_customize_keyboard_navigation() {
   # REFER:
   # gnome_settings_customize_keyboard_navigation_switchers
 
+  # SAVVY/2025-09-26: These keybindings are inhibited by Hide Top Bar extension:
+  #   <Ctrl-Alt-Tab> and <Ctrl-Alt-Esc>.
+  # - It'd be fine to leave 'em enabled, but author's Neovim uses
+  #   <Ctrl-Alt-Tab>, so we'll disable these settings.
+  #
   # These switch between "Windows" and "Top Bar", but only if Top Bar is showing.
   # - Use <Ctrl-Alt-C> or the hover the mouse (or disable Hide Top Bar) to show
   #   the Top Bar, then "Switch system controls" shows an Alt-Tab-like popup
@@ -1548,14 +1553,14 @@ gnome_settings_customize_keyboard_navigation() {
   # - SAVVY: The Hide Top Bar extension inhibits switch-panels.
   #   - See comments in the Hide Top Bar settings function.
   gsettings_set "${menu_path} > Switch system controls" \
-    gsettings reset org.gnome.desktop.wm.keybindings switch-panels
+    gsettings set org.gnome.desktop.wm.keybindings switch-panels '@as []'
   gsettings_set "${menu_path} > Switch system controls backward [Hidden]" \
-    gsettings reset org.gnome.desktop.wm.keybindings switch-panels-backward
+    gsettings set org.gnome.desktop.wm.keybindings switch-panels-backward '@as []'
   # "Switch system controls directly" / Default: <Ctrl><Alt>Escape
   gsettings_set "${menu_path} > Switch system controls directly" \
-    gsettings reset org.gnome.desktop.wm.keybindings cycle-panels
+    gsettings set org.gnome.desktop.wm.keybindings cycle-panels '@as []'
   gsettings_set "${menu_path} > Switch system controls directly backward [Hidden]" \
-    gsettings reset org.gnome.desktop.wm.keybindings cycle-panels-backward
+    gsettings set org.gnome.desktop.wm.keybindings cycle-panels-backward '@as []'
 
   # Author rarely uses Workspaces.
   # - I'll leave <Ctrl-Alt-Left> and <Ctrl-Alt-Right> for simple
@@ -2915,15 +2920,23 @@ gnucash_customize() {
 # *** EXTENSION: HIDE TOP BAR
 #     =======================
 
-# gsettings get org.gnome.shell enabled-extensions
-# ['hidetopbar@mathieu.bidon.ca', 'vim-altTab@kokong.info', 'just-perfection-desktop@just-perfection', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'browser-tabs@com.github.harshadgavali', 'window-switcher@tbepdb']
+# *Hide Top Bar* by *tuxor1337*
+#
+# https://extensions.gnome.org/extension/545/hide-top-bar/
+# https://gitlab.gnome.org/tuxor1337/hidetopbar
 
-# Each Extension uses its own schema, e.g.,:
-#   gsettings list-recursively org.gnome.shell.extensions.apps-menu
-
-# - *Hide Top Bar* by *tuxor1337*
-#   https://extensions.gnome.org/extension/545/hide-top-bar/
-#   https://gitlab.gnome.org/tuxor1337/hidetopbar
+# SAVVY: The Hide Top Bar extension inhibits
+#        the "Switch system controls" commands.
+# - Under the schema:
+#     org.gnome.desktop.wm.keybindings
+#   See these four settings:
+#     switch-panels           — Switch system controls
+#     switch-panels-backward  — Switch system controls backward [Hidden]
+#     cycle-panels            — Switch system controls directly
+#     cycle-panels-backward   — Switch system controls directly backward [Hidden]
+#
+# - If you disable Hide Top Bar, you may want to reactivate
+#   the 4 "Switch system controls" commands.
 
 gnome_extension_hide_top_bar_customize() {
   local menu_path="GNOME Extension > Hide Top Bar"
