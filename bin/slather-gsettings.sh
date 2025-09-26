@@ -377,8 +377,8 @@ fake_it() {
 count_it() {
   dconf_write() {
     local _description="$1"
-    local _dconf_cmd="$2"
-    local _dconf_write="$3"
+    local _dconf_command="$2"
+    local _dconf_action="$3"
     local dconf_key="$4"
     local dconf_value="$5"
 
@@ -388,8 +388,8 @@ count_it() {
   }
   gsettings_set() {
     local _description="$1"
-    local _gsettings_cmd="$2"
-    local _gsettings_get="$3"
+    local _gsettings_command="$2"
+    local _gsettings_action="$3"
     local gsettings_schema="$4"
     local gsettings_key="$5"
     local gsettings_value="$6"
