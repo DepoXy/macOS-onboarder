@@ -2050,6 +2050,8 @@ gnome_settings_customize_keyboard_windows() {
 #   org.gnome.shell.keybindings shift-overview-down ['<Super><Alt>Down']
 #   org.gnome.shell.keybindings shift-overview-up ['<Super><Alt>Up']
 #
+#   # These claim nice-to-have keybindings <Cmd-1>..<Cmd-9> and
+#   # <Ctrl-Cmd-1>..<Ctrl-Cmd-9>, so we'll free these below:
 #   org.gnome.shell.keybindings open-new-window-application-1 @as []
 #   ...
 #   org.gnome.shell.keybindings open-new-window-application-9 @as []
@@ -2104,7 +2106,14 @@ gnome_settings_customize_keyboard_windows() {
 #   org.gnome.settings-daemon.plugins.media-keys screensaver-static ['XF86ScreenSaver']
 
 gnome_settings_customize_keyboard_windows_hidden() {
-  :
+  # Release <Ctrl-Cmd-1>..<Ctrl-Cmd-9> (open-new-window-application)
+  # as well as <Cmd-1>..<Cmd-9> (switch-to-application).
+  for idx in $(seq 1 9); do
+    gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > ∅ Open New Window App #${idx}" \
+      gsettings set org.gnome.shell.keybindings open-new-window-application-${idx} '@as []'
+    gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > ∅ Switch to App #${idx}" \
+      gsettings set org.gnome.shell.keybindings switch-to-application-${idx} '@as []'
+  done
 }
 
 #      +++++++++++++++++++++++++++++++++++++
