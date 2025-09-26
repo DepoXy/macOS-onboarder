@@ -1874,13 +1874,15 @@ gnome_settings_customize_keyboard_windows() {
   gsettings_set "Keyboard Shortcuts > Windows > Close window: <Alt-F4>" \
     gsettings reset org.gnome.desktop.wm.keybindings close
 
+  # MOVED: "Hide window": See "minimize" alongside "maximize" and "maximize-*".
+
+  # MOVED: "Lower window...": See "lower" alongside "raise" and "raise-or-lower".
+
+  # ***
+
   # Hide window: <Cmd-h> [default]
   gsettings_set "Keyboard Shortcuts > Windows > Hide window: <Cmd-h>" \
     gsettings reset org.gnome.desktop.wm.keybindings minimize
-
-  # Lower window below other windows: Disabled [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Lower window below other windows: Disabled" \
-    gsettings reset org.gnome.desktop.wm.keybindings lower
 
   # Maximize window: <Cmd-Up> [default]
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window: <Cmd-Up>" \
@@ -1896,9 +1898,28 @@ gnome_settings_customize_keyboard_windows() {
     gsettings set org.gnome.desktop.wm.keybindings maximize-vertically \
     "['<Shift><Control><Super>backslash']"
 
-  # Move window: <Alt-F7> [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Move window: <Alt-F7>" \
-    gsettings reset org.gnome.desktop.wm.keybindings begin-move
+  # Restore window: <Cmd-Down> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>" \
+    gsettings reset org.gnome.desktop.wm.keybindings unmaximize
+
+  # Toggle maximization state: <Alt-F10> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>" \
+    gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
+
+  # Toggle fullscreen mode: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode: <Ctrl-Alt-Up>" \
+    gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen \
+    "['<Control><Alt>Up']"
+
+  # ***
+
+  # MOVED: "Move window": See "begin-move" alongside "begin-resize".
+
+  # ***
+
+  # Lower window below other windows: Disabled [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Lower window below other windows: Disabled" \
+    gsettings reset org.gnome.desktop.wm.keybindings lower
 
   # Raise window above other windows: Disabled [default]
   gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows: Disabled" \
@@ -1909,26 +1930,29 @@ gnome_settings_customize_keyboard_windows() {
     gsettings set org.gnome.desktop.wm.keybindings raise-or-lower \
     "['<Alt>slash']"
 
+  # ***
+
+  # Move window: <Alt-F7> [default]
+  gsettings_set "Keyboard Shortcuts > Windows > Move window: <Alt-F7>" \
+    gsettings reset org.gnome.desktop.wm.keybindings begin-move
+
   # Resize window: <Alt-F8> [default]
   gsettings_set "Keyboard Shortcuts > Windows > Resize window: <Alt-F8>" \
     gsettings reset org.gnome.desktop.wm.keybindings begin-resize
 
-  # Restore window: <Cmd-Down> [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>" \
-    gsettings reset org.gnome.desktop.wm.keybindings unmaximize
+  # ***
 
-  # Toggle fullscreen mode: Disabled [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode: <Ctrl-Alt-Up>" \
-    gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen \
-    "['<Control><Alt>Up']"
+  # MOVED: "Restore window": See "unmaximize" alongside "maximize" and "maximize-*".
 
-  # Toggle maximization state: <Alt-F10> [default]
-  gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>" \
-    gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
+  # MOVED: "Toggle fullscreen mode": See "toggle-fullscreen" alongside "maximize" etc.
+
+  # MOVED: "Toggle maximization state": See "toggle-maximized" alongside "maximize" etc.
 
   # Toggle window on all workspaces or one: Disabled [default]
   gsettings_set "Keyboard Shortcuts > Windows > Toggle window on all workspaces or one: Disabled" \
     gsettings reset org.gnome.desktop.wm.keybindings toggle-on-all-workspaces
+
+  # ***
 
   # "View split on left" / Default: <Cmd-Left>
   # - BNDNG: <Shift-Ctrl-Cmd-[> (<Shift-Ctrl-Cmd-LeftBracket>)
