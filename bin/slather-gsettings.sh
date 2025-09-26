@@ -1426,6 +1426,20 @@ gnome_settings_customize_keyboard_navigation() {
   local menu_path="Keyboard Shortcuts > Navigation"
 
   # "Hide all normal windows" / Default: Disabled
+  # - SAVVY: Unlike macOS, whose Show Desktop only temporarily
+  #   shows the desktop (and then running the command again
+  #   brings all the windows back), this Show Desktop minimizes
+  #   all windows (and leaves them minimized).
+  #   - UCASE: Author uses Desktop Widgets extension to show
+  #     clock time and weather on the desktop, and Show Desktop
+  #     can be used to unhide that information if necessary.
+  #   - UCASE: Unlike the macOS Show Desktop, this Show Desktop
+  #     lets you quickly declutter your desktop. (Author uses
+  #     a separate Hammerspoon binding on macOS to hide all.)
+  #   - REFER: See similar macOS keybinding: macOS Settings
+  #     > Keyboard Shortcuts > Mission Control > Show Desktop
+  #     (defaults F11, but ./bin/slather-defaults.sh changes
+  #      it to <Ctrl-Alt-D>).
   # - BNDNG: <Ctrl-Alt-D>
   gsettings_set "${menu_path} > Hide all normal windows: <Ctrl-Alt-D>" \
     gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Control><Alt>d']"
@@ -1752,8 +1766,6 @@ gnome_settings_customize_keyboard_navigation_switchers() {
 #      ++++++++++++++++++++++++++++++++
 
 gnome_settings_customize_keyboard_screenshots() {
-  # FIXME/2025-01-13: Change to match macOS bindings (or close to it)
-  #
   # "Record a screencast interactively" / Default: ['<Shift><Control><Alt>r']
   # - BNDNG: <Shift-Cmd-4>
   gsettings_set "Keyboard Shortcuts > Screenshots > Record a screencast interactively" \
@@ -1944,6 +1956,27 @@ gnome_settings_customize_keyboard_windows() {
     gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
 
   # Toggle fullscreen mode: Disabled [default]
+  # - Why you might like *toggle-fullscreen*:
+  #   - It hides the titlebar.
+  #   - It toggles back to the original window dimensions,
+  #     *unlike toggle-maximized*.
+  #   - Why you might like GNOME/Wayland/mutter
+  #     toggle-fullscreen better than macOS fullscreen:
+  #     - macOS fullscreen sends the window to another Space,
+  #       which is an annoying transition/animation (at least
+  #       IMHO), and then Alt-Tab doesn't work smoothly (e.g.,
+  #       Alt-Tab does a sideways transition to the adjacent
+  #       Space, which is less responsive than normal Alt-Tab,
+  #       and also annoying to look at (again, IMHO)).
+  #     - In GNOME Shell/Wayland/mutter fullscreen, you can
+  #       still bring other windows to the front.
+  #       - I find the GNOME Shell/Wayland/mutter experience
+  #         to match my mental model of what to expect from
+  #         fullscreen, unlike the macOS implementation —
+  #         basically, a fullscreen window behaves like any
+  #         other normal window; it just doesn't have a
+  #         titlebar... well, it also can't be resized (and
+  #         not with begin-resize (<Alt-F8> either)).
   # - BNDNG: <Ctrl-Alt-Up>
   gsettings_set "Keyboard Shortcuts > Windows > Toggle fullscreen mode: <Ctrl-Alt-Up>" \
     gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen \
@@ -2050,6 +2083,8 @@ gnome_settings_customize_keyboard_windows() {
 #   org.gnome.desktop.wm.keybindings panel-main-menu ['<Alt>F1']
 #   org.gnome.desktop.wm.keybindings panel-run-dialog ['<Alt>F2']
 #   ...
+#   # DUNNO: I searched the web (but not sources), and couldn't
+#   # find an explanation for this strangely-titled setting.
 #   org.gnome.desktop.wm.keybindings set-spew-mark @as []
 #   ...
 #   org.gnome.desktop.wm.keybindings toggle-above @as []
@@ -2066,6 +2101,7 @@ gnome_settings_customize_keyboard_windows() {
 #
 # - Reveals:
 #
+#   # Some of these are exposed in GNOME Tweaks.
 #   org.gnome.desktop.wm.preferences action-double-click-titlebar 'toggle-maximize'
 #   org.gnome.desktop.wm.preferences action-middle-click-titlebar 'none'
 #   org.gnome.desktop.wm.preferences action-right-click-titlebar 'menu'
@@ -2235,6 +2271,10 @@ gnome_settings_customize_keyboard_windows_hidden() {
   # - This setting works well with the <Alt-/> command which'll
   #   officially raise the window that has focus:
   #     org.gnome.desktop.wm.keybindings raise-or-lower
+  # - This also makes Alt-Click-Dragging a background window behave
+  #   more like macOS Easy Move+Resize — it won't bring an Alt-Clicked
+  #   window to the front while you reposition it.
+  # - CALSO: raise-or-lower (<Alt-/>) is esp. useful when raise-on-click is disabled.
   gsettings_set "Keyboard Shortcuts > Window Prefs. [Hidden] > ∅ Raise on Click" \
     gsettings set org.gnome.desktop.wm.preferences raise-on-click false
 
@@ -2520,6 +2560,10 @@ gnome_tweaks_customize_window_titlebars() {
   #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
 
   # Default: Titlebar Buttons > Placement: Right ('appmenu:close')
+  # - Move the window buttons to the left side of the titlebar,
+  #   to be consistent with macOS (noting that the macOS window
+  #   buttons placement is not configurable, so if you appreciate
+  #   parity, this is the only choice).
   gsettings_set "Tweaks > Window Titlebars > Titlebar Buttons > Placement: Left (like macOS)" \
     gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
 }
