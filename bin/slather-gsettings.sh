@@ -805,6 +805,21 @@ gnome_settings_customize_appearance() {
   #   picture-uri 'file:///usr/share/images/desktop-base/desktop-background.xml'
   #   picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.webp'
   #   show-desktop-icons false
+  #
+  # Default: 100
+  gsettings_set "${menu_path} > Picture Opacity" \
+    gsettings reset org.gnome.desktop.background picture-opacity
+  # Default: 'file:///usr/share/images/desktop-base/desktop-background.xml'
+  # - Disable Light Wallpaper Picture
+  gsettings_set "${menu_path} > Picture URI" \
+    gsettings set org.gnome.desktop.background picture-uri ''
+  # Default: 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg'
+  # - Disable Dark Wallpaper Picture
+  gsettings_set "${menu_path} > Picture URI Dark" \
+    gsettings set org.gnome.desktop.background picture-uri-dark ''
+  # Default: false
+  gsettings_set "${menu_path} > Show Desktop Icons" \
+    gsettings reset org.gnome.desktop.background show-desktop-icons
 
   # Default: 'solid', but using GUI may change, e.g., to 'horizontal'.
   gsettings_set "${menu_path} > Color Shading Type" \
@@ -817,6 +832,7 @@ gnome_settings_customize_appearance() {
   gsettings_set "${menu_path} > Picture Options" \
     gsettings set org.gnome.desktop.background picture-options 'zoom'
 
+  # Set Background Color.
   # SAVVY: Very dark "green", slight contrast with borderless Chrome windows.
   # - Vs. black:
   #   gsettings_set "Settings > Appearance > Background > Primary Color" \
