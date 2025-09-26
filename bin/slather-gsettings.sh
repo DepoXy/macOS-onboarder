@@ -1951,12 +1951,12 @@ gnome_settings_customize_keyboard_typing() {
 #      ++++++++++++++++++++++++++++
 
 gnome_settings_customize_keyboard_windows() {
-  # Activate the window menu: <Alt-Space> [default]
+  # "Activate the window menu" / Default: <Alt-Space>
   # - BNDNG: <Alt-Space>
   gsettings_set "Keyboard Shortcuts > Windows > Activate the window menu: <Alt-Space>" \
     gsettings reset org.gnome.desktop.wm.keybindings activate-window-menu
 
-  # Close window: <Alt-F4> [default]
+  # "Close window" / Default: <Alt-F4>
   # - BNDNG: <Alt-F4>
   gsettings_set "Keyboard Shortcuts > Windows > Close window: <Alt-F4>" \
     gsettings reset org.gnome.desktop.wm.keybindings close
@@ -1967,39 +1967,39 @@ gnome_settings_customize_keyboard_windows() {
 
   # ***
 
-  # Hide window: <Cmd-h> [default]
+  # "Hide window" / Default: <Cmd-h>
   # - BNDNG: <Cmd-H>
   gsettings_set "Keyboard Shortcuts > Windows > Hide window: <Cmd-h>" \
     gsettings reset org.gnome.desktop.wm.keybindings minimize
 
-  # Maximize window: <Cmd-Up> [default]
+  # "Maximize window" / Default: <Cmd-Up>
   # - BNDNG: <Cmd-Up>
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window: <Cmd-Up>" \
     gsettings reset org.gnome.desktop.wm.keybindings maximize
 
-  # Maximize window horizontally: Disabled [default]
+  # "Maximize window horizontally" / Default: Disabled
   # - BNDNG: <Shift-Ctrl-Cmd-.>
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window horizontally: <Shift-Ctrl-Cmd-.>" \
     gsettings set org.gnome.desktop.wm.keybindings maximize-horizontally \
     "['<Shift><Control><Super>period']"
 
-  # Maximize window vertically: Disabled [default]
+  # "Maximize window vertically" / Default: Disabled
   # - BNDNG: <Shift-Ctrl-Cmd-\> (<Shift-Ctrl-Cmd-backslash>)
   gsettings_set "Keyboard Shortcuts > Windows > Maximize window vertically: <Shift-Ctrl-Cmd-\\>" \
     gsettings set org.gnome.desktop.wm.keybindings maximize-vertically \
     "['<Shift><Control><Super>backslash']"
 
-  # Restore window: <Cmd-Down> [default]
+  # "Restore window" / Default: <Cmd-Down>
   # - BNDNG: <Cmd-Down>
   gsettings_set "Keyboard Shortcuts > Windows > Restore window: <Cmd-Down>" \
     gsettings reset org.gnome.desktop.wm.keybindings unmaximize
 
-  # Toggle maximization state: <Alt-F10> [default]
+  # "Toggle maximization state" / Default: <Alt-F10>
   # - BNDNG: <Alt-F10>
   gsettings_set "Keyboard Shortcuts > Windows > Toggle maximization state: <Alt-F10>" \
     gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
 
-  # Toggle fullscreen mode: Disabled [default]
+  # "Toggle fullscreen mode" / Default: Disabled
   # - Why you might like *toggle-fullscreen*:
   #   - It hides the titlebar.
   #   - It toggles back to the original window dimensions,
@@ -2032,7 +2032,7 @@ gnome_settings_customize_keyboard_windows() {
 
   # ***
 
-  # Lower window below other windows: Disabled [default]
+  # "Lower window below other windows" / Default: Disabled
   # - BNDNG: <Shift-Alt-/> (Shift-Alt-slash, Shift-Alt-forwardslash)
   gsettings_set "Keyboard Shortcuts > Windows > Lower window below other windows" \
     gsettings set org.gnome.desktop.wm.keybindings lower "['<Shift><Alt>slash']"
@@ -2059,7 +2059,7 @@ gnome_settings_customize_keyboard_windows() {
   gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows" \
     gsettings set org.gnome.desktop.wm.keybindings raise "['<Alt>slash']"
 
-  # Raise window if covered, otherwise lower it: Disabled [default]
+  # "Raise window if covered, otherwise lower it" / Default: Disabled
   # - CALSO: raise-or-lower (<Alt-/>) is esp. useful when raise-on-click is disabled.
   # - ALTLY: Wire "raise-or-lower" to <Alt-/>, and disable "raise", e.g.:
   #     # - BNDNG: <Alt-/> (Alt-slash, Alt-forwardslash)
@@ -2071,12 +2071,12 @@ gnome_settings_customize_keyboard_windows() {
 
   # ***
 
-  # Move window: <Alt-F7> [default]
+  # "Move window" / Default: <Alt-F7>
   # - BNDNG: <Alt-F7>
   gsettings_set "Keyboard Shortcuts > Windows > Move window: <Alt-F7>" \
     gsettings reset org.gnome.desktop.wm.keybindings begin-move
 
-  # Resize window: <Alt-F8> [default]
+  # "Resize window" / Default: <Alt-F8>
   # - BNDNG: <Alt-F8>
   gsettings_set "Keyboard Shortcuts > Windows > Resize window: <Alt-F8>" \
     gsettings reset org.gnome.desktop.wm.keybindings begin-resize
@@ -2089,7 +2089,7 @@ gnome_settings_customize_keyboard_windows() {
 
   # MOVED: "Toggle maximization state": See "toggle-maximized" alongside "maximize" etc.
 
-  # Toggle window on all workspaces or one: Disabled [default]
+  # "Toggle window on all workspaces or one" / Default: Disabled
   gsettings_set "Keyboard Shortcuts > Windows > Toggle window on all workspaces or one: Disabled" \
     gsettings reset org.gnome.desktop.wm.keybindings toggle-on-all-workspaces
 
