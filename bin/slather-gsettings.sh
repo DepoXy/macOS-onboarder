@@ -1924,14 +1924,16 @@ gnome_settings_customize_keyboard_windows() {
     gsettings reset org.gnome.desktop.wm.keybindings toggle-on-all-workspaces
 
   # "View split on left" / Default: <Cmd-Left>
-  gsettings_set "Keyboard Shortcuts > Windows > View split on left: <Shift-Ctrl-Cmd-Left>" \
+  # - BNDNG: <Shift-Ctrl-Cmd-[> (<Shift-Ctrl-Cmd-LeftBracket>)
+  gsettings_set "Keyboard Shortcuts > Windows > View split on left" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-left \
-    "['<Shift><Control><Super>Left']"
+    "['<Shift><Control><Super>bracketleft']"
 
   # "View split on right" / Default: <Cmd-Right>
-  gsettings_set "Keyboard Shortcuts > Windows > View split on right: <Shift-Ctrl-Cmd-Right>" \
+  # - BNDNG: <Shift-Ctrl-Cmd-]> (<Shift-Ctrl-Cmd-RightBracket>)
+  gsettings_set "Keyboard Shortcuts > Windows > View split on right" \
     gsettings set org.gnome.mutter.keybindings toggle-tiled-right \
-    "['<Shift><Control><Super>Right']"
+    "['<Shift><Control><Super>bracketright']"
 }
 
 #      +++++++++++++++++++++++++++++++++++++
