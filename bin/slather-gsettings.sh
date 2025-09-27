@@ -1174,6 +1174,16 @@ gnome_settings_customize_privacy_thunderbolt() {
 
 # Nothing to change.
 # SAVVY: Debian 13 enables auto-delete /tmp and /var/tmp by default.
+# - If you upgrade from Debian 12, the feature is opt-in.
+#   - The toggle in GNOME Settings GUI are disabled
+#   - You can delete /etc/tmpfiles.d/tmp.conf to enable auto-deletion.
+#   - DUNNO: Are there two separate /tmp deletion features?
+#     - I.e., one based on the 'remove-old-temp-files' GSettings setting,
+#       and another one based on the /etc/tmpfiles.d/tmp.conf config?
+#     - Or maybe it's one feature that's enabled via
+#       'remove-old-temp-files', checks /etc/tmpfiles.d/tmp.conf,
+#       and falls-back on 'old-files-age'?
+#     - I'll dig deeper someday, but obviously not a major concern.
 gnome_settings_customize_privacy_file_history_and_trash() {
   local menu_path="Settings > Privacy & Security > System > File History & Trash"
 
