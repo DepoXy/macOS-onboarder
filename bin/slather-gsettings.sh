@@ -2420,8 +2420,24 @@ gnome_settings_customize_keyboard_windows_hidden() {
   # - But you can use *toggle-above* to unsticky such a window.
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ always-on-top" \
     gsettings reset org.gnome.desktop.wm.keybindings always-on-top
+  # Wire 'toggle-above', which sets/unsets Always On Top, which
+  # you can also access by right-clicking a window's titlebar.
+  # - UCASE: Keep Spotify on top when you're "listening" to a
+  #   podcase that includes video.
+  # - !CASE: This feature not necessary for Web browser
+  #   Picture-in-Picture to be sticky on-top. See instead
+  #   the elegant *PiP On Top* GNOME Shell extension:
+  #     https://extensions.gnome.org/extension/4691/pip-on-top/
+  #     https://github.com/Rafostar/gnome-shell-extension-pip-on-top
+  # - UCASE: Is that it, Spotify? I don't think I've ever used
+  #   always-on-top other than for video.
+  # BNDNG: <Shift-Ctrl-Alt-P>
+  # - Mnemonic: always-on-toP
+  # - CALSO: <Shift-Ctrl-Alt-O> toggles (mouse) Focus Mode
+  #   (sorta related, in that it affects window interaction).
   gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ toggle-above" \
-    gsettings reset org.gnome.desktop.wm.keybindings toggle-above
+    gsettings set org.gnome.desktop.wm.keybindings toggle-above \
+    ["'<Shift><Primary><Alt>p'"]
 
   # ***
 
