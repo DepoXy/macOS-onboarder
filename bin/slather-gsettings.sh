@@ -2492,18 +2492,29 @@ gnome_settings_customize_keyboard_windows_hidden() {
       gsettings set org.gnome.shell.keybindings switch-to-application-${idx} '@as []'
   done
 
-  # These advance from normal display > Overview > Apps, and in reverse.
-  # - <Cmd-Alt-Up> is similar to <Ctrl-Alt-Down> currently,
-  #   except <Ctrl-Alt-Down> toggles between normal display and Overview,
-  #   whereas <Cmd-Alt-Up> changes to Overview, then Apps, then no-ops.
-  # "Shift Overview Up" / Default: ['<Super><Alt>Up']
-  # - BNDNG: <Cmd-Alt-Up>
+  # These two commands advance from desktop
+  # view > Overview > Apps, and in reverse.
+  # - Note that 'shift-overview-up' is similar
+  #          to 'toggle-overview',
+  #   at least when first pressed.
+  #   - When first pressed, 'shift-overview-up' shows the Activities Overview.
+  #   - If you press it again, you'll see the Apps list (aka App Grid, or
+  #     Application Overview), same as if you clicked the 3x3 grid button ᎒᎒᎒
+  #     at the bottom of the dash to view all your installed applications.
+  #   - And 'shift-overview-down' advances in reverse, from Apps back to
+  #     Overview back to your desktop.
+  # - ISOFF: Author's Neovim keybindings use <Cmd-Alt-Up> and <Cmd-Alt-Down>,
+  #   so disabling these.
+  #   - I use 'toggle-overview' (<Ctrl-Alt-Down>) to show/hide Overview.
+  #   - I almost never use the App Grid (maybe once to see what apps
+  #     Debian installed by default).
+  #
+  # "Shift Overview Up" [Hidden] / Default: ['<Super><Alt>Up'] (<Cmd-Alt-Up>)
   gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Up" \
-    gsettings reset org.gnome.shell.keybindings shift-overview-up
-  # "Shift Overview Down" / Default: ['<Super><Alt>Down']
-  # - BNDNG: <Cmd-Alt-Down>
+    gsettings set org.gnome.shell.keybindings shift-overview-up '@as []'
+  # "Shift Overview Down" [Hidden] / Default: ['<Super><Alt>Down'] (<Cmd-Alt-Down>)
   gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Down" \
-    gsettings reset org.gnome.shell.keybindings shift-overview-down
+    gsettings set org.gnome.shell.keybindings shift-overview-down '@as []'
 }
 
 #      +++++++++++++++++++++++++++++++++++++
