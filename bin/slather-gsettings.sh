@@ -2352,9 +2352,18 @@ gnome_settings_customize_keyboard_windows_hidden() {
     "['<Shift><Control><Super>Up']"
 
   # BNDNG: <Shift-Ctrl-Cmd-Down>
+  # - BNDNG: <Shift-Ctrl-Alt-End>
+  #   - UCASE: So author can properly size and position Neovide
+  #     window using <Shift-Ctrl-Alt> keybindings (because I
+  #     want a mostly-fullscreen window, and I haven't figured
+  #     out how to make one without using multiple window
+  #     commands: <Shift-Ctrl-Alt-Up>  toggle-maximized (if necessary)
+  #               <Shift-Ctrl-Alt-\>   maximize-horizontally
+  #               <Shift-Ctrl-Alt-End> move-to-side-s (or begin-move)
+  #               <Shift-Ctrl-Alt-'>   begin-resize
   gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Bottom" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-side-s \
-    "['<Shift><Control><Super>Down']"
+    "['<Shift><Control><Super>Down', '<Shift><Control><Alt>End']"
 
   # ***
 
