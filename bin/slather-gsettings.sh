@@ -2336,34 +2336,34 @@ gnome_settings_customize_keyboard_windows_hidden() {
   # USYNC: These 4 bindings match similar window-snaps in macOS.
   # - CXREF: See rectangle_customize() in ./bin/slather-defaults.sh.
 
-  # BNDNG: <Shift-Ctrl-Cmd-Left>
+  # BNDNG: <Shift-Ctrl-Cmd-Left>, <Shift-Ctrl-Alt-Delete> (<M-C-S-Del>)
   gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Left" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-side-w \
-    "['<Shift><Control><Super>Left']"
+    "['<Shift><Control><Super>Left', '<Shift><Control><Alt>Delete']"
 
-  # BNDNG: <Shift-Ctrl-Cmd-Right>
+  # BNDNG: <Shift-Ctrl-Cmd-Right>, <Shift-Ctrl-Alt-End>
   gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Right" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-side-e \
-    "['<Shift><Control><Super>Right']"
+    "['<Shift><Control><Super>Right', '<Shift><Control><Alt>End']"
 
-  # BNDNG: <Shift-Ctrl-Cmd-Up>
+  # BNDNG: <Shift-Ctrl-Cmd-Up>, <Shift-Ctrl-Alt-PageUp>
   gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Top" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-side-n \
-    "['<Shift><Control><Super>Up']"
+    "['<Shift><Control><Super>Up', '<Shift><Control><Alt>Page_Up']"
 
   # BNDNG: <Shift-Ctrl-Cmd-Down>
-  # - BNDNG: <Shift-Ctrl-Alt-End>
+  # - BNDNG: <Shift-Ctrl-Alt-PageDown>
   #   - UCASE: So author can properly size and position Neovide
   #     window using <Shift-Ctrl-Alt> keybindings (because I
   #     want a mostly-fullscreen window, and I haven't figured
   #     out how to make one without using multiple window
-  #     commands: <Shift-Ctrl-Alt-Up>  toggle-maximized (if necessary)
-  #               <Shift-Ctrl-Alt-\>   maximize-horizontally
-  #               <Shift-Ctrl-Alt-End> move-to-side-s (or begin-move)
-  #               <Shift-Ctrl-Alt-'>   begin-resize
+  #     commands: <Shift-Ctrl-Alt-Up>   toggle-maximized (if necessary)
+  #               <Shift-Ctrl-Alt-\>    maximize-horizontally
+  #               <Shift-Ctrl-Alt-PgDn> move-to-side-s (or begin-move)
+  #               <Shift-Ctrl-Alt-'>    begin-resize
   gsettings_set "Keyboard Shortcuts > Windows [Hidden] > Move to Bottom" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-side-s \
-    "['<Shift><Control><Super>Down', '<Shift><Control><Alt>End']"
+    "['<Shift><Control><Super>Down', '<Shift><Control><Alt>Page_Down']"
 
   # ***
 
