@@ -5,13 +5,13 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-promote_homebrew_bash () {
+promote_homebrew_bash() {
   # SAVVY: SHELL remains /bin/bash, even when running Homebrew bash,
   #   so use ps lookup.
   # SAVVY: Alt. `ps -o cmd` works on @linux LM, but not @macOS.
-  if $(ps -o command $$ | tail -n 1 | cut -d ' ' -f1) --version \
-      | grep -q -e "^GNU bash, version \([4-9]\.\|[0-9][0-9]\+\.\)" \
-  ; then
+  if $(ps -o command $$ | tail -n 1 | cut -d ' ' -f1) --version |
+    grep -q -e "^GNU bash, version \([4-9]\.\|[0-9][0-9]\+\.\)" \
+    ; then
     # Bash v4 or better.
 
     return 1
@@ -46,7 +46,7 @@ promote_homebrew_bash () {
 #   https://github.com/landonb/ohmyrepos#😤
 #     ~/.kit/git/ohmyrepos/lib/print-homebrew-prefix.sh
 #   https://github.com/landonb/ohmyrepos/tree/HEAD/lib/print-homebrew-prefix.sh
-print_homebrew_prefix () {
+print_homebrew_prefix() {
   local brew_prefix="${HOMEBREW_PREFIX}"
 
   # Apple Silicon (arm64) brew path is /opt/homebrew
@@ -62,4 +62,3 @@ print_homebrew_prefix () {
 
   printf "%s" "${brew_prefix}"
 }
-
