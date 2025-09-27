@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vim:tw=0:ts=2:sw=2:et:norl:ft=bash
 # Author: Landon Bouma <https://tallybark.com/>
-# Project: https://github.com/DepoXy/macOS-onboarder#🏂
+# Project: https://github.com/DepoXy/macOS-GNOME-onboarder#🏂
 # License: MIT
 
 # Copyright (c) © 2025 Landon Bouma. All Rights Reserved.

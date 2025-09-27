@@ -186,4 +186,4 @@ This software is released under the MIT license (see [`LICENSE`](./LICENSE) file
 
 ## REPORTING BUGS
 
-&lt;<https://github.com/DepoXy/macOS-onboarder/issues>&gt;
+&lt;<https://github.com/DepoXy/macOS-GNOME-onboarder/issues>&gt;
