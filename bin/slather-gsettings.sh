@@ -2382,7 +2382,7 @@ gnome_settings_customize_keyboard_windows_hidden() {
   #     gsettings reset org.gnome.desktop.wm.keybindings move-to-center
   #
   # BNDNG: <Shift-Ctrl-Cmd-'> (<Shift-Ctrl-Cmd-apostrophe>)
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-center" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > move-to-center" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-center \
     "['<Shift><Control><Super>apostrophe']"
 
@@ -2400,19 +2400,19 @@ gnome_settings_customize_keyboard_windows_hidden() {
   #    Home   PageUp
   #    End    PageDown
   # BNDNG: <Shift-Ctrl-Cmd-PageUp>
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-ne" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > move-to-corner-ne" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-corner-ne \
     "['<Shift><Control><Super>Page_Up']"
   # BNDNG: <Shift-Ctrl-Cmd-Home>
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-nw" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > move-to-corner-nw" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-corner-nw \
     "['<Shift><Control><Super>Home']"
   # BNDNG: <Shift-Ctrl-Cmd-PageDown>
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-se" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > move-to-corner-se" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-corner-se \
     "['<Shift><Control><Super>Page_Down']"
   # BNDNG: <Shift-Ctrl-Cmd-End>
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ move-to-corner-sw" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > move-to-corner-sw" \
     gsettings set org.gnome.desktop.wm.keybindings move-to-corner-sw \
     "['<Shift><Control><Super>End']"
 
@@ -2437,7 +2437,7 @@ gnome_settings_customize_keyboard_windows_hidden() {
 
   # As noted above (Oddly), there's no opposite to *always-on-top*.
   # - But you can use *toggle-above* to unsticky such a window.
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ always-on-top" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ Always on Top" \
     gsettings reset org.gnome.desktop.wm.keybindings always-on-top
   # Wire 'toggle-above', which sets/unsets Always On Top, which
   # you can also access by right-clicking a window's titlebar.
@@ -2454,7 +2454,7 @@ gnome_settings_customize_keyboard_windows_hidden() {
   # - Mnemonic: always-on-toP
   # - CALSO: <Shift-Ctrl-Alt-O> toggles (mouse) Focus Mode
   #   (sorta related, in that it affects window interaction).
-  gsettings_set "Keyboard Shortcuts > Window [Hidden] > ∅ toggle-above" \
+  gsettings_set "Keyboard Shortcuts > Window [Hidden] > Toggle Above" \
     gsettings set org.gnome.desktop.wm.keybindings toggle-above \
     ["'<Shift><Primary><Alt>p'"]
 
@@ -2477,7 +2477,7 @@ gnome_settings_customize_keyboard_windows_hidden() {
   #     https://discourse.gnome.org/t/difference-between-show-the-overview-and-show-the-activities-overview-keyboard-shortcuts/6572
   # - CALSO: See somewhat-related "panel-run-dialog" GNOME Shell binding:
   #   - *Show GNOME Shell "Run a command" popup / Default: ['<Alt>F2']*
-  gsettings_set "Keyboard Shortcuts > System [Hidden] > Show the main menu" \
+  gsettings_set "Keyboard Shortcuts > System [Hidden] > ∅ Show the main menu" \
     gsettings set org.gnome.desktop.wm.keybindings panel-main-menu '@as []'
 
   # ***
@@ -2510,10 +2510,10 @@ gnome_settings_customize_keyboard_windows_hidden() {
   #     Debian installed by default).
   #
   # "Shift Overview Up" [Hidden] / Default: ['<Super><Alt>Up'] (<Cmd-Alt-Up>)
-  gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Up" \
+  gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > ∅ Shift Overview Up" \
     gsettings set org.gnome.shell.keybindings shift-overview-up '@as []'
   # "Shift Overview Down" [Hidden] / Default: ['<Super><Alt>Down'] (<Cmd-Alt-Down>)
-  gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > Shift Overview Down" \
+  gsettings_set "Keyboard Shortcuts > Shell Keybindings [Hidden] > ∅ Shift Overview Down" \
     gsettings set org.gnome.shell.keybindings shift-overview-down '@as []'
 }
 
