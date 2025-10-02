@@ -2966,7 +2966,8 @@ gnome_terminal_customize_general() {
 
 # ***
 
-# FIXME/2025-01-12: Audit gnome-terminal shortcuts
+# INERT: Author has since switched from gnome-terminal to Alacritty,
+# otherwise I might've customized gnome-terminal shortcuts.
 gnome_terminal_customize_shortcuts() {
   :
 }
