@@ -1250,13 +1250,11 @@ brew_app_macos "--cask arc"
 
 # "A macOS app for customizing which browser to start"
 # https://github.com/johnste/finicky
-# ISOFF/2025-08-30: I downgraded to manual Finicky v3 because latest v4
-# builds have --args regression.
-# - TRACK/2025-08-30: *Args [--args] not working on latest version*
-#   https://github.com/johnste/finicky/issues/431
-if ${BREW_INCLUDE_FINICKY:-false}; then
-  brew_app_macos "--cask finicky"
-fi
+# - HSTRY/2025-08-30: Early v4 had regression until v4.2.1 [2025-09-17]:
+#   - *Args [--args] not working on latest version* (use v3 until fixed)
+#     https://github.com/johnste/finicky/issues/431
+#     https://github.com/johnste/finicky/issues/431#issuecomment-3304174087
+brew_app_macos "--cask finicky"
 
 # --------------------------
 
