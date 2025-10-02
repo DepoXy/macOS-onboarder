@@ -1112,8 +1112,31 @@ gnome_settings_customize_mouse_and_touchpad() {
   gsettings_set "Settings > Mouse & Touchpad > Mouse > Mouse > Drag Threshold [Hidden]: 400" \
     gsettings set org.gnome.desktop.peripherals.mouse drag-threshold 8
 
-  # CALSO: Tweaks > Keyboard & Mouse > Mouse Click Emulation
+  # HSTRY: See old Tweaks setting (for key that still exists in
+  # GSettings, though doesn't seem to have GUI exposure):
+  # - Tweaks > Keyboard & Mouse > Mouse Click Emulation
   #   org.gnome.desktop.peripherals.mouse middle-click-emulation false
+
+  # HSTRY: Previously found in GNOME Tweaks, these are now in GNOME Settings:
+  # - PREVY: Was at: Tweaks > Keyboard & Mouse > Touchpad > Mouse Click Emulation:
+  #     ✓ Fingers: Click the touchpad with two fingers for right-click
+  #                and three fingers for middle-click.
+  #     - Area:    Click the bottom right of the touchpad for right-click
+  #                and the bottom middle for middle-click.
+  #     - Disable: Don't use mouse click emulation.
+  # - CURLY: Now at: Settings > Mouse & Touchpad > Touchpad > Secondary Click:
+  #     ✓ Two Finger Push: Push anywhere with 2 fingers
+  #     - Corner Push: Push with a single finger in the corner
+  # - Default value:
+  #     gsettings set org.gnome.desktop.peripherals.touchpad click-method 'fingers'
+  #
+  # CALSO: 2-finger scrolling.
+  # - CURLY: Now at: Settings > Mouse & Touchpad > Touchpad > Scroll Method:
+  #     ✓ Two Finger: Dray two fingers on the touchpad
+  #     - Edge: Drag one finger on the edge
+  # - Default value (Two Finger):
+  #     gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+  #     gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false
 }
 
 #     ==================
@@ -2742,20 +2765,8 @@ gnome_tweaks_customize_mouse_and_touchpad() {
 
   # *** org.gnome.desktop.peripherals.touchpad has 2 GSettings.
   #
-  # HSTRY: Not found in GNOME Shell 48 Tweaks.
-  # - PREVY: Was at: Tweaks > Keyboard & Mouse > Touchpad > Mouse Click Emulation.
-  #   - REFER:
-  #     ✓ Fingers: Click the touchpad with two fingers for right-click
-  #                and three fingers for middle-click.
-  #     - Area:    Click the bottom right of the touchpad for right-click
-  #                and the bottom middle for middle-click.
-  #     - Disable: Don't use mouse click emulation.
-  #   - Default value in GNOME Shell 48 (and still works):
-  #       gsettings set org.gnome.desktop.peripherals.touchpad click-method 'fingers'
-  #
-  # CALSO: 2-finger scrolling.
-  # - Default value in GNOME Shell 48:
-  #     gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+  # HSTRY: The old Tweaks Touchpad settings to adjust Mouse Click Emulation
+  # and Scrolling Method and now part of normal GNOME Settings > Mouse & Touchpad.
   :
 }
 
