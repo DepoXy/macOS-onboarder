@@ -113,6 +113,9 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# USAGE: Set true if you want to disable this checklist reminder.
+LINUX_ONBOARDER_SKIP_WAKE_ON_LID=${LINUX_ONBOARDER_SKIP_WAKE_ON_LID:-false}
+
 # ISOFF/2025-09-24: Author no longer uses these extensions.
 LINUX_ONBOARDER_INCLUDE_AATWS=${LINUX_ONBOARDER_INCLUDE_AATWS:-false}
 LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION=${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}
@@ -3286,6 +3289,77 @@ EOF
 
 # ***
 
+laptop_configure() {
+  disable_wakeup_on_lid
+}
+
+# On author's Debian 13 on Lenovo laptop, default is to wake
+# when the lid is opened; but this runs the risk of the machine
+# turning on in one's backpack on the bike ride home. For example.
+#
+#   $ tail -1 /proc/acpi/wakeup
+#   LID	  S4	*enabled   platform:PNP0C0D:00
+#
+# - After sudo-tee:
+#
+#   $ tail -1 /proc/acpi/wakeup
+#   LID	  S4	*disabled  platform:PNP0C0D:00
+
+# ALTLY: This script doesn't do any sudo, but it could:
+# - When script is executed, check this setting immediately
+#   and prompt for sudo password if needs changing, then change
+#   (prompt immediately so that all user interaction happens
+#    when script is first executed, and not, e.g., after a delay).
+# - Specifically, this call needs privileges:
+#
+#     echo " LID" | sudo tee /proc/acpi/wakeup
+#
+# HSTRY/2025-10-02: Author is surprised how long this weird technique
+# has been supported (since at least 2015-01-27, in Linux Mint MATE),
+# considering how many other estoric features like this have changed
+# over the years.
+
+# ASIDE: HSTRY: On a related note, GNOME used to expose an option to
+# disable suspend on lid-closed (sorta the opposite of wake on lid-open),
+# but that option is no longer present in Tweaks.
+# - Here's an old comment and old reminder, just FYI:
+#   # - NTRST: When you disable Suspend-when-lid-closed, starts this daemon:
+#   #     python3 /usr/libexec/gnome-tweak-tool-lid-inhibitor
+#   #   - Which you'll see listed under Tweaks > Startup Applications as
+#   #     ignore-lid-switch-tweak
+#   print_at_end+=("\
+#     🔳 Tweaks > General > Suspend when laptop lid is closed > Disable")
+#   }
+
+disable_wakeup_on_lid() {
+  if ${LINUX_ONBOARDER_SKIP_WAKE_ON_LID:-false}; then
+
+    return
+  fi
+
+  if ! cat /proc/acpi/wakeup 2>/dev/null | grep -q "^LID"; then
+    print_at_end+=("${OMR_REMINDER_DISABLED:-❌} Not applicable: Wake on Lid Open")
+
+    return
+  fi
+
+  if cat /proc/acpi/wakeup 2>/dev/null | grep "^LID" | grep -q disabled; then
+    print_at_end+=("${OMR_REMINDER_COMPLETE:-✅} Disable Wake on Lid Open")
+
+    return
+  fi
+
+  print_at_end+=("$(
+    cat <<EOF
+${OMR_REMINDER_AWAITING:-⭕} Disable Wake on Lid Open:
+
+   echo " LID" | sudo tee /proc/acpi/wakeup
+EOF
+  )")
+}
+
+# ***
+
 depoxy_configure() {
   print_at_end+=("$(
     cat <<EOF
@@ -3413,6 +3487,8 @@ slather_settings() {
   # ***
 
   pass_configure
+
+  laptop_configure
 
   depoxy_configure
 }
