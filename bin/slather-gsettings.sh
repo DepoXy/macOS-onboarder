@@ -1888,6 +1888,7 @@ gnome_settings_customize_keyboard_system() {
     gsettings set org.gnome.shell.keybindings focus-active-notification '@as []'
 
   # "Lock screen" / Default: ['<Super>l']
+  # - ALTLY: `xdg-screensaver lock`
   # - BNDNG: <Ctrl-Cmd-Q>
   gsettings_set "Keyboard Shortcuts > System > Lock screen" \
     gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control><Super>q']"
