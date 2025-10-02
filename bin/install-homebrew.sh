@@ -1970,6 +1970,10 @@ TESTED_ONCE_BREW_LIST_FALSE=false
 TESTED_ONCE_BREW_INFO_FALSE=false
 
 stub_external_commands_if_unit_testing() {
+  if ${INFO_RUN:-false}; then
+    DRY_RUN=true
+  fi
+
   if ! ${DRY_RUN:-false}; then
 
     return
@@ -1980,14 +1984,14 @@ stub_external_commands_if_unit_testing() {
       ! ${TESTED_ONCE_BREW_LIST_FALSE} &&
       [ -x "${BREW_PATH}" ] \
       ; then
-      TESTED_ONCE_BREW_LIST_FALSE=true
+      ${INFO_RUN:-false} || TESTED_ONCE_BREW_LIST_FALSE=true
 
       ${BREW_PATH} "$@"
     elif [ "$1" = "info" ] &&
       ! ${TESTED_ONCE_BREW_INFO_FALSE} &&
       [ -x "${BREW_PATH}" ] \
       ; then
-      TESTED_ONCE_BREW_INFO_FALSE=true
+      ${INFO_RUN:-false} || TESTED_ONCE_BREW_INFO_FALSE=true
 
       ${BREW_PATH} "$@"
     else
@@ -2186,11 +2190,21 @@ brew_install_apps() {
       echo "Brew install: ${brew_app_or_cask} is already installed"
       echo
 
-      brew info ${brew_app_or_cask} | print_Caveats && echo || true
+      let 'cnt_prev_installed += 1'
+
+      local had_caveats=false
+      brew info ${brew_app_or_cask} | print_Caveats ||
+        had_caveats=true
 
       # When unit testing, stub `brew info` after running it once for real
       # (and because pipe, `brew info` ran in subprocess).
-      TESTED_ONCE_BREW_INFO_FALSE=true
+      ${INFO_RUN:-false} || TESTED_ONCE_BREW_INFO_FALSE=true
+
+      if ${DRY_RUN:-false}; then
+        echo
+      elif ${had_caveats}; then
+        echo
+      fi
 
       continue
     fi
@@ -2199,6 +2213,8 @@ brew_install_apps() {
     echo
 
     brew install ${brew_app_or_cask}
+
+    let 'cnt_fresh_installs += 1'
 
     echo
   done
@@ -2290,6 +2306,11 @@ print_Caveats() {
 create_user_local_bin_symlinks() {
   init_homebrew_or_exit
 
+  if [ ${#USER_LINK[@]} -eq 0 ]; then
+
+    return
+  fi
+
   local homebrew_bin="${HOMEBREW_PREFIX}/bin"
 
   local user_local_bin="${HOME}/.local/bin"
@@ -2303,6 +2324,10 @@ create_user_local_bin_symlinks() {
     >&2 echo "ERROR: Where's Homebrew bin? It's not at: ${homebrew_bin}" &&
       return 1 # Because set -e, dies.
   )
+
+  print_hr
+  echo "Brew symlink"
+  echo
 
   for gbrew_app in "${USER_LINK[@]}"; do
     gbrew_symlink "${gbrew_app}"
@@ -2342,8 +2367,22 @@ gbrew_symlink() {
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+print_final_messages() {
+  print_hr
+  echo
+  if ${INFO_RUN:-false} || ! ${DRY_RUN:-false}; then
+    echo "- No. taps/casks already installed: ${cnt_prev_installed}"
+    echo "- No. taps/casks freshly installed: ${cnt_fresh_installs}"
+  fi
+  echo "Pizza!"
+}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 print_hr() {
-  echo "🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖"
+  # SPIKE: Are these teapots bright orange on macOS like on Debian?
+  #  echo "🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖☕🫖🫖🫖🫖🫖"
+  echo "🧉🧉🧉🧉🫖🧉🧉🧉🧉🧉🫖🧉🧉🧉🧉🧉🫖🧉🧉🧉🧉🧉🫖🧉🧉🧉🧉🧉"
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -2404,6 +2443,9 @@ main() {
 
   install_rosetta_2_maybe
 
+  local cnt_prev_installed=0
+  local cnt_fresh_installs=0
+
   brew_install_taps
   brew_install_apps
   brew_link_apps
@@ -2412,7 +2454,7 @@ main() {
 
   create_user_local_bin_symlinks
 
-  echo "Pizza!"
+  print_final_messages
 
   clear_traps
 }
