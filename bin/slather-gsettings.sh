@@ -2671,33 +2671,13 @@ gnome_settings_customize_system() {
 gnome_tweaks_customize() {
   echo -e "\n$(highlight_soft "*** GNOME Tweaks")\n"
 
-  gnome_tweaks_customize_general
-  gnome_tweaks_customize_appearance
   gnome_tweaks_customize_fonts
-  gnome_tweaks_customize_keyboard_and_mouse
-  gnome_tweaks_customize_startup_applications
-  gnome_tweaks_customize_window_titlebars
+  gnome_tweaks_customize_appearance
+  gnome_tweaks_customize_sound
+  gnome_tweaks_customize_mouse_and_touchpad
+  gnome_tweaks_customize_keyboard
   gnome_tweaks_customize_windows
-}
-
-# ***
-
-gnome_tweaks_customize_general() {
-  # NTRST: When you disable Suspend-when-lid-closed, starts this daemon:
-  #   python3 /usr/libexec/gnome-tweak-tool-lid-inhibitor
-  # - Which you'll see listed under Tweaks > Startup Applications as
-  #   ignore-lid-switch-tweak
-  print_at_end+=("\
-🔳 Tweaks > General > Suspend when laptop lid is closed > Disable")
-}
-
-# ***
-
-gnome_tweaks_customize_appearance() {
-  # So that GVim, etc., window titlebars match dark theme.
-  # Default: "Adwaita (default)" ('Adwaita')
-  gsettings_set "Tweaks > Appearance > Themes > Legacy Applications: " \
-    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+  gnome_tweaks_customize_startup_applications
 }
 
 # ***
@@ -2714,18 +2694,198 @@ gnome_tweaks_customize_fonts() {
 
 # ***
 
+gnome_tweaks_customize_appearance() {
+  # So that GVim, etc., window titlebars match dark theme.
+  # Default: "Adwaita (default)" ('Adwaita')
+  gsettings_set "Tweaks > Appearance > Styles > Legacy Applications: " \
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+}
+
+# ***
+
 # Nothing to change.
-gnome_tweaks_customize_keyboard_and_mouse() {
-  # This one's cute: Eminate ripples from cursor position
-  #   # Tweaks > Keyboard & Mouse > Pointer Location
-  #   /org/gnome/desktop/interface/locate-pointer true
+gnome_tweaks_customize_sound() {
+  # *** Tweaks > Windows > Sound
   #
-  # SAVVY: Tweaks > Keyboard & Mouse > Touchpad > Mouse Click Emulation:
-  # ✓ Fingers: Click the touchpad with two fingers for right-click
-  #            and three fingers for middle-click.
-  # - Area:    Click the bottom right of the touchpad for right-click
-  #            and the bottom middle for middle-click.
-  # - Disable: Don't use mouse click emulation.
+  #     - 1 settings (and 1 GSettings)
+  #
+  # Default settings:
+  # - Tweaks > Sound > System Sound Theme: Default (Choices: Default | Custom)
+  #
+  # Default GSettings:
+  #   # Choices: 'freedesktop' | '__custom'
+  #   gsettings set org.gnome.desktop.sound theme-name 'freedesktop'
+  #
+  # DUNNO: This is 'Custom' on author's machine, but not sure how this setting is used.
+  :
+}
+
+# ***
+
+# Nothing to change.
+gnome_tweaks_customize_mouse_and_touchpad() {
+  # *** The 1 org.gnome.desktop.interface mouse-behavior-related setting
+  #     (well, 2, if you count enable-hot-corners).
+  #
+  # HSTRY: Not found in GNOME Shell 48 Tweaks.
+  # - Does nothing when enabled in GNOME Shell 48.
+  # - PREVY: Was at: Tweaks > Keyboard & Mouse > Pointer Location.
+  #   - Note that, in latest Tweaks, Tweaks > Keyboard & Mouse is
+  #     separated: Tweaks > Mouse & Touchpad, and Tweaks > Keyboard.
+  #   - This would eminate ripples from cursor position:
+  #       gsettings set org.gnome.desktop.interface locate-pointer true
+  :
+
+  # *** org.gnome.desktop.peripherals.touchpad has 2 GSettings.
+  #
+  # HSTRY: Not found in GNOME Shell 48 Tweaks.
+  # - PREVY: Was at: Tweaks > Keyboard & Mouse > Touchpad > Mouse Click Emulation.
+  #   - REFER:
+  #     ✓ Fingers: Click the touchpad with two fingers for right-click
+  #                and three fingers for middle-click.
+  #     - Area:    Click the bottom right of the touchpad for right-click
+  #                and the bottom middle for middle-click.
+  #     - Disable: Don't use mouse click emulation.
+  #   - Default value in GNOME Shell 48 (and still works):
+  #       gsettings set org.gnome.desktop.peripherals.touchpad click-method 'fingers'
+  #
+  # CALSO: 2-finger scrolling.
+  # - Default value in GNOME Shell 48:
+  #     gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+  :
+}
+
+# ***
+
+# Nothing to change.
+gnome_tweaks_customize_keyboard() {
+  :
+}
+
+# ***
+
+gnome_tweaks_customize_windows() {
+  # *** Tweaks > Windows > Titlebar Actions
+  #
+  #     - 3 settings (and 3 GSettings)
+  #
+  # Default settings:
+  # - Tweaks > Windows > Titlebar Actions > Double-Click: Toggle Maximize
+  # - Tweaks > Windows > Titlebar Actions > Middle-Click: None
+  # - Tweaks > Windows > Titlebar Actions > Secondary-Click: Menu
+  #
+  # Default GSettings (maximize on double-, menu on right-, nothing on middle-click):
+  #   gsettings set org.gnome.desktop.wm.preferences action-double-click-titlebar 'toggle-maximize'
+  #   gsettings set org.gnome.desktop.wm.preferences action-middle-click-titlebar 'none'
+  #   gsettings set org.gnome.desktop.wm.preferences action-right-click-titlebar 'menu'
+  #
+  # Each setting has a drop-down with the following options:
+  #   Toggle Shade:                 'toggle-shade'
+  #   Toggle Maximize:              'toggle-maximize-horizontally'
+  #   Toggle Maximize Horizontally: 'toggle-maximize'
+  #   Toggle Maximize Vertically:   'toggle-maximize-vertically'
+  #   Minimize:                     'minimize'
+  #   None:                         'none'
+  #   Lower:                        'lower'
+  #   Menu:                         'menu'
+  :
+
+  # *** Tweaks > Windows > Titlebar Buttons
+  #
+  #     - 3 settings (and 1 GSettings)
+  #
+  # Default settings:
+  # - Tweaks > Windows > Titlebar Buttons > Maximize: Disabled
+  # - Tweaks > Windows > Titlebar Buttons > Minimize: Disabled
+  # - Tweaks > Windows > Titlebar Buttons > Placement: Right
+  #
+  # Default GSettings (close button on the right):
+  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:close'
+  #
+  # SAVVY: What author prefers: Close and minimize buttons on the left:
+  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
+  #
+  # Comparing different settings:
+  # - Tweaks > Windows > Titlebar Buttons > Maximize: Disabled|Enabled
+  #   - When enabled, and Placement is left:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'close,maximize:appmenu'
+  #   - When enabled, and Placement is right:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:close,maximize'
+  # - Tweaks > Windows > Titlebar Buttons > Minimize: Disabled|Enabled
+  #   - When enabled, and Placement is left:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
+  #   - When enabled, and Placement is right:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,close'
+  #   - When enabled, Maximize also enabled, and Placement is left:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'
+  #   - When disabled, Maximize also disabled, and Placement is left:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
+  # - Tweaks > Windows > Titlebar Buttons > Placement: Left|Right
+  #   - Defaults close button on the right, and neither Minimize, nor Maximize:
+  #     gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:close'
+  #
+  # - Move the window buttons to the left side of the titlebar,
+  #   to be consistent with macOS (noting that the macOS window
+  #   buttons placement is not configurable, so if you appreciate
+  #   parity, this is the only choice).
+  #   - And show Close and Minimize, but not Maximize.
+  gsettings_set \
+    "Tweaks > Window > Titlebar Buttons > (like macOS): ∅ Maximize + ✓ Minimize + Placement: Left" \
+    gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
+
+  # *** Tweaks > Windows > Click Actions
+  #
+  #     - 4 settings (and 4 GSettings)
+  #
+  # Default settings:
+  # - Tweaks > Windows > Click Actions > Attach Modal Dialogs: Enabled
+  # - Tweaks > Windows > Click Actions > Center New Windows: Disabled
+  # - Tweaks > Windows > Click Actions > Window Action Key: Super [Choices: Disabled | Alt | Super]
+  # - Tweaks > Windows > Click Actions > Resize with Secondary-Click: Disabled
+  #
+  # Default GSettings:
+  #   gsettings set org.gnome.mutter attach-modal-dialogs true
+  #   gsettings set org.gnome.mutter center-new-windows false
+  #   # Choices: 'disabled' | '<Alt>' | '<Super>'
+  #   gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Super>'
+  #   gsettings set org.gnome.desktop.wm.preferences resize-with-right-button false
+  #
+  # - Tweaks > Windows > Click Actions > Attach Modal Dialogs: Disabled
+  #   - *When on, modal dialog windows are attached to their parent window,
+  #      and cannot be moved.*
+  #   - UCASE: Sometimes when I save a PDF in Chrome, the Save-As dialog blocks
+  #     information I might use to name the saved file. When this setting disabled,
+  #     I can Alt-drag the Chrome window beneath the save dialog, or I can move the
+  #     save dialog itself, independently of the other window, thereby uncovering
+  #     said blocked information.
+  #     - DUNNO: There might be a disadvantage to "ungrouping" a modal dialog
+  #       from its parent window, but I'm not sure what that might be.
+  gsettings_set "Tweaks > Windows > Click Actions > ∅ Attach Modal Dialogs" \
+    gsettings set org.gnome.mutter attach-modal-dialogs false
+
+  # - Tweaks > Windows > Click Actions > Window Action Key: Alt
+  #   - GNOME Shell defaults Cmd-Drag to move windows, whereas ye olde
+  #     MATE (effectively GNOME 2) defaults Alt-Drag.
+  #   - Author is used to, and probably why they prefer, Alt-dragging (also
+  #     how I've got macOS configured using Easy Move+Resize application).
+  #   - Defaults: Super (Choices: 'disabled'|'<Alt>'|'<Super>')
+  gsettings_set "Tweaks > Windows > Click Actions > Window Action Key: <Alt>" \
+    gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
+
+  # *** Tweaks > Windows > Window Focus
+  #
+  #     - 2 settings (and 2 GSettings)
+  #
+  # Default settings:
+  # - Tweaks > Windows > Window Focus > ✓ Click to Focus
+  #   - [Choices: Click to Focus, Focus on Hover, Focus Follows Mouse]
+  # - Tweaks > Windows > Window Focus > Raise Windows When Focused: Disabled
+  #
+  # Default GSettings:
+  #   # Choices: 'click' | 'sloppy'| 'mouse'
+  #   gsettings set org.gnome.desktop.wm.preferences focus-mode 'click'
+  #   # Applies to 'sloppy' or 'mouse', but not to 'click' focus-mode.
+  #   gsettings set org.gnome.desktop.wm.preferences auto-raise false
   :
 }
 
@@ -2733,59 +2893,12 @@ gnome_tweaks_customize_keyboard_and_mouse() {
 
 # Nothing to change.
 gnome_tweaks_customize_startup_applications() {
-  # SAVVY: When you disable Tweaks > General > Suspend when laptop lid is closed
-  # you'll see this Startup Application:
-  #   ignore-lid-switch-tweak
+  # HSTRY: Not found in GNOME Shell 48 Tweaks.
+  # - PREVY: Previously, when you disable
+  #     Tweaks > General > Suspend when laptop lid is closed
+  #   you'd see this app under Tweaks > Startup Application:
+  #     ignore-lid-switch-tweak
   :
-}
-
-# ***
-
-gnome_tweaks_customize_window_titlebars() {
-  # Tweaks > Window Titlebars > Titlebar Actions > Double-Click: Toggle Maximize
-  # Tweaks > Window Titlebars > Titlebar Actions > Middle-Click: None
-  # Tweaks > Window Titlebars > Titlebar Actions > Secondary-Click: Menu
-
-  # Tweaks > Window Titlebars > Titlebar Buttons > Maximize: Disabled
-  # - If enabled:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,maximize:appmenu'
-  #   # OR:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:close,maximize'
-
-  # Tweaks > Window Titlebars > Titlebar Buttons > Minimze: Disabled
-  # - If enabled:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
-  #   # OR:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,close'
-  #   # OR:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'
-
-  # Just close button on left:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
-  # Close and minimize on left:
-  #   gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
-
-  # Default: Titlebar Buttons > Placement: Right ('appmenu:close')
-  # - Move the window buttons to the left side of the titlebar,
-  #   to be consistent with macOS (noting that the macOS window
-  #   buttons placement is not configurable, so if you appreciate
-  #   parity, this is the only choice).
-  gsettings_set "Tweaks > Window Titlebars > Titlebar Buttons > Placement: Left (like macOS)" \
-    gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize:appmenu'
-}
-
-# ***
-
-gnome_tweaks_customize_windows() {
-  # MAYBE/2025-01-12: Demo disabled Attach Modal Dialogs
-  #   gsettings_set "Tweaks > Windows > Attach Modal Dialogs: Disabled" \
-  #   gsettings set org.gnome.mutter attach-modal-dialogs false
-
-  # GNOME defaults to Cmd-Drag to move windows, whereas MATE defaults Alt-Drag,
-  # which is what author's used to/prefers.
-  # - Defaults: Super ('<Alt>'|'disabled'|'<Super>')
-  gsettings_set "Tweaks > Windows > Window Action Key: Disabled" \
-    gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
 }
 
 # +++ END: GNOME Tweaks GUI settings
