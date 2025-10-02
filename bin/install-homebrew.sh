@@ -378,6 +378,8 @@ fi
 # https://formulae.brew.sh/cask/zoom
 #
 # - ADMIN: PROMPTS: Requires admin password.
+#
+# REFER/2025-10-01: Mac-only cask.
 if ${BREW_INCLUDE_ZOOM:-false}; then
   brew_app_macos "--cask zoom"
 fi
@@ -1262,11 +1264,13 @@ brew_app_macos "--cask finicky"
 # so opt-in by default.
 
 if ${BREW_INCLUDE_SLACK:-false}; then
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask slack"
 fi
 
 if ${BREW_INCLUDE_DISCORD:-false}; then
   # https://discord.com/
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask discord"
 fi
 
@@ -1687,6 +1691,7 @@ if ${BREW_INCLUDE_VIRTUALBOX:-false}; then
   #   brew_app_macos "--cask virtualbox"
   # Here's the Apple Silicon version.
   # - SAVVY: Prompts for PWD.
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask virtualbox@beta"
 fi
 
@@ -1822,6 +1827,7 @@ brew_app_macos "--cask hammerspoon"
 
 # Opt-in because not dev-related, well, maybe ever dev
 # rocks out, but maybe not from the Vendor's equipment.
+# REFER/2025-10-01: Mac-only cask.
 if ${BREW_INCLUDE_SPOTIFY:-false}; then
   brew_app_macos "--cask spotify"
 fi
@@ -1844,6 +1850,7 @@ if ${BREW_INCLUDE_VLC:-false}; then
   # https://www.videolan.org/vlc/
   # See also VLC Remote: https://formulae.brew.sh/cask/vlc-setup
   # SIZED/2024-10-12: 188 MB
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask vlc"
 fi
 
@@ -1856,6 +1863,7 @@ if ${BREW_INCLUDE_SMPLAYER:-false}; then
   MACOS_INSTALL_ROSETTA2=true
   # SIZED/2024-10-12: 21 MB
   # - SIZED/2025-02-05: /Applications/SMPlayer.app is 152M
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask smplayer"
 fi
 
@@ -1863,6 +1871,7 @@ if ${BREW_INCLUDE_ELMEDIA_PLAYER:-false}; then
   # MP3 player
   # https://www.elmedia-video-player.com/mp3-player-mac.html
   # https://formulae.brew.sh/cask/elmedia-player
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask elmedia-player"
 fi
 
@@ -1877,12 +1886,14 @@ if ${BREW_INCLUDE_OBS:-false}; then
   # "Free and open source software for video recording and live streaming."
   # - Open Broadcaster Software
   # https://obsproject.com/
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask obs"
 fi
 
 # --------------------------
 
 if ${BREW_INCLUDE_DROPBOX:-false}; then
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask dropbox"
 fi
 
@@ -1926,6 +1937,7 @@ fi
 if ${BREW_INCLUDE_DIGIKAM:-false}; then
   MACOS_INSTALL_ROSETTA2=true
 
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask digikam"
 fi
 
@@ -1933,11 +1945,13 @@ if ${BREW_INCLUDE_GNUCASH:-false}; then
   MACOS_INSTALL_ROSETTA2=true
 
   # Prompts PWD.
+  # REFER/2025-10-01: Mac-only cask.
   brew_app_macos "--cask gnucash"
 fi
 
 # --------------------------
 
+# REFER/2025-10-01: Mac-only cask.
 if ${BREW_INCLUDE_TRANSMISSION:-false}; then
   brew_app_macos "--cask transmission"
 fi
