@@ -1843,7 +1843,7 @@ if ${BREW_INCLUDE_MPV:-false}; then
   # https://formulae.brew.sh/formula/mpv
   # - "Media player based on MPlayer and mplayer2"
   # SIZED/2024-10-12: 453 MB
-  brew_app_macos "mpv"
+  brew_app_both "mpv"
 fi
 
 if ${BREW_INCLUDE_VLC:-false}; then
