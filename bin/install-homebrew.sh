@@ -27,13 +27,9 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# A few apps below allow opt-in or opt-out via arg ENVIRONs.
+# A number of apps are opt-in via arg ENVIRONs.
 #
-# OPT-OUTS: (e.g., if your Vendor installs any of these app for you):
-#
-#   BREW_EXCLUDE_SLACK=true
-#
-# OPT-INS: (more niche stuff you might not care about):
+# OPT-INS: (niche stuff you might not care about):
 #
 #   # Virtualization tools
 #   BREW_INCLUDE_COLIMA=true          # Also installs docker, docker-compose,
@@ -43,38 +39,39 @@
 #   BREW_INCLUDE_VIRTUALBOX=true
 #
 #   # Misc. apps
-#   BREW_INCLUDE_ACROBAT_READER       # Adobe Acrobat Reader cask (>500M)
+#   BREW_INCLUDE_ACROBAT_READER=true  # Adobe Acrobat Reader cask (>500M)
 #   BREW_INCLUDE_DROPBOX=true         # Opt-in b/c you prob. won't want on vendor machine.
 #   BREW_INCLUDE_PGADMIN4=true        # Postgres tool
 #   BREW_INCLUDE_P4MERGE=true         # File diff — opt-in b/c author prefers Meld.
 #   BREW_INCLUDE_TRANSMISSION=true    # BitTorrent client
-#   BREW_INCLUDE_WIRESHARK
-#   BREW_INCLUDE_FINICKY              # ISOFF/2025-08-30: Finicky v4 has issues...
+#   BREW_INCLUDE_WIRESHARK=true
 #   BREW_INCLUDE_GEEKBENCH=true
+#   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more. (Installs Rosetta 2.)
+#   BREW_INCLUDE_GNUCASH=true         # Double-entry #books-keeping. (Installs Rosetta 2.)
 #
 #   # Editors
-#   BREW_INCLUDE_LICLIPSE
-#   BREW_INCLUDE_VIMR
-#   BREW_INCLUDE_VV
+#   BREW_INCLUDE_LICLIPSE=true
+#   BREW_INCLUDE_VIMR=true
+#   BREW_INCLUDE_VV=true
+#   BREW_INCLUDE_OBSIDIAN=true
 #
 #   # Media players
 #   BREW_INCLUDE_SPOTIFY=true         # Opt-in b/c you may not want on vendor machine.
-#   BREW_INCLUDE_MEDIA_PLAYERS=true   # Includes mpv, vlc, smplayer (reqs. Rosetta 2).
-#   BREW_INCLUDE_ELMEDIA_PLAYER
-#   BREW_INCLUDE_SMPLAYER
+#   BREW_INCLUDE_MPV=true
+#   BREW_INCLUDE_VLC=true
+#   BREW_INCLUDE_SMPLAYER=true        # GUI for mplayer. (Installs Rosetta 2 on macOS.)
+#   BREW_INCLUDE_ELMEDIA_PLAYER=true
+#   BREW_INCLUDE_OBS=true
 #
 #   # Diagramming apps
 #   BREW_INCLUDE_PENCIL=false         # Opt-in b/c author rarely uses.
 #
-#   # Team collab. software (see also Slack, above)
+#   # Team collab. software
+#   BREW_INCLUDE_SLACK=true
+#   BREW_INCLUDE_DISCORD=true
 #   BREW_INCLUDE_MS_TEAMS=true        # SAVVY: Requires admin password.
 #   BREW_INCLUDE_ZOOM=true            # SAVVY: Requires admin password.
 #   BREW_INCLUDE_WEBEX=true
-#
-#   # These will enable Rosetta 2 (tho not a big deal)
-#   BREW_INCLUDE_DIGIKAM=true         # Photo organizer, and much more.
-#   BREW_INCLUDE_GNUCASH=true         # Double-entry ledger, for your #books.
-#   BREW_INCLUDE_MEDIA_PLAYERS=true   # smplayer reqs. Rosetta 2 (but not mpv, vlc).
 #
 #   # Disabled apps (these install but don't work, at least not for the author):
 #   #   BREW_EXCLUDE_MELD=true        # Commented out b/c you should build from source.
@@ -1259,9 +1256,10 @@ fi
 
 # --------------------------
 
-# Slack might be installed by your organization...
+# USAGE: Slack might be installed by your organization,
+# so opt-in by default.
 
-if ! ${BREW_EXCLUDE_SLACK:-false}; then
+if ${BREW_INCLUDE_SLACK:-false}; then
   brew_app_macos "--cask slack"
 fi
 
@@ -1829,7 +1827,7 @@ fi
 # Similarly for other media apps, opt-in, so you're not "polluting"
 # a vendor machine with non-work related apps.
 
-if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
+if ${BREW_INCLUDE_MPV:-false}; then
   # mpv *a free, open source, and cross-platform media player*, CLI player
   # https://mpv.io/
   # https://mpv.io/installation/
@@ -1838,7 +1836,9 @@ if ${BREW_INCLUDE_MEDIA_PLAYERS:-false}; then
   # - "Media player based on MPlayer and mplayer2"
   # SIZED/2024-10-12: 453 MB
   brew_app_macos "mpv"
+fi
 
+if ${BREW_INCLUDE_VLC:-false}; then
   # https://www.videolan.org/vlc/
   # See also VLC Remote: https://formulae.brew.sh/cask/vlc-setup
   # SIZED/2024-10-12: 188 MB
