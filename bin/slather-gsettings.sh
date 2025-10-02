@@ -117,6 +117,19 @@
 LINUX_ONBOARDER_INCLUDE_AATWS=${LINUX_ONBOARDER_INCLUDE_AATWS:-false}
 LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION=${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}
 
+# ***
+
+# COPYD/USYNC: From author's OMR `myrepos` fork-extension:
+#   ~/.kit/git/ohmyrepos/lib/echo-install-help.sh
+OMR_REMINDER_UNKNOWN="${OMR_REMINDER_UNKNOWN:-🔳}"
+OMR_REMINDER_AWAITING="${OMR_REMINDER_AWAITING:-⭕}"
+OMR_REMINDER_COMPLETE="${OMR_REMINDER_COMPLETE:-✅}"
+OMR_REMINDER_OPTIONAL="${OMR_REMINDER_OPTIONAL:-❓}"
+OMR_REMINDER_DISABLED="${OMR_REMINDER_DISABLED:-❌}"
+OMR_REMINDER_OFFBUTON="${OMR_REMINDER_OFFBUTON:-❎}"
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # USAGE: Update this "list" to reflect currently supported distros.
 # - SAVVY: Format is `$ID: $VERSION_ID` from /etc/os-release
 # - REFER: See long comments below re: Sussing OS details.
@@ -985,7 +998,7 @@ gnome_settings_customize_online_accounts() {
   # Settings > Online Accounts > Conntect an Account
   # - List of services: Nextcloud, Google, Microsoft, etc.
   print_at_end+=("\
-🔳 Settings > Online Accounts > Add an account
+${OMR_REMINDER_UNKNOWN:-🔳} Settings > Online Accounts > Add an account
    - Wire a cloud account to enable, e.g., GNOME Calendar & Email apps
    - Providers: Google, Nextcloud, Microsoft, Microsoft Exchange,
                 Last.fm, IMAP and SMTP, Enterprise Login (Kerberos)")
@@ -1228,7 +1241,7 @@ gnome_settings_customize_privacy_file_history_and_trash() {
 gnome_settings_customize_sound() {
   # SAVVY: Not stored in gsettings (`dconf watch /` doesn't report on it).
   print_at_end+=("\
-🔳 Settings > Sound > Sounds > Alert Sound > Click|String|Swing|Hum (maybe Click?)")
+${OMR_REMINDER_UNKNOWN:-🔳} Settings > Sound > Sounds > Alert Sound > Click|String|Swing|Hum (maybe Click?)")
 }
 
 #     =====
@@ -1247,7 +1260,7 @@ gnome_settings_customize_power_general() {
   # - Preserve Battery Health
   #   - "Increases battery longetivity by maintaining lower charge levels"
   print_at_end+=("\
-🔳 Settings > Power > General > Battery Charging > ✓ Preserve Battery Health")
+${OMR_REMINDER_UNKNOWN:-🔳} Settings > Power > General > Battery Charging > ✓ Preserve Battery Health")
 
   # GUI: Connected Devices shows horizontal device battery level meters,
   # e.g.,
@@ -1266,7 +1279,7 @@ gnome_settings_customize_power_general() {
   # 'balanced' (or whatever); plus the key name suggests that setting
   # is not this setting.
   print_at_end+=("\
-🔳 Settings > Power > General > Power Mode > ✓ Balanced")
+${OMR_REMINDER_UNKNOWN:-🔳} Settings > Power > General > Power Mode > ✓ Balanced")
 
   # Power Button Behavior:
   # - Suspend: 'suspend' [Default]
@@ -2953,7 +2966,7 @@ gnome_terminal_customize_compatibility() {
 
 firefox_customize() {
   print_at_end+=("\
-🔳 Firefox > Startup > ✓ Open previous windows and tabs")
+${OMR_REMINDER_UNKNOWN:-🔳} Firefox > Startup > ✓ Open previous windows and tabs")
 }
 
 #     ============
@@ -3127,15 +3140,15 @@ pass_configure() {
 
   if test -s "${passid}"; then
     print_at_end+=("$(
-      cat <<'EOF'
-✅ Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`
+      cat <<EOF
+${OMR_REMINDER_COMPLETE:-✅} Setup Crypto Tools :: Setup Password Store :: aka Initialize \`pass\`
 
 EOF
     )")
   else
     print_at_end+=("$(
-      cat <<'EOF'
-🔳 Setup Crypto Tools :: Setup Password Store :: aka Initialize `pass`:
+      cat <<EOF
+${OMR_REMINDER_AWAITING:-⭕} Setup Crypto Tools :: Setup Password Store :: aka Initialize $(pass):
 
    - Generate a new key:
 
@@ -3143,15 +3156,15 @@ EOF
 
    - Get the key UID:
 
-       GPG_ID=$(gpg --list-secret-keys | awk 'NR == 2 {print}')
+       GPG_ID=\$(gpg --list-secret-keys | awk 'NR == 2 {print}')
 
      Or, if you have other keys, specify the email you used:
 
-       GPG_ID=$(gpg --list-secret-keys user@host | awk 'NR == 2 {print}')
+       GPG_ID=\$(gpg --list-secret-keys user@host | awk 'NR == 2 {print}')
 
-   - Use the key to initialize `~/.password-store/.gpg-id`:
+   - Use the key to initialize \`~/.password-store/.gpg-id\`:
 
-       pass init ${GPG_ID}
+       pass init \${GPG_ID}
 
 EOF
     )")
@@ -3162,8 +3175,8 @@ EOF
 
 depoxy_configure() {
   print_at_end+=("$(
-    cat <<'EOF'
-🔳 The Rest: If you're a DepoXy user, you can now install apps from
+    cat <<EOF
+${OMR_REMINDER_UNKNOWN:-🔳} The Rest: If you're a DepoXy user, you can now install apps from
    sources and perform deeper customization and configuration.
 
    Run the myrepos 'echoInstallHelp' action to print a checklist of
