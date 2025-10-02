@@ -1869,6 +1869,7 @@ fi
 
 if ${BREW_INCLUDE_ELMEDIA_PLAYER:-false}; then
   # MP3 player
+  # https://www.electronic.us/products/elmedia/
   # https://www.elmedia-video-player.com/mp3-player-mac.html
   # https://formulae.brew.sh/cask/elmedia-player
   # REFER/2025-10-01: Mac-only cask.
@@ -1951,6 +1952,9 @@ fi
 
 # --------------------------
 
+# Open-source BitTorrent client.
+# https://transmissionbt.com/
+# https://formulae.brew.sh/cask/transmission
 # REFER/2025-10-01: Mac-only cask.
 if ${BREW_INCLUDE_TRANSMISSION:-false}; then
   brew_app_macos "--cask transmission"
