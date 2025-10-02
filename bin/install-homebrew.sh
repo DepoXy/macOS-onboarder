@@ -78,6 +78,15 @@
 #   #   BREW_EXCLUDE_MELD=true        # Commented out b/c you should build from source.
 #   #   BREW_INCLUDE_DIA=true         # Commented out b/c has issues on Apple Silicon.
 
+# DEVEL/2025-10-01: Run this to ensure all environs are documented:
+#   grep \
+#     -e "BREW_INCLUDE[A-Z_]\+=" \
+#     -e "BREW_INCLUDE[A-Z_]\+:\-" \
+#     ~/.kit/mOS/macOS-onboarder/bin/install-homebrew.sh \
+#   | sed 's/^.*BREW_/BREW_/' \
+#   | sort
+#   # Then look for singlies.
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 declare -a BREW_APPS=()
