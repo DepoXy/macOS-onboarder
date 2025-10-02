@@ -61,6 +61,7 @@
 #   BREW_INCLUDE_VLC=true
 #   BREW_INCLUDE_SMPLAYER=true        # GUI for mplayer. (Installs Rosetta 2 on macOS.)
 #   BREW_INCLUDE_ELMEDIA_PLAYER=true
+#   BREW_INCLUDE_JELLYFIN=true
 #   BREW_INCLUDE_OBS=true
 #
 #   # Diagramming apps
@@ -1862,6 +1863,13 @@ if ${BREW_INCLUDE_ELMEDIA_PLAYER:-false}; then
   # https://www.elmedia-video-player.com/mp3-player-mac.html
   # https://formulae.brew.sh/cask/elmedia-player
   brew_app_macos "--cask elmedia-player"
+fi
+
+if ${BREW_INCLUDE_JELLYFIN:-false}; then
+  # Media streamer.
+  # https://jellyfin.org/
+  # REFER/2025-10-01: Mac-only cask.
+  brew_app_macos "--cask jellyfin-media-player"
 fi
 
 if ${BREW_INCLUDE_OBS:-false}; then
