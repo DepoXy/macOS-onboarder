@@ -618,7 +618,10 @@ brew_app_macos "--cask cursor"
 #     ^^^^^^^^^^^^^^^
 
 # https://tree-sitter.github.io/tree-sitter/
-brew_app_both "tree-sitter"
+# - SAVVY: `brew install tree-sitter` caveat's that it is
+#   only the library, and to install 'tree-sitter-cli'.
+#     brew_app_both "tree-sitter"
+brew_app_both "tree-sitter-cli"
 
 # *** Lazyman deps
 #     ^^^^^^^^^^^^
