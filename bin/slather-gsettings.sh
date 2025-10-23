@@ -2130,14 +2130,14 @@ gnome_settings_customize_keyboard_windows() {
   #       something temporarily, perhaps to transcribe something
   #       without having to rearrange windows, etc.
   # - BNDNG: <Alt-/> (Alt-slash, Alt-forwardslash)
-  #   - BNDNG: <Shift-Cmd-Z>
+  #   - BNDNG: <Alt-1> (Alt-one)
+  #     - UCASE: So left-handable (e.g., when right is mousing).
+  #   - ALTLY: <Shift-Cmd-Z> — "['<Alt>slash', '<Shift><Super>z']"
   #     - ALTLY: <Shift-Ctrl-Alt-Z> also available in DepoXy.
   #       - ALTLY: So is <Shift-Ctrl-Z>.
-  #     - UCASE: So left-handable (e.g., when right is mousing,
-  #       otherwise you'd hit it to hit the slash key.)
   gsettings_set "Keyboard Shortcuts > Windows > Raise window above other windows" \
     gsettings set org.gnome.desktop.wm.keybindings raise \
-    "['<Alt>slash', '<Shift><Super>z']"
+    "['<Alt>slash', '<Alt>1']"
 
   # "Raise window if covered, otherwise lower it" / Default: Disabled
   # - CALSO: raise-or-lower (<Alt-/>) is esp. useful when raise-on-click is disabled.
