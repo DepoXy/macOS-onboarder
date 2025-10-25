@@ -838,7 +838,7 @@ brew_app_macos "less"
 brew_app_macos "highlight"
 
 # "Clone of cat(1) with syntax highlighting and Git integration"
-brew_app_macos "bat"
+brew_app_both "bat"
 
 # "Rich-cli is a command line toolbox for fancy output in the terminal"
 # - Added because a nvim-Lazyman dep, but an interesting tool on its own.
