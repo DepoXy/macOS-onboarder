@@ -1045,8 +1045,29 @@ brew_app_macos "tealdeer"
 #   https://formulae.brew.sh/formula/cowsay
 # https://github.com/cowsay-org/homebrew-cowsay
 # https://github.com/cowsay-org/cowsay
-brew_app_macos "cowsay-org/cowsay/cowsay-org"
+# PREVY/2025-11-02:
+#     brew_app_macos "cowsay-org/cowsay/cowsay-org"
+# - And later:
+#     brew_app_macos "cowsay-org/cowsay/cowsay-apj"
+#     brew_app_macos "cowsay-org/cowsay/cowsay-files"
+# - But now part of core Homebrew, in which case you
+#   may need to run:
+#     brew unlink cowsay-org
+#     brew uninstall cowsay
+#     brew uninstall cowsay-org
+#     brew uninstall cowsay-org/cowsay/cowsay-files
+#     brew install cowsay
+brew_app_macos "cowsay"
 brew_app_macos "fortune"
+# REFER/2025-11-02: cowsay-files includes alternative cows,
+# e.g.:
+#   cowsay -f /opt/homebrew/opt/cowsay-files/share/cowsay-files/cows/shaggy.cow Scooby!
+# - REFER: See list of files installed by Homebrew package:
+#   brew ls --verbose cowsay-files
+# - ALTLY:
+#   brew_tap_macos "cowsay-org/cowsay"
+#   brew_app_macos "--HEAD cowsay-files"
+brew_app_macos "--HEAD cowsay-org/cowsay/cowsay-files"
 
 # E.g., `/usr/local/bin/terminal-notifier -message "PATH=$PATH"`.
 #  https://github.com/julienXX/terminal-notifier
