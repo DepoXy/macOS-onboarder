@@ -715,6 +715,7 @@ quote_gvariant() {
   elif [ "${val}" = "@as []" ]; then
     printf "%s" "${val}"
   elif echo "${val}" | grep -q -e "^\['"; then
+    # Start of array starting with string.
     printf "%s" "${val}"
   elif echo "${val}" | grep -q -e "'"; then
     >&2 echo "UNCLASSIFIED: ${val}"
