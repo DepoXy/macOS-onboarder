@@ -717,6 +717,12 @@ quote_gvariant() {
   elif echo "${val}" | grep -q -e "^\['"; then
     # Start of array starting with string.
     printf "%s" "${val}"
+  elif echo "${val}" | grep -q -e "^\[\['"; then
+    # Start of array starting with array starting with string.
+    printf "%s" "${val}"
+  elif echo "${val}" | grep -q -e "^'\[{\""; then
+    # Start of array starting with dictionary starting with string (i.e., JSON).
+    printf "%s" "${val}"
   elif echo "${val}" | grep -q -e "'"; then
     >&2 echo "UNCLASSIFIED: ${val}"
     exit_1
@@ -3267,6 +3273,239 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
     true
 }
 
+#     =======================
+# *** EXTENSION: TILING SHELL
+#     =======================
+
+# REFER/2025-11-03: The following config from v17.0:
+#   $ dconf read /org/gnome/shell/extensions/tilingshell/last-version-name-installed
+#   '17.0'
+
+# IGNRD/2025-11-03: Not sure why Tiling Shell tracks overridden settings,
+# e.g.,
+#   overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Super>Right']\",\"toggle-tiled-left\":\"['<Super>Left']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"['<Super>Up']\",\"unmaximize\":\"['<Super>Down', '<Alt>F5']\"},\"org.gnome.mutter\":{\"edge-tiling\":\"true\"}}"
+
+gnome_extension_tiling_shell_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_TILING_SHELL:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > Tiling Shell"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/tilingshell"
+
+  # *** Appearance
+
+  # Defaults: false ???
+  dconf_write "${menu_path} > Appearance > ✓ Show Indicator" \
+    dconf write ${schema_path}/show-indicator true
+
+  # Defaults: 16
+  dconf_write "${menu_path} > Appearance > Inner Gaps" \
+    dconf write ${schema_path}/inner-gaps 'uint32 16'
+
+  # Defaults: 8
+  dconf_write "${menu_path} > Appearance > Outer Gaps" \
+    dconf write ${schema_path}/outer-gaps 'uint32 8'
+
+  # Blur (experimental feature) > Snap Assistant > Disabled
+  # Blur (experimental feature) > Selected tile preview > Disabled
+
+  # Defaults: false ???
+  dconf_write "${menu_path} > Appearance > Snap Assistant Threshold: 7" \
+    dconf write ${schema_path}/snap-assistant-threshold '7'
+
+  # Defaults: false ???
+  dconf_write "${menu_path} > Appearance > Window border > ✓ Enable" \
+    dconf write ${schema_path}/enable-window-border true
+
+  # Defaults: true
+  dconf_write "${menu_path} > Appearance > Window border > ✓ Smart border radius" \
+    dconf write ${schema_path}/enable-smart-window-border-radius true
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Appearance > Window border > Width" \
+    dconf write ${schema_path}/window-border-width 'uint32 1'
+
+  # Defaults: 'rgb(119,118,123)'
+  dconf_write "${menu_path} > Appearance > Window border > Border color" \
+    dconf write ${schema_path}/window-border-color "'rgb(119,118,123)'"
+
+  # Animations > Snap assistant animation time > 180
+  # Animations > Tile animation time > 100
+
+  # *** Behavior
+
+  # Defaults: false ???
+  dconf_write "${menu_path} > Behavior > ✓ Enable Snap Assistant" \
+    dconf write ${schema_path}/enable-snap-assist true
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✓ Enable Tiling System" \
+    dconf write ${schema_path}/enable-tiling-system true
+
+  dconf_write "${menu_path} > Behavior > ✓ Enable Tiling System > CTRL" \
+    dconf write ${schema_path}/tiling-system-activation-key "['0']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > Tiling System deactivation key > CTRL" \
+    dconf write ${schema_path}/tiling-system-deactivation-key "['0']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✓ Span multiple tiles" \
+    dconf write ${schema_path}/enable-span-multiple-tiles true
+  dconf_write "${menu_path} > Behavior > ✓ Span multiple tiles > ALT" \
+    dconf write ${schema_path}/span-multiple-tiles-activation-key "['1']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✗ Enable Auto Tiling" \
+    dconf write ${schema_path}/enable-autotiling false
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✓ Enable auto-resize of the complementing tiled windows" \
+    dconf write ${schema_path}/resize-complementing-windows true
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✗ Restore window size" \
+    dconf write ${schema_path}/restore-window-original-size false
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✓ Add snap assistant and auto-tile buttons to window menu" \
+    dconf write ${schema_path}/override-window-menu true
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Behavior > ✓ Add tiled windows to ALT+TAB menu" \
+    dconf write ${schema_path}/override-alt-tab true
+
+  # *** Screen Edges
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Screen Edges > Drag against top edit to maximize window" \
+    dconf write ${schema_path}/top-edge-maximize false
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Screen Edges > Quarter tiling activation area" \
+    dconf write ${schema_path}/quarter-tiling-threshold 'uint32 40'
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Screen Edges > Edge tiling offset" \
+    dconf write ${schema_path}/edge-tiling-offset 'uint32 16'
+
+  # *** Windows suggestions
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Windows suggestions > ✗ Enable window suggestions for the tiling system" \
+    dconf write ${schema_path}/enable-tiling-system-windows-suggestions false
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Windows suggestions > ✗ Enable window suggestions for the snap assistant" \
+    dconf write ${schema_path}/enable-snap-assistant-windows-suggestions false
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Windows suggestions > ✗ Enable window suggestions for screen edge snapping" \
+    dconf write ${schema_path}/enable-screen-edges-windows-suggestions false
+
+  # *** Layouts
+
+  # Layouts > Edit layouts
+  # Layouts > Export layouts
+  # Layouts > Import layouts
+  # Layouts > Reset layouts
+
+  # HSTRY/2025-11-03: I've tested this on already-installed-and-configured
+  # Tiling Shell, but not yet on fresh install, though I assume it should
+  # work (and I don't feel like uninstalling Tiling Shell or clicking its
+  # [Reset settings] button).
+  # - ALTLY: If this doesn't work, you can use the [Import layouts] feature
+  #   to restore a previously exported layouts config.
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Layouts > Import layouts: layouts-json" \
+    dconf write ${schema_path}/layouts-json "'[{\"id\":\"Layout 1\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":0.22,\"height\":0.5,\"groups\":[1,2]},{\"x\":0,\"y\":0.5,\"width\":0.22,\"height\":0.5,\"groups\":[1,2]},{\"x\":0.22,\"y\":0,\"width\":0.56,\"height\":1,\"groups\":[2,3]},{\"x\":0.78,\"y\":0,\"width\":0.22,\"height\":0.5,\"groups\":[3,4]},{\"x\":0.78,\"y\":0.5,\"width\":0.22,\"height\":0.5,\"groups\":[3,4]}]},{\"id\":\"Layout 2\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":0.22,\"height\":1,\"groups\":[1]},{\"x\":0.22,\"y\":0,\"width\":0.56,\"height\":1,\"groups\":[1,2]},{\"x\":0.78,\"y\":0,\"width\":0.22,\"height\":1,\"groups\":[2]}]},{\"id\":\"Layout 3\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":1,\"height\":0.09722222222222222,\"groups\":[1]},{\"x\":0,\"y\":0.09722222222222222,\"width\":1,\"height\":0.9027777777777777,\"groups\":[1]}]},{\"id\":\"265147326\",\"tiles\":[{\"x\":0,\"y\":0,\"width\":1,\"height\":0.09861111111111111,\"groups\":[1]},{\"x\":0,\"y\":0.09861111111111111,\"width\":0.558203125,\"height\":0.9013888888888889,\"groups\":[1,2]},{\"x\":0.558203125,\"y\":0.09861111111111111,\"width\":0.441796875,\"height\":0.4541666666666667,\"groups\":[1,3,2]},{\"x\":0.558203125,\"y\":0.5527777777777778,\"width\":0.441796875,\"height\":0.4472222222222222,\"groups\":[3,2]}]}]'"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Layouts > Import layouts: selected-layouts" \
+    dconf write ${schema_path}/selected-layouts "[['265147326'], ['265147326']]"
+
+  # *** Keybindings
+
+  # Defaults: "['<Super>Right']"
+  dconf_write "${menu_path} > Keybindings > Move window to right tile" \
+    dconf write ${schema_path}/move-window-right "['<Super>Right']"
+
+  # Defaults: "['<Super>Left']"
+  dconf_write "${menu_path} > Keybindings > Move window to left tile" \
+    dconf write ${schema_path}/move-window-left "['<Super>Left']"
+
+  # Defaults: "['<Super>Up']"
+  dconf_write "${menu_path} > Keybindings > Move window to tile above" \
+    dconf write ${schema_path}/move-window-up "['<Super>Up']"
+
+  # Defaults: "['<Super>Down']"
+  dconf_write "${menu_path} > Keybindings > Move window to tile below" \
+    dconf write ${schema_path}/move-window-down "['<Super>Down']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Keybindings > Span window to right tile" \
+    dconf write ${schema_path}/span-window-right "['<Shift><Super>Right']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Keybindings > Span window to left tile" \
+    dconf write ${schema_path}/span-window-left "['<Shift><Super>Left']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Keybindings > Span window above" \
+    dconf write ${schema_path}/span-window-up "['<Shift><Super>Up']"
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Keybindings > Span window below" \
+    dconf write ${schema_path}/span-window-down "['<Shift><Super>Down']"
+
+  # **** Keybindings > View and Customize all the Shortcuts
+
+  # All disabled: "['']"
+  #
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Span window to all tiles" \
+  #     dconf write ${schema_path}/span-window-all-tiles "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Untile focused window" \
+  #     dconf write ${schema_path}/untile-window "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Move window to the center" \
+  #     dconf write ${schema_path}/move-window-center "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus window to the right" \
+  #     dconf write ${schema_path}/focus-window-right "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus window to the left" \
+  #     dconf write ${schema_path}/focus-window-left "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus window above" \
+  #     dconf write ${schema_path}/focus-window-up "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus window below" \
+  #     dconf write ${schema_path}/focus-window-down "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus next window" \
+  #     dconf write ${schema_path}/focus-window-next "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus previous window" \
+  #     dconf write ${schema_path}/focus-window-prev "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Highlight focused window" \
+  #     dconf write ${schema_path}/highlight-current-window "['']"
+  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Cycle layouts" \
+  #     dconf write ${schema_path}/cycle-layouts "['']"
+
+  # Keybindings > ✗ Restrict directional focus to tiled windows
+  # Defaults: ???
+  dconf_write "${menu_path} > Keybindings > ✓ Enable next/previous window focus to wrap around" \
+    dconf write ${schema_path}/enable-wraparound-focus true
+
+  # Defaults: ???
+  dconf_write "${menu_path} > Keybindings > ✗ Restrict directional focus to tiled windows" \
+    dconf write ${schema_path}/enable-directional-focus-tiled-only false
+
+  # *** Import, export and reset
+
+  # Import, export and reset > Export settings
+  # Import, export and reset > Import settings
+  # Import, export and reset > Reset settings
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -3503,6 +3742,8 @@ slather_settings() {
   gnome_extension_just_perfection_customize
 
   gnome_extension_advanced_alt_tab_window_switcher_customize
+
+  gnome_extension_tiling_shell_customize
 
   # ***
 
