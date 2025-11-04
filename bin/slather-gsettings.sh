@@ -3513,8 +3513,17 @@ gnome_extension_tiling_shell_customize() {
   #     dconf write ${schema_path}/focus-window-next "['']"
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus previous window" \
   #     dconf write ${schema_path}/focus-window-prev "['']"
-  #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Highlight focused window" \
-  #     dconf write ${schema_path}/highlight-current-window "['']"
+
+  # "Minimize all the other windows and show only the focused window."
+  # - BNDNG: <Shift-Ctrl-Cmd-M>
+  # - If not set, in Neovim, <Shift-Ctrl-Cmd-M> same as <Ctrl-M>,
+  #   e.g., in Insert mode, begins new line
+  #   - |i_CTRL-M| |i_<CR>| Begin new line.
+  # - See similar binding in DepoXy macOS Hammyspoony config:
+  #   allButFrontmost = { { "shift", "ctrl", "cmd" }, "M" },
+  dconf_write "${menu_path} > Keybindings > all the Shortcuts > Highlight focused window" \
+    dconf write ${schema_path}/highlight-current-window "['<Shift><Control><Super>m']"
+
   #   # MAYBE: Find a keybinding for this, if you eventually find yourself using
   #   # more than just the one layout you currently exclusively use.
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Cycle layouts" \
