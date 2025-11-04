@@ -3313,7 +3313,7 @@ gnome_extension_tiling_shell_customize() {
   # Blur (experimental feature) > Snap Assistant > Disabled
   # Blur (experimental feature) > Selected tile preview > Disabled
 
-  # Defaults: false ???
+  # Defaults: 54
   dconf_write "${menu_path} > Appearance > Snap Assistant Threshold: 7" \
     dconf write ${schema_path}/snap-assistant-threshold '7'
 
@@ -3431,35 +3431,43 @@ gnome_extension_tiling_shell_customize() {
 
   # *** Keybindings
 
-  # Defaults: "['<Super>Right']"
+  # BNDNG: <Cmd-Right>
+  # - Defaults: "['<Super>Right']"
   dconf_write "${menu_path} > Keybindings > Move window to right tile" \
     dconf write ${schema_path}/move-window-right "['<Super>Right']"
 
-  # Defaults: "['<Super>Left']"
+  # BNDNG: <Cmd-Left>
+  # - Defaults: "['<Super>Left']"
   dconf_write "${menu_path} > Keybindings > Move window to left tile" \
     dconf write ${schema_path}/move-window-left "['<Super>Left']"
 
-  # Defaults: "['<Super>Up']"
+  # BNDNG: <Cmd-Up>
+  # - Defaults: "['<Super>Up']"
   dconf_write "${menu_path} > Keybindings > Move window to tile above" \
     dconf write ${schema_path}/move-window-up "['<Super>Up']"
 
-  # Defaults: "['<Super>Down']"
+  # BNDNG: <Cmd-Down>
+  # - Defaults: "['<Super>Down']"
   dconf_write "${menu_path} > Keybindings > Move window to tile below" \
     dconf write ${schema_path}/move-window-down "['<Super>Down']"
 
-  # Defaults: ???
+  # BNDNG: <Shift-Cmd-Right>
+  # - Defaults: ???
   dconf_write "${menu_path} > Keybindings > Span window to right tile" \
     dconf write ${schema_path}/span-window-right "['<Shift><Super>Right']"
 
-  # Defaults: ???
+  # BNDNG: <Shift-Cmd-Left>
+  # - Defaults: ???
   dconf_write "${menu_path} > Keybindings > Span window to left tile" \
     dconf write ${schema_path}/span-window-left "['<Shift><Super>Left']"
 
-  # Defaults: ???
+  # BNDNG: <Shift-Cmd-Up>
+  # - Defaults: ???
   dconf_write "${menu_path} > Keybindings > Span window above" \
     dconf write ${schema_path}/span-window-up "['<Shift><Super>Up']"
 
-  # Defaults: ???
+  # BNDNG: <Shift-Cmd-Down>
+  # - Defaults: ???
   dconf_write "${menu_path} > Keybindings > Span window below" \
     dconf write ${schema_path}/span-window-down "['<Shift><Super>Down']"
 
@@ -3467,12 +3475,32 @@ gnome_extension_tiling_shell_customize() {
 
   # All disabled: "['']"
   #
+  #   # DUNNO: *Span window to all tiles* mostly maximizes the window,
+  #   # and leaves a few pixels above the window, regardless of the layout
+  #   # (and AFAIK, you cannot *not* define a tile, i.e., when you create
+  #   # a layout, all screen space except the dividers is part of a tile.
+  #   # - So I'm not quite sure how this differs from maximize. (I thought
+  #   #   maybe you could define a layout and omit some part of the screen,
+  #   #   and then this command would span all the other tiles, but, like
+  #   #   I said, I cannot define a layout and omit any screen area.)
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Span window to all tiles" \
   #     dconf write ${schema_path}/span-window-all-tiles "['']"
+  #
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Untile focused window" \
   #     dconf write ${schema_path}/untile-window "['']"
+  #
+  #   # MAYBE: Add keybinding for move-window-center
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Move window to the center" \
   #     dconf write ${schema_path}/move-window-center "['']"
+  #
+  #   # SAVVY: The focus-window commands will raise the focused window.
+  #   # - So these *are not* helpful if you were hoping to be able to
+  #   #   change window focus without also changing window order.
+  #   #   - Author had considered this feature as a way to keep one
+  #   #     window on top, like a browser window, but send focus to my
+  #   #     editor without covering the current (e.g., browser) window.
+  #   #     - But seems like I need to use mouse to do this
+  #   #       (using focus-on-hover without raise-on-focus).
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus window to the right" \
   #     dconf write ${schema_path}/focus-window-right "['']"
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Focus window to the left" \
@@ -3487,6 +3515,8 @@ gnome_extension_tiling_shell_customize() {
   #     dconf write ${schema_path}/focus-window-prev "['']"
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Highlight focused window" \
   #     dconf write ${schema_path}/highlight-current-window "['']"
+  #   # MAYBE: Find a keybinding for this, if you eventually find yourself using
+  #   # more than just the one layout you currently exclusively use.
   #   dconf_write "${menu_path} > Keybindings > all the Shortcuts > Cycle layouts" \
   #     dconf write ${schema_path}/cycle-layouts "['']"
 
