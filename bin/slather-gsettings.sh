@@ -3350,8 +3350,8 @@ gnome_extension_tiling_shell_customize() {
     dconf write ${schema_path}/tiling-system-activation-key "['0']"
 
   # Defaults: ???
-  dconf_write "${menu_path} > Behavior > Tiling System deactivation key > CTRL" \
-    dconf write ${schema_path}/tiling-system-deactivation-key "['0']"
+  dconf_write "${menu_path} > Behavior > Tiling System deactivation key > (None)" \
+    dconf write ${schema_path}/tiling-system-deactivation-key "['-1']"
 
   # Defaults: ???
   dconf_write "${menu_path} > Behavior > ✓ Span multiple tiles" \
