@@ -3128,8 +3128,7 @@ gnucash_customize() {
 # *** EXTENSION: HIDE TOP BAR
 #     =======================
 
-# *Hide Top Bar* by *tuxor1337*
-#
+# REFER: *Hide Top Bar* by *tuxor1337*
 # https://extensions.gnome.org/extension/545/hide-top-bar/
 # https://gitlab.gnome.org/tuxor1337/hidetopbar
 
@@ -3212,6 +3211,10 @@ gnome_extension_hide_top_bar_customize() {
 # *** EXTENSION: JUST PERFECTION
 #     ==========================
 
+# REFER: *Just Perfection* by *JustPerfection*
+# https://extensions.gnome.org/extension/3843/just-perfection/
+# https://gitlab.gnome.org/jrahmatzadeh/just-perfection
+
 gnome_extension_just_perfection_customize() {
   if ! ${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}; then
 
@@ -3236,6 +3239,10 @@ gnome_extension_just_perfection_customize() {
 #     ===============================================
 # *** EXTENSION: (AN) ALT TAB WINDOW SWITCHER (AATWS)
 #     ===============================================
+
+# REFER: *AATWS (Advanced Alt-Tab Window Switcher)* by *GdH*
+# https://extensions.gnome.org/extension/4412/advanced-alttab-window-switcher/
+# https://github.com/G-dH/advanced-alttab-window-switcher
 
 gnome_extension_advanced_alt_tab_window_switcher_customize() {
   if ! ${LINUX_ONBOARDER_INCLUDE_AATWS:-false}; then
@@ -3276,6 +3283,10 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
 #     =======================
 # *** EXTENSION: TILING SHELL
 #     =======================
+
+# REFER: *Tiling Shell* by *domferr*
+# https://extensions.gnome.org/extension/7065/tiling-shell/
+# https://github.com/domferr/tilingshell
 
 # REFER/2025-11-03: The following config from v17.0:
 #   $ dconf read /org/gnome/shell/extensions/tilingshell/last-version-name-installed
