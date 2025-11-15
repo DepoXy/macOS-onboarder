@@ -1415,6 +1415,13 @@ brew_app_both "lua-language-server"
 # https://docs.astral.sh/uv/
 brew_app_both "uv"
 
+# "uptime tracking daemon"
+# https://github.com/rpodgorny/uptimed/
+# - Alt. to `uptime`: `uprecords`.
+# - Available on Linux, too, but just as easily
+#   installable via APT (well, on Debian).
+brew_app_macos "uptimed"
+
 # --------------------------
 
 # - DB dev tools
