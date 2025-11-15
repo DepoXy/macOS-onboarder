@@ -1727,7 +1727,7 @@ fi
 
 # --------------------------
 
-# - Crypto:
+# - Crypto (well, Cryptography! not "Crypto"):
 
 # Security stuff.
 brew_app_macos "openssl"
