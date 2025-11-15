@@ -3545,6 +3545,88 @@ gnome_extension_tiling_shell_customize() {
   # Import, export and reset > Reset settings
 }
 
+#     =========================
+# *** EXTENSION: SIMPLE WEATHER
+#     =========================
+
+# REFER: *SimpleWeather* by *Roman Lefler*
+# https://extensions.gnome.org/extension/8261/simpleweather/
+# https://github.com/romanlefler/SimpleWeather
+
+gnome_extension_simple_weather_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_SIMPLE_WEATHER:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > SimpleWeather"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/simple-weather"
+
+  # *** Location
+  #
+  # - Set this first, otherwise icon not visible (and auto-detect
+  #   location didn't work for author).
+
+  # LOPRI/2025-11-15: Add customizable locations setup...
+  dconf_write "${menu_path} > Locations > + Add" \
+    dconf write ${schema_path}/locations \
+    "['{\"name\":\"Minneapolis\",\"lat\":44.9772995,\"lon\":-93.2654692}']"
+  #
+  dconf_write "${menu_path} > Locations > (Set)" \
+    dconf write ${schema_path}/main-location-index 'int64 0'
+
+  # *** General
+
+  # Units > Units: US, UK, Metric, Custom
+  # - Custom options:
+  #   - Temperature: Fahrenheit, Celsius
+  #   - Speed: mph, m/s, km/h, Knows, ft/s, Beaufort
+  #   - Pressure: inHg, hPa, mmHg
+  #   - Rain Measurement: in, mm, cm, pts
+  #   - Distance: mi, km, ft, m
+  dconf_write "${menu_path} > General > Units > US" \
+    dconf write ${schema_path}/unit-preset "'us'"
+
+  # Units > Direction: Degrees, Eight-Point Compass
+
+  # Weather Service > Weather Provider: Open-Meteo
+
+  # My Location > Provider > Online - ipapi.co, Online - IPinfo, System - Geoclue, Disable
+
+  # My Location > Refresh Interval (Minutes): 60m (60.0) [Default]
+  dconf_write "${menu_path} > General > My Location > Refresh Interval (Minutes) > 15" \
+    dconf write ${schema_path}/my-loc-refresh-min '15.0'
+
+  # Accessibility > High Contrast: Disabled [Default]
+
+  # Panel > Theme: System, Light, Afterdark, Immersive
+
+  # Panel > Side of Panel: Right, Center, Left
+  dconf_write "${menu_path} > General > Panel > Side of Panel > Right" \
+    dconf write ${schema_path}/panel-box "'right'"
+
+  # Panel > Order in Panel: 1 [Default] (Ranges -N..0..N)
+  # - Show leftward of other right-side Tob Bar items,
+  #   e.g., left of *System Monitor* extension control,
+  #   which is left of *Tiling Shell*, which is left of
+  #   GNOME Shell menu (whatever it's called).
+  #   - If 1 (default), appears right of System Monitor,
+  #     and left of Tiling Shell;
+  #   - If 2 or greater, appears betwen Tiling Shell and
+  #     GNOME menu.
+  #   - If -1 or less, appears right of GNOME menu (so
+  #     right of everything).
+  #     - DUNNO: I would expect -1 or less to keep moving
+  #       the icon left, but apparently not.
+  /org/gnome/shell/extensions/simple-weather/panel-priority int64 0
+
+  # Panel > Use Symbolic Icons in Panel: Disabled [Default]
+
+  # Panel > Always Use Packaged Icons: Disabled [Default]
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -3783,6 +3865,8 @@ slather_settings() {
   gnome_extension_advanced_alt_tab_window_switcher_customize
 
   gnome_extension_tiling_shell_customize
+
+  gnome_extension_simple_weather_customize
 
   # ***
 
