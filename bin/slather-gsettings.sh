@@ -3631,7 +3631,8 @@ gnome_extension_simple_weather_customize() {
   #     right of everything).
   #     - DUNNO: I would expect -1 or less to keep moving
   #       the icon left, but apparently not.
-  /org/gnome/shell/extensions/simple-weather/panel-priority int64 0
+  dconf_write "${menu_path} > General > Panel > Order in Panel > 0 (Leftmost)" \
+    dconf write ${schema_path}/panel-priority "int64 0"
 
   # Panel > Use Symbolic Icons in Panel: Disabled [Default]
 
