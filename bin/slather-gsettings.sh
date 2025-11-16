@@ -568,7 +568,23 @@ print_dconf_write_setting() {
   fi
 
   local quoted_val
-  quoted_val="$(quote_gvariant "${dconf_val}")"
+  # Note that gsettings strings are not quoted, e.g.,
+  #   gsettings set org.gnome.desktop.interface clock-format '24h'
+  # - Vs.:
+  #   dconf write /org/gtk/settings/file-chooser/clock-format "'24h'"
+  # Because quote_gvariant used to check values for both dconf (this
+  # func.) and gsettings (print_gsettings_set_setting), we'll remove
+  # quotes around simple strings here.
+  # - Note this check if pretty strict, because author hasn't read
+  #   the spec, and I don't know the range of accepted values...
+  #   so let's just verify alphanums and whitespace.
+  if echo "${dconf_val}" | grep -q -e "^'[ a-zA-Z0-9]*'$"; then
+    # To remove quotes:
+    #   quoted_val="$(echo "${dconf_val}" | sed "s/^'//;s/'$//")"
+    quoted_val="${dconf_val}"
+  else
+    quoted_val="$(quote_gvariant "${dconf_val}")"
+  fi
 
   local is_changed=false
   compare_gvariants "${curr_val}" "${quoted_val}" ||
