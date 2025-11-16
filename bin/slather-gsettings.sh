@@ -2649,7 +2649,7 @@ gnome_settings_customize_system() {
   #       gsettings set org.gtk.settings.file-chooser clock-format '24h'
   #   $ No such schema “org.gtk.settings.file-chooser”
   dconf_write "Settings > System > Date & Time > Time Format: 24-hour" \
-    dconf write /org/gtk/settings/file-chooser/clock-format '24h'
+    dconf write /org/gtk/settings/file-chooser/clock-format "'24h'"
 
   # Default: Disabled
   gsettings_set "Settings > System > Date & Time > Clock & Calendar > ✓ Week Day" \
@@ -2985,7 +2985,7 @@ gnome_terminal_customize_general() {
   # Defaults: Default ('system'), same as 'light'
   # - CALSO: GNOME Terminal: Profiles: Default: Colors: Text and Background Color
   dconf_write "GNOME Terminal > General > Theme variant: Dark" \
-    dconf write "/org/gnome/terminal/legacy/theme-variant" 'dark'
+    dconf write "/org/gnome/terminal/legacy/theme-variant" "'dark'"
 }
 
 # ***
@@ -3011,7 +3011,7 @@ gnome_terminal_customize_profiles_0_text() {
     # Default: Monospace
     dconf_write "${menu_path} > Text > Text Appearance > Custom font: Hack Nerd Font Mono 11" \
       dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/font" \
-      'Hack Nerd Font Mono 11'
+      "'Hack Nerd Font Mono 11'"
   else
     >&2 echo "ALERT: Skipping: ${menu_path}: Text > Text Appearance > Custom font: Hack Nerd Font"
   fi
@@ -3030,7 +3030,7 @@ gnome_terminal_customize_profiles_0_text() {
 
   # Default: "Default" ('system'), same as Enabled
   dconf_write "${menu_path}: Cursor > Cursor blinking: Disabled" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/cursor-blink-mode" 'off'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/cursor-blink-mode" "'off'"
 
   # Default: Enabled
   dconf_write "GNOME Terminal: Profiles: Default: Sound: Terminal Bell: Disabled" \
@@ -3050,10 +3050,10 @@ gnome_terminal_customize_profiles_0_colors() {
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/use-theme-colors" "false"
 
   dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/foreground-color" 'rgb(255,255,255)'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/foreground-color" "'rgb(255,255,255)'"
 
   dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color" 'rgb(0,0,0)'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color" "'rgb(0,0,0)'"
 
   # Author: IMO, XTerm color palette is a titch brighter, easier to read than GNOME's.
 
@@ -3070,7 +3070,7 @@ gnome_terminal_customize_profiles_0_scrolling() {
 
   # Default: Enabled ('always')
   #   dconf_write "GNOME Terminal: Profiles: Default: Scrolling: Show scrollbar: Disabled" \
-  #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/scrollbar-policy" 'never'
+  #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/scrollbar-policy" "'never'"
 
   # Default: 10000
   #   dconf_write "GNOME Terminal: Profiles: Default: Scrolling: Limit scrollback to: 10000" \
