@@ -3637,6 +3637,45 @@ gnome_extension_simple_weather_customize() {
   # Panel > Use Symbolic Icons in Panel: Disabled [Default]
 
   # Panel > Always Use Packaged Icons: Disabled [Default]
+
+  # *** [Details]
+
+  # Pop-Up: You can adjust a row of 4 x 2 items displayed in
+  # the pop-up (drop-down) menu when you click the Tob Bar
+  # weather icon, which defaults:
+  #   Temperature, Wind, Gusts, Pressure,
+  #   Feels Like, Humidity, UV High, and Precipitation;
+  # and also supports Condition, Sunrise, Sunset,
+  # Cloud Cover, and Sun Countdown.
+
+  # Panel > Panel Detail: Temperature [Default]
+  # - Options:
+  #     None ('')
+  #     Temperature ('temp')
+  #     Condition ('conditionText')
+  #     Feels Like ('feelsLike')
+  #     Wind ('windSpeedAndDir')
+  #     Humidity ('humidity')
+  #     Gusts ('gusts')
+  #     UV High ('uvIndex')
+  #     Pressure ('pressure')
+  #     Precipitation ('precipitation')
+  #     Sunrise ('sunrise')
+  #     (but not Sunset, Cloud Cover, or Sun Countdown).
+  dconf_write "${menu_path} > Details > Panel > Panel Detail > Temperature" \
+    dconf write ${schema_path}/panel-detail "'temp'"
+
+  # Panel > Secondary Panel Detail > None [Default]
+  # - Same options as Panel Detail (see previous).
+  # - With Wind enabled, Tob Bar icon shows, e.g., "54° NW, 15 mph ☀️"
+  dconf_write "${menu_path} > Details > Panel > Secondary Panel Detail > Wind" \
+    dconf write ${schema_path}/secondary-panel-detail "'windSpeedAndDir'"
+
+  # Panel > Show Condition Icon > Enabled [Default]
+
+  # Panel > Show Sunrise/Sunset > Disabled [Default]
+
+  # - Panel > Use Countdown for Sun > Disabled [Default]
 }
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
