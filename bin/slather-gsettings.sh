@@ -3695,6 +3695,42 @@ gnome_extension_simple_weather_customize() {
   # - Panel > Use Countdown for Sun > Disabled [Default]
 }
 
+#     =========================
+# *** EXTENSION: SYSTEM MONITOR
+#     =========================
+
+# REFER: *System Monitor* by *fmuellner*
+# https://extensions.gnome.org/extension/6807/system-monitor/
+# https://gitlab.gnome.org/GNOME/gnome-shell-extensions
+
+gnome_extension_system_monitor_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_SYSTEM_MONITOR:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > System Monitor"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/system-monitor"
+
+  # *** Top Bar pill drop-down options
+
+  # The download/upload data makes the Top Bar item much wider.
+  # - Also, they show tenths of a kB when under 10, e.g., "0.4 kB",
+  #   and change frequently, which can change the width of the Top
+  #   Bar output, and may shift items to the left (e.g., the weather
+  #   pill), which can be really distracting (esp., e.g., when you
+  #   are watching a video or downloading something, and the values
+  #   are changing often).
+
+  dconf_write "${menu_path} > Show > ✗ Upload" \
+    dconf write ${schema_path}/show-download false
+
+  dconf_write "${menu_path} > Show > ✗ Download" \
+    dconf write ${schema_path}/show-upload false
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -3935,6 +3971,8 @@ slather_settings() {
   gnome_extension_tiling_shell_customize
 
   gnome_extension_simple_weather_customize
+
+  gnome_extension_system_monitor_customize
 
   # ***
 
