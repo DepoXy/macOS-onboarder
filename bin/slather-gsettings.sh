@@ -3575,7 +3575,7 @@ gnome_extension_simple_weather_customize() {
   # Note this schema only accessible via dconf, not gsettings.
   local schema_path="/org/gnome/shell/extensions/simple-weather"
 
-  # *** Location
+  # *** [Locations]
   #
   # - Set this first, otherwise icon not visible (and auto-detect
   #   location didn't work for author).
@@ -3588,7 +3588,7 @@ gnome_extension_simple_weather_customize() {
   dconf_write "${menu_path} > Locations > (Set)" \
     dconf write ${schema_path}/main-location-index "int64 0"
 
-  # *** General
+  # *** [General]
 
   # Units > Units: US, UK, Metric, Custom
   # - Custom options:
