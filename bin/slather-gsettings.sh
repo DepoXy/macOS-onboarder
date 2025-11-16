@@ -725,6 +725,7 @@ quote_gvariant() {
     ; then
     printf "%s" "'${val}'"
   elif echo "${val}" | grep -q -e "^uint32 [0-9]\+$" ||
+    echo "${val}" | grep -q -e "^int64 [0-9]\+$" ||
     [ "${val}" = "true" ] || [ "${val}" = "false" ] \
     ; then
     printf "%s" "${val}"
