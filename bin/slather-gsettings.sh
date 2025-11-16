@@ -3020,11 +3020,11 @@ gnome_terminal_customize_profiles_0_text() {
 
   # Default: 80 columns x 24 rows
   dconf_write "${menu_path} > Text > Text Appearance > Initial terminal size: 112 columns" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-columns" '112'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-columns" "112"
 
   # Default: 80 columns x 24 rows
   dconf_write "${menu_path} > Text > Text Appearance > Initial terminal size: 42 rows" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-rows" '42'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/default-size-rows" "42"
 
   # ***
 
@@ -3034,7 +3034,7 @@ gnome_terminal_customize_profiles_0_text() {
 
   # Default: Enabled
   dconf_write "GNOME Terminal: Profiles: Default: Sound: Terminal Bell: Disabled" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/audible-bell" 'false'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/audible-bell" "false"
 }
 
 # ***
@@ -3047,7 +3047,7 @@ gnome_terminal_customize_profiles_0_colors() {
   # Default: Enabled (though with GNOME Dark mode, terminal sill black on white).
   # - CALSO: GNOME Terminal: General: Theme variant: Dark
   dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
-    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/use-theme-colors" 'false'
+    dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/use-theme-colors" "false"
 
   dconf_write "${menu_path} > Colors > Text and Background Color > Built-in schemes: White on black" \
     dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/foreground-color" 'rgb(255,255,255)'
@@ -3074,7 +3074,7 @@ gnome_terminal_customize_profiles_0_scrolling() {
 
   # Default: 10000
   #   dconf_write "GNOME Terminal: Profiles: Default: Scrolling: Limit scrollback to: 10000" \
-  #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/scrollback-lines" '10000'
+  #   dconf write "/org/gnome/terminal/legacy/profiles:/:${profile_id}/scrollback-lines" "10000"
   :
 }
 
@@ -3197,7 +3197,7 @@ gnome_extension_hide_top_bar_customize() {
   #     /org/gnome/shell/extensions/hidetopbar/shortcut-delay
   #       0.0
   dconf_write "${menu_path} > Keyboard shortcuts > Delay before the bar rehides after key press" \
-    dconf write /org/gnome/shell/extensions/hidetopbar/shortcut-delay 0.0
+    dconf write /org/gnome/shell/extensions/hidetopbar/shortcut-delay "0.0"
 
   # "Keyboard shortcuts > Pressing the shortcut again rehides the panel: Enabled"
 
@@ -3229,11 +3229,11 @@ gnome_extension_just_perfection_customize() {
 
   # Defaults: Center (0), also Right (1), Left (2)
   dconf_write "${menu_path} > Customize > Clock Menu Position: Right" \
-    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position 1
+    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position "1"
 
   # Defaults: 0, also 1..10
   dconf_write "${menu_path} > Customize > Clock Menu Position Offset: 10" \
-    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset 10
+    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset "10"
 }
 
 #     ===============================================
@@ -3256,11 +3256,11 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
 
   # Defaults: Bottom (3), also Top (1), Center (2)
   dconf_write "${menu_path} > Common > Behavior > Placement: Center" \
-    dconf write ${schema_path}/switcher-popup-position 2
+    dconf write ${schema_path}/switcher-popup-position "2"
 
   # Defaults: Show Above/Below Item (2), also Top (1), Show Centered (3)
   dconf_write "${menu_path} > Common > Appearance and Content > Tooltip Titles" \
-    dconf write ${schema_path}/switcher-popup-tooltip-title 1
+    dconf write ${schema_path}/switcher-popup-tooltip-title "1"
 
   # Defaults: false
   dconf_write "${menu_path} > Window Switcher > Behavior > Skip Minimized Windows: ✓" \
@@ -3315,18 +3315,18 @@ gnome_extension_tiling_shell_customize() {
 
   # Defaults: 16
   dconf_write "${menu_path} > Appearance > Inner Gaps" \
-    dconf write ${schema_path}/inner-gaps 'uint32 16'
+    dconf write ${schema_path}/inner-gaps "uint32 16"
 
   # Defaults: 8
   dconf_write "${menu_path} > Appearance > Outer Gaps" \
-    dconf write ${schema_path}/outer-gaps 'uint32 8'
+    dconf write ${schema_path}/outer-gaps "uint32 8"
 
   # Blur (experimental feature) > Snap Assistant > Disabled
   # Blur (experimental feature) > Selected tile preview > Disabled
 
   # Defaults: 54
   dconf_write "${menu_path} > Appearance > Snap Assistant Threshold: 7" \
-    dconf write ${schema_path}/snap-assistant-threshold '7'
+    dconf write ${schema_path}/snap-assistant-threshold "7"
 
   # Defaults: false ???
   dconf_write "${menu_path} > Appearance > Window border > ✓ Enable" \
@@ -3338,7 +3338,7 @@ gnome_extension_tiling_shell_customize() {
 
   # Defaults: ???
   dconf_write "${menu_path} > Appearance > Window border > Width" \
-    dconf write ${schema_path}/window-border-width 'uint32 1'
+    dconf write ${schema_path}/window-border-width "uint32 1"
 
   # Defaults: 'rgb(119,118,123)'
   dconf_write "${menu_path} > Appearance > Window border > Border color" \
@@ -3586,7 +3586,7 @@ gnome_extension_simple_weather_customize() {
     "['{\"name\":\"Minneapolis\",\"lat\":44.9772995,\"lon\":-93.2654692}']"
   #
   dconf_write "${menu_path} > Locations > (Set)" \
-    dconf write ${schema_path}/main-location-index 'int64 0'
+    dconf write ${schema_path}/main-location-index "int64 0"
 
   # *** General
 
@@ -3608,7 +3608,7 @@ gnome_extension_simple_weather_customize() {
 
   # My Location > Refresh Interval (Minutes): 60m (60.0) [Default]
   dconf_write "${menu_path} > General > My Location > Refresh Interval (Minutes) > 15" \
-    dconf write ${schema_path}/my-loc-refresh-min '15.0'
+    dconf write ${schema_path}/my-loc-refresh-min "15.0"
 
   # Accessibility > High Contrast: Disabled [Default]
 
