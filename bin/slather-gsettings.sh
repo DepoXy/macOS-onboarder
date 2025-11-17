@@ -1555,15 +1555,21 @@ gnome_settings_customize_keyboard_navigation() {
   #   ['<Super><Shift>Page_Up',
   #    '<Super><Shift><Alt>Left',
   #    '<Control><Shift><Alt>Left']
-  gsettings_set "${menu_path} > Move window one workspace to the left: Disabled" \
-    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left '@as []'
+  # gsettings_set "${menu_path} > Move window one workspace to the left: Disabled" \
+  #   gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left '@as []'
+  # BNDNG: <Shift-Ctrl-Alt-Left>
+  gsettings_set "${menu_path} > Move window one workspace to the left:  <Shift-Ctrl-Alt-Left>" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Shift><Control><Alt>Left']"
   # "Move window one workspace to the right" / Default: <Shift-Cmd-PageDown>
   # - Default: When unset, gsettings-get reports three bindings (!?):
   #   ['<Super><Shift>Page_Down',
   #    '<Super><Shift><Alt>Right',
   #    '<Control><Shift><Alt>Right']
-  gsettings_set "${menu_path} > Move window one workspace to the right: Disabled" \
-    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right '@as []'
+  # gsettings_set "${menu_path} > Move window one workspace to the right: Disabled" \
+  #   gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right '@as []'
+  # BNDNG: <Shift-Ctrl-Alt-Right>
+  gsettings_set "${menu_path} > Move window one workspace to the right: <Shift-Ctrl-Alt-Right>" \
+    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Shift><Control><Alt>Right']"
   #
   # There are 2 related bindings in GSettings for workspaces above/below,
   # but not exposed in the GUI.
