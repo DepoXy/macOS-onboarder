@@ -560,11 +560,11 @@ user_link_macos "vimdiff vimdiff"
 #   brew install neovim
 #   brew unlink neovim
 #   brew install --HEAD neovim
-# But this script doesn't support that workflow, so we'll get it
-# "in post".
+# But this script doesn't support that workflow; you'll have to do
+# so manually, if you want.
 # - CXREF: DepoXy uses an OMR 'install' task, which you'll find here
 #   within a DepoXy environment within the Neovim myrepos config file:
-#     ~/.depoxy/ambers/home/.kit/nvim/_mrconfig
+#     ~/.depoxy/ambers/home/.kit/nvim/_mrconfig @ 172
 brew_app_both "neovim"
 user_link_both "nvim nvim"
 
