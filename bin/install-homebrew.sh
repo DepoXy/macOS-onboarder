@@ -530,12 +530,39 @@ brew_app_both "git-delta"
 #   brew_app_macos "macvim"
 #   brew_app_macos "--cask macvim"
 #   brew_app_macos "macvim --HEAD"
-# 2022-10-11: Trying from cask. Not sure the difference between the cask
-# and the formula, other than the warning you see if you install from the
-# formula. And I checked, and /opt/homebrew/bin/vi, which is a symlink to
-# MacVim, is earlier in PATH than /usr/bin/vi, so I don't see the issue
-# that Henry Schreiner (setup-a-new-mac article from 2019) documented.
-brew_app_macos "--cask macvim"
+# HSTRY/2022-10-11: Trying from cask. Not sure the difference between the cask
+#   and the formula, other than the warning you see if you install from the
+#   formula. And I checked, and /opt/homebrew/bin/vi, which is a symlink to
+#   MacVim, is earlier in PATH than /usr/bin/vi, so I don't see the issue
+#   that Henry Schreiner (setup-a-new-mac article from 2019) documented.
+# TSHÖT/2025-11-18: I think the cask name changed:
+# - This is what was configured here:
+#     brew_app_macos "--cask macvim"
+# - But then homebrew-autoupdate has failed the last few days,
+#   and manually upgrading also fails:
+#     $ brew upgrade --cask macvim
+#     Error: Cask 'macvim-app' definition is invalid: 'conflicts_with'
+#     stanza failed with: Calling conflicts_with formula: is disabled!
+#     There is no replacement.
+#   But then this:
+#     $ brew unstall macvim
+#     Error: Cask 'macvim' is not installed.
+#
+#     $ brew uninstall macvim-app
+#     ...
+#
+#     $ brew install --cask macvim
+#     ...
+#     ==> Installing Cask macvim-app
+#     ...
+#     Error: It seems there is already an App at '/Applications/MacVim.app'.
+#
+#     $ command rm -rf /Applications/MacVim.app
+#     $ cd /opt/homebrew/bin/
+#     $ command rm -- gview gvim gvimdiff gvimex mview mvim mvimdiff mvimex vi view vim vimdiff vimex
+#     $ brew install --cask macvim-app
+#     ...
+brew_app_macos "--cask macvim-app"
 
 # SAVVY: Note that Apple Vim is relatively current. E.g.:
 # - On 2025-01-22, running v9.1 1-754, compiled 2024-11-09.
