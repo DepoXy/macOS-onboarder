@@ -3737,6 +3737,66 @@ gnome_extension_system_monitor_customize() {
     dconf write ${schema_path}/show-upload false
 }
 
+#     ====================
+# *** EXTENSION: SHORTCUTS
+#     ====================
+
+# REFER: *Shortcuts* by *Chris*
+# https://extensions.gnome.org/extension/1144/shortcuts/
+# https://extensions.gnome.org/accounts/profile/ChrisLauinger77
+# https://gitlab.com/paddatrapper/shortcuts-gnome-extension
+
+gnome_extension_shortcuts_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SHORTCUTS:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > Shortcuts"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/shortcuts"
+
+  # ***
+
+  # Default: False
+  # FIXME: This should be managed by DepoXy...
+  dconf_write "${menu_path} > Settings > Custom Shortcuts File > ✓ Enabled" \
+    dconf write ${schema_path}/use-custom-shortcuts true
+
+  # Default: ~/.local/share/gnome-shell/extensions/Shortcuts@kyle.aims.ac.za/shortcuts.json
+  # FIXME: This should be managed by DepoXy...
+  dconf_write "${menu_path} > Settings > Select shortcut file > ..." \
+    dconf write ${schema_path}/shortcuts-file \
+    "'/private/user/.depoxy/ambers/home/.local/share/gnome-shell/extensions/Shortcuts@kyle.aims.ac.za/shortcuts.json'"
+
+  # Default: ?? [False, I think]
+  dconf_write "${menu_path} > Settings > Application-specific files support > ✓ Enabled" \
+    dconf write ${schema_path}/enable-appspecific-files true
+
+  # Default: True
+  dconf_write "${menu_path} > Appearance > Show icon" \
+    dconf write ${schema_path}/show-icon false
+
+  # Default: True
+  dconf_write "${menu_path} > Appearance > Use transparency" \
+    dconf write ${schema_path}/use-transparency true
+
+  # Default: 70
+  # DUNNO: I changed this, and use-transparency, and couldn't see a (big?) difference.
+  dconf_write "${menu_path} > Appearance > Visibility" \
+    dconf write ${schema_path}/visibility 70
+
+  # Default: 2 [Range: 2-5]
+  dconf_write "${menu_path} > Appearance > Max columns" \
+    dconf write ${schema_path}/maxcolumns 2
+
+  # Default: <Ctrl-Cmd-Alt-S>
+  # BNDNG: <Alt-F1>
+  dconf_write "${menu_path} > Hotkey > Hotkey" \
+    dconf write ${schema_path}/shortcuts-toggle-overview "['<Alt>F1']"
+}
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # ================================================================= #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -3979,6 +4039,8 @@ slather_settings() {
   gnome_extension_simple_weather_customize
 
   gnome_extension_system_monitor_customize
+
+  gnome_extension_shortcuts_customize
 
   # ***
 
