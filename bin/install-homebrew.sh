@@ -741,6 +741,10 @@ brew_app_macos "pstree"
 
 brew_app_macos "pidof"
 
+# "Disk Usage/Free Utility" (df replacement).
+# https://github.com/muesli/duf 14.6k★
+brew_app_macos "duf"
+
 # --------------------------
 
 brew_app_macos "grep"
