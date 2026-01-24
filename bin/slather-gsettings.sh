@@ -3320,7 +3320,7 @@ gnome_extension_advanced_alt_tab_window_switcher_customize() {
 #   overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Super>Right']\",\"toggle-tiled-left\":\"['<Super>Left']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"['<Super>Up']\",\"unmaximize\":\"['<Super>Down', '<Alt>F5']\"},\"org.gnome.mutter\":{\"edge-tiling\":\"true\"}}"
 
 gnome_extension_tiling_shell_customize() {
-  if ${LINUX_ONBOARDER_EXCLUDE_TILING_SHELL:-false}; then
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_TILING_SHELL:-false}; then
 
     return
   fi
@@ -3588,7 +3588,7 @@ gnome_extension_tiling_shell_customize() {
 # https://github.com/romanlefler/SimpleWeather
 
 gnome_extension_simple_weather_customize() {
-  if ${LINUX_ONBOARDER_EXCLUDE_SIMPLE_WEATHER:-false}; then
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SIMPLE_WEATHER:-false}; then
 
     return
   fi
@@ -3710,7 +3710,7 @@ gnome_extension_simple_weather_customize() {
 # https://gitlab.gnome.org/GNOME/gnome-shell-extensions
 
 gnome_extension_system_monitor_customize() {
-  if ${LINUX_ONBOARDER_EXCLUDE_SYSTEM_MONITOR:-false}; then
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SYSTEM_MONITOR:-false}; then
 
     return
   fi
