@@ -3778,6 +3778,8 @@ gnome_extension_tiling_shell_customize() {
   # Import, export and reset > Reset settings
 }
 
+# **** "Obsolete" extensions (author no longer uses) ****
+
 #     ===============================================
 # *** EXTENSION: (AN) ALT TAB WINDOW SWITCHER (AATWS)
 #     ===============================================
