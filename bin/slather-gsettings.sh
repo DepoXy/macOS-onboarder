@@ -3154,6 +3154,22 @@ gnucash_customize() {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++ GNOME Extensions settings
 
+#     ==========================================
+# *** EXTENSION: DESKTOP WIDGETS (DESKTOP CLOCK)
+#     ==========================================
+
+# REFER: *Desktop Widgets (Desktop Clock)* by *andrew_z*
+# https://extensions.gnome.org/extension/5156/desktop-clock/
+# https://gitlab.com/AndrewZaech/azclock
+
+gnome_extension_desktop_widgets_customize() {
+  # This extension must be configured manually, AFAICT, ah, well.
+  # - FTREQ/2026-02-04: Publish configuration steps,
+  #   and add link to ${print_at_end} reminder.
+
+  return 0
+}
+
 #     =======================
 # *** EXTENSION: HIDE TOP BAR
 #     =======================
@@ -3810,6 +3826,8 @@ gnome_extension_shortcuts_customize() {
 
 gnome_extensions_customize() {
   echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
+
+  gnome_extension_desktop_widgets_customize
 
   gnome_extension_hide_top_bar_customize
 
