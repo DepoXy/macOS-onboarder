@@ -3170,6 +3170,21 @@ gnome_extension_desktop_widgets_customize() {
   return 0
 }
 
+#     =========================
+# *** EXTENSION: HIDE MINIMIZED
+#     =========================
+
+# REFER: *Hide minimized* by *danigm*
+# https://extensions.gnome.org/extension/2639/hide-minimized/
+# https://github.com/danigm/hide-minimized
+# https://github.com/landonb/hide-minimized
+
+gnome_extension_hide_minimized_customize() {
+  # No-op: No settings dialog.
+
+  return 0
+}
+
 #     =======================
 # *** EXTENSION: HIDE TOP BAR
 #     =======================
@@ -3828,6 +3843,8 @@ gnome_extensions_customize() {
   echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
 
   gnome_extension_desktop_widgets_customize
+
+  gnome_extension_hide_minimized_customize
 
   gnome_extension_hide_top_bar_customize
 
