@@ -3284,89 +3284,6 @@ gnome_extension_input_remapper_customize() {
   return 0
 }
 
-#     ==========================
-# *** EXTENSION: JUST PERFECTION
-#     ==========================
-
-# REFER: *Just Perfection* by *JustPerfection*
-# https://extensions.gnome.org/extension/3843/just-perfection/
-# https://gitlab.gnome.org/jrahmatzadeh/just-perfection
-
-# ISOFF/2025-10-27: Author doesn't use this extension
-# (I demoed it, just wasn't a perfection connection).
-# - ISOFF really just means UNSUPported; we still update
-#   dconf just in case you (or I) want to demo (again).
-
-gnome_extension_just_perfection_customize() {
-  if ! ${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}; then
-
-    return
-  fi
-
-  local menu_path="GNOME Extension > Just Perfection"
-
-  # The app icon next to application's menu bar dropdown.
-  #   dconf_write "GNOME Extension > Just Perfection > Icons > ✓ App Menu Icon" \
-  #   dconf write /org/gnome/shell/extensions/just-perfection/app-menu-icon false
-
-  # Defaults: Center (0), also Right (1), Left (2)
-  dconf_write "${menu_path} > Customize > Clock Menu Position: Right" \
-    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position "1"
-
-  # Defaults: 0, also 1..10
-  dconf_write "${menu_path} > Customize > Clock Menu Position Offset: 10" \
-    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset "10"
-}
-
-#     ===============================================
-# *** EXTENSION: (AN) ALT TAB WINDOW SWITCHER (AATWS)
-#     ===============================================
-
-# REFER: *AATWS (Advanced Alt-Tab Window Switcher)* by *GdH*
-# https://extensions.gnome.org/extension/4412/advanced-alttab-window-switcher/
-# https://github.com/G-dH/advanced-alttab-window-switcher
-
-# ISOFF/2025-09-18: Author doesn't use this extension
-# (I demoed it, but didn't hit).
-# - ISOFF really just means UNSUPported; we still update
-#   dconf just in case you (or I) want to demo (again).
-
-gnome_extension_advanced_alt_tab_window_switcher_customize() {
-  if ! ${LINUX_ONBOARDER_INCLUDE_AATWS:-false}; then
-
-    return
-  fi
-
-  local menu_path="GNOME Extension > AATWS"
-
-  local schema_path="/org/gnome/shell/extensions/advanced-alt-tab-window-switcher"
-
-  # Defaults: Bottom (3), also Top (1), Center (2)
-  dconf_write "${menu_path} > Common > Behavior > Placement: Center" \
-    dconf write ${schema_path}/switcher-popup-position "2"
-
-  # Defaults: Show Above/Below Item (2), also Top (1), Show Centered (3)
-  dconf_write "${menu_path} > Common > Appearance and Content > Tooltip Titles" \
-    dconf write ${schema_path}/switcher-popup-tooltip-title "1"
-
-  # Defaults: false
-  dconf_write "${menu_path} > Window Switcher > Behavior > Skip Minimized Windows: ✓" \
-    dconf write ${schema_path}/win-switch-skip-minimized true
-
-  # Defaults: true
-  dconf_write "${menu_path} > App Switcher > Behavior > Include Favorite (Pinned) Apps: ∅" \
-    dconf write ${schema_path}/app-switcher-popup-fav-apps false
-
-  # Defaults: true
-  dconf_write "${menu_path} > App Switcher > Behavior > Include Show Apps Icon: ∅" \
-    dconf write ${schema_path}/app-switcher-popup-include-show-apps-icon false
-
-  # Defaults: false
-  dconf_write "${menu_path} > App Switcher > Appearance > Hide Window Count For Single-Window Apps: ✓" \
-    dconf write ${schema_path}/app-switcher-popup-hide-win-counter-for-single-window \
-    true
-}
-
 #     =======================
 # *** EXTENSION: TILING SHELL
 #     =======================
@@ -3861,6 +3778,89 @@ gnome_extension_shortcuts_customize() {
     dconf write ${schema_path}/shortcuts-toggle-overview "['<Alt>F1']"
 }
 
+#     ===============================================
+# *** EXTENSION: (AN) ALT TAB WINDOW SWITCHER (AATWS)
+#     ===============================================
+
+# REFER: *AATWS (Advanced Alt-Tab Window Switcher)* by *GdH*
+# https://extensions.gnome.org/extension/4412/advanced-alttab-window-switcher/
+# https://github.com/G-dH/advanced-alttab-window-switcher
+
+# ISOFF/2025-09-18: Author doesn't use this extension
+# (I demoed it, but didn't hit).
+# - ISOFF really just means UNSUPported; we still update
+#   dconf just in case you (or I) want to demo (again).
+
+gnome_extension_advanced_alt_tab_window_switcher_customize() {
+  if ! ${LINUX_ONBOARDER_INCLUDE_AATWS:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > AATWS"
+
+  local schema_path="/org/gnome/shell/extensions/advanced-alt-tab-window-switcher"
+
+  # Defaults: Bottom (3), also Top (1), Center (2)
+  dconf_write "${menu_path} > Common > Behavior > Placement: Center" \
+    dconf write ${schema_path}/switcher-popup-position "2"
+
+  # Defaults: Show Above/Below Item (2), also Top (1), Show Centered (3)
+  dconf_write "${menu_path} > Common > Appearance and Content > Tooltip Titles" \
+    dconf write ${schema_path}/switcher-popup-tooltip-title "1"
+
+  # Defaults: false
+  dconf_write "${menu_path} > Window Switcher > Behavior > Skip Minimized Windows: ✓" \
+    dconf write ${schema_path}/win-switch-skip-minimized true
+
+  # Defaults: true
+  dconf_write "${menu_path} > App Switcher > Behavior > Include Favorite (Pinned) Apps: ∅" \
+    dconf write ${schema_path}/app-switcher-popup-fav-apps false
+
+  # Defaults: true
+  dconf_write "${menu_path} > App Switcher > Behavior > Include Show Apps Icon: ∅" \
+    dconf write ${schema_path}/app-switcher-popup-include-show-apps-icon false
+
+  # Defaults: false
+  dconf_write "${menu_path} > App Switcher > Appearance > Hide Window Count For Single-Window Apps: ✓" \
+    dconf write ${schema_path}/app-switcher-popup-hide-win-counter-for-single-window \
+    true
+}
+
+#     ==========================
+# *** EXTENSION: JUST PERFECTION
+#     ==========================
+
+# REFER: *Just Perfection* by *JustPerfection*
+# https://extensions.gnome.org/extension/3843/just-perfection/
+# https://gitlab.gnome.org/jrahmatzadeh/just-perfection
+
+# ISOFF/2025-10-27: Author doesn't use this extension
+# (I demoed it, just wasn't a perfection connection).
+# - ISOFF really just means UNSUPported; we still update
+#   dconf just in case you (or I) want to demo (again).
+
+gnome_extension_just_perfection_customize() {
+  if ! ${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > Just Perfection"
+
+  # The app icon next to application's menu bar dropdown.
+  #   dconf_write "GNOME Extension > Just Perfection > Icons > ✓ App Menu Icon" \
+  #   dconf write /org/gnome/shell/extensions/just-perfection/app-menu-icon false
+
+  # Defaults: Center (0), also Right (1), Left (2)
+  dconf_write "${menu_path} > Customize > Clock Menu Position: Right" \
+    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position "1"
+
+  # Defaults: 0, also 1..10
+  dconf_write "${menu_path} > Customize > Clock Menu Position Offset: 10" \
+    dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset "10"
+}
+
 #     ====================
 # *** EXTENSIONS CUSTOMIZE
 #     ====================
@@ -3876,10 +3876,6 @@ gnome_extensions_customize() {
 
   gnome_extension_input_remapper_customize
 
-  gnome_extension_just_perfection_customize
-
-  gnome_extension_advanced_alt_tab_window_switcher_customize
-
   gnome_extension_tiling_shell_customize
 
   gnome_extension_simple_weather_customize
@@ -3887,6 +3883,10 @@ gnome_extensions_customize() {
   gnome_extension_system_monitor_customize
 
   gnome_extension_shortcuts_customize
+
+  gnome_extension_advanced_alt_tab_window_switcher_customize
+
+  gnome_extension_just_perfection_customize
 }
 
 # +++ END: GNOME Extensions settings
