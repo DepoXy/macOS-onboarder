@@ -3884,6 +3884,8 @@ gnome_extensions_customize() {
 
   gnome_extension_shortcuts_customize
 
+  # *** "Obsolete" extensions (author no longer uses)
+
   gnome_extension_advanced_alt_tab_window_switcher_customize
 
   gnome_extension_just_perfection_customize
