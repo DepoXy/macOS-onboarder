@@ -3791,9 +3791,9 @@ gnome_extension_system_monitor_customize() {
     dconf write ${schema_path}/show-upload false
 }
 
-#     ====================
-# *** EXTENSION: SHORTCUTS
-#     ====================
+#     =============================
+# *** EXTENSION: SHORTCUTS BY CHRIS
+#     =============================
 
 # REFER: *Shortcuts* by *Chris*
 # https://extensions.gnome.org/extension/1144/shortcuts/
