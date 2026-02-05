@@ -3284,6 +3284,224 @@ gnome_extension_input_remapper_customize() {
   return 0
 }
 
+#     =============================
+# *** EXTENSION: SHORTCUTS BY CHRIS
+#     =============================
+
+# REFER: *Shortcuts* by *Chris*
+# https://extensions.gnome.org/extension/1144/shortcuts/
+# https://extensions.gnome.org/accounts/profile/ChrisLauinger77
+# https://gitlab.com/paddatrapper/shortcuts-gnome-extension
+
+gnome_extension_shortcuts_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SHORTCUTS:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > Shortcuts"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/shortcuts"
+
+  # ***
+
+  # Default: False
+  # FIXME: This should be managed by DepoXy...
+  dconf_write "${menu_path} > Settings > Custom Shortcuts File > ✓ Enabled" \
+    dconf write ${schema_path}/use-custom-shortcuts true
+
+  # Default: ~/.local/share/gnome-shell/extensions/Shortcuts@kyle.aims.ac.za/shortcuts.json
+  # FIXME: This should be managed by DepoXy...
+  dconf_write "${menu_path} > Settings > Select shortcut file > ..." \
+    dconf write ${schema_path}/shortcuts-file \
+    "'/private/user/.depoxy/ambers/home/.local/share/gnome-shell/extensions/Shortcuts@kyle.aims.ac.za/shortcuts.json'"
+
+  # Default: ?? [False, I think]
+  dconf_write "${menu_path} > Settings > Application-specific files support > ✓ Enabled" \
+    dconf write ${schema_path}/enable-appspecific-files true
+
+  # Default: True
+  dconf_write "${menu_path} > Appearance > Show icon" \
+    dconf write ${schema_path}/show-icon false
+
+  # Default: True
+  dconf_write "${menu_path} > Appearance > Use transparency" \
+    dconf write ${schema_path}/use-transparency true
+
+  # Default: 70
+  # DUNNO: I changed this, and use-transparency, and couldn't see a (big?) difference.
+  dconf_write "${menu_path} > Appearance > Visibility" \
+    dconf write ${schema_path}/visibility 70
+
+  # Default: 2 [Range: 2-5]
+  dconf_write "${menu_path} > Appearance > Max columns" \
+    dconf write ${schema_path}/maxcolumns 2
+
+  # Default: <Ctrl-Cmd-Alt-S>
+  # BNDNG: <Alt-F1>
+  dconf_write "${menu_path} > Hotkey > Hotkey" \
+    dconf write ${schema_path}/shortcuts-toggle-overview "['<Alt>F1']"
+}
+
+#     =========================
+# *** EXTENSION: SIMPLE WEATHER
+#     =========================
+
+# REFER: *SimpleWeather* by *Roman Lefler*
+# https://extensions.gnome.org/extension/8261/simpleweather/
+# https://github.com/romanlefler/SimpleWeather
+
+gnome_extension_simple_weather_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SIMPLE_WEATHER:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > SimpleWeather"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/simple-weather"
+
+  # *** [Locations]
+  #
+  # - Set this first, otherwise icon not visible (and auto-detect
+  #   location didn't work for author).
+
+  # LOPRI/2025-11-15: Add customizable locations setup...
+  dconf_write "${menu_path} > Locations > + Add" \
+    dconf write ${schema_path}/locations \
+    "['{\"name\":\"Minneapolis\",\"lat\":44.9772995,\"lon\":-93.2654692}']"
+  #
+  dconf_write "${menu_path} > Locations > (Set)" \
+    dconf write ${schema_path}/main-location-index "int64 0"
+
+  # *** [General]
+
+  # Units > Units: US, UK, Metric, Custom
+  # - Custom options:
+  #   - Temperature: Fahrenheit, Celsius
+  #   - Speed: mph, m/s, km/h, Knows, ft/s, Beaufort
+  #   - Pressure: inHg, hPa, mmHg
+  #   - Rain Measurement: in, mm, cm, pts
+  #   - Distance: mi, km, ft, m
+  dconf_write "${menu_path} > General > Units > US" \
+    dconf write ${schema_path}/unit-preset "'us'"
+
+  # Units > Direction: Degrees, Eight-Point Compass
+
+  # Weather Service > Weather Provider: Open-Meteo
+
+  # My Location > Provider > Online - ipapi.co, Online - IPinfo, System - Geoclue, Disable
+
+  # My Location > Refresh Interval (Minutes): 60m (60.0) [Default]
+  dconf_write "${menu_path} > General > My Location > Refresh Interval (Minutes) > 15" \
+    dconf write ${schema_path}/my-loc-refresh-min "15.0"
+
+  # Accessibility > High Contrast: Disabled [Default]
+
+  # Panel > Theme: System, Light, Afterdark, Immersive
+
+  # Panel > Side of Panel: Right, Center, Left
+  dconf_write "${menu_path} > General > Panel > Side of Panel > Right" \
+    dconf write ${schema_path}/panel-box "'right'"
+
+  # Panel > Order in Panel: 1 [Default] (Ranges -N..0..N)
+  # - Show leftward of other right-side Tob Bar items,
+  #   e.g., left of *System Monitor* extension control,
+  #   which is left of *Tiling Shell*, which is left of
+  #   GNOME Shell menu (whatever it's called).
+  #   - If 1 (default), appears right of System Monitor,
+  #     and left of Tiling Shell;
+  #   - If 2 or greater, appears betwen Tiling Shell and
+  #     GNOME menu.
+  #   - If -1 or less, appears right of GNOME menu (so
+  #     right of everything).
+  #     - DUNNO: I would expect -1 or less to keep moving
+  #       the icon left, but apparently not.
+  dconf_write "${menu_path} > General > Panel > Order in Panel > 0 (Leftmost)" \
+    dconf write ${schema_path}/panel-priority "int64 0"
+
+  # Panel > Use Symbolic Icons in Panel: Disabled [Default]
+
+  # Panel > Always Use Packaged Icons: Disabled [Default]
+
+  # *** [Details]
+
+  # Pop-Up: You can adjust a row of 4 x 2 items displayed in
+  # the pop-up (drop-down) menu when you click the Tob Bar
+  # weather icon, which defaults:
+  #   Temperature, Wind, Gusts, Pressure,
+  #   Feels Like, Humidity, UV High, and Precipitation;
+  # and also supports Condition, Sunrise, Sunset,
+  # Cloud Cover, and Sun Countdown.
+
+  # Panel > Panel Detail: Temperature [Default]
+  # - Options:
+  #     None ('')
+  #     Temperature ('temp')
+  #     Condition ('conditionText')
+  #     Feels Like ('feelsLike')
+  #     Wind ('windSpeedAndDir')
+  #     Humidity ('humidity')
+  #     Gusts ('gusts')
+  #     UV High ('uvIndex')
+  #     Pressure ('pressure')
+  #     Precipitation ('precipitation')
+  #     Sunrise ('sunrise')
+  #     (but not Sunset, Cloud Cover, or Sun Countdown).
+  dconf_write "${menu_path} > Details > Panel > Panel Detail > Temperature" \
+    dconf write ${schema_path}/panel-detail "'temp'"
+
+  # Panel > Secondary Panel Detail > None [Default]
+  # - Same options as Panel Detail (see previous).
+  # - With Wind enabled, Tob Bar icon shows, e.g., "54° NW, 15 mph ☀️"
+  dconf_write "${menu_path} > Details > Panel > Secondary Panel Detail > Wind" \
+    dconf write ${schema_path}/secondary-panel-detail "'windSpeedAndDir'"
+
+  # Panel > Show Condition Icon > Enabled [Default]
+
+  # Panel > Show Sunrise/Sunset > Disabled [Default]
+
+  # - Panel > Use Countdown for Sun > Disabled [Default]
+}
+
+#     =========================
+# *** EXTENSION: SYSTEM MONITOR
+#     =========================
+
+# REFER: *System Monitor* by *fmuellner*
+# https://extensions.gnome.org/extension/6807/system-monitor/
+# https://gitlab.gnome.org/GNOME/gnome-shell-extensions
+
+gnome_extension_system_monitor_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SYSTEM_MONITOR:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > System Monitor"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/system-monitor"
+
+  # *** Top Bar pill drop-down options
+
+  # The download/upload data makes the Top Bar item much wider.
+  # - Also, they show tenths of a kB when under 10, e.g., "0.4 kB",
+  #   and change frequently, which can change the width of the Top
+  #   Bar output, and may shift items to the left (e.g., the weather
+  #   pill), which can be really distracting (esp., e.g., when you
+  #   are watching a video or downloading something, and the values
+  #   are changing often).
+
+  dconf_write "${menu_path} > Show > ✗ Upload" \
+    dconf write ${schema_path}/show-download false
+
+  dconf_write "${menu_path} > Show > ✗ Download" \
+    dconf write ${schema_path}/show-upload false
+}
+
 #     =======================
 # *** EXTENSION: TILING SHELL
 #     =======================
@@ -3560,224 +3778,6 @@ gnome_extension_tiling_shell_customize() {
   # Import, export and reset > Reset settings
 }
 
-#     =========================
-# *** EXTENSION: SIMPLE WEATHER
-#     =========================
-
-# REFER: *SimpleWeather* by *Roman Lefler*
-# https://extensions.gnome.org/extension/8261/simpleweather/
-# https://github.com/romanlefler/SimpleWeather
-
-gnome_extension_simple_weather_customize() {
-  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SIMPLE_WEATHER:-false}; then
-
-    return
-  fi
-
-  local menu_path="GNOME Extension > SimpleWeather"
-
-  # Note this schema only accessible via dconf, not gsettings.
-  local schema_path="/org/gnome/shell/extensions/simple-weather"
-
-  # *** [Locations]
-  #
-  # - Set this first, otherwise icon not visible (and auto-detect
-  #   location didn't work for author).
-
-  # LOPRI/2025-11-15: Add customizable locations setup...
-  dconf_write "${menu_path} > Locations > + Add" \
-    dconf write ${schema_path}/locations \
-    "['{\"name\":\"Minneapolis\",\"lat\":44.9772995,\"lon\":-93.2654692}']"
-  #
-  dconf_write "${menu_path} > Locations > (Set)" \
-    dconf write ${schema_path}/main-location-index "int64 0"
-
-  # *** [General]
-
-  # Units > Units: US, UK, Metric, Custom
-  # - Custom options:
-  #   - Temperature: Fahrenheit, Celsius
-  #   - Speed: mph, m/s, km/h, Knows, ft/s, Beaufort
-  #   - Pressure: inHg, hPa, mmHg
-  #   - Rain Measurement: in, mm, cm, pts
-  #   - Distance: mi, km, ft, m
-  dconf_write "${menu_path} > General > Units > US" \
-    dconf write ${schema_path}/unit-preset "'us'"
-
-  # Units > Direction: Degrees, Eight-Point Compass
-
-  # Weather Service > Weather Provider: Open-Meteo
-
-  # My Location > Provider > Online - ipapi.co, Online - IPinfo, System - Geoclue, Disable
-
-  # My Location > Refresh Interval (Minutes): 60m (60.0) [Default]
-  dconf_write "${menu_path} > General > My Location > Refresh Interval (Minutes) > 15" \
-    dconf write ${schema_path}/my-loc-refresh-min "15.0"
-
-  # Accessibility > High Contrast: Disabled [Default]
-
-  # Panel > Theme: System, Light, Afterdark, Immersive
-
-  # Panel > Side of Panel: Right, Center, Left
-  dconf_write "${menu_path} > General > Panel > Side of Panel > Right" \
-    dconf write ${schema_path}/panel-box "'right'"
-
-  # Panel > Order in Panel: 1 [Default] (Ranges -N..0..N)
-  # - Show leftward of other right-side Tob Bar items,
-  #   e.g., left of *System Monitor* extension control,
-  #   which is left of *Tiling Shell*, which is left of
-  #   GNOME Shell menu (whatever it's called).
-  #   - If 1 (default), appears right of System Monitor,
-  #     and left of Tiling Shell;
-  #   - If 2 or greater, appears betwen Tiling Shell and
-  #     GNOME menu.
-  #   - If -1 or less, appears right of GNOME menu (so
-  #     right of everything).
-  #     - DUNNO: I would expect -1 or less to keep moving
-  #       the icon left, but apparently not.
-  dconf_write "${menu_path} > General > Panel > Order in Panel > 0 (Leftmost)" \
-    dconf write ${schema_path}/panel-priority "int64 0"
-
-  # Panel > Use Symbolic Icons in Panel: Disabled [Default]
-
-  # Panel > Always Use Packaged Icons: Disabled [Default]
-
-  # *** [Details]
-
-  # Pop-Up: You can adjust a row of 4 x 2 items displayed in
-  # the pop-up (drop-down) menu when you click the Tob Bar
-  # weather icon, which defaults:
-  #   Temperature, Wind, Gusts, Pressure,
-  #   Feels Like, Humidity, UV High, and Precipitation;
-  # and also supports Condition, Sunrise, Sunset,
-  # Cloud Cover, and Sun Countdown.
-
-  # Panel > Panel Detail: Temperature [Default]
-  # - Options:
-  #     None ('')
-  #     Temperature ('temp')
-  #     Condition ('conditionText')
-  #     Feels Like ('feelsLike')
-  #     Wind ('windSpeedAndDir')
-  #     Humidity ('humidity')
-  #     Gusts ('gusts')
-  #     UV High ('uvIndex')
-  #     Pressure ('pressure')
-  #     Precipitation ('precipitation')
-  #     Sunrise ('sunrise')
-  #     (but not Sunset, Cloud Cover, or Sun Countdown).
-  dconf_write "${menu_path} > Details > Panel > Panel Detail > Temperature" \
-    dconf write ${schema_path}/panel-detail "'temp'"
-
-  # Panel > Secondary Panel Detail > None [Default]
-  # - Same options as Panel Detail (see previous).
-  # - With Wind enabled, Tob Bar icon shows, e.g., "54° NW, 15 mph ☀️"
-  dconf_write "${menu_path} > Details > Panel > Secondary Panel Detail > Wind" \
-    dconf write ${schema_path}/secondary-panel-detail "'windSpeedAndDir'"
-
-  # Panel > Show Condition Icon > Enabled [Default]
-
-  # Panel > Show Sunrise/Sunset > Disabled [Default]
-
-  # - Panel > Use Countdown for Sun > Disabled [Default]
-}
-
-#     =========================
-# *** EXTENSION: SYSTEM MONITOR
-#     =========================
-
-# REFER: *System Monitor* by *fmuellner*
-# https://extensions.gnome.org/extension/6807/system-monitor/
-# https://gitlab.gnome.org/GNOME/gnome-shell-extensions
-
-gnome_extension_system_monitor_customize() {
-  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SYSTEM_MONITOR:-false}; then
-
-    return
-  fi
-
-  local menu_path="GNOME Extension > System Monitor"
-
-  # Note this schema only accessible via dconf, not gsettings.
-  local schema_path="/org/gnome/shell/extensions/system-monitor"
-
-  # *** Top Bar pill drop-down options
-
-  # The download/upload data makes the Top Bar item much wider.
-  # - Also, they show tenths of a kB when under 10, e.g., "0.4 kB",
-  #   and change frequently, which can change the width of the Top
-  #   Bar output, and may shift items to the left (e.g., the weather
-  #   pill), which can be really distracting (esp., e.g., when you
-  #   are watching a video or downloading something, and the values
-  #   are changing often).
-
-  dconf_write "${menu_path} > Show > ✗ Upload" \
-    dconf write ${schema_path}/show-download false
-
-  dconf_write "${menu_path} > Show > ✗ Download" \
-    dconf write ${schema_path}/show-upload false
-}
-
-#     =============================
-# *** EXTENSION: SHORTCUTS BY CHRIS
-#     =============================
-
-# REFER: *Shortcuts* by *Chris*
-# https://extensions.gnome.org/extension/1144/shortcuts/
-# https://extensions.gnome.org/accounts/profile/ChrisLauinger77
-# https://gitlab.com/paddatrapper/shortcuts-gnome-extension
-
-gnome_extension_shortcuts_customize() {
-  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SHORTCUTS:-false}; then
-
-    return
-  fi
-
-  local menu_path="GNOME Extension > Shortcuts"
-
-  # Note this schema only accessible via dconf, not gsettings.
-  local schema_path="/org/gnome/shell/extensions/shortcuts"
-
-  # ***
-
-  # Default: False
-  # FIXME: This should be managed by DepoXy...
-  dconf_write "${menu_path} > Settings > Custom Shortcuts File > ✓ Enabled" \
-    dconf write ${schema_path}/use-custom-shortcuts true
-
-  # Default: ~/.local/share/gnome-shell/extensions/Shortcuts@kyle.aims.ac.za/shortcuts.json
-  # FIXME: This should be managed by DepoXy...
-  dconf_write "${menu_path} > Settings > Select shortcut file > ..." \
-    dconf write ${schema_path}/shortcuts-file \
-    "'/private/user/.depoxy/ambers/home/.local/share/gnome-shell/extensions/Shortcuts@kyle.aims.ac.za/shortcuts.json'"
-
-  # Default: ?? [False, I think]
-  dconf_write "${menu_path} > Settings > Application-specific files support > ✓ Enabled" \
-    dconf write ${schema_path}/enable-appspecific-files true
-
-  # Default: True
-  dconf_write "${menu_path} > Appearance > Show icon" \
-    dconf write ${schema_path}/show-icon false
-
-  # Default: True
-  dconf_write "${menu_path} > Appearance > Use transparency" \
-    dconf write ${schema_path}/use-transparency true
-
-  # Default: 70
-  # DUNNO: I changed this, and use-transparency, and couldn't see a (big?) difference.
-  dconf_write "${menu_path} > Appearance > Visibility" \
-    dconf write ${schema_path}/visibility 70
-
-  # Default: 2 [Range: 2-5]
-  dconf_write "${menu_path} > Appearance > Max columns" \
-    dconf write ${schema_path}/maxcolumns 2
-
-  # Default: <Ctrl-Cmd-Alt-S>
-  # BNDNG: <Alt-F1>
-  dconf_write "${menu_path} > Hotkey > Hotkey" \
-    dconf write ${schema_path}/shortcuts-toggle-overview "['<Alt>F1']"
-}
-
 #     ===============================================
 # *** EXTENSION: (AN) ALT TAB WINDOW SWITCHER (AATWS)
 #     ===============================================
@@ -3876,13 +3876,13 @@ gnome_extensions_customize() {
 
   gnome_extension_input_remapper_customize
 
-  gnome_extension_tiling_shell_customize
+  gnome_extension_shortcuts_customize
 
   gnome_extension_simple_weather_customize
 
   gnome_extension_system_monitor_customize
 
-  gnome_extension_shortcuts_customize
+  gnome_extension_tiling_shell_customize
 
   # *** "Obsolete" extensions (author no longer uses)
 
