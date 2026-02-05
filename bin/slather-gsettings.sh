@@ -3154,6 +3154,34 @@ gnucash_customize() {
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # +++ GNOME Extensions settings
 
+#     =======================================================
+# *** EXTENSION: APPINDICATOR AND KSTATUSNOTIFIERITEM SUPPORT
+#     =======================================================
+
+# REFER: *AppIndicator and KStatusNotifierItem Support* by *3v1n0*
+# https://extensions.gnome.org/extension/615/appindicator-support/
+# https://github.com/ubuntu/gnome-shell-extension-appindicator
+
+gnome_extension_appindicator_and_kstatusnotifieritem_support_customize() {
+  # No-op: Nothing customized.
+
+  # AppIndicator > Settings > General:
+  # - Enable Legacy Tray Icons support  [default enabled]
+  #   - "Add X11 legacy tray icons to the panel area"
+  # - Opacity                           [default 240]
+  # - Desaturation                      [default 0.0]
+  # - Brightness                        [default 0.0]
+  # - Contrast                          [default 0.0]
+  # - Icon Size                         [default 0]
+  # - Tray Horizontal Alignment         [Center|Left|Right — default Right]
+  #
+  # AppIndicator > Settings > Custom Icons:
+  # - Empty list of items with text input fields:
+  #   - Indicator ID, Icon Name, Attention Icon Name
+
+  return 0
+}
+
 #     ==========================================
 # *** EXTENSION: DESKTOP WIDGETS (DESKTOP CLOCK)
 #     ==========================================
@@ -3282,6 +3310,114 @@ gnome_extension_input_remapper_customize() {
   # This application must be configured manually, AFAICT.
   # - FTREQ/2026-02-04: Publish configuration steps,
   #   and add link to ${print_at_end} reminder.
+
+  return 0
+}
+
+#     =====================
+# *** EXTENSION: PIP ON TOP
+#     =====================
+
+# REFER: *PiP on top* by *Rafostar*
+# https://extensions.gnome.org/extension/4691/pip-on-top/
+# https://github.com/Rafostar/gnome-shell-extension-pip-on-top
+
+gnome_extension_pip_on_top_customize() {
+  # No-op: Nothing customized.
+
+  # PiP on top > Settings > Options:
+  # - Show on all workspaces [default disabled]
+  #   /org/gnome/shell/extensions/pip-on-top/stick false|true
+  # [Just one setting]
+
+  return 0
+}
+
+#     ==================================
+# *** EXTENSION: PLACES STATUS INDICATOR
+#     ==================================
+
+# REFER: *Places Status Indicator* by *fmuellner*
+# https://extensions.gnome.org/extension/8/places-status-indicator/
+# - Built-in GNOME Shell system extension:
+#   https://gitlab.gnome.org/GNOME/gnome-shell-extensions
+
+# ISOFF/2025-09-18: Author doesn't use this extension
+# (it is disabled; and I do not remember if it was installed
+#  by default or not, or whether I can/should just remove it).
+
+gnome_extension_places_status_indicator_customize() {
+  # No-op: No settings dialog.
+
+  return 0
+}
+
+#     ==========================
+# *** EXTENSION: POINTER TRACKER
+#     ==========================
+
+# REFER: *Pointer Tracker* by *garzj*
+# https://extensions.gnome.org/extension/7645/pointer-tracker/
+# https://github.com/garzj/gjs-pointer-tracker
+
+gnome_extension_pointer_tracker_customize() {
+  local menu_path="GNOME Extension > Pointer Tracker"
+
+  # Pointer Tracker > Settings:
+  # - Appearance:
+  #   - Shape                       [Circle|Cursor — default Circle]
+  #   - Size                        [default 24]
+  #   - Color                       [default pepper-colored]
+  #       /org/gtk/gtk4/settings/color-chooser/selected-color
+  #       (true, 0.74901962280273438, 0.25098040699958801, 0.25098040699958801, 1.0)
+  #   - Opacity                     [default 50]
+  # - Active state:
+  #   - Active                      [default disabled]
+  #   - Override screen sharing     [default enabled]
+  #   - Override screen recording   [default enabled]
+  # - Keybindings:
+  #   - Toggle Tracker              [default unset (I think)]
+
+  # Keybindings > Toggle Tracker
+  # - Note that toggling changes the value of the "Active" setting:
+  #   /org/gnome/shell/extensions/pointer-tracker/tracker-active true|false
+  # - BNDNG: <Alt-F3>
+  dconf_write "${menu_path} > Keybindings > Toggle Tracker" \
+    dconf write /org/gnome/shell/extensions/pointer-tracker/tracker-keybinding "['<Alt>F3']"
+}
+
+#     =======================
+# *** EXTENSION: RUN OR RAISE
+#     =======================
+
+# REFER: *Run or raise* by *e2rd*
+# https://extensions.gnome.org/extension/1336/run-or-raise/
+# https://github.com/CZ-NIC/run-or-raise
+
+# CXREF: See shortcuts defined in DepoXy, found in DXY env. at:
+#   ~/.depoxy/ambers/home/.config/run-or-raise/shortcuts-depoxy
+# - Also user's private DepoXy Client shortcuts:
+#   ~/.depoxy/running/home/.config/run-or-raise/shortcuts-client
+# - Both of which are combined into the runtime config:
+#   ~/.config/run-or-raise/shortcuts.conf
+
+gnome_extension_run_or_raise_customize() {
+  # No-op: Nothing customized.
+
+  # Run or raise > Settings:
+  # - Shortcuts:
+  #   - Open shortcuts.conf file
+  #     - "Edit the file to add your shortcuts, then
+  #        reload this extension (no logout required)"
+  #     - Not a setting; opens ~/.config/run-or-raise/shortcuts.conf
+  # - Behavior
+  #   - Verbose                                           [default disabled]
+  #   - After focus move mouse to window center           [default disabled]
+  #   - Listen on DBus                                    [default disabled]
+  #   - Switch windows on the active workspace only       [default disabled]
+  #   - Minimize when unfocusing                          [default disabled]
+  #   - Move window to current workspace before focusing  [default disabled]
+  #   - Switch back to previous window when focused       [default disabled]
 
   return 0
 }
@@ -3465,6 +3601,55 @@ gnome_extension_simple_weather_customize() {
   # Panel > Show Sunrise/Sunset > Disabled [Default]
 
   # - Panel > Use Countdown for Sun > Disabled [Default]
+}
+
+#     ===================
+# *** EXTENSION: SWITCHER
+#     ===================
+
+# REFER: *Switcher* by *dlandau*
+# https://extensions.gnome.org/extension/973/switcher/
+# https://github.com/daniellandau/switcher
+# - Forked:
+#   https://github.com/landonb/switcher
+
+gnome_extension_switcher_customize() {
+  # No-op: Nothing customized.
+
+  # Switcher > Settings > Switcher Preferences:
+  # - Hotkey to activate switch:
+  #   - Key                                 [default <Cmd-W> — Author uses <Shift-Ctrl-Space>]
+  # - Immediate activation:
+  #   - When there is just one result, activate immediately
+  #                                         [default disabled]
+  #   - Activate immed. this many msec after last keystroke
+  #                                         [default 0]
+  #   - Activate by pressing a key matching the index in the list
+  #                                         [Disable|Function keys|Number keys — default Number keys]
+  #   - Ordering criteria                   [Last focused|Most relevant — default Last focused]
+  #     - Pattern matching algorithm        [Strict|Fuzzy — default Strict]
+  #   - Font size (px)                      [default 40]
+  #     - Icon size (px)                    [default 32]
+  #   - Width (%)                           [default 64]
+  #   - Show workspace indicators           [default disabled]
+  #   - Show only apps in curr. workspace   [default disabled]
+  #     - "Use Ctrl+w to toggle on the fly"
+  #   - Fade Effect                         [default disabled]
+  #   - Show Switcher on active display     [default disabled]
+  #   - Show original language names        [default disabled]
+  #   - Show executable names               [default disabled]
+  # - From Usage tips > Read all tips button:
+  #   - "Type space separated searches, use the arrow keys to navigate,"
+  #      and press Space to activate."
+  #   - "You can also click an item with the mouse/touchpad to activate."
+  #   - "You can use <Shift-Enter> to bring the acticated window to the
+  #      current workspace."
+  #   - "Use <Ctrl-Enter> to launch multiple apps or new instances of
+  #      already open apps."
+  #   - "System settings sections are also available for launching,
+  #      just search for them!"
+
+  return 0
 }
 
 #     =========================
@@ -3780,6 +3965,82 @@ gnome_extension_tiling_shell_customize() {
   # Import, export and reset > Reset settings
 }
 
+#     ===============
+# *** EXTENSION: VEIL
+#     ===============
+
+# REFER: *Veil* by *JD*
+# https://extensions.gnome.org/extension/8786/veil/
+# https://github.com/dagimg-dot/veil
+
+gnome_extension_veil_customize() {
+  local menu_path="GNOME Extension > Veil"
+
+  # Veil > Settings > General:
+  # - Visibility Settings:
+  #   - Save State                                [Unsave|Save — default Save]
+  #   - Default Visibility                        [Visible|Hidden — default Visible]
+  # - Icons:
+  #   - Open Icon                                 [default ⮜ ]
+  #   - Close Icon                                [default ⮞ ]
+  # - Interaction Mode:
+  #   - Mode                                      [Click|Hover — default Click]
+  #   - Enable Auto Hide                          [default disabled]
+  #   - Auto Hide Duration (seconds)              [default 2 (I think); enabled per Enable Auto Hide]
+  # - Animations:
+  #   - Enable Animations                         [default... unknown (I forgot to make note)]
+  #   - Duration (milliseconds)                   [default 200; enabled via Enable Animations]
+  # - Debug Settings:
+  #   - Logging Levels                            [error|warn|info|debug — default info]
+  #   - Extenion Logs Command                     [default `journalctl /use/bin/gnome-shell -f -o cat`]
+  #
+  # Veil > Settings > General:
+  # - Visible Items [each default disabled]:
+  #   - DepoXy's (Author's) icon list:
+  #     - Weather
+  #     - IndicatorStatusIcon   [part of Spotify icon]
+  #     - System stats
+  #     - spotify
+  #     - Tiling Shell Indicator
+  #     - Stop Screencast
+  #     - Stop Screen Sharing
+  #     - Dwell Click           [no idea what this is]
+  #     - Accessibility
+  #     - Keyboard
+  #   - Author enables all except "IndicatorStatusIcon" and "spotify",
+  #     so that only the Spotify icon is *veiled*.
+
+  return 0
+}
+
+#     =======================
+# *** EXTENSION: WINDOW CALLS
+#     =======================
+
+# REFER: *Window Calls* by *domandoman*
+# https://extensions.gnome.org/extension/4724/window-calls/
+# https://github.com/ickyicky/window-calls
+
+gnome_extension_window_calls_customize() {
+  # No-op: No settings dialog.
+
+  return 0
+}
+
+#     =================================================
+# *** EXTENSION: WINDOW IS READY - NOTIFICATION REMOVER
+#     =================================================
+
+# REFER: *Window Is Ready - Notification Remover* by *nunofarruca*
+# https://extensions.gnome.org/extension/1007/window-is-ready-notification-remover/
+# https://github.com/nunofarruca/WindowIsReady_Remover
+
+gnome_extension_window_is_ready_customize() {
+  # No-op: No settings dialog.
+
+  return 0
+}
+
 # **** "Obsolete" extensions (author no longer uses) ****
 
 #     ===============================================
@@ -3865,12 +4126,50 @@ gnome_extension_just_perfection_customize() {
     dconf write /org/gnome/shell/extensions/just-perfection/clock-menu-position-offset "10"
 }
 
+#     ======================
+# *** EXTENSION: VIM ALT-TAB
+#     ======================
+
+# REFER: *VIM Alt-Tab* by *kokong*
+# https://extensions.gnome.org/extension/2212/vim-alt-tab/
+# https://github.com/koko-ng/vim-altTab
+
+# ISOFF/2025-09-19: Author doesn't use this extension;
+# keeping for posterity, though (e.g., as a reminder
+# that I demoed this extension, but decided not to
+# keep it enabled; just so I don't see it in the
+# future and think that I should give it a try!).
+
+gnome_extension_vim_alt_tab_customize() {
+  # No-op: No settings dialog.
+
+  return 0
+}
+
+#     ================================
+# *** EXTENSION: WINDOW CALLS EXTENDED
+#     ================================
+
+# REFER: *Window Calls Extended* by *hseliger*
+# https://extensions.gnome.org/extension/4974/window-calls-extended/
+# https://github.com/hseliger/window-calls-extended
+
+# ISOFF/2025-09-19: Author doesn't use this extension.
+
+gnome_extension_window_calls_extended_customize() {
+  # No-op: No settings dialog.
+
+  return 0
+}
+
 #     ====================
 # *** EXTENSIONS CUSTOMIZE
 #     ====================
 
 gnome_extensions_customize() {
   echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
+
+  gnome_extension_appindicator_and_kstatusnotifieritem_support_customize
 
   gnome_extension_desktop_widgets_customize
 
@@ -3880,19 +4179,39 @@ gnome_extensions_customize() {
 
   gnome_extension_input_remapper_customize
 
+  gnome_extension_pip_on_top_customize
+
+  gnome_extension_places_status_indicator_customize
+
+  gnome_extension_pointer_tracker_customize
+
+  gnome_extension_run_or_raise_customize
+
   gnome_extension_shortcuts_customize
 
   gnome_extension_simple_weather_customize
 
+  gnome_extension_switcher_customize
+
   gnome_extension_system_monitor_customize
 
   gnome_extension_tiling_shell_customize
+
+  gnome_extension_veil_customize
+
+  gnome_extension_window_calls_customize
+
+  gnome_extension_window_is_ready_customize
 
   # *** "Obsolete" extensions (author no longer uses)
 
   gnome_extension_advanced_alt_tab_window_switcher_customize
 
   gnome_extension_just_perfection_customize
+
+  gnome_extension_vim_alt_tab_customize
+
+  gnome_extension_window_calls_extended_customize
 }
 
 # +++ END: GNOME Extensions settings
