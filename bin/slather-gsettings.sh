@@ -3292,6 +3292,11 @@ gnome_extension_input_remapper_customize() {
 # https://extensions.gnome.org/extension/3843/just-perfection/
 # https://gitlab.gnome.org/jrahmatzadeh/just-perfection
 
+# ISOFF/2025-10-27: Author doesn't use this extension
+# (I demoed it, just wasn't a perfection connection).
+# - ISOFF really just means UNSUPported; we still update
+#   dconf just in case you (or I) want to demo (again).
+
 gnome_extension_just_perfection_customize() {
   if ! ${LINUX_ONBOARDER_INCLUDE_JUST_PERFECTION:-false}; then
 
@@ -3320,6 +3325,11 @@ gnome_extension_just_perfection_customize() {
 # REFER: *AATWS (Advanced Alt-Tab Window Switcher)* by *GdH*
 # https://extensions.gnome.org/extension/4412/advanced-alttab-window-switcher/
 # https://github.com/G-dH/advanced-alttab-window-switcher
+
+# ISOFF/2025-09-18: Author doesn't use this extension
+# (I demoed it, but didn't hit).
+# - ISOFF really just means UNSUPported; we still update
+#   dconf just in case you (or I) want to demo (again).
 
 gnome_extension_advanced_alt_tab_window_switcher_customize() {
   if ! ${LINUX_ONBOARDER_INCLUDE_AATWS:-false}; then
