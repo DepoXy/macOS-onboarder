@@ -3163,7 +3163,8 @@ gnucash_customize() {
 # https://gitlab.com/AndrewZaech/azclock
 
 gnome_extension_desktop_widgets_customize() {
-  # This extension must be configured manually, AFAICT, ah, well.
+  # This extension is currently configured manually,
+  # because looks complicated to automate (IMHO).
   # - FTREQ/2026-02-04: Publish configuration steps,
   #   and add link to ${print_at_end} reminder.
 
@@ -3177,7 +3178,8 @@ gnome_extension_desktop_widgets_customize() {
 # REFER: *Hide minimized* by *danigm*
 # https://extensions.gnome.org/extension/2639/hide-minimized/
 # https://github.com/danigm/hide-minimized
-# https://github.com/landonb/hide-minimized
+# - Forked:
+#   https://github.com/landonb/hide-minimized
 
 gnome_extension_hide_minimized_customize() {
   # No-op: No settings dialog.
@@ -3290,7 +3292,6 @@ gnome_extension_input_remapper_customize() {
 
 # REFER: *Shortcuts* by *Chris*
 # https://extensions.gnome.org/extension/1144/shortcuts/
-# https://extensions.gnome.org/accounts/profile/ChrisLauinger77
 # https://gitlab.com/paddatrapper/shortcuts-gnome-extension
 
 gnome_extension_shortcuts_customize() {
@@ -3472,7 +3473,8 @@ gnome_extension_simple_weather_customize() {
 
 # REFER: *System Monitor* by *fmuellner*
 # https://extensions.gnome.org/extension/6807/system-monitor/
-# https://gitlab.gnome.org/GNOME/gnome-shell-extensions
+# - Built-in GNOME Shell system extension:
+#   https://gitlab.gnome.org/GNOME/gnome-shell-extensions
 
 gnome_extension_system_monitor_customize() {
   if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_SYSTEM_MONITOR:-false}; then
