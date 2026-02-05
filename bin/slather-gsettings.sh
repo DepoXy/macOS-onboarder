@@ -3268,6 +3268,22 @@ gnome_extension_hide_top_bar_customize() {
   # "Intellihide > Only when the active window takes the space: Enabled"
 }
 
+#     ==========================================
+# *** EXTENSION-LIKE APPLICATION: INPUT REMAPPER
+#     ==========================================
+
+# REFER: *Input Remapper*
+# - Not an extension, but feels like one!
+# https://github.com/sezanzeb/input-remapper
+
+gnome_extension_input_remapper_customize() {
+  # This application must be configured manually, AFAICT.
+  # - FTREQ/2026-02-04: Publish configuration steps,
+  #   and add link to ${print_at_end} reminder.
+
+  return 0
+}
+
 #     ==========================
 # *** EXTENSION: JUST PERFECTION
 #     ==========================
@@ -3847,6 +3863,8 @@ gnome_extensions_customize() {
   gnome_extension_hide_minimized_customize
 
   gnome_extension_hide_top_bar_customize
+
+  gnome_extension_input_remapper_customize
 
   gnome_extension_just_perfection_customize
 
