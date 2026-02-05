@@ -3804,6 +3804,28 @@ gnome_extension_shortcuts_customize() {
     dconf write ${schema_path}/shortcuts-toggle-overview "['<Alt>F1']"
 }
 
+#     ====================
+# *** EXTENSIONS CUSTOMIZE
+#     ====================
+
+gnome_extensions_customize() {
+  echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
+
+  gnome_extension_hide_top_bar_customize
+
+  gnome_extension_just_perfection_customize
+
+  gnome_extension_advanced_alt_tab_window_switcher_customize
+
+  gnome_extension_tiling_shell_customize
+
+  gnome_extension_simple_weather_customize
+
+  gnome_extension_system_monitor_customize
+
+  gnome_extension_shortcuts_customize
+}
+
 # +++ END: GNOME Extensions settings
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # ================================================================= #
@@ -4038,23 +4060,7 @@ slather_settings() {
 
   gnucash_customize
 
-  echo -e "\n$(highlight_soft "*** GNOME Shell extensions")\n"
-
-  gnome_extension_hide_top_bar_customize
-
-  gnome_extension_just_perfection_customize
-
-  gnome_extension_advanced_alt_tab_window_switcher_customize
-
-  gnome_extension_tiling_shell_customize
-
-  gnome_extension_simple_weather_customize
-
-  gnome_extension_system_monitor_customize
-
-  gnome_extension_shortcuts_customize
-
-  # ***
+  gnome_extensions_customize
 
   pass_configure
 
