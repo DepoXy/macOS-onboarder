@@ -14,7 +14,7 @@
 #         and to start one service (currently just "borders",
 #           which makes Alacritty windows more usable).
 #
-#   $ path/to/macOS-onboarder/bin/install-homebrew.sh
+#   $ path/to/macOS-GNOME-onboarder/bin/install-homebrew.sh
 #
 # This is obviously a very prescriptive list.
 # - If you'd like to customize it, consider forking this project
@@ -82,7 +82,7 @@
 #   grep \
 #     -e "BREW_INCLUDE[A-Z_]\+=" \
 #     -e "BREW_INCLUDE[A-Z_]\+:\-" \
-#     ~/.kit/mOS/macOS-onboarder/bin/install-homebrew.sh \
+#     ~/.kit/mOS/macOS-GNOME-onboarder/bin/install-homebrew.sh \
 #   | sed 's/^.*BREW_/BREW_/' \
 #   | sort
 #   # Then look for singlies.
@@ -142,7 +142,7 @@ MACOS_INSTALL_ROSETTA2=false
 # (because lazydocker, and because Homebrew is otherwise convenient),
 # it now works on Linux. (And now author is questioning whether to
 # relocate script to a different/new project, at least not one that's
-# named *macOS-onboarder#🏂*!)
+# named *macOS-GNOME-onboarder#🏂*!)
 #
 # - Previously, the BREW_APP+=("<formula>") statements were each top-
 #   level (file scope), but now they're wrapped by a function so we
@@ -2112,7 +2112,7 @@ stub_external_commands_if_unit_testing() {
 # - And you can keep it up to date within this project thusly:
 #     cd ~/.kit/odd/homebrew/install &&
 #       git pull
-#     cd ~/.kit/mOS/macOS-onboarder &&
+#     cd ~/.kit/mOS/macOS-GNOME-onboarder &&
 #       mr -d . -n updateDeps
 
 BREW_PATH=""

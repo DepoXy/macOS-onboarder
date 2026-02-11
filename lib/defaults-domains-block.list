@@ -5,8 +5,8 @@
 # USAGE: Populate this list using `defaults-domains-list` output, and then
 #        comment those domains you want `defaults-domains-dump` to report.
 # - I.e, commented domain names allowed, everything else blocked.
-# - If you cloned this project to ~/.kit/mOS/macOS-onboarder, you could run:
-#     meld ~/.kit/mOS/macOS-onboarder/lib/defaults-domains-block.list \
+# - If you cloned this project to ~/.kit/mOS/macOS-GNOME-onboarder, you could run:
+#     meld ~/.kit/mOS/macOS-GNOME-onboarder/lib/defaults-domains-block.list \
 #       <(defaults-domains-list)
 #
 # USAGE: Run `bin/slather-defaults.sh --cnt-run` to see list of domains

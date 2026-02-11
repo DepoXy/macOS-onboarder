@@ -11,15 +11,15 @@
 # USAGE:
 #
 #   # On GNOME Shell, run it:
-#   path/to/macOS-onboarder/bin/slather-gsettings.sh
+#   path/to/macOS-GNOME-onboarder/bin/slather-gsettings.sh
 #
 #   # To see list of reminders, and to smoke-test this script, dry-run it:
-#   path/to/macOS-onboarder/bin/slather-gsettings.sh --dry-run --force
+#   path/to/macOS-GNOME-onboarder/bin/slather-gsettings.sh --dry-run --force
 #   # Omit the --force if you only want to see settings that differ.
 #
 #   # This script only sets values if they're different.
 #   # - To always dconf-write or gsettings-set, --force:
-#   path/to/macOS-onboarder/bin/slather-gsettings.sh --force
+#   path/to/macOS-GNOME-onboarder/bin/slather-gsettings.sh --force
 
 # SAVVY:
 #
@@ -40,7 +40,7 @@
 #   But if you want to capture the before and after,
 #   and to easily diff it, try something like this:
 #
-#     . ~/.kit/mOS/macOS-onboarder/lib/linux-gsettings-commands.sh
+#     . ~/.kit/mOS/macOS-GNOME-onboarder/lib/linux-gsettings-commands.sh
 #     gsettings-schemas-dump
 #     # Do something that changes dconf
 #     gsettings-schemas-dump
@@ -48,7 +48,7 @@
 
 # CXREF: DepoXy users: See similar macOS bindings:
 #
-#   ~/.kit/mOS/macOS-onboarder/bin/slather-defaults.sh
+#   ~/.kit/mOS/macOS-GNOME-onboarder/bin/slather-defaults.sh
 #   ~/.kit/mOS/macOS-Hammyspoony/.hammerspoon/init.lua
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
@@ -62,11 +62,11 @@
 #
 # - For a count of applied settings (using DepoXy path):
 #
-#     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --count
+#     ~/.kit/mOS/macOS-GNOME-onboarder/bin/slather-gsettings.sh --count
 #
 # - For a preview of applied settings:
 #
-#     ~/.kit/mOS/macOS-onboarder/bin/slather-gsettings.sh --dry-run
+#     ~/.kit/mOS/macOS-GNOME-onboarder/bin/slather-gsettings.sh --dry-run
 #
 #   - 2025-09-24: No. of settings:
 #     - `gsettings set` + `dconf write` + Task reminders:

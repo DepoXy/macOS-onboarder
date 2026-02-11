@@ -11,7 +11,7 @@
 # USAGE:
 #
 #   # On fresh macOS, run it:
-#   cd path/to/macOS-onboarder
+#   cd path/to/macOS-GNOME-onboarder
 #   ./bin/slather-defaults.sh
 #
 #   # To see list of reminders, and to smoke-test this script, dry-run it:
@@ -53,7 +53,7 @@
 # - For a count of `defaults write` commands:
 #
 #     grep -e "^[[:space:]]*defaults write" \
-#       ~/.kit/mOS/macOS-onboarder/bin/slather-defaults.sh \
+#       ~/.kit/mOS/macOS-GNOME-onboarder/bin/slather-defaults.sh \
 #       | wc -l
 #
 #   - Today's `defaults write` count: 190.
