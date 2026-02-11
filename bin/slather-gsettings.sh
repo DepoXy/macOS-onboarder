@@ -2089,6 +2089,12 @@ gnome_settings_customize_keyboard_windows() {
 
   # "Toggle maximization state" / Default: <Alt-F10>
   # - BNDNG: <Alt-F10>, <Shift-Ctrl-Alt-Up>
+  #   - DUNNO/2026-02-11: <Alt-F10> doesn't work (in Alacritty,
+  #     inserts literal ";3~"; in Neovim, does nothing in Normal
+  #     mode and leaves Insert mode). (I think <Alt-F10> used to
+  #     work, otherwise I would've left this comment months ago.
+  #     But I only just now noticed, because I exclusively use
+  #     <Shift-Ctrl-Alt-Up> to toggle maximization state.)
   # - ALTLY:
   #   - BNDNG: <Ctrl-Alt-/>, (<Ctrl-Alt-slash>, <C-D-/>)
   #   - REFER: Same binding as macOS > Rectangle > Maximize Height:
