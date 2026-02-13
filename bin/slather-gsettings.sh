@@ -1186,8 +1186,10 @@ gnome_settings_customize_privacy_screen() {
   #   (480/600/720/900) [default: 5 minutes (uint32 300)]
   # - CALSO: #_idle_delay: Same settings under:
   #   - Power > Power Saving > Automatic Screen Blank > Delay
-  gsettings_set "${menu_path} > Blank Screen Delay: 17 mins" \
-    gsettings set org.gnome.desktop.session idle-delay 'uint32 1020'
+  # gsettings_set "${menu_path} > Blank Screen Delay: 17 mins" \
+  #   gsettings set org.gnome.desktop.session idle-delay 'uint32 1020'
+  gsettings_set "${menu_path} > Blank Screen Delay: 24 mins" \
+    gsettings set org.gnome.desktop.session idle-delay 'uint32 1440'
 
   # Default: Enabled (true)
   gsettings_set "${menu_path} > Automatic Screen Lock" \
