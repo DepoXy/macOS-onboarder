@@ -1279,8 +1279,45 @@ brew_app_macos "--cask libreoffice"
 # --------------------------
 
 # Pure Vanity.
-# https://github.com/dylanaraps/neofetch
-brew_app_macos "neofetch"
+# - Fastfetch: Actively maintained Neofetch replacement
+#   (though Neofetch likely still works for most users).
+#     https://github.com/fastfetch-cli/fastfetch
+#     https://formulae.brew.sh/formula/fastfetch
+# - Note that Fastfetch includes a few stats that neofetch
+#   doesn't (at least by default; I didn't survey neofetch
+#   CLI options), including OS minor version (e.g. reports
+#   Debian 13.3 vs. just Debian 13), Swap stats, batteries
+#   stats, etc.
+brew_app_both "fastfetch"
+
+# ALTLY: Alternative system stats reporters.
+#
+# - CLI tools author hasn't tried:
+#     hardinfo, lshw [-html], hwinfo, inxi
+#
+# - CLI tools you'll probably find installed:
+#     lscpu, lspci, lsblk, df -h, free -h,
+#     cat /proc/cpuinfo, cat /etc/*-release
+#
+# - Classic neofetch stats tool [Project archived 2024-04-26].
+#     https://github.com/dylanaraps/neofetch
+#   brew_app_macos "neofetch"
+#
+# - macchina — "Fast, minimal and customizable system information frontend"
+#     https://github.com/Macchina-CLI/macchina
+#     https://crates.io/crates/macchina
+#     https://formulae.brew.sh/formula/macchina
+#   brew_app_both "macchina"
+#
+# - HyFetch — "🏳️‍🌈 🏳️‍⚧️ Neofetch with LGBTQ+ pride flags!"
+#     https://github.com/hykilpikonna/hyfetch
+#   - Prompts for configuration on first run — asks 7
+#     questions before finally runs.
+#   - Use neofetch, Fastfetch, or macchina backend and
+#     simply colors the OS logo with pride flag colors.
+#     - Useful for folx who like to post a picture of
+#       their neofetch output on social media.
+#   brew_app_both "hyfetch"
 
 # --------------------------
 
