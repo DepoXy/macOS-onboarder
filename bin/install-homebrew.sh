@@ -1200,6 +1200,12 @@ brew_app_macos "oxipng"
 #   chafa picture.png --format symbols --size 50x50
 brew_app_both "chafa"
 
+# *FDUPES is a program for identifying or deleting duplicate files
+#  residing within specified directories.*
+# https://github.com/adrianlopezroche/fdupes
+# https://formulae.brew.sh/formula/fdupes
+brew_app_macos "fdupes"
+
 # --------------------------
 
 # Use case: Rotate PDF page(s), esp. helpful to repair scanned docs.
