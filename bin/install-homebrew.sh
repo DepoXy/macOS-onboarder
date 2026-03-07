@@ -2237,7 +2237,7 @@ init_homebrew_or_exit() {
   # Aka: "${HOMEBREW_PREFIX}/bin/brew"
   BREW_PATH="$(print_homebrew_path)"
 
-  if [ ! -e "${BREW_PATH}" ]; then
+  if [ ! -x "${BREW_PATH}" ]; then
     if ${DRY_RUN:-false}; then
       >&2 echo "IGNOR: Missing Homebrew."
 
