@@ -3731,11 +3731,11 @@ gnome_extension_tiling_shell_customize() {
 
   # Defaults: 16
   dconf_write "${menu_path} > Appearance > Inner Gaps" \
-    dconf write ${schema_path}/inner-gaps "uint32 16"
+    dconf write ${schema_path}/inner-gaps "uint32 15"
 
   # Defaults: 8
   dconf_write "${menu_path} > Appearance > Outer Gaps" \
-    dconf write ${schema_path}/outer-gaps "uint32 8"
+    dconf write ${schema_path}/outer-gaps "uint32 1"
 
   # Blur (experimental feature) > Snap Assistant > Disabled
   # Blur (experimental feature) > Selected tile preview > Disabled
