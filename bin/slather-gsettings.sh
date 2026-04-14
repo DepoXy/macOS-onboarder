@@ -720,13 +720,10 @@ quote_gvariant() {
     [ "${val}" = "true" ] || [ "${val}" = "false" ] \
     ; then
     printf "%s" "${val}"
-  elif echo "${val}" | grep -q -e "^#[0-9]\{6\}$" ||
-    [ "${val}" = "true" ] || [ "${val}" = "false" ] \
-    ; then
+  elif echo "${val}" | grep -q -e "^#[0-9]\{6\}$"; then
     printf "%s" "'${val}'"
   elif echo "${val}" | grep -q -e "^uint32 [0-9]\+$" ||
-    echo "${val}" | grep -q -e "^int64 [0-9]\+$" ||
-    [ "${val}" = "true" ] || [ "${val}" = "false" ] \
+    echo "${val}" | grep -q -e "^int64 [0-9]\+$" \
     ; then
     printf "%s" "${val}"
   elif [ "${val}" = "@as []" ]; then
