@@ -726,6 +726,8 @@ quote_gvariant() {
     echo "${val}" | grep -q -e "^int64 [0-9]\+$" \
     ; then
     printf "%s" "${val}"
+  elif echo "${val}" | grep -q -e "^'rgb([0-9,]\+)'$"; then
+    printf "%s" "${val}"
   elif [ "${val}" = "@as []" ]; then
     printf "%s" "${val}"
   elif echo "${val}" | grep -q -e "^\['"; then
