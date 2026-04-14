@@ -3744,9 +3744,19 @@ gnome_extension_tiling_shell_customize() {
   dconf_write "${menu_path} > Appearance > Snap Assistant Threshold: 7" \
     dconf write ${schema_path}/snap-assistant-threshold "7"
 
-  # Defaults: false ???
-  dconf_write "${menu_path} > Appearance > Window border > ✓ Enable" \
-    dconf write ${schema_path}/enable-window-border true
+  # Defaults: false
+  # AWAIT/2026-04-13: Keep Window border disabled until memory leak fixed.
+  # - *Memory leaks with Window Border feature enabled*
+  #   https://github.com/domferr/tilingshell/issues/520
+  # - SAVVY: You'll see leak in total Memory Used, but no `ps` process
+  #   shows the leak, nor any kernel pages (AFAICT).
+  # - NTHEN: Replace temporary code with following:
+  #  dconf_write "${menu_path} > Appearance > Window border > ✓ Enable" \
+  #    dconf write ${schema_path}/enable-window-border true
+  echo "$(highlight "  BWARE: Leave Tiling Shell Window Border disabled until memory leak fixed:")"
+  echo "$(highlight "    https://github.com/domferr/tilingshell/issues/520")"
+  dconf_write "${menu_path} > Appearance > Window border > ~~✓ Enable~~ ✗ Disable" \
+    dconf write ${schema_path}/enable-window-border false
 
   # Defaults: true
   dconf_write "${menu_path} > Appearance > Window border > ✓ Smart border radius" \
