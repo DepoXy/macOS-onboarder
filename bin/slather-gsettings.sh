@@ -4002,6 +4002,39 @@ gnome_extension_tiling_shell_customize() {
   # Import, export and reset > Reset settings
 }
 
+#     =============================
+# *** EXTENSION: TRANSPARENT WINDOW
+#     =============================
+
+# REFER: *Transparent Window* by *heyheyco@gmail.com* | 62k⬇️📲📥⬇💽💾💻
+# https://extensions.gnome.org/extension/1454/transparent-window/
+# https://extensions.gnome.org/accounts/profile/heyheyco@gmail.com
+# https://github.com/pbxqdown/gnome-shell-extension-transparent-window 56★
+
+gnome_extension_transparent_window_customize() {
+  if ${LINUX_ONBOARDER_EXCLUDE_EXTENSION_TRANSPARENT_WINDOW:-false}; then
+
+    return
+  fi
+
+  local menu_path="GNOME Extension > Transparent Window"
+
+  # Note this schema only accessible via dconf, not gsettings.
+  local schema_path="/org/gnome/shell/extensions/transparent-window"
+
+  # *** Transparent Window
+
+  # Defaults: 50
+  # - Ha! World's smallest slider control, wtf.
+  dconf_write "${menu_path} > Opacity Settings > Opacity Levels > 50 [0-100]" \
+    dconf write ${schema_path}/opacity-level 50
+
+  # Defaults: Disabled
+  # - Ha! World's most [vertically] oblong toggle control, wtf.
+  dconf_write "${menu_path} > Debug Settings > Debug Mode: Disabled" \
+    dconf write ${schema_path}/debug-mode false
+}
+
 #     ===============
 # *** EXTENSION: VEIL
 #     ===============
@@ -4233,6 +4266,8 @@ gnome_extensions_customize() {
   gnome_extension_system_monitor_customize
 
   gnome_extension_tiling_shell_customize
+
+  gnome_extension_transparent_window_customize
 
   gnome_extension_veil_customize
 
