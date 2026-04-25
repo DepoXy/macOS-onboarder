@@ -4066,19 +4066,26 @@ gnome_extension_veil_customize() {
   #
   # Veil > Settings > General:
   # - Visible Items [each default disabled]:
-  #   - DepoXy's (Author's) icon list:
-  #     - Weather
-  #     - IndicatorStatusIcon   [part of Spotify icon]
-  #     - System stats
-  #     - spotify
-  #     - Tiling Shell Indicator
-  #     - Stop Screencast
-  #     - Stop Screen Sharing
-  #     - Dwell Click           [no idea what this is]
-  #     - Accessibility
-  #     - Keyboard
-  #   - Author enables all except "IndicatorStatusIcon" and "spotify",
-  #     so that only the Spotify icon is *veiled*.
+  #   - DepoXy's (Author's) icon list [✓: Enabled, ✗: Disabled, ?: Doesn't matter]:
+  #     - ✗ Transparent Window [🪟]
+  #     - ✓ Weather [53° SW, 2mph ☁︎ ]
+  #     -   IndicatorStatusIcon [part of Spotify icon | Not always in list]
+  #     - ✓ System stats [⚙️12% 💻50% ⇄3%]
+  #     - ✗ spotify
+  #     - ✓ Tiling Shell Indicator [▀▄]
+  #     - ✗ St_Icon [⊞ | *Shortcuts* custom help popup]
+  #     - ? Stop Screencast
+  #     - ? Stop Screen Sharing
+  #     - ? Dwell Click           [no idea what this is]
+  #     - ? Accessibility
+  #     - ? Keyboard
+  #     ?: Enabled in Visible Items list, but no Top Bar icon regardless
+  #          (i.e., if you disable any of these, nothing that's visible hides)
+  #   - Author veils the following icons:
+  #     - "Transparent Window" toggle;
+  #     - "IndicatorStatusIcon" [if present in list];
+  #     - "spotify"; and
+  #     - "St_Icon" [Shortcuts popup].
 
   return 0
 }
