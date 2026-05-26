@@ -816,20 +816,22 @@ brew_app_both "ncdu"
 #   easier or quicker to (visually) consume the output.
 
 # https://github.com/eza-community/eza
+# https://formulae.brew.sh/formula/eza
 # - REFER: Successor to `exa`, which Homebrew dropped support for:
 #     "Error: exa has been disbled because it is not maintained upstream!"
 # - SAVVY: "Bash completion has been installed to:"
 #     /opt/homebrew/etc/bash_completion.d
 # - E.g.,
 #     eza --icons --long --header
-brew_app_macos "eza"
+brew_app_both "eza"
 
 # https://github.com/lsd-rs/lsd
+# https://formulae.brew.sh/formula/lsd
 # - SAVVY: "Bash completion has been installed to:"
 #     /opt/homebrew/etc/bash_completion.d
 # - E.g.,
 #     lsd -lhFa --color=always
-brew_app_macos "lsd"
+brew_app_both "lsd"
 
 # "A smarter cd command."
 # https://github.com/ajeetdsouza/zoxide
